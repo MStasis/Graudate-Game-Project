@@ -1,0 +1,528 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://main.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/World.tscn" id="2"]
+[ext_resource type="Theme" path="res://resources/GameTheme.tres" id="3"]
+[ext_resource type="Script" path="res://scripts/npc_brain.gd" id="4"]
+[ext_resource type="Script" path="res://scripts/local_ai_client.gd" id="5"]
+[ext_resource type="Resource" path="res://resources/NPCSettings.tres" id="6"]
+[ext_resource type="Resource" path="res://resources/ExperimentSettings.tres" id="7"]
+[ext_resource type="Script" path="res://scripts/chat_input.gd" id="8"]
+[ext_resource type="Texture2D" path="res://assets/ui/harin_canva.png" id="9"]
+[ext_resource type="Script" path="res://scripts/hud_frame.gd" id="10"]
+[ext_resource type="Texture2D" path="res://assets/ui/station_mark.svg" id="11"]
+[ext_resource type="Texture2D" path="res://assets/ui/reticle.svg" id="12"]
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("3")
+script = ExtResource("1")
+[node name="Backdrop" type="ColorRect" parent="."]
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 1280.0
+offset_bottom = 800.0
+color = Color(0.0235, 0.039, 0.051, 1)
+mouse_filter = 2
+
+[node name="World" parent="." instance=ExtResource("2")]
+unique_name_in_owner = true
+position = Vector2(40, 58)
+
+[node name="Frame" type="Control" parent="."]
+z_index = 32
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 1280.0
+offset_bottom = 800.0
+mouse_filter = 2
+script = ExtResource("10")
+
+[node name="Header" type="Control" parent="."]
+z_index = 32
+offset_left = 28.0
+offset_top = 8.0
+offset_right = 1252.0
+offset_bottom = 70.0
+mouse_filter = 0
+
+[node name="StationMark" type="TextureRect" parent="Header"]
+offset_left = 4.0
+offset_top = 16.0
+offset_right = 36.0
+offset_bottom = 48.0
+texture = ExtResource("11")
+mouse_filter = 2
+
+[node name="Eyebrow" type="Label" parent="Header"]
+offset_left = 50.0
+offset_top = 2.0
+offset_right = 330.0
+offset_bottom = 20.0
+mouse_filter = 2
+text = "SECTOR 07  /  EMERGENCY POWER"
+theme_type_variation = &"Eyebrow"
+
+[node name="Title" type="Label" parent="Header"]
+offset_left = 50.0
+offset_top = 20.0
+offset_right = 350.0
+offset_bottom = 54.0
+mouse_filter = 2
+text = "정전된 연구소"
+theme_override_colors/font_color = Color(0.88, 0.90, 0.85, 1)
+theme_override_font_sizes/font_size = 25
+
+[node name="HealthCaption" type="Label" parent="Header"]
+offset_left = 390.0
+offset_top = 6.0
+offset_right = 586.0
+offset_bottom = 24.0
+mouse_filter = 2
+text = "생체 신호"
+theme_type_variation = &"Eyebrow"
+
+[node name="HealthValue" type="Label" parent="Header"]
+offset_left = 448.0
+offset_top = 5.0
+offset_right = 596.0
+offset_bottom = 25.0
+mouse_filter = 2
+text = "100 / 100"
+unique_name_in_owner = true
+horizontal_alignment = 2
+theme_override_font_sizes/font_size = 15
+
+[node name="HealthBar" type="ProgressBar" parent="Header"]
+offset_left = 390.0
+offset_top = 34.0
+offset_right = 596.0
+offset_bottom = 42.0
+unique_name_in_owner = true
+mouse_filter = 2
+value = 100.0
+show_percentage = false
+
+[node name="AmmoCaption" type="Label" parent="Header"]
+offset_left = 632.0
+offset_top = 6.0
+offset_right = 738.0
+offset_bottom = 24.0
+mouse_filter = 2
+text = "탄약"
+theme_type_variation = &"Eyebrow"
+
+[node name="AmmoValue" type="Label" parent="Header"]
+offset_left = 632.0
+offset_top = 23.0
+offset_right = 744.0
+offset_bottom = 51.0
+mouse_filter = 2
+text = "06 / 20"
+unique_name_in_owner = true
+theme_type_variation = &"Technical"
+theme_override_font_sizes/font_size = 25
+
+[node name="SupplyCaption" type="Label" parent="Header"]
+offset_left = 778.0
+offset_top = 6.0
+offset_right = 1004.0
+offset_bottom = 24.0
+mouse_filter = 2
+text = "하린의 지원 장비"
+theme_type_variation = &"Eyebrow"
+
+[node name="SupportValue" type="Label" parent="Header"]
+offset_left = 778.0
+offset_top = 28.0
+offset_right = 1012.0
+offset_bottom = 52.0
+mouse_filter = 2
+text = "치료 02   보급 02   보호 01"
+unique_name_in_owner = true
+theme_override_font_sizes/font_size = 15
+
+[node name="SettingsButton" type="Button" parent="Header"]
+offset_left = 1036.0
+offset_top = 12.0
+offset_right = 1224.0
+offset_bottom = 52.0
+unique_name_in_owner = true
+text = "실험 설정  F3"
+tooltip_text = "판단 방식, 새 회차, 요청 측정 정보"
+
+[node name="MissionBar" type="Panel" parent="."]
+z_index = 32
+offset_left = 40.0
+offset_top = 76.0
+offset_right = 1240.0
+offset_bottom = 112.0
+mouse_filter = 0
+
+[node name="ObjectiveIcon" type="TextureRect" parent="MissionBar"]
+offset_left = 10.0
+offset_top = 6.0
+offset_right = 34.0
+offset_bottom = 30.0
+texture = ExtResource("12")
+mouse_filter = 2
+
+[node name="MissionStep" type="Label" parent="MissionBar"]
+offset_left = 44.0
+offset_top = 4.0
+offset_right = 172.0
+offset_bottom = 32.0
+mouse_filter = 2
+text = "01 / 04  ·  목표"
+unique_name_in_owner = true
+theme_override_colors/font_color = Color(0.82, 0.65, 0.43, 1)
+theme_override_font_sizes/font_size = 15
+
+[node name="Objective" type="Label" parent="MissionBar"]
+offset_left = 184.0
+offset_top = 4.0
+offset_right = 984.0
+offset_bottom = 32.0
+mouse_filter = 2
+text = "오른쪽 통로로 보관 구역에 가서 퓨즈를 찾으세요."
+unique_name_in_owner = true
+theme_override_font_sizes/font_size = 16
+text_overrun_behavior = 3
+
+[node name="Location" type="Label" parent="MissionBar"]
+offset_left = 994.0
+offset_top = 4.0
+offset_right = 1184.0
+offset_bottom = 32.0
+mouse_filter = 2
+text = "연구실"
+unique_name_in_owner = true
+theme_type_variation = &"Technical"
+horizontal_alignment = 2
+theme_override_font_sizes/font_size = 15
+
+[node name="NoticeStrip" type="Control" parent="."]
+z_index = 32
+offset_left = 40.0
+offset_top = 566.0
+offset_right = 1240.0
+offset_bottom = 598.0
+mouse_filter = 0
+
+[node name="NoticeTag" type="Label" parent="NoticeStrip"]
+offset_left = 0.0
+offset_top = 3.0
+offset_right = 80.0
+offset_bottom = 29.0
+mouse_filter = 2
+text = "현장 통신"
+theme_override_colors/font_color = Color(0.82, 0.65, 0.43, 1)
+theme_override_font_sizes/font_size = 13
+
+[node name="Callout" type="Label" parent="NoticeStrip"]
+offset_left = 96.0
+offset_top = 2.0
+offset_right = 1200.0
+offset_bottom = 30.0
+mouse_filter = 2
+text = "하린과 함께 보관 구역을 조사하세요."
+unique_name_in_owner = true
+theme_override_colors/font_color = Color(0.63, 0.80, 0.74, 1)
+theme_override_font_sizes/font_size = 16
+text_overrun_behavior = 3
+
+[node name="RadioPanel" type="Panel" parent="."]
+z_index = 32
+offset_left = 28.0
+offset_top = 604.0
+offset_right = 1252.0
+offset_bottom = 772.0
+theme_type_variation = &"RadioPanel"
+mouse_filter = 0
+
+[node name="PortraitFrame" type="Panel" parent="RadioPanel"]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 124.0
+offset_bottom = 124.0
+mouse_filter = 2
+
+[node name="Portrait" type="TextureRect" parent="RadioPanel/PortraitFrame"]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 104.0
+offset_bottom = 104.0
+texture = ExtResource("9")
+texture_filter = 1
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="PortraitCaption" type="Label" parent="RadioPanel"]
+offset_left = 16.0
+offset_top = 126.0
+offset_right = 124.0
+offset_bottom = 152.0
+mouse_filter = 2
+text = "CH 02 / HARIN"
+theme_type_variation = &"Technical"
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
+
+[node name="CompanionName" type="Label" parent="RadioPanel"]
+offset_left = 136.0
+offset_top = 8.0
+offset_right = 200.0
+offset_bottom = 36.0
+mouse_filter = 2
+text = "하린"
+theme_override_colors/font_color = Color(0.86, 0.93, 0.87, 1)
+theme_override_font_sizes/font_size = 21
+
+[node name="CompanionRole" type="Label" parent="RadioPanel"]
+offset_left = 202.0
+offset_top = 13.0
+offset_right = 618.0
+offset_bottom = 35.0
+mouse_filter = 2
+text = "정비사  /  함께하는 동료"
+theme_override_colors/font_color = Color(0.43, 0.57, 0.58, 1)
+theme_override_font_sizes/font_size = 13
+
+[node name="MissionPrompt" type="Button" parent="RadioPanel"]
+offset_left = 710.0
+offset_top = 8.0
+offset_right = 830.0
+offset_bottom = 38.0
+unique_name_in_owner = true
+text = "임무 확인"
+theme_override_font_sizes/font_size = 13
+tooltip_text = "지금 뭘 해야 해? · 질문 초안을 넣습니다. Enter로 전송하세요."
+focus_mode = 0
+
+[node name="SupportPrompt" type="Button" parent="RadioPanel"]
+offset_left = 838.0
+offset_top = 8.0
+offset_right = 950.0
+offset_bottom = 38.0
+unique_name_in_owner = true
+text = "지원 요청"
+theme_override_font_sizes/font_size = 13
+tooltip_text = "지금 어떻게 도와줄 수 있어? · 질문 초안을 넣습니다. Enter로 전송하세요."
+focus_mode = 0
+
+[node name="EverydayPrompt" type="Button" parent="RadioPanel"]
+offset_left = 958.0
+offset_top = 8.0
+offset_right = 1070.0
+offset_bottom = 38.0
+unique_name_in_owner = true
+text = "일상 대화"
+theme_override_font_sizes/font_size = 13
+tooltip_text = "오늘 기분은 어때? · 질문 초안을 넣습니다. Enter로 전송하세요."
+focus_mode = 0
+
+[node name="RadioState" type="Label" parent="RadioPanel"]
+offset_left = 1084.0
+offset_top = 12.0
+offset_right = 1204.0
+offset_bottom = 36.0
+mouse_filter = 2
+text = "● 대기"
+unique_name_in_owner = true
+horizontal_alignment = 2
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="Answer" type="RichTextLabel" parent="RadioPanel"]
+offset_left = 136.0
+offset_top = 44.0
+offset_right = 1204.0
+offset_bottom = 98.0
+unique_name_in_owner = true
+mouse_filter = 1
+theme_override_font_sizes/normal_font_size = 20
+text = "오른쪽 통로가 보관 구역이야. 내가 같이 갈게.\n궁금한 게 있으면 편하게 물어봐."
+scroll_active = true
+
+[node name="Question" type="TextEdit" parent="RadioPanel"]
+offset_left = 136.0
+offset_top = 104.0
+offset_right = 1076.0
+offset_bottom = 148.0
+unique_name_in_owner = true
+script = ExtResource("8")
+text = ""
+placeholder_text = "하린에게 말하기…  Enter 전송 / Esc 이동"
+caret_blink = true
+context_menu_enabled = true
+message_limit = 300
+theme_override_font_sizes/font_size = 18
+
+[node name="SendButton" type="Button" parent="RadioPanel"]
+offset_left = 1092.0
+offset_top = 104.0
+offset_right = 1204.0
+offset_bottom = 148.0
+unique_name_in_owner = true
+focus_mode = 0
+text = "전송  ↵"
+theme_override_font_sizes/font_size = 17
+
+[node name="Status" type="Label" parent="RadioPanel"]
+offset_left = 136.0
+offset_top = 150.0
+offset_right = 1204.0
+offset_bottom = 166.0
+mouse_filter = 2
+text = "입력 중에는 이동이 멈추며, 전투는 계속됩니다."
+unique_name_in_owner = true
+theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(0.43, 0.57, 0.58, 1)
+text_overrun_behavior = 3
+
+[node name="Footer" type="Control" parent="."]
+offset_top = 774.0
+offset_right = 1280.0
+offset_bottom = 800.0
+mouse_filter = 0
+
+[node name="ControlHints" type="Label" parent="Footer"]
+offset_left = 40.0
+offset_top = 4.0
+offset_right = 910.0
+offset_bottom = 24.0
+mouse_filter = 2
+text = "WASD  이동      E  상호작용      클릭 / SPACE  사격      ENTER  통신"
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.43, 0.57, 0.58, 1)
+
+[node name="ProviderBadge" type="Label" parent="Footer"]
+offset_left = 930.0
+offset_top = 4.0
+offset_right = 1240.0
+offset_bottom = 24.0
+mouse_filter = 2
+text = "판단 방식 · 규칙 기반"
+unique_name_in_owner = true
+horizontal_alignment = 2
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.43, 0.57, 0.58, 1)
+
+[node name="DebugPanel" type="Panel" parent="."]
+offset_left = 744.0
+offset_top = 76.0
+offset_right = 1240.0
+offset_bottom = 560.0
+unique_name_in_owner = true
+visible = false
+z_index = 60
+mouse_filter = 0
+
+[node name="PanelEyebrow" type="Label" parent="DebugPanel"]
+offset_left = 22.0
+offset_top = 18.0
+offset_right = 430.0
+offset_bottom = 38.0
+mouse_filter = 2
+text = "RESEARCH CONSOLE / F3"
+theme_type_variation = &"Eyebrow"
+
+[node name="PanelTitle" type="Label" parent="DebugPanel"]
+offset_left = 22.0
+offset_top = 40.0
+offset_right = 404.0
+offset_bottom = 72.0
+mouse_filter = 2
+text = "실험 설정"
+theme_override_font_sizes/font_size = 25
+
+[node name="CloseSettings" type="Button" parent="DebugPanel"]
+offset_left = 428.0
+offset_top = 18.0
+offset_right = 474.0
+offset_bottom = 58.0
+unique_name_in_owner = true
+text = "×"
+tooltip_text = "실험 설정 닫기"
+
+[node name="ProviderCaption" type="Label" parent="DebugPanel"]
+offset_left = 22.0
+offset_top = 94.0
+offset_right = 474.0
+offset_bottom = 120.0
+mouse_filter = 2
+text = "NPC 판단 방식"
+theme_override_font_sizes/font_size = 16
+
+[node name="Provider" type="OptionButton" parent="DebugPanel"]
+offset_left = 22.0
+offset_top = 130.0
+offset_right = 474.0
+offset_bottom = 172.0
+unique_name_in_owner = true
+item_count = 3
+popup/item_0/text = "규칙 기반"
+popup/item_0/id = 0
+popup/item_1/text = "로컬 LLM"
+popup/item_1/id = 1
+popup/item_2/text = "Jev"
+popup/item_2/id = 2
+
+[node name="ResetNotice" type="Label" parent="DebugPanel"]
+offset_left = 22.0
+offset_top = 184.0
+offset_right = 474.0
+offset_bottom = 232.0
+mouse_filter = 2
+text = "방식을 바꾸면 같은 초기 조건으로 새 회차를 시작합니다."
+theme_override_font_sizes/font_size = 14
+autowrap_mode = 2
+
+[node name="RestartButton" type="Button" parent="DebugPanel"]
+offset_left = 22.0
+offset_top = 242.0
+offset_right = 474.0
+offset_bottom = 284.0
+unique_name_in_owner = true
+text = "새 회차 시작"
+
+[node name="StateSummary" type="Label" parent="DebugPanel"]
+offset_left = 22.0
+offset_top = 300.0
+offset_right = 474.0
+offset_bottom = 338.0
+mouse_filter = 2
+text = "체력 100 / 탄약 6"
+unique_name_in_owner = true
+autowrap_mode = 2
+theme_override_font_sizes/font_size = 13
+
+[node name="Metrics" type="Label" parent="DebugPanel"]
+offset_left = 22.0
+offset_top = 350.0
+offset_right = 474.0
+offset_bottom = 460.0
+mouse_filter = 2
+text = "실험 정보 · 아직 요청 없음"
+unique_name_in_owner = true
+autowrap_mode = 2
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.53, 0.65, 0.64, 1)
+
+[node name="NPCBrain" type="Node" parent="."]
+script = ExtResource("4")
+settings = ExtResource("7")
+[node name="LocalDialogue" type="Node" parent="NPCBrain"]
+script = ExtResource("5")
+settings = ExtResource("6")
+[node name="HealthRequest" type="HTTPRequest" parent="NPCBrain/LocalDialogue"]
+[node name="LocalDecision" type="Node" parent="NPCBrain"]
+script = ExtResource("5")
+settings = ExtResource("6")
+[node name="HealthRequest" type="HTTPRequest" parent="NPCBrain/LocalDecision"]
+[node name="JevRequest" type="HTTPRequest" parent="NPCBrain"]

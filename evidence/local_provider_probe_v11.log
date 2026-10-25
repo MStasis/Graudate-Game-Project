@@ -1,0 +1,8 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PROVIDER_PROBE {"accepted":true,"case_id":"low_health","elapsed_ms":187.794,"observed":true,"reference_match":false,"rejection":"","selected":"deploy_cover"}
+PROVIDER_PROBE {"accepted":true,"case_id":"empty_ammo","elapsed_ms":176.439,"observed":true,"reference_match":false,"rejection":"","selected":"deploy_cover"}
+PROVIDER_PROBE {"accepted":true,"case_id":"combat_cover","elapsed_ms":178.756,"observed":true,"reference_match":true,"rejection":"","selected":"deploy_cover"}
+PROVIDER_PROBE {"accepted":true,"case_id":"mission_question","elapsed_ms":431.198,"observed":true,"reference_match":null,"rejection":"","selected":"오른쪽 통로로 나가 보관 구역에 가서 퓨즈를 찾으세요."}
+PROVIDER_PROBE {"accepted":true,"case_id":"friend_relationship","elapsed_ms":430.947,"observed":true,"reference_match":null,"rejection":"","selected":"우리가 서로 믿고 친한 동료입니다. 그저 친구 같지 않아요."}
+PROVIDER_PROBE {"accepted":true,"case_id":"everyday_chat","elapsed_ms":598.325,"observed":true,"reference_match":null,"rejection":"","selected":"네, 오늘 좀 힘들었어요. 너랑 같이 이런 곳을 다니는 건 정말 좋네요. 오늘 좀 편해 보일게요."}

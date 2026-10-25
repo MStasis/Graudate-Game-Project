@@ -1,0 +1,155 @@
+[gd_resource type="Theme" format=3 uid="uid://dpcrkng1mqgw1"]
+
+[sub_resource type="SystemFont" id="Font"]
+font_names = PackedStringArray("Malgun Gothic", "맑은 고딕")
+
+[sub_resource type="SystemFont" id="Mono"]
+font_names = PackedStringArray("Consolas", "Malgun Gothic")
+
+[sub_resource type="StyleBoxFlat" id="Panel"]
+bg_color = Color(0.035, 0.063, 0.082, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.17, 0.25, 0.28, 1)
+
+[sub_resource type="StyleBoxFlat" id="RadioPanel"]
+bg_color = Color(0.043, 0.075, 0.09, 1)
+border_width_left = 3
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.30, 0.54, 0.50, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="Button"]
+content_margin_left = 14.0
+content_margin_right = 14.0
+content_margin_top = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.065, 0.12, 0.14, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.22, 0.36, 0.38, 1)
+
+[sub_resource type="StyleBoxFlat" id="Hover"]
+content_margin_left = 14.0
+content_margin_right = 14.0
+content_margin_top = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.10, 0.22, 0.24, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.45, 0.77, 0.71, 1)
+
+[sub_resource type="StyleBoxFlat" id="Pressed"]
+content_margin_left = 14.0
+content_margin_right = 14.0
+content_margin_top = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.13, 0.30, 0.30, 1)
+border_width_bottom = 2
+border_color = Color(0.45, 0.77, 0.71, 1)
+
+[sub_resource type="StyleBoxFlat" id="Disabled"]
+content_margin_left = 14.0
+content_margin_right = 14.0
+content_margin_top = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.04, 0.075, 0.09, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.14, 0.22, 0.24, 1)
+
+[sub_resource type="StyleBoxFlat" id="Focus"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.82, 0.65, 0.43, 1)
+
+[sub_resource type="StyleBoxFlat" id="ChatField"]
+content_margin_left = 14.0
+content_margin_top = 7.0
+content_margin_right = 14.0
+content_margin_bottom = 7.0
+bg_color = Color(0.024, 0.044, 0.059, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.19, 0.29, 0.31, 1)
+
+[sub_resource type="StyleBoxEmpty" id="Empty"]
+
+[sub_resource type="StyleBoxFlat" id="HealthTrack"]
+bg_color = Color(0.10, 0.16, 0.18, 1)
+
+[sub_resource type="StyleBoxFlat" id="HealthFill"]
+bg_color = Color(0.45, 0.77, 0.71, 1)
+
+[sub_resource type="StyleBoxFlat" id="Scroll"]
+bg_color = Color(0.07, 0.13, 0.15, 1)
+content_margin_left = 3.0
+content_margin_right = 3.0
+
+[sub_resource type="StyleBoxFlat" id="Grabber"]
+bg_color = Color(0.26, 0.43, 0.43, 1)
+content_margin_left = 3.0
+content_margin_right = 3.0
+
+[resource]
+default_font = SubResource("Font")
+default_font_size = 18
+Label/colors/font_color = Color(0.79, 0.85, 0.84, 1)
+Button/colors/font_color = Color(0.78, 0.88, 0.86, 1)
+Button/colors/font_hover_color = Color(0.92, 0.97, 0.94, 1)
+Button/colors/font_disabled_color = Color(0.34, 0.45, 0.46, 1)
+Button/styles/normal = SubResource("Button")
+Button/styles/hover = SubResource("Hover")
+Button/styles/pressed = SubResource("Pressed")
+Button/styles/disabled = SubResource("Disabled")
+Button/styles/focus = SubResource("Focus")
+OptionButton/styles/normal = SubResource("Button")
+OptionButton/styles/hover = SubResource("Hover")
+OptionButton/styles/pressed = SubResource("Pressed")
+OptionButton/styles/focus = SubResource("Focus")
+Panel/styles/panel = SubResource("Panel")
+PopupMenu/styles/panel = SubResource("Panel")
+PopupMenu/styles/hover = SubResource("Hover")
+TextEdit/colors/font_color = Color(0.88, 0.92, 0.88, 1)
+TextEdit/colors/font_placeholder_color = Color(0.42, 0.55, 0.56, 1)
+TextEdit/colors/caret_color = Color(0.82, 0.65, 0.43, 1)
+TextEdit/colors/selection_color = Color(0.13, 0.35, 0.36, 1)
+TextEdit/styles/normal = SubResource("ChatField")
+TextEdit/styles/read_only = SubResource("ChatField")
+TextEdit/styles/focus = SubResource("Focus")
+RichTextLabel/colors/default_color = Color(0.86, 0.90, 0.87, 1)
+RichTextLabel/font_sizes/normal_font_size = 20
+RichTextLabel/styles/normal = SubResource("Empty")
+ProgressBar/styles/background = SubResource("HealthTrack")
+ProgressBar/styles/fill = SubResource("HealthFill")
+VScrollBar/styles/scroll = SubResource("Scroll")
+VScrollBar/styles/grabber = SubResource("Grabber")
+VScrollBar/styles/grabber_highlight = SubResource("Grabber")
+VScrollBar/styles/grabber_pressed = SubResource("Grabber")
+Eyebrow/base_type = &"Label"
+Eyebrow/colors/font_color = Color(0.43, 0.57, 0.58, 1)
+Eyebrow/font_sizes/font_size = 12
+Technical/base_type = &"Label"
+Technical/fonts/font = SubResource("Mono")
+Technical/font_sizes/font_size = 16
+Technical/colors/font_color = Color(0.45, 0.77, 0.71, 1)
+RadioPanel/base_type = &"Panel"
+RadioPanel/styles/panel = SubResource("RadioPanel")

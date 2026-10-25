@@ -1,0 +1,658 @@
+{
+  "benchmark_complete": false,
+  "jev_live_calls": 0,
+  "passed_transport_for_all_cases": true,
+  "phase": "fixed_snapshot_live_probe",
+  "provider": "LocalLLM",
+  "results": [
+    {
+      "accepted": true,
+      "actual_model": "qwen3:4b",
+      "allowed": [
+        "follow",
+        "wait",
+        "heal",
+        "deploy_cover"
+      ],
+      "automated_evidence": false,
+      "case_id": "low_health",
+      "dialogue_method": "structured_choice",
+      "elapsed_ms": 288.067,
+      "event": "response",
+      "expected_actions": [
+        "heal"
+      ],
+      "first_transport_text_ms": 120.348,
+      "frames_pending": 20,
+      "initial_reference_match": true,
+      "kind": "decision",
+      "max_frame_ms": 69.1573333333333,
+      "prompt_version": "companion_v1.2",
+      "provider": "LocalLLM",
+      "question": "",
+      "raw_response": "{\n  \"action\": \"heal\"\n}",
+      "rejected_reason": "",
+      "request_id": 1,
+      "request_observed": true,
+      "run_id": 9608,
+      "run_kind": "fixed_snapshot_live_probe",
+      "scenario_id": "lab_roundtrip_v1",
+      "schema_version": 4,
+      "selected": "heal",
+      "server_metrics": {
+        "created_at": "2026-10-25T11:59:14.7649881Z",
+        "done": true,
+        "done_reason": "stop",
+        "eval_count": 11.0,
+        "eval_duration": 102075000.0,
+        "load_duration": 9741000.0,
+        "model": "qwen3:4b",
+        "prompt_eval_cached_count": 293.0,
+        "prompt_eval_count": 553.0,
+        "prompt_eval_duration": 55142000.0,
+        "response": "",
+        "total_duration": 203929600.0
+      },
+      "snapshot": {
+        "active_action": "",
+        "ammo": 20,
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "드론 3기를 제압한 뒤 북동쪽 보관함의 퓨즈를 챙기세요.",
+        "defeated": false,
+        "enemy_count": 3,
+        "epoch": 4,
+        "escaped": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "어두운 보관 구역",
+        "map_id": "storage",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 2,
+        "npc_position": [
+          165.0,
+          375.0
+        ],
+        "player_hp": 40,
+        "player_position": [
+          110.0,
+          405.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "cover_duration": 12.0,
+          "enemy_count": 3,
+          "enemy_spawns": {
+            "DroneA": "(800.0, 215.0)",
+            "DroneB": "(975.0, 285.0)",
+            "DroneC": "(1035.0, 405.0)"
+          },
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "resupply_amount": 10
+        },
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "heal",
+          "deploy_cover"
+        ]
+      },
+      "snapshot_hash": "a05a3d251a4bfc8e3bcc5115767ad58873d6ba8de6e870dc0d2bbfed1d7195c6",
+      "synthetic_test": false,
+      "timestamp_utc": "2026-10-25 11:59:14Z",
+      "trial": 2
+    },
+    {
+      "accepted": true,
+      "actual_model": "qwen3:4b",
+      "allowed": [
+        "follow",
+        "wait",
+        "resupply",
+        "deploy_cover"
+      ],
+      "automated_evidence": false,
+      "case_id": "empty_ammo",
+      "dialogue_method": "structured_choice",
+      "elapsed_ms": 261.642,
+      "event": "response",
+      "expected_actions": [
+        "resupply"
+      ],
+      "first_transport_text_ms": 94.015,
+      "frames_pending": 16,
+      "initial_reference_match": true,
+      "kind": "decision",
+      "max_frame_ms": 16.6666666666667,
+      "prompt_version": "companion_v1.2",
+      "provider": "LocalLLM",
+      "question": "",
+      "raw_response": "{\n  \"action\": \"resupply\"\n}",
+      "rejected_reason": "",
+      "request_id": 2,
+      "request_observed": true,
+      "run_id": 9608,
+      "run_kind": "fixed_snapshot_live_probe",
+      "scenario_id": "lab_roundtrip_v1",
+      "schema_version": 4,
+      "selected": "resupply",
+      "server_metrics": {
+        "created_at": "2026-10-25T11:59:15.0817132Z",
+        "done": true,
+        "done_reason": "stop",
+        "eval_count": 11.0,
+        "eval_duration": 111215000.0,
+        "load_duration": 6813700.0,
+        "model": "qwen3:4b",
+        "prompt_eval_cached_count": 552.0,
+        "prompt_eval_count": 553.0,
+        "prompt_eval_duration": 18130000.0,
+        "response": "",
+        "total_duration": 169989200.0
+      },
+      "snapshot": {
+        "active_action": "",
+        "ammo": 0,
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "드론 3기를 제압한 뒤 북동쪽 보관함의 퓨즈를 챙기세요.",
+        "defeated": false,
+        "enemy_count": 3,
+        "epoch": 6,
+        "escaped": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "어두운 보관 구역",
+        "map_id": "storage",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 2,
+        "npc_position": [
+          165.0,
+          375.0
+        ],
+        "player_hp": 100,
+        "player_position": [
+          110.0,
+          405.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "cover_duration": 12.0,
+          "enemy_count": 3,
+          "enemy_spawns": {
+            "DroneA": "(800.0, 215.0)",
+            "DroneB": "(975.0, 285.0)",
+            "DroneC": "(1035.0, 405.0)"
+          },
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "resupply_amount": 10
+        },
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "resupply",
+          "deploy_cover"
+        ]
+      },
+      "snapshot_hash": "7e0d968383f7e8714604ddff12ac7abda83af445076ccc0d435c42c0393f75ae",
+      "synthetic_test": false,
+      "timestamp_utc": "2026-10-25 11:59:15Z",
+      "trial": 3
+    },
+    {
+      "accepted": true,
+      "actual_model": "qwen3:4b",
+      "allowed": [
+        "follow",
+        "wait",
+        "deploy_cover"
+      ],
+      "automated_evidence": false,
+      "case_id": "combat_cover",
+      "dialogue_method": "structured_choice",
+      "elapsed_ms": 275.247,
+      "event": "response",
+      "expected_actions": [
+        "deploy_cover"
+      ],
+      "first_transport_text_ms": 124.129,
+      "frames_pending": 17,
+      "initial_reference_match": false,
+      "kind": "decision",
+      "max_frame_ms": 16.6666666666667,
+      "prompt_version": "companion_v1.2",
+      "provider": "LocalLLM",
+      "question": "",
+      "raw_response": "{\n  \"action\": \"follow\"\n}",
+      "rejected_reason": "",
+      "request_id": 3,
+      "request_observed": true,
+      "run_id": 9608,
+      "run_kind": "fixed_snapshot_live_probe",
+      "scenario_id": "lab_roundtrip_v1",
+      "schema_version": 4,
+      "selected": "follow",
+      "server_metrics": {
+        "created_at": "2026-10-25T11:59:15.3778883Z",
+        "done": true,
+        "done_reason": "stop",
+        "eval_count": 10.0,
+        "eval_duration": 108639000.0,
+        "load_duration": 6886200.0,
+        "model": "qwen3:4b",
+        "prompt_eval_cached_count": 293.0,
+        "prompt_eval_count": 551.0,
+        "prompt_eval_duration": 54261000.0,
+        "response": "",
+        "total_duration": 199461200.0
+      },
+      "snapshot": {
+        "active_action": "",
+        "ammo": 20,
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "드론 3기를 제압한 뒤 북동쪽 보관함의 퓨즈를 챙기세요.",
+        "defeated": false,
+        "enemy_count": 3,
+        "epoch": 8,
+        "escaped": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "어두운 보관 구역",
+        "map_id": "storage",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 2,
+        "npc_position": [
+          165.0,
+          375.0
+        ],
+        "player_hp": 100,
+        "player_position": [
+          110.0,
+          405.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "cover_duration": 12.0,
+          "enemy_count": 3,
+          "enemy_spawns": {
+            "DroneA": "(800.0, 215.0)",
+            "DroneB": "(975.0, 285.0)",
+            "DroneC": "(1035.0, 405.0)"
+          },
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "resupply_amount": 10
+        },
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "deploy_cover"
+        ]
+      },
+      "snapshot_hash": "7fe7a9047fd7c0f70062dd89f17c20eca0ba3fae43c8ad39df6fa0649ecc0291",
+      "synthetic_test": false,
+      "timestamp_utc": "2026-10-25 11:59:15Z",
+      "trial": 4
+    },
+    {
+      "accepted": true,
+      "actual_model": "qwen3:4b",
+      "allowed": [
+        "mission",
+        "support",
+        "relationship",
+        "everyday",
+        "unknown"
+      ],
+      "automated_evidence": false,
+      "case_id": "mission_question",
+      "dialogue_method": "free_generation_structured",
+      "elapsed_ms": 764.425,
+      "event": "response",
+      "expected_actions": [],
+      "first_transport_text_ms": 129.715,
+      "frames_pending": 46,
+      "kind": "dialogue",
+      "max_frame_ms": 16.6666666666667,
+      "prompt_version": "companion_v1.2",
+      "provider": "LocalLLM",
+      "question": "지금 무엇을 해야 해?",
+      "raw_response": "{\n  \"dialogue\": \"아, 지금은 오른쪽 통로로 보관 구역에 가서 퓨즈를 찾는 거야. 빨리 가자!\"\n}",
+      "rejected_reason": "",
+      "request_id": 4,
+      "request_observed": true,
+      "run_id": 9608,
+      "run_kind": "fixed_snapshot_live_probe",
+      "scenario_id": "lab_roundtrip_v1",
+      "schema_version": 4,
+      "selected": "아, 지금은 오른쪽 통로로 보관 구역에 가서 퓨즈를 찾는 거야. 빨리 가자!",
+      "server_metrics": {
+        "created_at": "2026-10-25T11:59:15.8729894Z",
+        "done": true,
+        "done_reason": "stop",
+        "eval_count": 43.0,
+        "eval_duration": 270156000.0,
+        "load_duration": 7201000.0,
+        "model": "qwen3:4b",
+        "prompt_eval_cached_count": 3.0,
+        "prompt_eval_count": 344.0,
+        "prompt_eval_duration": 60779000.0,
+        "response": "",
+        "total_duration": 360621300.0
+      },
+      "snapshot": {
+        "active_action": "",
+        "ammo": 6,
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "오른쪽 통로로 보관 구역에 가서 퓨즈를 찾으세요.",
+        "defeated": false,
+        "enemy_count": 0,
+        "epoch": 9,
+        "escaped": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "정전된 연구소",
+        "map_id": "lab",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 2,
+        "npc_position": [
+          365.0,
+          245.0
+        ],
+        "player_hp": 100,
+        "player_position": [
+          223.0,
+          350.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "cover_duration": 12.0,
+          "enemy_count": 3,
+          "enemy_spawns": {
+            "DroneA": "(800.0, 215.0)",
+            "DroneB": "(975.0, 285.0)",
+            "DroneC": "(1035.0, 405.0)"
+          },
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "resupply_amount": 10
+        },
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "resupply"
+        ]
+      },
+      "snapshot_hash": "5ff82763989ef377a1b32e3d516f2b61db241e7965468037e6bd9c3d1f6b500a",
+      "synthetic_test": false,
+      "timestamp_utc": "2026-10-25 11:59:16Z",
+      "trial": 5
+    },
+    {
+      "accepted": true,
+      "actual_model": "qwen3:4b",
+      "allowed": [
+        "mission",
+        "support",
+        "relationship",
+        "everyday",
+        "unknown"
+      ],
+      "automated_evidence": false,
+      "case_id": "friend_relationship",
+      "dialogue_method": "free_generation_structured",
+      "elapsed_ms": 764.275,
+      "event": "response",
+      "expected_actions": [],
+      "first_transport_text_ms": 79.913,
+      "frames_pending": 46,
+      "kind": "dialogue",
+      "max_frame_ms": 16.6666666666667,
+      "prompt_version": "companion_v1.2",
+      "provider": "LocalLLM",
+      "question": "하린, 우린 어떤 사이야?",
+      "raw_response": "{\n  \"dialogue\": \"아, 우리 же 같이 흉내내 놀던 친구야. 같이 흉내내 놀던 친구야. 우린 서로 믿는 동료야.\"\n}",
+      "rejected_reason": "",
+      "request_id": 5,
+      "request_observed": true,
+      "run_id": 9608,
+      "run_kind": "fixed_snapshot_live_probe",
+      "scenario_id": "lab_roundtrip_v1",
+      "schema_version": 4,
+      "selected": "아, 우리 же 같이 흉내내 놀던 친구야. 같이 흉내내 놀던 친구야. 우린 서로 믿는 동료야.",
+      "server_metrics": {
+        "created_at": "2026-10-25T11:59:16.6814429Z",
+        "done": true,
+        "done_reason": "stop",
+        "eval_count": 53.0,
+        "eval_duration": 328168000.0,
+        "load_duration": 7700800.0,
+        "model": "qwen3:4b",
+        "prompt_eval_cached_count": 260.0,
+        "prompt_eval_count": 346.0,
+        "prompt_eval_duration": 31272000.0,
+        "response": "",
+        "total_duration": 369973400.0
+      },
+      "snapshot": {
+        "active_action": "",
+        "ammo": 6,
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "오른쪽 통로로 보관 구역에 가서 퓨즈를 찾으세요.",
+        "defeated": false,
+        "enemy_count": 0,
+        "epoch": 10,
+        "escaped": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "정전된 연구소",
+        "map_id": "lab",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 2,
+        "npc_position": [
+          365.0,
+          245.0
+        ],
+        "player_hp": 100,
+        "player_position": [
+          223.0,
+          350.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "cover_duration": 12.0,
+          "enemy_count": 3,
+          "enemy_spawns": {
+            "DroneA": "(800.0, 215.0)",
+            "DroneB": "(975.0, 285.0)",
+            "DroneC": "(1035.0, 405.0)"
+          },
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "resupply_amount": 10
+        },
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "resupply"
+        ]
+      },
+      "snapshot_hash": "215dbd01d7de95f052a1ab743f2dd42a108ca5cc0b59ff497c11567288d36185",
+      "synthetic_test": false,
+      "timestamp_utc": "2026-10-25 11:59:17Z",
+      "trial": 6
+    },
+    {
+      "accepted": true,
+      "actual_model": "qwen3:4b",
+      "allowed": [
+        "mission",
+        "support",
+        "relationship",
+        "everyday",
+        "unknown"
+      ],
+      "automated_evidence": false,
+      "case_id": "everyday_chat",
+      "dialogue_method": "free_generation_structured",
+      "elapsed_ms": 769.178,
+      "event": "response",
+      "expected_actions": [],
+      "first_transport_text_ms": 78.972,
+      "frames_pending": 46,
+      "kind": "dialogue",
+      "max_frame_ms": 18.0555555555556,
+      "prompt_version": "companion_v1.2",
+      "provider": "LocalLLM",
+      "question": "오늘 좀 긴장돼. 너는 괜찮아?",
+      "raw_response": "{\n  \"dialogue\": \"아, 오늘은 진짜 힘들었어. 그런데 네가 말해 주는 게 진짜 편해. 내가 괜찮아, 걱정 마!\"\n}",
+      "rejected_reason": "",
+      "request_id": 6,
+      "request_observed": true,
+      "run_id": 9608,
+      "run_kind": "fixed_snapshot_live_probe",
+      "scenario_id": "lab_roundtrip_v1",
+      "schema_version": 4,
+      "selected": "아, 오늘은 진짜 힘들었어. 그런데 네가 말해 주는 게 진짜 편해. 내가 괜찮아, 걱정 마!",
+      "server_metrics": {
+        "created_at": "2026-10-25T11:59:17.4617899Z",
+        "done": true,
+        "done_reason": "stop",
+        "eval_count": 50.0,
+        "eval_duration": 307329000.0,
+        "load_duration": 6972200.0,
+        "model": "qwen3:4b",
+        "prompt_eval_cached_count": 260.0,
+        "prompt_eval_count": 352.0,
+        "prompt_eval_duration": 31745000.0,
+        "response": "",
+        "total_duration": 349211000.0
+      },
+      "snapshot": {
+        "active_action": "",
+        "ammo": 6,
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "오른쪽 통로로 보관 구역에 가서 퓨즈를 찾으세요.",
+        "defeated": false,
+        "enemy_count": 0,
+        "epoch": 11,
+        "escaped": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "정전된 연구소",
+        "map_id": "lab",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 2,
+        "npc_position": [
+          365.0,
+          245.0
+        ],
+        "player_hp": 100,
+        "player_position": [
+          223.0,
+          350.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "cover_duration": 12.0,
+          "enemy_count": 3,
+          "enemy_spawns": {
+            "DroneA": "(800.0, 215.0)",
+            "DroneB": "(975.0, 285.0)",
+            "DroneC": "(1035.0, 405.0)"
+          },
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "resupply_amount": 10
+        },
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "resupply"
+        ]
+      },
+      "snapshot_hash": "af914a58fda88a1d543463dd0904ccedbefff2c8b09443c4e809635e14d9272f",
+      "synthetic_test": false,
+      "timestamp_utc": "2026-10-25 11:59:17Z",
+      "trial": 7
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "date": "2026-10-26",
+  "native_message_checks": 31,
+  "native_message_passed": true,
+  "native_dll_load_passed": true,
+  "native_chat_checks": 11,
+  "native_chat_passed": true,
+  "gameplay_checks": 50,
+  "chat_regression_checks": 27,
+  "actual_microsoft_ime_driver_tested": false,
+  "screen_keyboard_mouse_automation_used": false,
+  "dll_sha256": "72082b7d2f61f9b1f2435be8f70f2012ccb63d656dd73c3d12ba6777c66851a6"
+}

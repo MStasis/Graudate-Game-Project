@@ -1,0 +1,73 @@
+[gd_resource type="Theme" format=3 uid="uid://dpcrkng1mqgw1"]
+
+[sub_resource type="StyleBoxFlat" id="ButtonHover"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0.15, 0.24, 0.31, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="ButtonNormal"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0.085, 0.12, 0.17, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="Field"]
+content_margin_left = 14.0
+content_margin_top = 12.0
+content_margin_right = 14.0
+content_margin_bottom = 12.0
+bg_color = Color(0.065, 0.115, 0.175, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="SystemFont" id="Font"]
+font_names = PackedStringArray("Malgun Gothic", "맑은 고딕")
+
+[sub_resource type="StyleBoxFlat" id="ChatField"]
+content_margin_left = 14.0
+content_margin_top = 6.0
+content_margin_right = 14.0
+content_margin_bottom = 6.0
+bg_color = Color(0.065, 0.115, 0.175, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="ChatFocus"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.35, 0.7, 0.75, 1)
+
+[resource]
+default_font = SubResource("Font")
+default_font_size = 18
+Button/colors/font_color = Color(0.88, 0.94, 1, 1)
+Button/styles/focus = SubResource("ButtonHover")
+Button/styles/hover = SubResource("ButtonHover")
+Button/styles/normal = SubResource("ButtonNormal")
+Button/styles/pressed = SubResource("ButtonHover")
+Label/colors/font_color = Color(0.85, 0.9, 0.96, 1)
+LineEdit/styles/normal = SubResource("Field")
+TextEdit/styles/normal = SubResource("ChatField")
+TextEdit/styles/read_only = SubResource("ChatField")
+TextEdit/styles/focus = SubResource("ChatFocus")
+RichTextLabel/colors/default_color = Color(0.89, 0.93, 0.98, 1)
+RichTextLabel/font_sizes/normal_font_size = 22
+RichTextLabel/styles/normal = SubResource("Field")

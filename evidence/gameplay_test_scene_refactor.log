@@ -1,0 +1,3 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+GAMEPLAY_TEST {"checks":{"exit_requires_power":true,"fuse_is_inventory_item":true,"pending_response_preserves_state":true,"power_requires_fuse":true,"powered_exit_completes_game":true,"restart_clears_state":true,"restoring_power_consumes_inventory_fuse":true},"passed":true,"suite":"gameplay_state_rules","synthetic_test":true}

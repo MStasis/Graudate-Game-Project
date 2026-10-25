@@ -1,0 +1,21 @@
+{
+  "actual_microsoft_ime_driver_tested": false,
+  "check_count": 11,
+  "checks": {
+    "draining_twice_does_not_duplicate": true,
+    "finishing_keeps_committed_text": true,
+    "native_completion_called": true,
+    "native_last_syllable_sent": true,
+    "native_prefix_1": true,
+    "native_prefix_2": true,
+    "native_prefix_3": true,
+    "native_prefix_4": true,
+    "native_prefix_5": true,
+    "node_lifecycle_detaches_bridge": true,
+    "whole_native_result_preserved": true
+  },
+  "passed": true,
+  "screen_automation_used": false,
+  "suite": "native_ime_chat_integration",
+  "synthetic_native_backend": true
+}

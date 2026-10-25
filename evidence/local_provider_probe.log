@@ -1,0 +1,8 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PROVIDER_PROBE {"accepted":null,"case_id":"low_health","elapsed_ms":null,"observed":false,"reference_match":false,"rejection":null,"selected":null}
+PROVIDER_PROBE {"accepted":null,"case_id":"empty_ammo","elapsed_ms":null,"observed":false,"reference_match":false,"rejection":null,"selected":null}
+PROVIDER_PROBE {"accepted":null,"case_id":"combat_cover","elapsed_ms":null,"observed":false,"reference_match":false,"rejection":null,"selected":null}
+PROVIDER_PROBE {"accepted":null,"case_id":"mission_question","elapsed_ms":null,"observed":false,"reference_match":null,"rejection":null,"selected":null}
+PROVIDER_PROBE {"accepted":null,"case_id":"friend_relationship","elapsed_ms":null,"observed":false,"reference_match":null,"rejection":null,"selected":null}
+PROVIDER_PROBE {"accepted":null,"case_id":"everyday_chat","elapsed_ms":null,"observed":false,"reference_match":null,"rejection":null,"selected":null}

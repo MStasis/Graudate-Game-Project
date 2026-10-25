@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3]
+[ext_resource type="Script" path="res://scripts/interactable.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/exit.svg" id="2"]
+[ext_resource type="Theme" path="res://resources/GameTheme.tres" id="3"]
+[sub_resource type="CircleShape2D" id="Area"]
+radius = 28.0
+[node name="Exit" type="Area2D"]
+script = ExtResource("1")
+interaction_id = "exit"
+display_name = "출구"
+location_hint = "연구소 남동쪽"
+description = "전력 복구 후 열리는 출구"
+base_color = Color(0.45, 0.56, 0.67, 1)
+object_texture = ExtResource("2")
+collision_layer = 0
+collision_mask = 0
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("Area")
+[node name="NameLabel" type="Label" parent="."]
+offset_left = -90.0
+offset_top = 42.0
+offset_right = 90.0
+offset_bottom = 70.0
+theme = ExtResource("3")
+text = "출구"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 17

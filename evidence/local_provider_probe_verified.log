@@ -1,0 +1,8 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PROVIDER_PROBE {"accepted":true,"case_id":"low_health","elapsed_ms":2187.413,"observed":true,"reference_match":false,"rejection":"","selected":"deploy_cover"}
+PROVIDER_PROBE {"accepted":true,"case_id":"empty_ammo","elapsed_ms":191.06,"observed":true,"reference_match":false,"rejection":"","selected":"deploy_cover"}
+PROVIDER_PROBE {"accepted":true,"case_id":"combat_cover","elapsed_ms":188.834,"observed":true,"reference_match":true,"rejection":"","selected":"deploy_cover"}
+PROVIDER_PROBE {"accepted":true,"case_id":"mission_question","elapsed_ms":830.179,"observed":true,"reference_match":null,"rejection":"","selected":"지금은 퓨즈를 찾는 데 나가보는 게 좋을 것 같아요. 연구소 안에는 여러 가지 장치들이 있으니, 퓨즈가 있는 곳을 찾으시기 바랍니다."}
+PROVIDER_PROBE {"accepted":true,"case_id":"friend_relationship","elapsed_ms":359.394,"observed":true,"reference_match":null,"rejection":"","selected":"우리가 정전된 연구소에서 일하고 있는 동료들이야."}
+PROVIDER_PROBE {"accepted":true,"case_id":"everyday_chat","elapsed_ms":558.337,"observed":true,"reference_match":null,"rejection":"","selected":"네, 괜찮아요. 오늘도 잘 보고 계시고, 언제든지 도움이 필요하면 말씀해 주세요."}

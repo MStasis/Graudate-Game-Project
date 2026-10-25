@@ -1,0 +1,15 @@
+{
+  "model": "qwen3:4b",
+  "created_at": "2026-10-25T05:44:17.3495035Z",
+  "response": "현재 게임 상태에서 퓨즈를 아직 찾지 못했고 전력 장치에 퓨즈를 장착하지 않았으므로 B구역에서 퓨즈를 찾아야 합니다.\n</think>\n\nB구역에서 퓨즈를 찾아야 해요.",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 1676423500,
+  "load_duration": 7768200,
+  "prompt_eval_count": 265,
+  "prompt_eval_cached_count": 203,
+  "prompt_eval_duration": 79324000,
+  "eval_count": 63,
+  "eval_duration": 1577528000,
+  "client_elapsed_ms": 1698.5385000007227
+}

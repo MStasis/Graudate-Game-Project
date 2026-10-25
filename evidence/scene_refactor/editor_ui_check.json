@@ -1,0 +1,14 @@
+{
+  "checks": {
+    "inspector_speed_saved": true,
+    "dragged_position_saved": true
+  },
+  "temporary_test_values": {
+    "move_speed": 240,
+    "position": [
+      190,
+      350
+    ]
+  },
+  "restored_after_check": true
+}

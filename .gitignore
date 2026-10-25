@@ -1,0 +1,13 @@
+runtime/*
+!runtime/tools_manifest.json
+game/.godot/
+build/
+*.tmp
+native/windows_ime/generated/
+native/windows_ime/build/
+evidence/ollama_stdout.log
+evidence/ollama_stderr.log
+.env
+.env.*
+!.env.example
+

@@ -1,0 +1,195 @@
+{
+  "model": "qwen2.5:1.5b",
+  "run_id": 12740,
+  "latest_run": [
+    {
+      "elapsed_ms": 366.678,
+      "first_text_ms": 66.754,
+      "frames_while_generating": 22,
+      "max_frame_ms": 17.002,
+      "metrics": {
+        "created_at": "2026-10-25T05:51:57.9311864Z",
+        "done": true,
+        "done_reason": "stop",
+        "eval_count": 23.0,
+        "eval_duration": 80507000.0,
+        "load_duration": 7352400.0,
+        "model": "qwen2.5:1.5b",
+        "prompt_eval_cached_count": 224.0,
+        "prompt_eval_count": 272.0,
+        "prompt_eval_duration": 13804000.0,
+        "response": "",
+        "total_duration": 104996700.0
+      },
+      "model": "qwen2.5:1.5b",
+      "options": {
+        "num_ctx": 2048.0,
+        "num_predict": 192.0,
+        "seed": 42.0,
+        "temperature": 0.3
+      },
+      "pilot_expected_word_check": true,
+      "prompt_mode": "instruction_dialogue_v1",
+      "quality_review": "not_automated",
+      "question": "지금 무엇을 해야 해?",
+      "response": "먼저 퓨즈를 찾아야 합니다. 퓨즈는 B구역에 있습니다.",
+      "run_id": 12740,
+      "schema_version": 2,
+      "source": "godot_live_stream",
+      "state": {
+        "escaped": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "power_restored": false
+      },
+      "success": true,
+      "thinking_character_count": 0,
+      "timestamp_utc": "2026-10-25 05:51:58Z"
+    },
+    {
+      "elapsed_ms": 599.969,
+      "first_text_ms": 66.725,
+      "frames_while_generating": 36,
+      "max_frame_ms": 16.7,
+      "metrics": {
+        "created_at": "2026-10-25T05:52:02.328279Z",
+        "done": true,
+        "done_reason": "stop",
+        "eval_count": 38.0,
+        "eval_duration": 128988000.0,
+        "load_duration": 7729400.0,
+        "model": "qwen2.5:1.5b",
+        "prompt_eval_cached_count": 224.0,
+        "prompt_eval_count": 272.0,
+        "prompt_eval_duration": 11902000.0,
+        "response": "",
+        "total_duration": 151678900.0
+      },
+      "model": "qwen2.5:1.5b",
+      "options": {
+        "num_ctx": 2048.0,
+        "num_predict": 192.0,
+        "seed": 42.0,
+        "temperature": 0.3
+      },
+      "pilot_expected_word_check": true,
+      "prompt_mode": "instruction_dialogue_v1",
+      "quality_review": "not_automated",
+      "question": "지금 무엇을 해야 해?",
+      "response": "먼저 퓨즈를 장착해 전력 장치에 퓨즈를 달려야 합니다. 전력이 정지되어 있음을 확인하세요.",
+      "run_id": 12740,
+      "schema_version": 2,
+      "source": "godot_live_stream",
+      "state": {
+        "escaped": false,
+        "fuse_collected": true,
+        "fuse_in_inventory": true,
+        "power_restored": false
+      },
+      "success": true,
+      "thinking_character_count": 0,
+      "timestamp_utc": "2026-10-25 05:52:02Z"
+    },
+    {
+      "elapsed_ms": 450.008,
+      "first_text_ms": 66.744,
+      "frames_while_generating": 27,
+      "max_frame_ms": 16.73,
+      "metrics": {
+        "created_at": "2026-10-25T05:52:06.9149137Z",
+        "done": true,
+        "done_reason": "stop",
+        "eval_count": 29.0,
+        "eval_duration": 99451000.0,
+        "load_duration": 7012600.0,
+        "model": "qwen2.5:1.5b",
+        "prompt_eval_cached_count": 230.0,
+        "prompt_eval_count": 277.0,
+        "prompt_eval_duration": 12141000.0,
+        "response": "",
+        "total_duration": 122054700.0
+      },
+      "model": "qwen2.5:1.5b",
+      "options": {
+        "num_ctx": 2048.0,
+        "num_predict": 192.0,
+        "seed": 42.0,
+        "temperature": 0.3
+      },
+      "pilot_expected_word_check": true,
+      "prompt_mode": "instruction_dialogue_v1",
+      "quality_review": "not_automated",
+      "question": "지금 무엇을 해야 해?",
+      "response": "현재 퓨즈를 사용하고 전력이 복구되었으므로, 출구로 나가보세요.",
+      "run_id": 12740,
+      "schema_version": 2,
+      "source": "godot_live_stream",
+      "state": {
+        "escaped": false,
+        "fuse_collected": true,
+        "fuse_in_inventory": false,
+        "power_restored": true
+      },
+      "success": true,
+      "thinking_character_count": 0,
+      "timestamp_utc": "2026-10-25 05:52:07Z"
+    }
+  ],
+  "all_current_model_count": 6,
+  "cold_first_request": {
+    "elapsed_ms": 16049.341,
+    "first_text_ms": 15682.748,
+    "frames_while_generating": 963,
+    "max_frame_ms": 17.201,
+    "metrics": {
+      "created_at": "2026-10-25T05:50:16.8499253Z",
+      "done": true,
+      "done_reason": "stop",
+      "eval_count": 23.0,
+      "eval_duration": 351824000.0,
+      "load_duration": 8365752600.0,
+      "model": "qwen2.5:1.5b",
+      "prompt_eval_cached_count": 0.0,
+      "prompt_eval_count": 272.0,
+      "prompt_eval_duration": 7263030000.0,
+      "response": "",
+      "total_duration": 15984518100.0
+    },
+    "model": "qwen2.5:1.5b",
+    "options": {
+      "num_ctx": 2048.0,
+      "num_predict": 192.0,
+      "seed": 42.0,
+      "temperature": 0.3
+    },
+    "pilot_expected_word_check": true,
+    "prompt_mode": "instruction_dialogue_v1",
+    "quality_review": "not_automated",
+    "question": "지금 무엇을 해야 해?",
+    "response": "먼저 퓨즈를 찾아야 합니다. 퓨즈는 B구역에 있습니다.",
+    "run_id": 32896,
+    "schema_version": 2,
+    "source": "godot_live_stream",
+    "state": {
+      "escaped": false,
+      "fuse_collected": false,
+      "fuse_in_inventory": false,
+      "power_restored": false
+    },
+    "success": true,
+    "thinking_character_count": 0,
+    "timestamp_utc": "2026-10-25 05:50:16Z"
+  },
+  "limitations": [
+    "Only three fixed states per run",
+    "Warm prompt cache reused",
+    "No cloud comparison yet",
+    "No human keyboard play test yet",
+    "Korean phrasing still needs improvement"
+  ],
+  "source_sha256": {
+    "game/main.gd": "c22ca889b4c54ce414d403fd7d4331409749b63390d4d8b7ea6552951dd24f2d",
+    "game/world.gd": "cb14e46eb387d9c9f71da9c844549ac0fd88c0c7273f3dc01ffdd38391d72536",
+    "game/npc_config.json": "22361404b7eff76388e42053ff36de920d44727827751906b8e6b48b6b9b3e58"
+  }
+}

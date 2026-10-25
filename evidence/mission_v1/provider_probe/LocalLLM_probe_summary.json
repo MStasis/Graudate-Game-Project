@@ -1,0 +1,48 @@
+{
+  "benchmark_complete": false,
+  "jev_live_calls": 0,
+  "passed_transport_for_all_cases": false,
+  "phase": "fixed_snapshot_live_probe",
+  "provider": "LocalLLM",
+  "results": [
+    {
+      "case_id": "low_health",
+      "expected_actions": [
+        "heal"
+      ],
+      "initial_reference_match": false,
+      "request_observed": false
+    },
+    {
+      "case_id": "empty_ammo",
+      "expected_actions": [
+        "resupply"
+      ],
+      "initial_reference_match": false,
+      "request_observed": false
+    },
+    {
+      "case_id": "combat_cover",
+      "expected_actions": [
+        "deploy_cover"
+      ],
+      "initial_reference_match": false,
+      "request_observed": false
+    },
+    {
+      "case_id": "mission_question",
+      "expected_actions": [],
+      "request_observed": false
+    },
+    {
+      "case_id": "friend_relationship",
+      "expected_actions": [],
+      "request_observed": false
+    },
+    {
+      "case_id": "everyday_chat",
+      "expected_actions": [],
+      "request_observed": false
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "date": "2026-10-25",
+  "scenario": "lab_roundtrip_v1",
+  "functional_checks": 50,
+  "functional_passed": true,
+  "rendered_roundtrip_passed": true,
+  "live_local_checks": 5,
+  "live_local_passed": true,
+  "live_local_display": "Windows",
+  "live_local_source": "live_integration_6112.json",
+  "model": "qwen3:4b",
+  "prompt_version": "companion_v1.4",
+  "jev_live_calls": 0,
+  "benchmark_complete": false,
+  "human_playtest": false,
+  "known_gaps": [
+    "Jev real authentication and inference",
+    "Korean dialogue consistency and naturalness",
+    "Final pixel art and animation",
+    "CPU GPU RAM VRAM sampling",
+    "Controlled comparison corpus and repeated experiments",
+    "Standalone export and another PC validation"
+  ],
+  "legacy_tests_preserved": true
+}

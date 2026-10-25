@@ -1,0 +1,10 @@
+{
+  "attached": true,
+  "backend": "windows_native_commit_bridge_v1",
+  "ime_result_events": 15,
+  "inserted_characters": 20,
+  "phase": "closing",
+  "run_id": 30440,
+  "screen_automation_used": false,
+  "suppressed_duplicates": 0
+}

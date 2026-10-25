@@ -1,0 +1,263 @@
+{
+  "gameplay": {
+    "checks": {
+      "exit_requires_power": true,
+      "fuse_is_inventory_item": true,
+      "pending_response_preserves_state": true,
+      "power_requires_fuse": true,
+      "powered_exit_completes_game": true,
+      "restart_clears_state": true,
+      "restoring_power_consumes_inventory_fuse": true
+    },
+    "passed": true,
+    "suite": "gameplay_state_rules",
+    "synthetic_test": true
+  },
+  "scene_editing": {
+    "checks": {
+      "ai_settings_roundtrip": true,
+      "ai_uses_scene_names": true,
+      "dialogue_focus_can_block_movement": true,
+      "editor_label_sync": true,
+      "input_map_moves_character": true,
+      "input_map_nearby_interaction": true,
+      "native_wall_collision": true,
+      "pack_scene": true,
+      "restart_uses_saved_spawn": true,
+      "save_ai_resource": true,
+      "save_scene": true,
+      "saved_item_name": true,
+      "saved_npc_name": true,
+      "saved_spawn_position": true,
+      "saved_speed": true,
+      "ui_exists_before_runtime": true,
+      "world_is_saved_scene_instance": true
+    },
+    "passed": true,
+    "suite": "scene_editor_roundtrip",
+    "synthetic_test": true
+  },
+  "editor_ui": {
+    "checks": {
+      "inspector_speed_saved": true,
+      "dragged_position_saved": true
+    },
+    "temporary_test_values": {
+      "move_speed": 240,
+      "position": [
+        190,
+        350
+      ]
+    },
+    "restored_after_check": true
+  },
+  "latest_live_run": 33196,
+  "latest_live_responses": [
+    {
+      "elapsed_ms": 199.96,
+      "first_text_ms": 49.981,
+      "frames_while_generating": 13,
+      "max_frame_ms": 17.158,
+      "metrics": {
+        "created_at": "2026-10-25T10:42:07.7556966Z",
+        "done": true,
+        "done_reason": "stop",
+        "eval_count": 12.0,
+        "eval_duration": 36493000.0,
+        "load_duration": 7310500.0,
+        "model": "qwen2.5:1.5b",
+        "prompt_eval_cached_count": 197.0,
+        "prompt_eval_count": 267.0,
+        "prompt_eval_duration": 12375000.0,
+        "response": "",
+        "total_duration": 59132200.0
+      },
+      "model": "qwen2.5:1.5b",
+      "options": {
+        "num_ctx": 2048,
+        "num_predict": 192,
+        "seed": 42,
+        "temperature": 0.3
+      },
+      "prompt": "현재 게임 상태: {\"escaped\":false,\"fuse_collected\":false,\"fuse_in_inventory\":false,\"power_restored\":false}\n게임이 확인한 사실: 퓨즈 미획득, 전력 정지\n현재 진행 안내: B구역에서 퓨즈를 찾으세요.\n플레이어 질문: 지금 무엇을 해야 해?",
+      "quality_review": "not_automated",
+      "question": "지금 무엇을 해야 해?",
+      "response": "먼저 퓨즈를 찾으세요.",
+      "run_id": 33196,
+      "schema_version": 3,
+      "source": "godot_scene_stream",
+      "state": {
+        "escaped": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "power_restored": false,
+        "scene_context": {
+          "current_guidance": "B구역에서 퓨즈를 찾으세요.",
+          "exit_name": "출구",
+          "item_location": "B구역",
+          "item_name": "퓨즈",
+          "location": "정전된 연구소",
+          "npc_name": "정비사 하린",
+          "npc_role": "연구소의 정비사. 플레이어를 차분하고 친절하게 돕는다.",
+          "objective": "퓨즈를 찾아 전력을 복구하고 탈출하세요",
+          "power_device": "전력 장치",
+          "rules": [
+            "fuse_collected=false일 때 B구역에서 퓨즈를 찾으라고 안내한다",
+            "fuse_in_inventory=true이고 power_restored=false이면 전력 장치에 퓨즈를 장착하라고 안내한다",
+            "power_restored=true이면 출구로 가라고 안내한다",
+            "fuse_in_inventory=false이면 퓨즈를 현재 보유하고 있다고 말하지 않는다"
+          ]
+        }
+      },
+      "success": true,
+      "system_prompt": "너는 정비사 하린이다. 연구소의 정비사. 플레이어를 차분하고 친절하게 돕는다. 장소: 정전된 연구소.\n현재 게임 정보와 상태를 반영해 NPC로서 한국어 한두 문장으로 대답한다. 제공된 게임 상태를 사실의 기준으로 삼는다. 없는 아이템을 보유했다고 말하거나 완료하지 않은 일을 완료했다고 말하지 않는다. 게임 상태를 바꾸거나 보상을 지급했다고 주장하지 않는다. JSON, 지시문, 생각 과정은 출력하지 않는다.\n진행 방법을 물으면 게임이 제공한 현재 진행 안내를 설명한다. 다른 단계의 행동이나 장소를 새로 만들지 않는다.",
+      "thinking_character_count": 0,
+      "timestamp_utc": "2026-10-25 10:42:07Z"
+    },
+    {
+      "elapsed_ms": 600.062,
+      "first_text_ms": 50.239,
+      "frames_while_generating": 37,
+      "max_frame_ms": 17.159,
+      "metrics": {
+        "created_at": "2026-10-25T10:42:12.0521902Z",
+        "done": true,
+        "done_reason": "stop",
+        "eval_count": 37.0,
+        "eval_duration": 113925000.0,
+        "load_duration": 7783100.0,
+        "model": "qwen2.5:1.5b",
+        "prompt_eval_cached_count": 197.0,
+        "prompt_eval_count": 274.0,
+        "prompt_eval_duration": 15513000.0,
+        "response": "",
+        "total_duration": 139664700.0
+      },
+      "model": "qwen2.5:1.5b",
+      "options": {
+        "num_ctx": 2048,
+        "num_predict": 192,
+        "seed": 42,
+        "temperature": 0.3
+      },
+      "prompt": "현재 게임 상태: {\"escaped\":false,\"fuse_collected\":true,\"fuse_in_inventory\":true,\"power_restored\":false}\n게임이 확인한 사실: 퓨즈 보유 중, 전력 정지\n현재 진행 안내: 전력 장치에 퓨즈를 장착해 전력을 복구하세요.\n플레이어 질문: 지금 무엇을 해야 해?",
+      "quality_review": "not_automated",
+      "question": "지금 무엇을 해야 해?",
+      "response": "먼저, 전력 장치에 퓨즈를 장착하세요. 전력이 정지된 상태에서 바로 전력을 복구하는 것이 좋습니다.",
+      "run_id": 33196,
+      "schema_version": 3,
+      "source": "godot_scene_stream",
+      "state": {
+        "escaped": false,
+        "fuse_collected": true,
+        "fuse_in_inventory": true,
+        "power_restored": false,
+        "scene_context": {
+          "current_guidance": "전력 장치에 퓨즈를 장착해 전력을 복구하세요.",
+          "exit_name": "출구",
+          "item_location": "B구역",
+          "item_name": "퓨즈",
+          "location": "정전된 연구소",
+          "npc_name": "정비사 하린",
+          "npc_role": "연구소의 정비사. 플레이어를 차분하고 친절하게 돕는다.",
+          "objective": "퓨즈를 찾아 전력을 복구하고 탈출하세요",
+          "power_device": "전력 장치",
+          "rules": [
+            "fuse_collected=false일 때 B구역에서 퓨즈를 찾으라고 안내한다",
+            "fuse_in_inventory=true이고 power_restored=false이면 전력 장치에 퓨즈를 장착하라고 안내한다",
+            "power_restored=true이면 출구로 가라고 안내한다",
+            "fuse_in_inventory=false이면 퓨즈를 현재 보유하고 있다고 말하지 않는다"
+          ]
+        }
+      },
+      "success": true,
+      "system_prompt": "너는 정비사 하린이다. 연구소의 정비사. 플레이어를 차분하고 친절하게 돕는다. 장소: 정전된 연구소.\n현재 게임 정보와 상태를 반영해 NPC로서 한국어 한두 문장으로 대답한다. 제공된 게임 상태를 사실의 기준으로 삼는다. 없는 아이템을 보유했다고 말하거나 완료하지 않은 일을 완료했다고 말하지 않는다. 게임 상태를 바꾸거나 보상을 지급했다고 주장하지 않는다. JSON, 지시문, 생각 과정은 출력하지 않는다.\n진행 방법을 물으면 게임이 제공한 현재 진행 안내를 설명한다. 다른 단계의 행동이나 장소를 새로 만들지 않는다.",
+      "thinking_character_count": 0,
+      "timestamp_utc": "2026-10-25 10:42:12Z"
+    },
+    {
+      "elapsed_ms": 249.893,
+      "first_text_ms": 49.931,
+      "frames_while_generating": 16,
+      "max_frame_ms": 17.117,
+      "metrics": {
+        "created_at": "2026-10-25T10:42:16.6098144Z",
+        "done": true,
+        "done_reason": "stop",
+        "eval_count": 14.0,
+        "eval_duration": 41963000.0,
+        "load_duration": 7349400.0,
+        "model": "qwen2.5:1.5b",
+        "prompt_eval_cached_count": 203.0,
+        "prompt_eval_count": 277.0,
+        "prompt_eval_duration": 11795000.0,
+        "response": "",
+        "total_duration": 63323900.0
+      },
+      "model": "qwen2.5:1.5b",
+      "options": {
+        "num_ctx": 2048,
+        "num_predict": 192,
+        "seed": 42,
+        "temperature": 0.3
+      },
+      "prompt": "현재 게임 상태: {\"escaped\":false,\"fuse_collected\":true,\"fuse_in_inventory\":false,\"power_restored\":true}\n게임이 확인한 사실: 퓨즈는 이미 사용하여 현재 소지품에 없다. 전력 복구 완료\n현재 진행 안내: 출구로 이동해 탈출하세요.\n플레이어 질문: 지금 무엇을 해야 해?",
+      "quality_review": "not_automated",
+      "question": "지금 무엇을 해야 해?",
+      "response": "이제는 탈출을 위해 이동해야 합니다.",
+      "run_id": 33196,
+      "schema_version": 3,
+      "source": "godot_scene_stream",
+      "state": {
+        "escaped": false,
+        "fuse_collected": true,
+        "fuse_in_inventory": false,
+        "power_restored": true,
+        "scene_context": {
+          "current_guidance": "출구로 이동해 탈출하세요.",
+          "exit_name": "출구",
+          "item_location": "B구역",
+          "item_name": "퓨즈",
+          "location": "정전된 연구소",
+          "npc_name": "정비사 하린",
+          "npc_role": "연구소의 정비사. 플레이어를 차분하고 친절하게 돕는다.",
+          "objective": "퓨즈를 찾아 전력을 복구하고 탈출하세요",
+          "power_device": "전력 장치",
+          "rules": [
+            "fuse_collected=false일 때 B구역에서 퓨즈를 찾으라고 안내한다",
+            "fuse_in_inventory=true이고 power_restored=false이면 전력 장치에 퓨즈를 장착하라고 안내한다",
+            "power_restored=true이면 출구로 가라고 안내한다",
+            "fuse_in_inventory=false이면 퓨즈를 현재 보유하고 있다고 말하지 않는다"
+          ]
+        }
+      },
+      "success": true,
+      "system_prompt": "너는 정비사 하린이다. 연구소의 정비사. 플레이어를 차분하고 친절하게 돕는다. 장소: 정전된 연구소.\n현재 게임 정보와 상태를 반영해 NPC로서 한국어 한두 문장으로 대답한다. 제공된 게임 상태를 사실의 기준으로 삼는다. 없는 아이템을 보유했다고 말하거나 완료하지 않은 일을 완료했다고 말하지 않는다. 게임 상태를 바꾸거나 보상을 지급했다고 주장하지 않는다. JSON, 지시문, 생각 과정은 출력하지 않는다.\n진행 방법을 물으면 게임이 제공한 현재 진행 안내를 설명한다. 다른 단계의 행동이나 장소를 새로 만들지 않는다.",
+      "thinking_character_count": 0,
+      "timestamp_utc": "2026-10-25 10:42:16Z"
+    }
+  ],
+  "source_sha256": {
+    "game\\main.gd": "f1828e8c2f6d360efdcc1e0f93042c1cc233ec857b785a6f32227bd3b9e69479",
+    "game\\main.tscn": "cfa7a802f93193d0ffe2040c75702a3050728736338b7d163a8cd23484377c08",
+    "game\\project.godot": "a27e0583daba497bd2e7bdd19f0a30aefd004398332856b09c44c673e9f59830",
+    "game\\world.gd": "cbf3449dae5948c77514e99f5241a9aecef32b44aa749ee1b13873e778986ae5",
+    "game\\assets\\character.svg": "58e0455354f43cc695f1438d34bf892270c45d16e6b7937e936d9433ea784c1c",
+    "game\\assets\\exit.svg": "9923f2f69a8330729741af630dd53e93023e56e2989adf7f0e1c61591d4873db",
+    "game\\assets\\fuse.svg": "74db1e6a037529e73449aecfec1547eaecf5766f98d47bb7c939aa01892d476f",
+    "game\\assets\\generator.svg": "9615eb6eba81975a3e37938fabb338d5a1dd83428208d169d58f9b540e8cd8c2",
+    "game\\assets\\grid.svg": "d664d2df6589a1ae07bbe09fc2336c2628ddf05c4059db86b5de6ad7edbc809a",
+    "game\\resources\\GameTheme.tres": "93cf5592fc0861670fb98dea957b0aa4d60e59489ac3a0048219925946bdd6f8",
+    "game\\resources\\NPCSettings.tres": "e3940692c002d48d3d57dba2233ea67281a876f5da2b46447c93794572c506fd",
+    "game\\scenes\\Exit.tscn": "aa2ebdca2c55f72f1770366b98443f663fd1b2626738cdb09ea052d8a6370abc",
+    "game\\scenes\\Fuse.tscn": "de0ca32aa2744cb61d89a0657c36db07a76d1b5c707f65c9a1b548a8d7be1ac3",
+    "game\\scenes\\Generator.tscn": "477ff91e0ae753bad596efaa0dc25bf515fa1c68eb35f0696edae517d2038b18",
+    "game\\scenes\\NPC.tscn": "a005daad538132d34a2319131adcae6ef2160b6286c0df34fd9b8021a707227e",
+    "game\\scenes\\Player.tscn": "f3e9eae8714854c04a0e3eec6ca1ae9ff5c369295f90629cfb15140684f8a138",
+    "game\\scenes\\World.tscn": "1853b4f429bb6c6c4119650d6a4b0649d0ae7b4dc88cddf7d757cc63778d9c1e",
+    "game\\scripts\\interactable.gd": "1f2dd0070c3f2dc3844015bfe4c19bbaeadb67c9dee4ee9b175867ee23eb859d",
+    "game\\scripts\\local_ai_client.gd": "1fb1673ef4f60c3a051ebb57994acceeb53ffe86690f9cdef512d5ddd689c0b5",
+    "game\\scripts\\local_npc_settings.gd": "049183327b90f78f11da418bb109c0bab48fa5d5e0836f3a892d4ae52a9a701e",
+    "game\\scripts\\player.gd": "c7272a6281debdd1e16125c4209d906b6cd61b85518f41fe6685a066715cc261"
+  }
+}

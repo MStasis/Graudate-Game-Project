@@ -1,0 +1,18 @@
+{
+  "godot": {
+    "version": "4.7.2-stable",
+    "asset": "Godot_v4.7.2-stable_win64.exe.zip",
+    "url": "https://github.com/godotengine/godot/releases/download/4.7.2-stable/Godot_v4.7.2-stable_win64.exe.zip",
+    "sha256": "731980f9608d61333e5baf54a2ef17210acc7a538446c0cb9969f002aca1e953",
+    "official_digest": "sha256:731980f9608d61333e5baf54a2ef17210acc7a538446c0cb9969f002aca1e953",
+    "destination": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\runtime\\godot"
+  },
+  "ollama": {
+    "version": "v0.40.11",
+    "asset": "ollama-windows-amd64.zip",
+    "url": "https://github.com/ollama/ollama/releases/download/v0.40.11/ollama-windows-amd64.zip",
+    "sha256": "bda4a493ba8a7c24d57263cd843cd68cee84f44aed4299eeed532acad7eda12a",
+    "official_digest": "sha256:bda4a493ba8a7c24d57263cd843cd68cee84f44aed4299eeed532acad7eda12a",
+    "destination": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\runtime\\ollama"
+  }
+}

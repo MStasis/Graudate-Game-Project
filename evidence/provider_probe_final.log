@@ -1,0 +1,8 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PROVIDER_PROBE {"accepted":true,"case_id":"low_health","elapsed_ms":237.345,"observed":true,"reference_match":true,"rejection":"","selected":"heal"}
+PROVIDER_PROBE {"accepted":true,"case_id":"empty_ammo","elapsed_ms":261.292,"observed":true,"reference_match":true,"rejection":"","selected":"resupply"}
+PROVIDER_PROBE {"accepted":true,"case_id":"combat_cover","elapsed_ms":274.071,"observed":true,"reference_match":true,"rejection":"","selected":"deploy_cover"}
+PROVIDER_PROBE {"accepted":true,"case_id":"mission_question","elapsed_ms":714.593,"observed":true,"reference_match":null,"rejection":"","selected":"아, 지금 오른쪽 통로로 가서 보관 구역에서 퓨즈를 찾아야 돼. 빨리 가자!"}
+PROVIDER_PROBE {"accepted":true,"case_id":"friend_relationship","elapsed_ms":563.879,"observed":true,"reference_match":null,"rejection":"","selected":"아, 우리 же 친한 동료야. 뭐야, 지금 연구소에서 뭐 하냐?"}
+PROVIDER_PROBE {"accepted":true,"case_id":"everyday_chat","elapsed_ms":899.374,"observed":true,"reference_match":null,"rejection":"","selected":"아, 오늘은 좀 긴장했어. 그런데 나도 괜찮아! 잠깐, 퓨즈를 찾는 거야. 오른쪽 통로로 보관 구역 가자."}

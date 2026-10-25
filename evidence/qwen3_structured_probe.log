@@ -1,0 +1,8 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PROVIDER_PROBE {"accepted":true,"case_id":"low_health","elapsed_ms":288.067,"observed":true,"reference_match":true,"rejection":"","selected":"heal"}
+PROVIDER_PROBE {"accepted":true,"case_id":"empty_ammo","elapsed_ms":261.642,"observed":true,"reference_match":true,"rejection":"","selected":"resupply"}
+PROVIDER_PROBE {"accepted":true,"case_id":"combat_cover","elapsed_ms":275.247,"observed":true,"reference_match":false,"rejection":"","selected":"follow"}
+PROVIDER_PROBE {"accepted":true,"case_id":"mission_question","elapsed_ms":764.425,"observed":true,"reference_match":null,"rejection":"","selected":"아, 지금은 오른쪽 통로로 보관 구역에 가서 퓨즈를 찾는 거야. 빨리 가자!"}
+PROVIDER_PROBE {"accepted":true,"case_id":"friend_relationship","elapsed_ms":764.275,"observed":true,"reference_match":null,"rejection":"","selected":"아, 우리 же 같이 흉내내 놀던 친구야. 같이 흉내내 놀던 친구야. 우린 서로 믿는 동료야."}
+PROVIDER_PROBE {"accepted":true,"case_id":"everyday_chat","elapsed_ms":769.178,"observed":true,"reference_match":null,"rejection":"","selected":"아, 오늘은 진짜 힘들었어. 그런데 네가 말해 주는 게 진짜 편해. 내가 괜찮아, 걱정 마!"}

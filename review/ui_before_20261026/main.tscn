@@ -1,0 +1,138 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://main.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/World.tscn" id="2"]
+[ext_resource type="Theme" path="res://resources/GameTheme.tres" id="3"]
+[ext_resource type="Script" path="res://scripts/npc_brain.gd" id="4"]
+[ext_resource type="Script" path="res://scripts/local_ai_client.gd" id="5"]
+[ext_resource type="Resource" path="res://resources/NPCSettings.tres" id="6"]
+[ext_resource type="Resource" path="res://resources/ExperimentSettings.tres" id="7"]
+[ext_resource type="Script" path="res://scripts/chat_input.gd" id="8"]
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("3")
+script = ExtResource("1")
+[node name="World" parent="." instance=ExtResource("2")]
+unique_name_in_owner = true
+position = Vector2(40, 50)
+[node name="Title" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = 24.0
+offset_top = 8.0
+offset_right = 275.0
+offset_bottom = 38.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 22
+text = "정전된 연구소 · 동료 NPC"
+[node name="StateSummary" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = 300.0
+offset_top = 16.0
+offset_right = 855.0
+offset_bottom = 44.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 16
+text = "체력 100 / 탄약 6"
+[node name="Provider" type="OptionButton" parent="."]
+unique_name_in_owner = true
+offset_left = 870.0
+offset_top = 10.0
+offset_right = 1095.0
+offset_bottom = 44.0
+item_count = 3
+popup/item_0/text = "규칙 기반"
+popup/item_0/id = 0
+popup/item_1/text = "로컬 LLM"
+popup/item_1/id = 1
+popup/item_2/text = "Jev"
+popup/item_2/id = 2
+[node name="RestartButton" type="Button" parent="."]
+unique_name_in_owner = true
+offset_left = 1105.0
+offset_top = 10.0
+offset_right = 1254.0
+offset_bottom = 44.0
+text = "새 회차 시작"
+[node name="Callout" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = 40.0
+offset_top = 592.0
+offset_right = 1240.0
+offset_bottom = 619.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.55, 0.93, 0.84, 1)
+theme_override_font_sizes/font_size = 18
+text = "하린과 함께 보관 구역을 조사하세요."
+[node name="Answer" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+offset_left = 40.0
+offset_top = 624.0
+offset_right = 1240.0
+offset_bottom = 698.0
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 20
+text = "하린: 오른쪽 통로가 보관 구역이야. 내가 같이 갈게.\n임무에 관해 묻거나 편하게 말을 걸어 봐."
+scroll_active = true
+[node name="Question" type="TextEdit" parent="."]
+unique_name_in_owner = true
+offset_left = 40.0
+offset_top = 708.0
+offset_right = 1085.0
+offset_bottom = 750.0
+script = ExtResource("8")
+text = ""
+placeholder_text = "하린에게 질문하기 · 임무 / 지원 / 일상 대화"
+caret_blink = true
+context_menu_enabled = true
+message_limit = 300
+[node name="SendButton" type="Button" parent="."]
+unique_name_in_owner = true
+focus_mode = 0
+offset_left = 1100.0
+offset_top = 708.0
+offset_right = 1240.0
+offset_bottom = 750.0
+text = "말 걸기"
+[node name="Status" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = 40.0
+offset_top = 760.0
+offset_right = 1240.0
+offset_bottom = 790.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 15
+text = "방식 변경 시 같은 조건으로 새 회차가 시작됩니다. F3 실험 정보 · F12 화면 저장"
+[node name="DebugPanel" type="Panel" parent="."]
+unique_name_in_owner = true
+visible = false
+offset_left = 670.0
+offset_top = 75.0
+offset_right = 1220.0
+offset_bottom = 205.0
+z_index = 60
+[node name="Metrics" type="Label" parent="DebugPanel"]
+unique_name_in_owner = true
+offset_left = 14.0
+offset_top = 12.0
+offset_right = 530.0
+offset_bottom = 120.0
+theme_override_font_sizes/font_size = 16
+autowrap_mode = 2
+text = "실험 정보 · 아직 요청 없음"
+[node name="NPCBrain" type="Node" parent="."]
+script = ExtResource("4")
+settings = ExtResource("7")
+[node name="LocalDialogue" type="Node" parent="NPCBrain"]
+script = ExtResource("5")
+settings = ExtResource("6")
+[node name="HealthRequest" type="HTTPRequest" parent="NPCBrain/LocalDialogue"]
+[node name="LocalDecision" type="Node" parent="NPCBrain"]
+script = ExtResource("5")
+settings = ExtResource("6")
+[node name="HealthRequest" type="HTTPRequest" parent="NPCBrain/LocalDecision"]
+[node name="JevRequest" type="HTTPRequest" parent="NPCBrain"]
