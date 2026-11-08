@@ -1,0 +1,172 @@
+{
+  "generated_at": "2026-11-07T20:02:14.3041714+09:00",
+  "engine": "4.7.2.stable.official.ed1daf0bf",
+  "project": "game/project.godot",
+  "execution_root": "runtime/dialogue_notices_20261107/check",
+  "isolated_appdata": true,
+  "computer_use_used": false,
+  "screen_capture_api_used": false,
+  "visible_windows_started": false,
+  "headless": {
+    "suites": [
+      {
+        "file": "mission_v1/mission_test.json",
+        "passed": true,
+        "check_count": 50,
+        "result_modified_at": "2026-11-07T19:57:55.0632510+09:00"
+      },
+      {
+        "file": "chat_input_fix/chat_input_test.json",
+        "passed": true,
+        "check_count": 27,
+        "result_modified_at": "2026-11-07T19:57:56.3794063+09:00"
+      },
+      {
+        "file": "native_ime_fix/native_load_test.json",
+        "passed": true,
+        "check_count": 6,
+        "result_modified_at": "2026-11-07T19:57:56.6470952+09:00"
+      },
+      {
+        "file": "native_ime_fix/chat_native_integration_test.json",
+        "passed": true,
+        "check_count": 11,
+        "result_modified_at": "2026-11-07T19:57:56.9051790+09:00"
+      },
+      {
+        "file": "ui_redesign/ui_layout_test.json",
+        "passed": true,
+        "check_count": 35,
+        "result_modified_at": "2026-11-07T19:57:58.1488753+09:00"
+      },
+      {
+        "file": "noncombat_ui/noncombat_dialogue_test.json",
+        "passed": true,
+        "check_count": 42,
+        "result_modified_at": "2026-11-07T19:57:59.2870901+09:00"
+      },
+      {
+        "file": "interface_update/interface_update_test.json",
+        "passed": true,
+        "check_count": 80,
+        "result_modified_at": "2026-11-07T19:58:01.9715392+09:00"
+      },
+      {
+        "file": "mission_mechanics/test.json",
+        "passed": true,
+        "check_count": 54,
+        "result_modified_at": "2026-11-07T19:58:13.0040200+09:00"
+      },
+      {
+        "file": "input_aim_collision/test.json",
+        "passed": true,
+        "check_count": 34,
+        "result_modified_at": "2026-11-07T19:58:25.6319731+09:00"
+      },
+      {
+        "file": "dialogue_notices/test.json",
+        "passed": true,
+        "check_count": 34,
+        "result_modified_at": "2026-11-07T19:58:26.6668539+09:00"
+      }
+    ],
+    "check_count": 373.0,
+    "passed": true
+  },
+  "gpu": {
+    "suites": [
+      {
+        "file": "interface_update/interface_update_render_test.json",
+        "passed": true,
+        "check_count": 81,
+        "result_modified_at": "2026-11-07T19:53:17.1441284+09:00"
+      },
+      {
+        "file": "mission_mechanics/render.json",
+        "passed": true,
+        "check_count": 56,
+        "result_modified_at": "2026-11-07T19:53:28.7432699+09:00"
+      },
+      {
+        "file": "input_aim_collision/render.json",
+        "passed": true,
+        "check_count": 35,
+        "result_modified_at": "2026-11-07T19:53:41.9441890+09:00"
+      },
+      {
+        "file": "dialogue_notices/render.json",
+        "passed": true,
+        "check_count": 35,
+        "result_modified_at": "2026-11-07T19:53:43.8213461+09:00"
+      }
+    ],
+    "audio_driver": "Dummy",
+    "mission_completed": true,
+    "pngs_visually_inspected": [
+      "dialogue_notices/01_system_notice_right.png",
+      "dialogue_notices/02_notice_fading.png",
+      "dialogue_notices/03_small_canvas.png",
+      "dialogue_notices/04_panel_channels.png"
+    ],
+    "passed": true
+  },
+  "actual_model": {
+    "formal_comparison_benchmark": false,
+    "model": "qwen3:4b",
+    "check_count": 43.0,
+    "new_conversation_case_count": 10,
+    "raw_dialogue_quality_limit": "Some follow-up questions and repeated expressions remain. Development cases were used during prompt iteration; passing lexical checks is not a general naturalness evaluation.",
+    "prompt_version": "companion_v1.12_conversation",
+    "results": [
+      {
+        "file": "mission_v1\\local_integration\\live_integration_24200.json",
+        "passed": true,
+        "check_count": 5,
+        "result_modified_at": "2026-11-07T19:58:29.1832823+09:00"
+      },
+      {
+        "file": "interface_update\\live_save_load_16244.json",
+        "passed": true,
+        "check_count": 7,
+        "result_modified_at": "2026-11-07T19:58:30.6462975+09:00"
+      },
+      {
+        "file": "mission_mechanics\\local_ai_12248.json",
+        "passed": true,
+        "check_count": 11,
+        "result_modified_at": "2026-11-07T19:58:36.9594544+09:00"
+      },
+      {
+        "file": "dialogue_notices\\local_dialogue_11608.json",
+        "passed": true,
+        "check_count": 20,
+        "result_modified_at": "2026-11-07T19:58:43.2941240+09:00"
+      }
+    ]
+  },
+  "final_exit_codes": {
+    "original_project_import": 0,
+    "render_regression": 0,
+    "local_ai_regression": 0
+  },
+  "commands": [
+    ".\\scripts\\verify_mission.ps1 -Render",
+    ".\\scripts\\verify_mission.ps1 -LocalAI",
+    "Godot --headless --editor --path <original game> --import --quit"
+  ],
+  "validation_sequence": "Render passed with the same UI code. The final policy direction-question recognition and shared local-response dispatch indentation were then fixed, and the entire LocalAI mode (including all headless suites) passed again.",
+  "preservation_audit": "preservation_audit.json",
+  "concurrent_user_logs": "Run 6760 appended to existing original logs; their start-of-task prefixes match exactly. Its updated IME bridge closing record is retained. No user evidence was restored or overwritten.",
+  "development_diagnostics": "Initial model failures, semantic-check refinements, the dispatch regression, and UI-overlay pixel fixture failure are preserved separately. Raw session/event logs contain mixed development and final runs and are not benchmark data.",
+  "unverified": [
+    "human full mission play",
+    "actual Microsoft IME composition",
+    "audio listening",
+    "two-PC LAN"
+  ],
+  "not_changed": [
+    "combat decision policy and common execution rules",
+    "engine version",
+    "existing user saves"
+  ]
+}

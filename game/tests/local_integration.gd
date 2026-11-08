@@ -17,6 +17,7 @@ func run() -> void:
  brain.auto_enabled = false
  brain.measured.connect(func(record): measurements.append(record))
  brain.new_trial(1)
+ world.flashlight_owned = true # Fixture: 기존 회귀의 전투/입력 조건. 지급 흐름은 mission_mechanics_test에서 별도 검증.
  world.apply_interaction("storage_gate")
  world.player_hp = 40
  world.ammo = 20
@@ -37,6 +38,7 @@ func run() -> void:
  if DisplayServer.get_name() != "headless": await app.capture_screen("02_llm_resupply")
  # 실제로 요청한 뒤 맵을 바꾸어 이전 판단이 실행되지 않는지 검사한다.
  brain.new_trial(1)
+ world.flashlight_owned = true # Fixture: 기존 회귀의 전투/입력 조건. 지급 흐름은 mission_mechanics_test에서 별도 검증.
  world.apply_interaction("storage_gate")
  world.player_hp = 40
  world.ammo = 20

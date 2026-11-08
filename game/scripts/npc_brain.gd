@@ -34,6 +34,8 @@ func setup(mission: DemoWorld, directory: String) -> void:
  project_fingerprint = (sources + FileAccess.get_file_as_string("res://scripts/chat_input.gd") + FileAccess.get_file_as_string("res://resources/GameTheme.tres")).sha256_text()
  project_fingerprint = (project_fingerprint + FileAccess.get_file_as_string("res://scripts/hud_frame.gd") + FileAccess.get_sha256("res://assets/ui/harin_canva.png")).sha256_text()
  project_fingerprint = (project_fingerprint + FileAccess.get_sha256("res://native/windows_ime/windows_ime.dll")).sha256_text()
+ for path in ["res://scripts/companion_motion.gd", "res://scripts/cooperative_locker.gd", "res://scenes/CooperativeLocker.tscn", "res://scripts/rounded_obstacle.gd", "res://scripts/harin_dialogue.gd", "res://scripts/system_notifications.gd"]:
+  project_fingerprint = (project_fingerprint + FileAccess.get_file_as_string(path)).sha256_text()
  log_dir = directory
  provider = settings.provider
  for client in [local_dialogue, local_decision]:
@@ -58,7 +60,7 @@ func new_trial(mode: int = -1) -> void:
  clock = 0.0
  jev_disabled = ""
  world.reset_world()
- _log({"event": "trial_started", "config": world.game_state().scenario_config, "seed": settings.scenario_seed, "decision_interval": settings.decision_interval, "max_decision_age": settings.max_decision_age, "local_model": local_dialogue.settings.model, "local_options": local_dialogue.settings.generation_options(), "jev_configured_model": settings.jev_model, "dialogue_method": "free_generation" if provider == 1 else "intent_template"})
+ _log({"event": "trial_started", "config": world.game_state().scenario_config, "seed": settings.scenario_seed, "decision_interval": settings.decision_interval, "max_decision_age": settings.max_decision_age, "local_model": local_dialogue.settings.model, "local_options": local_dialogue.settings.generation_options(), "jev_configured_model": settings.jev_model, "dialogue_method": "state_grounded_generation" if provider == 1 else "intent_template"})
  status_changed.emit("새 회차 · " + PROVIDERS[provider])
 
 func _process(delta: float) -> void:
@@ -76,7 +78,7 @@ func _process(delta: float) -> void:
  clock += delta
  if clock < settings.decision_interval or not world.active_action.is_empty(): return
  clock = 0.0
- if (world.map_id == "storage" and world.enemies_remaining() > 0) or world.player_hp <= 55 or world.ammo <= 4:
+ if (world.map_id == "storage" and world.enemies_remaining() > 0) or world.player_hp <= 55 or world.ammo <= 4 or world.locker.needs_assistance():
   request_decision()
 
 func request_decision() -> bool:
@@ -102,7 +104,7 @@ func _request(kind: String, question: String) -> bool:
  frame_count = 0
  max_frame_ms = 0.0
  if provider == 0:
-  var result := NPCPolicy.rule_action(snapshot) if kind == "decision" else NPCPolicy.rule_intent(question)
+  var result := NPCPolicy.rule_action(NPCPolicy.model_state(snapshot)) if kind == "decision" else NPCPolicy.rule_intent(question)
   _resolve(result, {"actual_model": "rules_v1", "dialogue_method": "intent_template"})
  elif provider == 1:
   var system := ""
@@ -115,11 +117,10 @@ func _request(kind: String, question: String) -> bool:
    prompt = JSON.stringify({"game": NPCPolicy.model_state(snapshot), "actions": choices})
    schema = {"type": "object", "properties": {"action": {"type": "string", "enum": allowed}}, "required": ["action"], "additionalProperties": false}
   else:
-   system = "너는 %s이다. %s\n%s" % [world.npc.display_name, world.npc.description, local_dialogue.settings.system_prompt]
-   prompt = "하린과 플레이어의 관계: " + str(snapshot.relationship) + "\n현재 장소: " + str(snapshot.location) + "\n현재 임무 안내: " + str(snapshot.current_guidance) + "\n공유한 사건: " + JSON.stringify(snapshot.recent_shared_events) + "\n상태: 체력 %d/%d, 탄약 %d, 남은 치료 키트 %d개, 보급품 %d개.\n최근 대화: %s\n플레이어 질문: %s\n질문에 직접 답해. 임무 질문이면 현재 임무 안내를 정확히 설명해. 일상 질문이면 질문 내용에 맞게 친한 동료의 반말로 대답해." % [snapshot.player_hp, snapshot.max_hp, snapshot.ammo, snapshot.medkits, snapshot.supply_packs, JSON.stringify(history), question]
-   system += "\n생각 과정 없이 한국어 대사만 dialogue 필드에 넣은 JSON 객체 하나를 출력한다."
-   prompt += "\n출력 형식: {\"dialogue\": \"하린이 지금 실제로 할 한국어 대사\"}"
-   schema = {"type": "object", "properties": {"dialogue": {"type": "string", "maxLength": 160}}, "required": ["dialogue"], "additionalProperties": false}
+   var dialogue := HarinDialogue.build(snapshot, question, history, world.npc.description, local_dialogue.settings.system_prompt)
+   system = dialogue.system
+   prompt = dialogue.prompt
+   schema = dialogue.schema
   var client := local_decision if kind == "decision" else local_dialogue
   var request_state := snapshot.duplicate(true)
   request_state["_channel"] = kind
@@ -157,7 +158,7 @@ func _local_completed(record: Dictionary) -> void:
    _failed("로컬 대사 JSON 해석 실패")
    return
   selected = parsed.dialogue
- _resolve(selected, {"actual_model": record.metrics.get("model", local_dialogue.settings.model), "raw_response": record.response, "first_transport_text_ms": record.first_text_ms, "server_metrics": record.metrics, "dialogue_method": "free_generation_structured" if pending.kind == "dialogue" else "structured_choice"})
+ _resolve(selected, {"actual_model": record.metrics.get("model", local_dialogue.settings.model), "raw_response": record.response, "first_transport_text_ms": record.first_text_ms, "server_metrics": record.metrics, "dialogue_method": "state_grounded_generation_structured" if pending.kind == "dialogue" else "structured_choice"})
 
 func _jev_completed(result: int, code: int, _headers: PackedStringArray, body: PackedByteArray) -> void:
  if pending.is_empty(): return
@@ -177,14 +178,17 @@ func _resolve(selected: String, metadata: Dictionary) -> void:
  var elapsed := (Time.get_ticks_usec() - int(job.started_usec)) / 1000.0
  var reason := ""
  if world.epoch != int(job.epoch): reason = "stale_epoch"
- if job.kind == "decision" and elapsed > settings.max_decision_age * 1000.0: reason = "stale_age"
+ var allowed_age := settings.max_decision_age
+ # 정지된 패널 과제는 8초까지 허용하되 실행 직전 유지/위치 조건을 다시 검사한다.
+ if selected == "assist_panel": allowed_age = maxf(allowed_age, minf(settings.request_timeout, 8.0))
+ if job.kind == "decision" and elapsed > allowed_age * 1000.0: reason = "stale_age"
  if (job.kind == "decision" or provider != 1) and selected not in job.allowed: reason = "invalid_candidate"
  var accepted := false
  if reason.is_empty() and job.kind == "decision":
   accepted = world.request_support(selected, {"request_id": job.request_id, "provider": PROVIDERS[provider], "trial": trial})
   if not accepted: reason = "no_longer_valid"
  elif reason.is_empty():
-  var text := selected if provider == 1 else NPCPolicy.template_response(selected, job.snapshot)
+  var text := selected if provider == 1 else NPCPolicy.template_response(selected, job.snapshot, job.question)
   if text.strip_edges().is_empty(): reason = "empty_dialogue"
   else:
    accepted = true

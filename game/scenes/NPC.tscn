@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=6 format=3]
 [ext_resource type="Script" path="res://scripts/interactable.gd" id="1"]
-[ext_resource type="Texture2D" path="res://assets/character.svg" id="2"]
+[ext_resource type="Texture2D" path="res://assets/temporary/kenney/sprites/womanGreen_gun.png" id="2"]
+[ext_resource type="Script" path="res://scripts/temporary_actor_aim.gd" id="4"]
 [ext_resource type="Theme" path="res://resources/GameTheme.tres" id="3"]
 [sub_resource type="CircleShape2D" id="Area"]
 radius = 28.0
@@ -10,12 +11,14 @@ interaction_id = "npc"
 display_name = "정비사 하린"
 location_hint = "연구소"
 description = "연구소의 정비사. 플레이어를 차분하고 친절하게 돕는다."
-base_color = Color(0.30, 0.68, 0.67, 1)
+base_color = Color(1, 1, 1, 1)
 object_texture = ExtResource("2")
 collision_layer = 0
 collision_mask = 0
 [node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, 10)
 texture = ExtResource("2")
+script = ExtResource("4")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("Area")
 [node name="NameLabel" type="Label" parent="."]

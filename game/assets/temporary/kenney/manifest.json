@@ -1,0 +1,67 @@
+{
+  "files": [
+    {
+      "path": "audio/doorOpen_000.ogg",
+      "sha256": "5B7E07ECCD4413AD9EF3720C2D14F9CC699F4C50111E9B2F48BD60E6F1A164C3"
+    },
+    {
+      "path": "audio/explosionCrunch_000.ogg",
+      "sha256": "4B597D658D0AE101F0A030FBEEA5FC3A4292AB85F017470A8254A8E7959CBD69"
+    },
+    {
+      "path": "audio/forceField_000.ogg",
+      "sha256": "C2916F2A062C8DDD1ACA2826D134FE90847037DB31342726FFB0F9097AFE339C"
+    },
+    {
+      "path": "audio/impactMetal_000.ogg",
+      "sha256": "956C6612A256AA1A67A2327FFFE2454F6B1D82E4C1C2BE28FD66916335D5B1D6"
+    },
+    {
+      "path": "audio/laserSmall_000.ogg",
+      "sha256": "72B589EADD41781257AC859E4F4D030222E623390E4A1A83F6D05329A6E026F1"
+    },
+    {
+      "path": "audio/laserSmall_001.ogg",
+      "sha256": "AB87913ABA9790A0C5FA173D086267BA521AD522FCAD2252271DB49988313CF5"
+    },
+    {
+      "path": "licenses/sci-fi-sounds.txt",
+      "sha256": "A9767B25C3533F69D03AF136480EFAD08EFBA19A9F0D89616992B34C79FD6186"
+    },
+    {
+      "path": "licenses/top-down-shooter.txt",
+      "sha256": "523B1CF39AD1D569CC5D6ABC9E8785668208B9C37F1E29383E2A5F8DDA8444BC"
+    },
+    {
+      "path": "sprites/robot1_machine.png",
+      "sha256": "FABFDD249A5C3F7932B37A65C6FD0E262182B01F9BBACD98617CF32E9E3B9A15"
+    },
+    {
+      "path": "sprites/soldier1_gun.png",
+      "sha256": "6F389FAFB4F8A6BE2372CCE4DB4EE6D348AEA6D0A6516968AA17375F96C91089"
+    },
+    {
+      "path": "sprites/tile_11.png",
+      "sha256": "2A19B39852ADF18EC8481611C878DB8372463AA859AEFBC62A6338CE6C3B1A4D"
+    },
+    {
+      "path": "sprites/womanGreen_gun.png",
+      "sha256": "89BCA2AB371BB1DC6177CEDC21AC8F7DE0F13C8394E30F75E67F65098D280BA4"
+    }
+  ],
+  "packs": [
+    {
+      "name": "top-down-shooter",
+      "source": "https://kenney.nl/assets/top-down-shooter",
+      "license": "CC0-1.0",
+      "archive_sha256": "433A2AA4FD6B617CD143528BF12622811EBE9C56FE1975BB664461B58CD2F2F5"
+    },
+    {
+      "name": "sci-fi-sounds",
+      "source": "https://kenney.nl/assets/sci-fi-sounds",
+      "license": "CC0-1.0",
+      "archive_sha256": "119340F351A5098AD814F78719438C0DA355A9CE8A4C8A3AF6A8D48AA3D49E04"
+    }
+  ],
+  "acquired_date": "2026-11-06"
+}

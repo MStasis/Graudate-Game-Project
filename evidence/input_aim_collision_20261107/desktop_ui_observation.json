@@ -1,0 +1,20 @@
+{
+  "recorded_at": "2026-11-07T13:43:17.9852441+09:00",
+  "method": "Computer Use sky API and observed game window screenshots",
+  "isolated_appdata": true,
+  "original_user_save_used": false,
+  "observed": [
+    "Enter closes initially open empty lab dialogue",
+    "Enter reopens and focuses chat",
+    "Escape closes focused empty chat without opening pause"
+  ],
+  "diagnosed_key_event": {
+    "physical_enter": 4194313,
+    "logical_enter": 4194309
+  },
+  "fix": "Main UI commands now prefer logical keycode",
+  "owned_game_windows_remaining": 0,
+  "human_full_playtest": false,
+  "actual_microsoft_ime_composition_tested": false,
+  "notes": "CUA key taps are not held-WASD or full-mission validation. WASD movement, pointer aim, and collisions were tested by the fresh integration suite. No screenshots were re-encoded or saved from CUA payloads."
+}

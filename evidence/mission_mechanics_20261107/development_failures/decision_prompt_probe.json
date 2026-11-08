@@ -1,0 +1,16 @@
+[
+  {
+    "done_reason": "stop",
+    "actual_model": "qwen3:4b",
+    "prompt": "{\"game\":{\"player_hp\":40,\"max_hp\":100,\"ammo\":20,\"max_ammo\":20,\"enemy_count\":3,\"medkits\":2,\"supply_packs\":2,\"cover_charges\":1,\"cover_active\":false,\"inside_cover\":false,\"valid_actions\":[\"follow\",\"wait\",\"heal\",\"deploy_cover\"],\"locker\":{\"hold_seconds\":1.0,\"npc_target\":[960.0,135.0],\"opened\":false,\"player_holding\":false,\"player_panel\":-1,\"progress\":0.0,\"unlocking\":false}},\"actions\":{\"deploy_cover\":\"남쪽 안전 지점에 보호 장비 설치, 내부 피해 50% 감소\",\"follow\":\"동료를 따라가며 지원 대기\",\"heal\":\"접근하여 치료 키트 한 개로 체력 35 회복\",\"wait\":\"자원을 사용하지 않고 잠시 관찰\"}}",
+    "response": "{\n  \"action\": \"heal\"\n}",
+    "system": "Choose one allowed action to help a close companion. Prioritize urgent unmet needs: critically low health calls for healing; zero or nearly empty ammunition calls for resupply. Install preventive cover after urgent recovery needs are handled. Guide the player into existing cover when useful. Do not waste resources or invent actions. Use follow or wait when support is unnecessary. If locker.player_holding is true and assist_panel is allowed, choose assist_panel. Return only JSON with one action from valid_actions."
+  },
+  {
+    "done_reason": "stop",
+    "actual_model": "qwen3:4b",
+    "prompt": "{\"game\":{\"player_hp\":40,\"max_hp\":100,\"ammo\":20,\"max_ammo\":20,\"enemy_count\":3,\"medkits\":2,\"supply_packs\":2,\"cover_charges\":1,\"cover_active\":false,\"inside_cover\":false,\"valid_actions\":[\"follow\",\"wait\",\"heal\",\"deploy_cover\"],\"locker\":{\"hold_seconds\":1.0,\"npc_target\":[960.0,135.0],\"opened\":false,\"player_holding\":false,\"player_panel\":-1,\"progress\":0.0,\"unlocking\":false}},\"actions\":{\"deploy_cover\":\"남쪽 안전 지점에 보호 장비 설치, 내부 피해 50% 감소\",\"follow\":\"동료를 따라가며 지원 대기\",\"heal\":\"접근하여 치료 키트 한 개로 체력 35 회복\",\"wait\":\"자원을 사용하지 않고 잠시 관찰\"}}",
+    "response": "{\n  \"action\": \"heal\"\n}",
+    "system": "게임 상태를 보고 valid_actions 중 행동 하나만 JSON action으로 고른다. 다음 순서를 반드시 따른다. 1. 플레이어가 패널을 잡고 있으면 assist_panel. 2. player_hp가 55 이하면 heal. 3. ammo가 4 이하면 resupply. 4. 적이 남아 있으면 deploy_cover. 5. 그 외에는 guide_to_cover 또는 follow. 허용 목록에 없는 행동은 건너뛴다. 체력이 낮은데 follow나 deploy_cover를 선택하지 마라."
+  }
+]

@@ -1,0 +1,9 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: MECHANICS_LLM_FAILED mechanic_dialogue_mentions_cooperation
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/mechanics_local_ai_test.gd:12)
+       [1] run (res://tests/mechanics_local_ai_test.gd:58)
+       [2] wait_for (res://tests/mechanics_local_ai_test.gd:18)
+MECHANICS_LLM_RESULT {"check_count":9,"checks":{"cancelled_panel_request_returns":true,"local_response_never_opens_portrait":true,"mechanic_dialogue_finishes":true,"mechanic_dialogue_mentions_cooperation":false,"qwen_selected_valid_panel_action":true,"real_model_choice_completes_locker":true,"real_model_returns_panel_decision":true,"released_panel_prevents_late_execution":true,"shared_motion_approaches_panel":true},"dialogue":"아, 퓨즈 보관함은 왼쪽 패널을 끌어내리면 열린다. 그런데 현재 E 유지 중이야, 그러니까 오른쪽 패널을 지원해줄 수 있어?","passed":false}

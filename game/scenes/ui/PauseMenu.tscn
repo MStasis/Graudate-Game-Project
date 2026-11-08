@@ -1,0 +1,147 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://scripts/pause_menu.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/industrial_ui_frame.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/pause_gear.gd" id="3"]
+[ext_resource type="Texture2D" path="res://assets/ui/harin_bust_v1.png" id="4"]
+[node name="PauseMenu" type="Control"]
+visible = false
+z_index = 100
+process_mode = 3
+mouse_filter = 0
+script = ExtResource("1")
+[node name="Shade" type="ColorRect" parent="."]
+color = Color(0.005, 0.012, 0.018, 0.8)
+mouse_filter = 0
+[node name="Window" type="Panel" parent="."]
+offset_right = 670.0
+offset_bottom = 480.0
+mouse_filter = 0
+[node name="Chrome" type="Control" parent="Window"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = ExtResource("2")
+[node name="Peek" type="TextureRect" parent="Window"]
+offset_left = 475.0
+offset_top = 124.0
+offset_right = 740.0
+offset_bottom = 450.0
+texture = ExtResource("4")
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+rotation = -0.16
+pivot_offset = Vector2(100, 210)
+[node name="Gear" type="Control" parent="Window"]
+offset_left = -30.0
+offset_top = -30.0
+offset_right = 60.0
+offset_bottom = 60.0
+mouse_filter = 0
+tooltip_text = "마우스를 올리면 한 바퀴 회전"
+script = ExtResource("3")
+[node name="Title" type="Label" parent="Window"]
+offset_left = 78.0
+offset_top = 22.0
+offset_right = 490.0
+offset_bottom = 66.0
+text = "일시정지"
+theme_override_font_sizes/font_size = 30
+mouse_filter = 2
+[node name="Close" type="Button" parent="Window"]
+offset_left = 550.0
+offset_top = 18.0
+offset_right = 650.0
+offset_bottom = 62.0
+text = "복귀 Esc"
+focus_mode = 0
+theme_override_font_sizes/font_size = 16
+[node name="Save" type="Button" parent="Window"]
+offset_left = 62.0
+offset_top = 92.0
+offset_right = 480.0
+offset_bottom = 152.0
+text = "저장"
+focus_mode = 0
+[node name="Load" type="Button" parent="Window"]
+offset_left = 62.0
+offset_top = 168.0
+offset_right = 480.0
+offset_bottom = 228.0
+text = "불러오기"
+focus_mode = 0
+[node name="Reserved1" type="Button" parent="Window"]
+offset_left = 62.0
+offset_top = 244.0
+offset_right = 480.0
+offset_bottom = 304.0
+text = "예비"
+focus_mode = 0
+tooltip_text = "예비 버튼 · 아직 기능 없음"
+[node name="Reserved2" type="Button" parent="Window"]
+offset_left = 62.0
+offset_top = 320.0
+offset_right = 480.0
+offset_bottom = 380.0
+text = "예비"
+focus_mode = 0
+tooltip_text = "예비 버튼 · 아직 기능 없음"
+[node name="Ornament" type="Control" parent="Window"]
+offset_left = 520.0
+offset_top = 84.0
+offset_right = 554.0
+offset_bottom = 196.0
+mouse_filter = 2
+script = ExtResource("2")
+frame_kind = "field"
+[node name="Message" type="Label" parent="Window"]
+offset_left = 30.0
+offset_top = 405.0
+offset_right = 638.0
+offset_bottom = 468.0
+theme_override_font_sizes/font_size = 16
+autowrap_mode = 3
+mouse_filter = 2
+[node name="Slots" type="Panel" parent="Window"]
+visible = false
+offset_left = 42.0
+offset_top = 82.0
+offset_right = 620.0
+offset_bottom = 393.0
+mouse_filter = 0
+[node name="Title" type="Label" parent="Window/Slots"]
+offset_left = 16.0
+offset_top = 8.0
+offset_right = 400.0
+offset_bottom = 46.0
+theme_override_font_sizes/font_size = 21
+[node name="Slot1" type="Button" parent="Window/Slots"]
+offset_left = 16.0
+offset_top = 60.0
+offset_right = 562.0
+offset_bottom = 116.0
+focus_mode = 0
+theme_override_font_sizes/font_size = 16
+[node name="Slot2" type="Button" parent="Window/Slots"]
+offset_left = 16.0
+offset_top = 128.0
+offset_right = 562.0
+offset_bottom = 184.0
+focus_mode = 0
+theme_override_font_sizes/font_size = 16
+[node name="Slot3" type="Button" parent="Window/Slots"]
+offset_left = 16.0
+offset_top = 196.0
+offset_right = 562.0
+offset_bottom = 252.0
+focus_mode = 0
+theme_override_font_sizes/font_size = 16
+[node name="Back" type="Button" parent="Window/Slots"]
+offset_left = 404.0
+offset_top = 260.0
+offset_right = 562.0
+offset_bottom = 304.0
+focus_mode = 0
+text = "뒤로"

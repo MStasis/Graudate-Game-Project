@@ -1,0 +1,40 @@
+{
+  "date": "2026-11-06",
+  "stage": "Separate ENet probe and temporary assets",
+  "original_file_count": 325,
+  "expected_modified_originals": [
+    "AGENTS.md",
+    "DEVELOPMENT_PLAN.md",
+    "game/scenes/Drone.tscn",
+    "game/scenes/NPC.tscn",
+    "game/scenes/Player.tscn",
+    "game/scenes/World.tscn",
+    "game/scripts/mission_drone.gd",
+    "README.md"
+  ],
+  "unexpected_modified_originals": [],
+  "coop": [
+    {
+      "run": "coop_headless",
+      "checks": 43.0,
+      "passed": true,
+      "two_pc_lan_tested": false
+    },
+    {
+      "run": "coop_gpu",
+      "checks": 43.0,
+      "passed": true,
+      "two_pc_lan_tested": false
+    }
+  ],
+  "baseline_checks": 251,
+  "gpu_interface_checks": 81,
+  "rendered_mission_completed": true,
+  "human_playtest": false,
+  "human_audio_listening": false,
+  "two_pc_lan_tested": false,
+  "main_mission_coop_integrated": false,
+  "local_ai_retested": false,
+  "screen_automation_stopped_on_request": true,
+  "assets_hash_verified": true
+}

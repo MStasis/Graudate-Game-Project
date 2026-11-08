@@ -1,0 +1,25 @@
+{
+  "check_count": 14,
+  "checks": {
+    "both_players_clear_same_target": true,
+    "both_players_dealt_actual_damage": true,
+    "enet_server_created": true,
+    "host_ammo_consumed_once": true,
+    "host_fires_two_real_projectiles": true,
+    "host_moves_own_actor": true,
+    "host_reset_restores_resources": true,
+    "one_remote_player": true,
+    "reconnect_does_not_respawn_target": true,
+    "reconnect_has_exactly_two_actors": true,
+    "remote_ammo_consumed_once": true,
+    "remote_disconnect_removes_actor": true,
+    "remote_input_moves_only_remote_actor": true,
+    "replayed_and_nonfinite_input_rejected": false
+  },
+  "gpu_rendered": true,
+  "passed": false,
+  "real_enet_two_processes": true,
+  "role": "host",
+  "same_machine_loopback": true,
+  "two_pc_lan_tested": false
+}

@@ -54,9 +54,9 @@ func run() -> void:
  await key(KEY_ENTER)
  await frames()
  check("enter_submits_complete_message", submissions.size() == 1 and submissions[0] == "안녕하세요")
- check("enter_does_not_insert_newline", field.text == "안녕하세요")
+ check("sent_message_clears_input_without_newline", field.text.is_empty() and submissions[0] == "안녕하세요")
  check("game_receives_complete_message", app.brain.history.size() == 1 and app.brain.history[0].question == "안녕하세요")
- field.grab_focus()
+ app.open_dialogue()
  await key(KEY_ENTER, 0, true)
  await frames()
  check("held_enter_does_not_repeat_submission", submissions.size() == 1)
@@ -76,7 +76,7 @@ func run() -> void:
  app.ask_npc()
  await frames()
  check("button_path_submits_same_full_message", submissions.size() == 2 and submissions.back() == "한글 대화")
- field.grab_focus()
+ app.open_dialogue()
  var position: Vector2 = app.world.player.position
  Input.action_press("move_right")
  for index in range(5): await physics_frame

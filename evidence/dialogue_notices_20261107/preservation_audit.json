@@ -1,0 +1,58 @@
+{
+  "generated_at": "2026-11-07T20:00:05.6672733+09:00",
+  "original_file_count": 527,
+  "missing_paths": [],
+  "changed_existing_paths": [
+    "AGENTS.md",
+    "DEVELOPMENT_PLAN.md",
+    "evidence/native_ime_fix/bridge_status_6760.json",
+    "game/scenes/ui/CombatHUD.tscn",
+    "game/scripts/combat_interface.gd",
+    "game/scripts/cooperative_locker.gd",
+    "game/scripts/noncombat_dialogue_panel.gd",
+    "game/tests/input_aim_collision_test.gd",
+    "game/tests/mechanics_local_ai_test.gd",
+    "game/tests/mission_mechanics_test.gd",
+    "game/tests/noncombat_dialogue_test.gd",
+    "README.md",
+    "evidence/mission_v1/npc_events.jsonl",
+    "evidence/mission_v1/npc_sessions.jsonl",
+    "game/main.gd",
+    "game/scripts/local_npc_settings.gd",
+    "game/scripts/npc_brain.gd",
+    "game/scripts/npc_policy.gd",
+    "game/tests/chat_input_test.gd",
+    "game/tests/mission_test.gd",
+    "game/tests/ui_layout_test.gd",
+    "game/world.gd",
+    "scripts/verify_mission.ps1"
+  ],
+  "existing_evidence_changed": [
+    "evidence/native_ime_fix/bridge_status_6760.json",
+    "evidence/mission_v1/npc_events.jsonl",
+    "evidence/mission_v1/npc_sessions.jsonl"
+  ],
+  "tested_source_mismatches": [],
+  "backup": "runtime/dialogue_notices_20261107/original_game",
+  "note": "Compared with the start of this request, not HEAD. New source/import files are separate.",
+  "original_log_prefix_checks": [
+    {
+      "path": "evidence/mission_v1/npc_events.jsonl",
+      "original_prefix_preserved": true,
+      "original_prefix_bytes": 1225094,
+      "current_bytes": 1228822,
+      "last_run_id": 6760,
+      "last_timestamp": "2026-11-07 10:43:30Z"
+    },
+    {
+      "path": "evidence/mission_v1/npc_sessions.jsonl",
+      "original_prefix_preserved": true,
+      "original_prefix_bytes": 691825,
+      "current_bytes": 698073,
+      "last_run_id": 6760,
+      "last_timestamp": "2026-11-07 10:43:30Z"
+    }
+  ],
+  "concurrent_user_run_id": 6760,
+  "evidence_change_explanation": "The existing root-game run 6760 appended log records and updated its own bridge status while this task ran. Original JSONL prefixes match the start hashes. These live user changes are retained; our tests wrote only to the isolated copy."
+}

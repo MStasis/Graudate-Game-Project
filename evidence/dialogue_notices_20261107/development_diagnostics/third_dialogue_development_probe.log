@@ -1,0 +1,25 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+DIALOGUE_SAMPLE {"accepted":true,"case":"greeting","text":"오늘은 괜찮아. 네가 뭔가 궁금해? 속도가 빠르지 않아?"}
+DIALOGUE_SAMPLE {"accepted":true,"case":"food","text":"밥 먹었어? 응, 간단한 식사했어. 뭐 먹었어?"}
+DIALOGUE_SAMPLE {"accepted":true,"case":"anxiety","text":"오늘 좀 긴장돼? 뭔가 뭔가... 아니면 그냥 힘들어?"}
+DIALOGUE_SAMPLE {"accepted":true,"case":"generic_question","text":"응, 뭔데? 편하게 물어봐."}
+DIALOGUE_SAMPLE {"accepted":true,"case":"before_handoff","text":"응, 지금 내 손에 있어. 빨리 끝내면 될 것 같아."}
+ERROR: DIALOGUE_QUALITY_FAILED before_handoff_has_no_fake_completed_delivery
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/dialogue_quality_test.gd:13)
+       [1] run (res://tests/dialogue_quality_test.gd:49)
+       [2] ask (res://tests/dialogue_quality_test.gd:26)
+DIALOGUE_SAMPLE {"accepted":true,"case":"ground_flashlight","text":"지금 연구실 바닥에 놓아뒀어. 챙겨 가."}
+DIALOGUE_SAMPLE {"accepted":true,"case":"flashlight_controls","text":"손전등은 마우스로 조준만 하면 알아서 비춰. 가까운 거면 빠르게 움직여서 보여줄게."}
+DIALOGUE_SAMPLE {"accepted":true,"case":"panel_offer","text":"응, 내가 반대편 누를게! 빨리 해."}
+DIALOGUE_SAMPLE {"accepted":true,"case":"panel_controls","text":"응, 뭐야? 패널은 1초간 동시에 누르면 열린다. 너는 한쪽만 계속 누르면 돼."}
+ERROR: DIALOGUE_QUALITY_FAILED asked_panel_help_keeps_two_roles
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/dialogue_quality_test.gd:13)
+       [1] run (res://tests/dialogue_quality_test.gd:65)
+       [2] ask (res://tests/dialogue_quality_test.gd:26)
+DIALOGUE_SAMPLE {"accepted":true,"case":"food_after_mission_chat","text":"어제는 카레 라면이었어. 끝나면 뭐 먹고 싶어?"}
+DIALOGUE_QUALITY_RESULT {"check_count":20,"checks":{"anxiety_actual_model_accepted":true,"asked_panel_help_keeps_two_roles":false,"before_handoff_actual_model_accepted":true,"before_handoff_has_no_fake_completed_delivery":false,"casual_reply_recovers_after_mission_history":true,"emotion_does_not_become_a_tutorial":true,"flashlight_answer_is_specific_and_correct":true,"flashlight_controls_actual_model_accepted":true,"food_actual_model_accepted":true,"food_after_mission_chat_actual_model_accepted":true,"food_does_not_return_to_objective":true,"generic_question_actual_model_accepted":true,"generic_question_does_not_trigger_door_or_mission":true,"greeting_actual_model_accepted":true,"greeting_stays_in_conversation":true,"ground_flashlight_actual_model_accepted":true,"ground_flashlight_is_not_already_collected":true,"panel_controls_actual_model_accepted":true,"panel_offer_actual_model_accepted":true,"panel_offer_is_short_without_timer_or_keys":true},"passed":false}

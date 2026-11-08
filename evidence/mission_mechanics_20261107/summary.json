@@ -1,0 +1,167 @@
+{
+  "generated_at": "2026-11-07T12:00:46.1755984+09:00",
+  "project": "game/project.godot",
+  "engine": "4.7.2.stable.official.ed1daf0bf",
+  "execution_root": "runtime/mission_mechanics_20261107/check",
+  "separate_appdata": true,
+  "visible_windows_started": false,
+  "screen_automation_used": false,
+  "baseline": {
+    "passed": true,
+    "check_count": 251.0,
+    "results": [
+      {
+        "path": "mission_v1/mission_test.json",
+        "passed": true,
+        "check_count": 50,
+        "result_modified_at": "2026-11-07T11:47:28.6507229+09:00"
+      },
+      {
+        "path": "chat_input_fix/chat_input_test.json",
+        "passed": true,
+        "check_count": 27,
+        "result_modified_at": "2026-11-07T11:47:30.0413345+09:00"
+      },
+      {
+        "path": "native_ime_fix/native_load_test.json",
+        "passed": true,
+        "check_count": 6,
+        "result_modified_at": "2026-11-07T11:47:30.2441164+09:00"
+      },
+      {
+        "path": "native_ime_fix/chat_native_integration_test.json",
+        "passed": true,
+        "check_count": 11,
+        "result_modified_at": "2026-11-07T11:47:30.4898228+09:00"
+      },
+      {
+        "path": "ui_redesign/ui_layout_test.json",
+        "passed": true,
+        "check_count": 35,
+        "result_modified_at": "2026-11-07T11:47:31.7821286+09:00"
+      },
+      {
+        "path": "noncombat_ui/noncombat_dialogue_test.json",
+        "passed": true,
+        "check_count": 42,
+        "result_modified_at": "2026-11-07T11:47:32.9168783+09:00"
+      },
+      {
+        "path": "interface_update/interface_update_test.json",
+        "passed": true,
+        "check_count": 80,
+        "result_modified_at": "2026-11-07T11:47:35.6242974+09:00"
+      }
+    ],
+    "runner_log": "verification_render.log"
+  },
+  "new_mechanics": {
+    "path": "mission_mechanics/test.json",
+    "passed": true,
+    "check_count": 54,
+    "result_modified_at": "2026-11-07T11:53:29.2763366+09:00"
+  },
+  "combined_headless_check_count": 305.0,
+  "gpu": {
+    "passed": true,
+    "results": [
+      {
+        "path": "interface_update/interface_update_render_test.json",
+        "passed": true,
+        "check_count": 81,
+        "result_modified_at": "2026-11-07T11:48:02.4496364+09:00"
+      },
+      {
+        "path": "mission_mechanics/render.json",
+        "passed": true,
+        "check_count": 56,
+        "result_modified_at": "2026-11-07T11:53:41.6366932+09:00"
+      }
+    ],
+    "mission_completed": true,
+    "mission_log": "mission_render_stdout.log",
+    "image_directory": "mission_mechanics",
+    "audio_driver": "Dummy"
+  },
+  "actual_model": {
+    "model": "qwen3:4b",
+    "ollama_version": "0.40.11",
+    "prompt_version": "companion_v1.10_locker",
+    "prepared_model": true,
+    "results": [
+      {
+        "path": "mission_v1/local_integration/live_integration_6924.json",
+        "passed": true,
+        "check_count": 5,
+        "result_modified_at": "2026-11-07T11:50:40.2617406+09:00"
+      },
+      {
+        "path": "interface_update/live_save_load_30840.json",
+        "passed": true,
+        "check_count": 7,
+        "result_modified_at": "2026-11-07T11:50:42.1338793+09:00"
+      },
+      {
+        "path": "mission_mechanics/local_ai_9692.json",
+        "passed": true,
+        "check_count": 9,
+        "result_modified_at": "2026-11-07T11:50:48.4176266+09:00"
+      }
+    ],
+    "formal_comparison_benchmark": false,
+    "failures_directory": "development_failures",
+    "raw_mixed_logs_directory": "mixed_development_event_logs"
+  },
+  "coop_probe": {
+    "passed": true,
+    "check_count": 43.0,
+    "results": [
+      {
+        "path": "coop_probe/host.json",
+        "passed": true,
+        "check_count": 14,
+        "result_modified_at": "2026-11-07T11:52:12.5514084+09:00"
+      },
+      {
+        "path": "coop_probe/client.json",
+        "passed": true,
+        "check_count": 18,
+        "result_modified_at": "2026-11-07T11:52:12.0778230+09:00"
+      },
+      {
+        "path": "coop_probe/input.json",
+        "passed": true,
+        "check_count": 11,
+        "result_modified_at": "2026-11-07T11:52:23.5335462+09:00"
+      }
+    ],
+    "real_enet_two_processes": true,
+    "same_machine_loopback": true,
+    "two_pc_lan_tested": false,
+    "main_mission_coop_implemented": false
+  },
+  "verification_commands": [
+    ".\\scripts\\verify_mission.ps1 -Render",
+    "Godot --headless --path game --script res://tests/mission_mechanics_test.gd -- --mission-test --provider=RuleBased",
+    "Hidden Godot --path game --audio-driver Dummy --script res://tests/mission_mechanics_test.gd -- --mission-test --provider=RuleBased --render-mechanics",
+    "Godot --headless --path game --script res://tests/local_integration.gd -- --local-integration --provider=LocalLLM",
+    "Godot --headless --path game --script res://tests/live_save_load_test.gd -- --interface-test --mission-test --provider=LocalLLM",
+    "Godot --headless --path game --script res://tests/mechanics_local_ai_test.gd -- --mission-test --provider=LocalLLM",
+    ".\\scripts\\verify_coop.ps1"
+  ],
+  "notes": [
+    "Baseline Render run passed before the final speech hint assertion. Final targeted mechanics headless and GPU runs passed afterward. See individual fresh result JSON and stdout logs.",
+    "Empty stderr files are intentional. Existing original evidence was not modified.",
+    "Tests set controlled positions/resources and cannot substitute for human play.",
+    "Development failures are preserved separately and are not formal performance-comparison trials."
+  ],
+  "unverified": [
+    "human end-to-end play",
+    "actual Microsoft IME composition",
+    "human audio listening",
+    "two-PC LAN",
+    "full mission cooperative multiplayer",
+    "formal NPC performance comparison"
+  ],
+  "preservation_audit": "preservation_audit.json"
+}

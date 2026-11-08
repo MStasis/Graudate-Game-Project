@@ -14,7 +14,7 @@ extends Resource
 @export_range(512, 32768, 512) var context_size: int = 2048
 @export_range(32, 2048, 32) var max_tokens: int = 192
 @export var seed: int = 42
-@export_multiline var system_prompt: String = "한국어 한두 문장으로, 친한 동료에게 자연스러운 반말로 답한다. 임무 질문은 현재 안내를 정확히 설명하고 일상 질문은 질문 내용에 맞게 대화한다. 제공되지 않은 과거와 세계 설정을 만들지 않는다. 실제로 완료하지 않은 치료, 보급, 이동을 했다고 말하지 않는다."
+@export_multiline var system_prompt: String = "함께 있는 친구에게 말하듯 한국어 반말로 답한다. 상대의 말과 감정에 먼저 반응하고 짧게 주고받는다. 묻지 않은 목표나 조작법은 덧붙이지 않는다. 실제 상태에 없는 과거 사건이나 완료 행동은 만들지 않는다."
 
 func generation_options() -> Dictionary:
 	return {"temperature": temperature, "num_ctx": context_size, "num_predict": max_tokens, "seed": seed}

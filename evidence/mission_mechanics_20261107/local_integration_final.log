@@ -1,0 +1,3 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+LIVE_INTEGRATION {"checks":{"movement_continues_during_inference":true,"real_late_reply_dropped_after_map_change":true,"real_llm_heal_applies":true,"real_llm_resupply_applies":true,"real_mission_dialogue_has_route":true},"passed":true,"requests":4}

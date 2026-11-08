@@ -3,6 +3,7 @@ extends TextEdit
 ## TextEdit는 조합 표시를 담당하고 Windows 확정 문자는 전용 연결 모듈로 받습니다.
 signal text_submitted(value: String)
 signal validation_failed(message: String)
+signal editing_closed
 @export_range(1, 300, 1) var message_limit: int = 300
 var _submit_queued := false
 var _native_bridge: Node
@@ -89,7 +90,10 @@ func commit_composition() -> void:
   else: apply_ime()
 
 func request_submit() -> bool:
- if not editable or _submit_queued: return false
+ if not editable:
+  editing_closed.emit()
+  return false
+ if _submit_queued: return false
  _submit_queued = true
  # 포커스 해제/읽기 전용 전환보다 먼저 마지막 조합 글자를 본문에 확정합니다.
  commit_composition()
@@ -105,7 +109,10 @@ func _finish_submit() -> void:
   validation_failed.emit("글자 조합을 마친 뒤 다시 전송해 주세요.")
   return
  var message := text.strip_edges()
- if message.is_empty(): return
+ if message.is_empty():
+  finish_editing()
+  editing_closed.emit()
+  return
  if message.length() > message_limit:
   validation_failed.emit("질문은 %d자 이내로 입력해 주세요. 입력한 내용은 유지했습니다." % message_limit)
   return
@@ -119,7 +126,9 @@ func _gui_input(event: InputEvent) -> void:
   if not event.echo: request_submit()
  elif event.keycode == KEY_ESCAPE:
   accept_event()
+  if event.echo: return
   if is_composing():
    if _native_bridge: _native_bridge.call("cancel_composition")
    cancel_ime()
-  else: release_focus()
+  release_focus()
+  editing_closed.emit()

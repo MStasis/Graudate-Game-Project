@@ -1,0 +1,71 @@
+class_name MissionPauseMenu
+extends Control
+signal save_selected(slot: int)
+signal load_selected(slot: int)
+signal close_requested
+var choosing_load := false
+var can_save := true
+var overwrite_slot := 0
+var store: MissionSaveStore
+
+func _ready() -> void:
+ process_mode = Node.PROCESS_MODE_ALWAYS
+ hide()
+ $Window/Save.pressed.connect(func(): show_slots(false))
+ $Window/Load.pressed.connect(func(): show_slots(true))
+ $Window/Close.pressed.connect(func(): close_requested.emit())
+ $Window/Slots/Back.pressed.connect(func():
+  $Window/Slots.hide()
+  overwrite_slot = 0)
+ for index in range(1, 4):
+  var slot := index
+  get_node("Window/Slots/Slot%d" % slot).pressed.connect(func(): choose_slot(slot))
+ get_parent().resized.connect(layout)
+ layout()
+
+func layout() -> void:
+ var canvas: Vector2 = get_parent().size
+ size = canvas
+ $Shade.size = canvas
+ $Window.position = (canvas - $Window.size) * 0.5
+
+func open_menu(allowed: bool) -> void:
+ can_save = allowed
+ overwrite_slot = 0
+ $Window/Save.disabled = not can_save
+ $Window/Slots.hide()
+ $Window/Message.text = "게임이 일시정지되었습니다." if can_save else "사망·임무 완료 상태에서는 저장할 수 없습니다."
+ layout()
+ show()
+
+func show_slots(load_mode: bool) -> void:
+ choosing_load = load_mode
+ overwrite_slot = 0
+ $Window/Slots.show()
+ $Window/Slots/Title.text = "불러올 저장 선택" if load_mode else "저장할 슬롯 선택"
+ for slot in range(1, 4):
+  var data := store.read_slot(slot)
+  var button := get_node("Window/Slots/Slot%d" % slot) as Button
+  var exists := FileAccess.file_exists(store.path_for(slot)) or FileAccess.file_exists(store.path_for(slot) + ".bak")
+  var label := "비어 있음" if not exists else "손상된 저장"
+  if data.get("saved_at") is String and data.get("world") is Dictionary:
+   label = str(data.saved_at) + " · " + ("연구실" if data.world.get("map_id") == "lab" else "보관 구역")
+  button.text = "슬롯 %d  ·  %s" % [slot, label]
+  button.disabled = (not exists) if load_mode else not can_save
+ $Window/Message.text = "저장된 슬롯이 없으면 먼저 저장해 주세요." if load_mode else "기존 슬롯은 한 번 더 눌러 덮어씁니다."
+
+func choose_slot(slot: int) -> void:
+ if choosing_load:
+  load_selected.emit(slot)
+  return
+ if not can_save: return
+ var exists := FileAccess.file_exists(store.path_for(slot)) or FileAccess.file_exists(store.path_for(slot) + ".bak")
+ if exists and overwrite_slot != slot:
+  overwrite_slot = slot
+  $Window/Message.text = "슬롯 %d를 덮어쓰려면 같은 슬롯을 한 번 더 눌러 주세요." % slot
+  return
+ overwrite_slot = 0
+ save_selected.emit(slot)
+
+func show_result(message: String) -> void:
+ $Window/Message.text = message

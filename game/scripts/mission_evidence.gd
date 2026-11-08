@@ -6,6 +6,12 @@ func run(app) -> void:
  brain.auto_enabled = false
  await app.get_tree().create_timer(0.3).timeout
  await app.capture_screen("01_lab")
+ world.request_flashlight()
+ var preparation := 0.0
+ while not world.flashlight_dropped and preparation < 4.0:
+  await app.get_tree().create_timer(0.05).timeout
+  preparation += 0.05
+ world.apply_interaction("flashlight")
  world.apply_interaction("storage_gate")
  await app.get_tree().create_timer(0.3).timeout
  await app.capture_screen("02_dark_storage")
@@ -36,6 +42,20 @@ func run(app) -> void:
   app.get_tree().quit(1)
   return
  brain.auto_enabled = false
+ world.player.position = world.locker.panel_position(0) + Vector2(0, 35)
+ Input.action_press("interact")
+ world.apply_interaction("panel_a")
+ brain.auto_enabled = true
+ var panel_time := 0.0
+ while not world.locker.opened and panel_time < 12.0:
+  await app.get_tree().create_timer(0.05).timeout
+  panel_time += 0.05
+ Input.action_release("interact")
+ brain.auto_enabled = false
+ if not world.locker.opened:
+  print("MISSION_EVIDENCE_FAIL locker")
+  app.get_tree().quit(1)
+  return
  world.apply_interaction("fuse")
  await app.capture_screen("04_fuse_found")
  world.apply_interaction("lab_gate")
@@ -46,4 +66,6 @@ func run(app) -> void:
  world.apply_interaction("exit")
  await app.capture_screen("06_completed")
  print("MISSION_EVIDENCE_PASS escaped=", world.finished)
+ world.get_node("MissionAudio").stop_all()
+ await app.get_tree().create_timer(0.15).timeout
  app.get_tree().quit(0)

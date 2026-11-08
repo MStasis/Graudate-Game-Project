@@ -1,0 +1,20 @@
+{
+  "check_count": 11,
+  "checks": {
+    "audio_stream_has_decodable_duration": true,
+    "damage_routes_audio": true,
+    "host_ready": true,
+    "hud_click_does_not_fire": true,
+    "player_shot_routes_audio": true,
+    "reset_button_does_not_capture_space": true,
+    "room_transition_routes_audio": true,
+    "single_frame_click_deals_real_damage": true,
+    "single_frame_click_fires_exactly_once": true,
+    "single_frame_space_fires_exactly_once": true,
+    "unavailable_host_returns_to_menu": true
+  },
+  "human_audio_listening": false,
+  "passed": true,
+  "suite": "coop_input_and_presentation",
+  "synthetic_input_events": true
+}

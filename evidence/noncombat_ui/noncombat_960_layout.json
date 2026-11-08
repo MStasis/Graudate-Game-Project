@@ -1,0 +1,654 @@
+{
+  "height": 600,
+  "items": [
+    {
+      "height": 600.0,
+      "name": "/root/Main",
+      "type": "Control",
+      "width": 960.0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0
+    },
+    {
+      "background": "#090e14",
+      "border": "#cccccc",
+      "border_width": 0,
+      "height": 540.0,
+      "name": "/root/Main/WorldCanvas/World/Background",
+      "type": "Panel",
+      "width": 1200.0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0
+    },
+    {
+      "background": "#17242e",
+      "border": "#405763",
+      "border_width": 6,
+      "height": 430.0,
+      "name": "/root/Main/WorldCanvas/World/Floor",
+      "type": "Panel",
+      "width": 1136.0,
+      "x": 32.0,
+      "y": 64.0,
+      "z": 0
+    },
+    {
+      "height": 430.0,
+      "image": "res://assets/grid.svg",
+      "name": "/root/Main/WorldCanvas/World/Floor/Grid",
+      "stretch_mode": 1,
+      "type": "TextureRect",
+      "width": 1136.0,
+      "x": 32.0,
+      "y": 64.0,
+      "z": 0
+    },
+    {
+      "background": "#263d47",
+      "border": "#477d82",
+      "border_width": 4,
+      "height": 70.0,
+      "name": "/root/Main/WorldCanvas/World/LabDecor/Console",
+      "type": "Panel",
+      "width": 200.0,
+      "x": 380.0,
+      "y": 95.0,
+      "z": 0
+    },
+    {
+      "align": 0,
+      "color": "#c9d9d6",
+      "font_size": 16,
+      "height": 22.0,
+      "name": "/root/Main/WorldCanvas/World/LabDecor/Console/Label",
+      "text": "연구 콘솔",
+      "type": "Label",
+      "vertical_align": 0,
+      "width": 70.0,
+      "wrap": false,
+      "x": 390.0,
+      "y": 105.0,
+      "z": 0
+    },
+    {
+      "background": "#263d47",
+      "border": "#477d82",
+      "border_width": 4,
+      "height": 60.0,
+      "name": "/root/Main/WorldCanvas/World/LabDecor/Shelf",
+      "type": "Panel",
+      "width": 170.0,
+      "x": 70.0,
+      "y": 95.0,
+      "z": 0
+    },
+    {
+      "align": 0,
+      "color": "#c9d9d6",
+      "font_size": 16,
+      "height": 22.0,
+      "name": "/root/Main/WorldCanvas/World/LabDecor/Shelf/Label",
+      "text": "장비 보관함",
+      "type": "Label",
+      "vertical_align": 0,
+      "width": 86.0,
+      "wrap": false,
+      "x": 80.0,
+      "y": 105.0,
+      "z": 0
+    },
+    {
+      "background": "#263d47",
+      "border": "#477d82",
+      "border_width": 4,
+      "height": 55.0,
+      "name": "/root/Main/WorldCanvas/World/LabDecor/Desk",
+      "type": "Panel",
+      "width": 150.0,
+      "x": 680.0,
+      "y": 105.0,
+      "z": 0
+    },
+    {
+      "align": 0,
+      "color": "#c9d9d6",
+      "font_size": 16,
+      "height": 22.0,
+      "name": "/root/Main/WorldCanvas/World/LabDecor/Desk/Label",
+      "text": "분석 장치",
+      "type": "Label",
+      "vertical_align": 0,
+      "width": 70.0,
+      "wrap": false,
+      "x": 690.0,
+      "y": 115.0,
+      "z": 0
+    },
+    {
+      "height": 72.0,
+      "image": "res://assets/character.svg",
+      "tint": [
+        0.450980395078659,
+        0.596078455448151,
+        0.945098042488098
+      ],
+      "type": "Sprite2D",
+      "width": 56.0,
+      "x": 195.0,
+      "y": 314.0,
+      "z": 0
+    },
+    {
+      "height": 72.0,
+      "image": "res://assets/character.svg",
+      "tint": [
+        0.300000011920929,
+        0.680000007152557,
+        0.670000016689301
+      ],
+      "type": "Sprite2D",
+      "width": 56.0,
+      "x": 327.422210693359,
+      "y": 213.303070068359,
+      "z": 0
+    },
+    {
+      "height": 76.0,
+      "image": "res://assets/generator.svg",
+      "tint": [
+        0.620000004768372,
+        0.400000005960464,
+        0.5
+      ],
+      "type": "Sprite2D",
+      "width": 64.0,
+      "x": 898.0,
+      "y": 207.0,
+      "z": 0
+    },
+    {
+      "align": 1,
+      "color": "#9e6680",
+      "font_size": 17,
+      "height": 28.0,
+      "name": "/root/Main/WorldCanvas/World/Generator/NameLabel",
+      "text": "전력 장치",
+      "type": "Label",
+      "vertical_align": 0,
+      "width": 180.0,
+      "wrap": false,
+      "x": 840.0,
+      "y": 283.0,
+      "z": 0
+    },
+    {
+      "height": 80.0,
+      "image": "res://assets/exit.svg",
+      "tint": [
+        0.449999988079071,
+        0.560000002384186,
+        0.670000016689301
+      ],
+      "type": "Sprite2D",
+      "width": 56.0,
+      "x": 1082.0,
+      "y": 85.0,
+      "z": 0
+    },
+    {
+      "align": 1,
+      "color": "#738fab",
+      "font_size": 17,
+      "height": 28.0,
+      "name": "/root/Main/WorldCanvas/World/Exit/NameLabel",
+      "text": "출구",
+      "type": "Label",
+      "vertical_align": 0,
+      "width": 180.0,
+      "wrap": false,
+      "x": 1020.0,
+      "y": 167.0,
+      "z": 0
+    },
+    {
+      "height": 80.0,
+      "image": "res://assets/exit.svg",
+      "tint": [
+        0.449999988079071,
+        0.560000002384186,
+        0.670000016689301
+      ],
+      "type": "Sprite2D",
+      "width": 56.0,
+      "x": 1082.0,
+      "y": 375.0,
+      "z": 0
+    },
+    {
+      "align": 1,
+      "color": "#738fab",
+      "font_size": 17,
+      "height": 28.0,
+      "name": "/root/Main/WorldCanvas/World/ToStorage/NameLabel",
+      "text": "보관 구역 →",
+      "type": "Label",
+      "vertical_align": 0,
+      "width": 180.0,
+      "wrap": false,
+      "x": 1020.0,
+      "y": 457.0,
+      "z": 0
+    },
+    {
+      "height": 216.0,
+      "industrial_frame": {
+        "accent": "cda66cff",
+        "bottom": "090e11ff",
+        "kind": "dialogue",
+        "points": [
+          [
+            14.0,
+            0.0
+          ],
+          [
+            914.0,
+            0.0
+          ],
+          [
+            928.0,
+            14.0
+          ],
+          [
+            928.0,
+            202.0
+          ],
+          [
+            914.0,
+            216.0
+          ],
+          [
+            14.0,
+            216.0
+          ],
+          [
+            0.0,
+            202.0
+          ],
+          [
+            0.0,
+            14.0
+          ]
+        ],
+        "rim": "65716bff",
+        "top": "161c1fff"
+      },
+      "name": "/root/Main/RadioPanel/LabChrome",
+      "type": "Control",
+      "width": 928.0,
+      "x": 16.0,
+      "y": 368.0,
+      "z": 0
+    },
+    {
+      "height": 216.0,
+      "name": "/root/Main/RadioPanel",
+      "type": "Panel",
+      "width": 928.0,
+      "x": 16.0,
+      "y": 368.0,
+      "z": 32
+    },
+    {
+      "align": 0,
+      "color": "#edb45e",
+      "font_size": 25,
+      "height": 38.0,
+      "name": "/root/Main/RadioPanel/CompanionName",
+      "text": "하린",
+      "type": "Label",
+      "vertical_align": 0,
+      "width": 476.799987792969,
+      "wrap": false,
+      "x": 247.199996948242,
+      "y": 385.0,
+      "z": 0
+    },
+    {
+      "align": 2,
+      "color": "#d3a66e",
+      "font_size": 14,
+      "height": 28.0,
+      "name": "/root/Main/RadioPanel/RadioState",
+      "text": "● 입력 중",
+      "type": "Label",
+      "vertical_align": 0,
+      "width": 164.0,
+      "wrap": false,
+      "x": 730.0,
+      "y": 390.0,
+      "z": 0
+    },
+    {
+      "align": 0,
+      "color": "#ebe3c9",
+      "font_size": 26,
+      "height": 76.0,
+      "name": "/root/Main/RadioPanel/Answer",
+      "text": "내가 같이 갈게. 오른쪽 통로로 보관 구역에 가서 퓨즈를 찾으세요.",
+      "type": "RichTextLabel",
+      "vertical_align": 0,
+      "width": 668.799987792969,
+      "wrap": true,
+      "x": 247.199996948242,
+      "y": 428.0,
+      "z": 0
+    },
+    {
+      "height": 50.0,
+      "industrial_frame": {
+        "accent": "cda66cff",
+        "bottom": "090e11ff",
+        "kind": "field",
+        "points": [
+          [
+            7.0,
+            0.0
+          ],
+          [
+            539.799987792969,
+            0.0
+          ],
+          [
+            546.799987792969,
+            7.0
+          ],
+          [
+            546.799987792969,
+            43.0
+          ],
+          [
+            539.799987792969,
+            50.0
+          ],
+          [
+            7.0,
+            50.0
+          ],
+          [
+            0.0,
+            43.0
+          ],
+          [
+            0.0,
+            7.0
+          ]
+        ],
+        "rim": "998a66ff",
+        "top": "161c1fff"
+      },
+      "name": "/root/Main/RadioPanel/Question/FieldChrome",
+      "type": "Control",
+      "width": 546.799987792969,
+      "x": 247.199996948242,
+      "y": 512.0,
+      "z": 0
+    },
+    {
+      "align": 0,
+      "color": "#7a8078",
+      "font_size": 19,
+      "height": 50.0,
+      "name": "/root/Main/RadioPanel/Question",
+      "text": "하린에게 말하기…",
+      "type": "TextEdit",
+      "vertical_align": 0,
+      "width": 546.799987792969,
+      "wrap": false,
+      "x": 247.199996948242,
+      "y": 512.0,
+      "z": 0
+    },
+    {
+      "height": 54.0,
+      "industrial_frame": {
+        "accent": "cda66cff",
+        "bottom": "090e11ff",
+        "kind": "button",
+        "points": [
+          [
+            7.0,
+            0.0
+          ],
+          [
+            99.0,
+            0.0
+          ],
+          [
+            106.0,
+            7.0
+          ],
+          [
+            106.0,
+            47.0
+          ],
+          [
+            99.0,
+            54.0
+          ],
+          [
+            7.0,
+            54.0
+          ],
+          [
+            0.0,
+            47.0
+          ],
+          [
+            0.0,
+            7.0
+          ]
+        ],
+        "rim": "65716bff",
+        "top": "161c1fff"
+      },
+      "name": "/root/Main/RadioPanel/SendButton/ButtonChrome",
+      "type": "Control",
+      "width": 106.0,
+      "x": 810.0,
+      "y": 510.0,
+      "z": 0
+    },
+    {
+      "align": 1,
+      "color": "#ebd9ad",
+      "font_size": 20,
+      "height": 54.0,
+      "name": "/root/Main/RadioPanel/SendButton",
+      "text": "전송",
+      "type": "Button",
+      "vertical_align": 0,
+      "width": 106.0,
+      "wrap": false,
+      "x": 810.0,
+      "y": 510.0,
+      "z": 0
+    },
+    {
+      "align": 0,
+      "color": "#6e9194",
+      "font_size": 11,
+      "height": 20.0,
+      "name": "/root/Main/RadioPanel/Status",
+      "text": "새 회차 · RuleBased",
+      "type": "Label",
+      "vertical_align": 0,
+      "width": 384.799987792969,
+      "wrap": false,
+      "x": 247.199996948242,
+      "y": 564.0,
+      "z": 0
+    },
+    {
+      "height": 285.119995117188,
+      "image": "res://assets/ui/harin_bust_v1.png",
+      "name": "/root/Main/RadioPanel/LabPortrait",
+      "stretch_mode": 5,
+      "type": "TextureRect",
+      "width": 211.199996948242,
+      "x": 16.0,
+      "y": 298.880004882813,
+      "z": 0
+    },
+    {
+      "background": "#edb55e",
+      "height": 29.0,
+      "name": "/root/Main/RadioPanel/NameAccent",
+      "type": "ColorRect",
+      "width": 5.0,
+      "x": 231.199996948242,
+      "y": 391.0,
+      "z": 0
+    },
+    {
+      "align": 1,
+      "color": "#ebd9ad",
+      "font_size": 18,
+      "height": 36.0,
+      "name": "/root/Main/RadioPanel/CloseDialogue",
+      "text": "×",
+      "type": "Button",
+      "vertical_align": 0,
+      "width": 30.0,
+      "wrap": false,
+      "x": 904.0,
+      "y": 378.0,
+      "z": 0
+    },
+    {
+      "align": 2,
+      "color": "#8f8f80",
+      "font_size": 12,
+      "height": 20.0,
+      "name": "/root/Main/RadioPanel/KeyHint",
+      "text": "Enter 전송 · Esc 닫기",
+      "type": "Label",
+      "vertical_align": 0,
+      "width": 274.0,
+      "wrap": false,
+      "x": 642.0,
+      "y": 564.0,
+      "z": 0
+    },
+    {
+      "height": 56.0,
+      "industrial_frame": {
+        "accent": "cda66cff",
+        "bottom": "090e11ff",
+        "kind": "objective",
+        "points": [
+          [
+            7.0,
+            0.0
+          ],
+          [
+            377.0,
+            0.0
+          ],
+          [
+            384.0,
+            7.0
+          ],
+          [
+            384.0,
+            49.0
+          ],
+          [
+            377.0,
+            56.0
+          ],
+          [
+            7.0,
+            56.0
+          ],
+          [
+            0.0,
+            49.0
+          ],
+          [
+            0.0,
+            7.0
+          ]
+        ],
+        "rim": "65716bff",
+        "top": "161c1fff"
+      },
+      "name": "/root/Main/LabObjective/Chrome",
+      "type": "Control",
+      "width": 384.0,
+      "x": 552.0,
+      "y": 24.0,
+      "z": 0
+    },
+    {
+      "height": 56.0,
+      "name": "/root/Main/LabObjective",
+      "type": "Panel",
+      "width": 384.0,
+      "x": 552.0,
+      "y": 24.0,
+      "z": 33
+    },
+    {
+      "align": 0,
+      "color": "#e0dbc9",
+      "font_size": 18,
+      "height": 56.0,
+      "name": "/root/Main/LabObjective/LabObjectiveText",
+      "text": "보관 구역에서 퓨즈 찾기",
+      "type": "Label",
+      "vertical_align": 1,
+      "width": 322.0,
+      "wrap": false,
+      "x": 598.0,
+      "y": 24.0,
+      "z": 0
+    },
+    {
+      "align": 0,
+      "color": "#8c9185",
+      "font_size": 13,
+      "height": 26.0,
+      "name": "/root/Main/LabModeBadge",
+      "text": "규칙 기반 · F3 실험 설정",
+      "type": "Label",
+      "vertical_align": 0,
+      "width": 392.0,
+      "wrap": false,
+      "x": 28.0,
+      "y": 24.0,
+      "z": 33
+    },
+    {
+      "height": 600.0,
+      "name": "/root/Main/CombatHUD",
+      "type": "Control",
+      "width": 960.0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 35
+    },
+    {
+      "height": 0.0,
+      "name": "/root/Main/CombatHUD/ActorLayer",
+      "type": "Control",
+      "width": 0.0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0
+    }
+  ],
+  "kind": "static_scene_layout_preview_not_game_capture",
+  "width": 960
+}

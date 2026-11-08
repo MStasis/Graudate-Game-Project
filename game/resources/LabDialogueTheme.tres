@@ -1,0 +1,72 @@
+[gd_resource type="Theme" format=3]
+
+[sub_resource type="SystemFont" id="Font"]
+font_names = PackedStringArray("Malgun Gothic", "맑은 고딕")
+
+[sub_resource type="StyleBoxEmpty" id="Empty"]
+
+[sub_resource type="StyleBoxEmpty" id="Field"]
+content_margin_left = 16.0
+content_margin_right = 16.0
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxEmpty" id="Button"]
+content_margin_left = 16.0
+content_margin_right = 16.0
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="Focus"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.94, 0.75, 0.44, 1)
+
+[sub_resource type="StyleBoxFlat" id="Scroll"]
+bg_color = Color(0.08, 0.1, 0.1, 1)
+content_margin_left = 3.0
+content_margin_right = 3.0
+
+[sub_resource type="StyleBoxFlat" id="Grabber"]
+bg_color = Color(0.42, 0.4, 0.32, 1)
+content_margin_left = 3.0
+content_margin_right = 3.0
+
+[resource]
+default_font = SubResource("Font")
+default_font_size = 20
+Panel/styles/panel = SubResource("Empty")
+RadioPanel/base_type = &"Panel"
+RadioPanel/styles/panel = SubResource("Empty")
+Label/colors/font_color = Color(0.88, 0.86, 0.79, 1)
+RichTextLabel/styles/normal = SubResource("Empty")
+RichTextLabel/colors/default_color = Color(0.92, 0.89, 0.79, 1)
+RichTextLabel/font_sizes/normal_font_size = 26
+TextEdit/styles/normal = SubResource("Field")
+TextEdit/styles/read_only = SubResource("Field")
+TextEdit/styles/focus = SubResource("Focus")
+TextEdit/colors/font_color = Color(0.92, 0.89, 0.79, 1)
+TextEdit/colors/font_placeholder_color = Color(0.48, 0.5, 0.47, 1)
+TextEdit/colors/caret_color = Color(0.94, 0.75, 0.44, 1)
+TextEdit/colors/selection_color = Color(0.3, 0.32, 0.25, 1)
+Button/styles/normal = SubResource("Button")
+Button/styles/hover = SubResource("Button")
+Button/styles/pressed = SubResource("Button")
+Button/styles/disabled = SubResource("Button")
+Button/styles/focus = SubResource("Focus")
+Button/colors/font_color = Color(0.92, 0.85, 0.68, 1)
+Button/colors/font_hover_color = Color(1, 0.94, 0.79, 1)
+Button/colors/font_disabled_color = Color(0.42, 0.43, 0.39, 1)
+DialogClose/base_type = &"Button"
+DialogClose/styles/normal = SubResource("Empty")
+DialogClose/styles/hover = SubResource("Empty")
+DialogClose/styles/pressed = SubResource("Empty")
+DialogClose/styles/disabled = SubResource("Empty")
+DialogClose/styles/focus = SubResource("Empty")
+VScrollBar/styles/scroll = SubResource("Scroll")
+VScrollBar/styles/grabber = SubResource("Grabber")
+VScrollBar/styles/grabber_highlight = SubResource("Grabber")
+VScrollBar/styles/grabber_pressed = SubResource("Grabber")

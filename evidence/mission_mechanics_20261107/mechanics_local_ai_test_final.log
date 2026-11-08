@@ -1,0 +1,3 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MECHANICS_LLM_RESULT {"check_count":9,"checks":{"cancelled_panel_request_returns":true,"local_response_never_opens_portrait":true,"mechanic_dialogue_finishes":true,"mechanic_dialogue_mentions_cooperation":true,"qwen_selected_valid_panel_action":true,"real_model_choice_completes_locker":true,"real_model_returns_panel_decision":true,"released_panel_prevents_late_execution":true,"shared_motion_approaches_panel":true},"dialogue":"아, 퓨즈 보관함은 플레이어가 한쪽 패널을 E로 계속 누르고, 하린이 반대쪽 패널을 지원해 1초 유지하면 열린다. 손전등이 자동으로 비추니까 걱정하지 마!","passed":true}

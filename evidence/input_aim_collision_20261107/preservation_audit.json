@@ -1,0 +1,28 @@
+{
+  "generated_at": "2026-11-07T13:42:31.6877215+09:00",
+  "original_file_count": 482,
+  "missing_paths": [],
+  "changed_existing_paths": [
+    "AGENTS.md",
+    "DEVELOPMENT_PLAN.md",
+    "game/scenes/CooperativeLocker.tscn",
+    "game/tests/mechanics_local_ai_test.gd",
+    "game/tests/mission_mechanics_test.gd",
+    "game/tests/noncombat_dialogue_test.gd",
+    "review/MISSION_MECHANICS_20261107.md",
+    "README.md",
+    "game/main.gd",
+    "game/scenes/Player.tscn",
+    "game/scenes/World.tscn",
+    "game/scripts/chat_input.gd",
+    "game/scripts/npc_brain.gd",
+    "game/scripts/npc_policy.gd",
+    "game/tests/chat_input_test.gd",
+    "game/world.gd",
+    "scripts/verify_mission.ps1"
+  ],
+  "existing_evidence_changed": [],
+  "tested_source_mismatches": [],
+  "backup": "runtime/input_aim_collision_20261107/original_game",
+  "note": "Compared with the beginning of this request, not HEAD. New files and caches are separate."
+}

@@ -4,7 +4,7 @@ extends Area2D
 ## 이름·설명은 화면과 AI 문맥에서 함께 사용합니다. Interaction Id는 게임 규칙의 식별자입니다.
 
 @export_group("상호작용")
-@export_enum("npc", "fuse", "generator", "exit", "storage_gate", "lab_gate", "cache") var interaction_id: String = "fuse"
+@export_enum("npc", "fuse", "generator", "exit", "storage_gate", "lab_gate", "cache", "flashlight", "panel_a", "panel_b", "locker_supply") var interaction_id: String = "fuse"
 @export var display_name: String = "퓨즈":
 	set(value):
 		display_name = value

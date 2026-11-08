@@ -35,6 +35,7 @@ func run() -> void:
  Input.action_release("move_right")
  check("typing_blocks_movement", world.player.position.distance_to(stopped) < 1)
  app.question.release_focus()
+ world.flashlight_owned = true # Fixture: 기존 회귀의 전투/입력 조건. 지급 흐름은 mission_mechanics_test에서 별도 검증.
  world.apply_interaction("storage_gate")
  check("dark_room_and_return_gate", world.map_id == "storage" and world.get_node("Darkness").visible and world.get_node("ToLab").visible)
  world.apply_interaction("fuse")
@@ -69,7 +70,7 @@ func run() -> void:
  world.player.position = world.safe_position - Vector2(0, 120)
  var player_before := world.player.position
  var callouts: Array[String] = []
- world.notice.connect(func(text): callouts.append(text))
+ world.companion_spoke.connect(func(text): callouts.append(text))
  check("guide_order_accepted", world.request_support("guide_to_cover"))
  check("guide_uses_actual_down_direction", callouts.size() > 0 and callouts.back().contains("아래쪽"))
  check("guide_does_not_move_player", world.player.position == player_before)
@@ -129,6 +130,7 @@ func run() -> void:
    world.shoot(enemy.position)
    await frames(15)
  check("real_projectiles_clear_wave", world.enemies_remaining() == 0)
+ world.locker.opened = true # 새 패널 흐름은 별도 기믹 통합 검사에서 검증한다.
  world.apply_interaction("fuse")
  check("fuse_collects_after_clear", world.fuse_collected and world.game_state().fuse_in_inventory)
  world.apply_interaction("lab_gate")

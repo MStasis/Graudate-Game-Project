@@ -1,0 +1,83 @@
+[gd_scene load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/coop_probe.gd" id="1"]
+[ext_resource type="Theme" path="res://resources/GameTheme.tres" id="2"]
+[node name="CoopProbe" type="Node2D"]
+script = ExtResource("1")
+[node name="Actors" type="Node2D" parent="."]
+[node name="Enemies" type="Node2D" parent="."]
+[node name="Projectiles" type="Node2D" parent="."]
+[node name="HUD" type="CanvasLayer" parent="."]
+[node name="Panel" type="Panel" parent="HUD"]
+offset_left = 24.0
+offset_top = 14.0
+offset_right = 1256.0
+offset_bottom = 160.0
+theme = ExtResource("2")
+[node name="Title" type="Label" parent="HUD/Panel"]
+offset_left = 16.0
+offset_top = 7.0
+text = "LAN 협동 검증 · 훈련 표적"
+theme_override_font_sizes/font_size = 24
+[node name="Address" type="LineEdit" parent="HUD/Panel"]
+offset_left = 16.0
+offset_top = 48.0
+offset_right = 256.0
+offset_bottom = 90.0
+text = "127.0.0.1"
+placeholder_text = "호스트 LAN IP"
+[node name="Port" type="SpinBox" parent="HUD/Panel"]
+offset_left = 268.0
+offset_top = 48.0
+offset_right = 400.0
+offset_bottom = 90.0
+min_value = 1024.0
+max_value = 65535.0
+value = 24570.0
+[node name="Host" type="Button" parent="HUD/Panel"]
+offset_left = 420.0
+offset_top = 48.0
+offset_right = 594.0
+offset_bottom = 90.0
+text = "방 만들기"
+[node name="Join" type="Button" parent="HUD/Panel"]
+offset_left = 606.0
+offset_top = 48.0
+offset_right = 780.0
+offset_bottom = 90.0
+text = "참가"
+[node name="Leave" type="Button" parent="HUD/Panel"]
+offset_left = 792.0
+offset_top = 48.0
+offset_right = 960.0
+offset_bottom = 90.0
+text = "연결 종료"
+[node name="Reset" type="Button" parent="HUD/Panel"]
+focus_mode = 0
+offset_left = 972.0
+offset_top = 48.0
+offset_right = 1216.0
+offset_bottom = 90.0
+text = "표적·탄약 초기화"
+[node name="Status" type="Label" parent="HUD/Panel"]
+offset_left = 16.0
+offset_top = 104.0
+offset_right = 1216.0
+offset_bottom = 136.0
+theme_override_font_sizes/font_size = 18
+text = "호스트는 방 만들기, 동료는 호스트의 LAN IP로 참가하세요."
+[node name="Results" type="Label" parent="HUD"]
+offset_left = 58.0
+offset_top = 196.0
+offset_right = 690.0
+offset_bottom = 294.0
+theme = ExtResource("2")
+theme_override_font_sizes/font_size = 18
+mouse_filter = 2
+[node name="Instructions" type="Label" parent="HUD"]
+offset_left = 40.0
+offset_top = 690.0
+offset_right = 1240.0
+offset_bottom = 780.0
+theme = ExtResource("2")
+theme_override_font_sizes/font_size = 18
+text = "WASD 이동 · 마우스 왼쪽 조준 사격 · Space 표적 조준 사격 · Esc 연결 종료\n2인 통신·이동·피해 검증용입니다. 메인 임무와 하린의 협동 연결은 다음 단계입니다."

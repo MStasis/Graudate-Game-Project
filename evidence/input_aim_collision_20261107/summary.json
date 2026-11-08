@@ -1,0 +1,131 @@
+{
+  "generated_at": "2026-11-07T13:43:18.0002022+09:00",
+  "engine": "4.7.2.stable.official.ed1daf0bf",
+  "project": "game/project.godot",
+  "execution_root": "runtime/input_aim_collision_20261107/check",
+  "fresh_headless": {
+    "passed": true,
+    "check_count": 339.0,
+    "suites": [
+      {
+        "file": "mission_v1/mission_test.json",
+        "passed": true,
+        "check_count": 50,
+        "result_modified_at": "2026-11-07T13:38:52.2761241+09:00"
+      },
+      {
+        "file": "chat_input_fix/chat_input_test.json",
+        "passed": true,
+        "check_count": 27,
+        "result_modified_at": "2026-11-07T13:38:53.6355483+09:00"
+      },
+      {
+        "file": "native_ime_fix/native_load_test.json",
+        "passed": true,
+        "check_count": 6,
+        "result_modified_at": "2026-11-07T13:38:53.8655515+09:00"
+      },
+      {
+        "file": "native_ime_fix/chat_native_integration_test.json",
+        "passed": true,
+        "check_count": 11,
+        "result_modified_at": "2026-11-07T13:38:54.1049688+09:00"
+      },
+      {
+        "file": "ui_redesign/ui_layout_test.json",
+        "passed": true,
+        "check_count": 35,
+        "result_modified_at": "2026-11-07T13:38:55.3861687+09:00"
+      },
+      {
+        "file": "noncombat_ui/noncombat_dialogue_test.json",
+        "passed": true,
+        "check_count": 42,
+        "result_modified_at": "2026-11-07T13:38:56.5205874+09:00"
+      },
+      {
+        "file": "interface_update/interface_update_test.json",
+        "passed": true,
+        "check_count": 80,
+        "result_modified_at": "2026-11-07T13:38:59.2327615+09:00"
+      },
+      {
+        "file": "mission_mechanics/test.json",
+        "passed": true,
+        "check_count": 54,
+        "result_modified_at": "2026-11-07T13:39:10.3475704+09:00"
+      },
+      {
+        "file": "input_aim_collision/test.json",
+        "passed": true,
+        "check_count": 34,
+        "result_modified_at": "2026-11-07T13:39:22.9791725+09:00"
+      }
+    ]
+  },
+  "gpu": {
+    "audio_driver": "Dummy",
+    "pngs": [
+      "input_aim_collision/mouse_flashlight.png",
+      "input_aim_collision/lab_solid_props.png"
+    ],
+    "suites": [
+      {
+        "file": "interface_update/interface_update_render_test.json",
+        "passed": true,
+        "check_count": 81,
+        "result_modified_at": "2026-11-07T13:39:39.6472265+09:00"
+      },
+      {
+        "file": "mission_mechanics/render.json",
+        "passed": true,
+        "check_count": 56,
+        "result_modified_at": "2026-11-07T13:39:51.2549614+09:00"
+      },
+      {
+        "file": "input_aim_collision/render.json",
+        "passed": true,
+        "check_count": 35,
+        "result_modified_at": "2026-11-07T13:40:04.4518750+09:00"
+      }
+    ],
+    "passed": true,
+    "automated_mission_completed": true,
+    "pngs_visually_inspected": true
+  },
+  "actual_qwen": {
+    "prompt_version": "companion_v1.11_mouse_light",
+    "formal_performance_comparison": false,
+    "result": {
+      "file": "mission_mechanics/local_ai_31568.json",
+      "passed": true,
+      "check_count": 11,
+      "result_modified_at": "2026-11-07T13:40:18.5594803+09:00"
+    },
+    "model": "qwen3:4b",
+    "prepared_model": true
+  },
+  "desktop_ui_observation": "desktop_ui_observation.json",
+  "original_project_import_exit_code": 0,
+  "verification_exit_codes": {
+    "local_mechanics": 0,
+    "render_regression": 0
+  },
+  "commands": [
+    ".\\scripts\\verify_mission.ps1 -Render",
+    "Godot --headless --path game --script res://tests/mechanics_local_ai_test.gd -- --mission-test --provider=LocalLLM",
+    "Godot --headless --editor --path <original game> --import --quit"
+  ],
+  "preservation_audit": "preservation_audit.json",
+  "unverified": [
+    "human end-to-end play",
+    "actual Microsoft IME composition",
+    "audio listening",
+    "two-PC LAN"
+  ],
+  "not_rerun": [
+    "full LocalAI 5-case integration and 7-case save cancellation: no request/cancellation implementation changed",
+    "separate cooperative ENet probe: no network implementation changed"
+  ],
+  "development_diagnostics": "development_diagnostics contains the initial physics/process-frame test-timing failure and keycode trace; not final results or benchmark trials."
+}

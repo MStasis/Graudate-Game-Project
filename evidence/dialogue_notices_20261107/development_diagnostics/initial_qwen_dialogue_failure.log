@@ -1,0 +1,19 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+DIALOGUE_SAMPLE {"accepted":true,"case":"greeting","text":"오늘은 잘 지냈어? 내가 봤어, 허리가 아프다."}
+DIALOGUE_SAMPLE {"accepted":true,"case":"food","text":"밥 먹었어? 아, 오늘은 뭐 먹었어? 둘만 먹었어? 😄"}
+DIALOGUE_SAMPLE {"accepted":true,"case":"anxiety","text":"오늘 좀 긴장돼? 뭐야, 허리 아프지 않아? 😄"}
+DIALOGUE_SAMPLE {"accepted":true,"case":"generic_question","text":"허리 아프다 했어? 나도 빨리 치료해줄게!"}
+DIALOGUE_SAMPLE {"accepted":true,"case":"before_handoff","text":"응, 아직 놓지 않았어. 손전등 내려줄게."}
+ERROR: DIALOGUE_QUALITY_FAILED before_handoff_has_no_fake_completed_delivery
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/dialogue_quality_test.gd:13)
+       [1] run (res://tests/dialogue_quality_test.gd:49)
+       [2] ask (res://tests/dialogue_quality_test.gd:26)
+DIALOGUE_SAMPLE {"accepted":true,"case":"ground_flashlight","text":"손전등 나중에 놓을 거야. 지금은 바닥에 놓았어."}
+DIALOGUE_SAMPLE {"accepted":true,"case":"flashlight_controls","text":"손전등은 E로 가까이에서 줍으면 비춰. 지금은 바닥에 놓여서 네가 직접 조준해 줘."}
+DIALOGUE_SAMPLE {"accepted":true,"case":"panel_offer","text":"응, 패널을 같이 누르면 열린다. 둘 다 놓아야 해."}
+DIALOGUE_SAMPLE {"accepted":true,"case":"panel_controls","text":"패널은 한쪽에서 E를 계속 누르면 1초 유지해 둔 후 반대편 패널을 작동시켜야 해. 둘 다 놓아야 열린다."}
+DIALOGUE_SAMPLE {"accepted":true,"case":"food_after_mission_chat","text":"우리 끝나면 카레면이면 좋겠어. 뭔가 뜨끈한 걸 먹고 싶어."}
+DIALOGUE_QUALITY_RESULT {"check_count":20,"checks":{"anxiety_actual_model_accepted":true,"asked_panel_help_keeps_two_roles":true,"before_handoff_actual_model_accepted":true,"before_handoff_has_no_fake_completed_delivery":false,"casual_reply_recovers_after_mission_history":true,"emotion_does_not_become_a_tutorial":true,"flashlight_answer_is_specific_and_correct":true,"flashlight_controls_actual_model_accepted":true,"food_actual_model_accepted":true,"food_after_mission_chat_actual_model_accepted":true,"food_does_not_return_to_objective":true,"generic_question_actual_model_accepted":true,"generic_question_does_not_trigger_door_or_mission":true,"greeting_actual_model_accepted":true,"greeting_stays_in_conversation":true,"ground_flashlight_actual_model_accepted":true,"ground_flashlight_is_not_already_collected":true,"panel_controls_actual_model_accepted":true,"panel_offer_actual_model_accepted":true,"panel_offer_is_short_without_timer_or_keys":true},"passed":false}

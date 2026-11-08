@@ -1,5 +1,6 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=4 format=3]
 [ext_resource type="Script" path="res://scripts/mission_drone.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/temporary/kenney/sprites/robot1_machine.png" id="2"]
 [sub_resource type="CircleShape2D" id="Body"]
 radius = 19.0
 [node name="Drone" type="CharacterBody2D"]
@@ -7,5 +8,9 @@ collision_layer = 2
 collision_mask = 1
 motion_mode = 1
 script = ExtResource("1")
+show_placeholder_body = false
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2")
+rotation = 3.1415927
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("Body")

@@ -2,7 +2,7 @@ class_name MissionProjectile
 extends Node2D
 signal impacted(target: Object)
 var direction := Vector2.RIGHT
-var shooter: DemoPlayer
+var shooter: CollisionObject2D
 var lifetime := 1.4
 var speed := 700.0
 

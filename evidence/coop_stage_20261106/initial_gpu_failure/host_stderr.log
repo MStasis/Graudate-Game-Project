@@ -1,0 +1,6 @@
+ERROR: COOP_CHECK_FAILED host: replayed_and_nonfinite_input_rejected
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/coop_probe_test.gd:16)
+       [1] run_host (res://tests/coop_probe_test.gd:69)
+       [2] until (res://tests/coop_probe_test.gd:22)

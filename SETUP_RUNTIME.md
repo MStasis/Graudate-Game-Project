@@ -45,7 +45,7 @@ $env:OLLAMA_NO_CLOUD = '1'
 
 ## 4. 검사와 편집
 
-- `VERIFY_MISSION.cmd`: 외부 AI 호출 없이 129개 자동 검사. 임무 50 / 채팅 27 / 입력 모듈 로드 6 / 입력 연결 합성 11 / UI 35.
+- `VERIFY_MISSION.cmd`: 외부 AI 호출 없이 171개 자동 검사. 임무 50 / 채팅 27 / 입력 모듈 로드 6 / 입력 연결 합성 11 / UI 35 / 비전투 대화 42.
 - `GODOT_EDITING_GUIDE.md`: 씬·자원과 UI를 직접 수정하는 방법.
 - `native/windows_ime/README.md`: 포함된 입력 연결 DLL의 소스·빌드·검증 범위. 일반 게임 실행에는 Visual Studio가 필요하지 않다.
 - `README.md`: 현재 구현, 조작, 연구 비교 방식과 남은 작업.

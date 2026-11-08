@@ -35,17 +35,25 @@ F6은 World 씬만 실행하므로 대화 UI와 NPCBrain이 포함되지 않는�
 | 체력·탄약·지원 자원·회복량 | 같은 World | 공통 전투 조건의 각 값 |
 | 보호 지점·반경·피해 비율 | 같은 World | Safe Position / Cover Radius / Covered Damage Multiplier |
 | 맵 경계·바닥 크기 | 같은 World | Room Rect. 문·소품도 새 경계 안에 배치 |
-| 체력·탄약·지원 표시 | main.tscn / Header | HealthBar / HealthValue / AmmoValue / SupportValue |
-| 임무 표시 | main.tscn / MissionBar | Objective / MissionStep / Location |
+| 하린 체력·탄약·사격 규칙 | World | 동료 공통 전투 규칙의 Npc Max Hp / Npc Initial Ammo / Npc Bullet Damage / Npc Fire Interval |
+| 캐릭터 아래 체력·탄약 | scenes/ui/ActorStatus.tscn | Health / Value / Weapon / Ammo. 실제 수치는 combat_interface.gd에서 연결 |
+| 미니맵·전투 목표·말풍선·기록 | scenes/ui/CombatHUD.tscn | Minimap / Objective / NPCSpeech / PlayerSpeech / HistoryPanel |
+| ESC 메뉴·예비 버튼·세로 장식 | scenes/ui/PauseMenu.tscn | Window 아래 각 Control. Save/Load 외 예비 버튼에는 기능 없음 |
+| 톱니바퀴 1회전 | PauseMenu / Window / Gear | pause_gear.gd의 0.7초 Tween |
+| 비전투 임무 표시 | main.tscn / LabObjective | LabObjectiveText |
 | 대화 UI | main.tscn / RadioPanel | Answer / Question / SendButton 등의 위치·크기·글자 |
-| 하린 초상화 | RadioPanel / PortraitFrame / Portrait | Texture. 픽셀 그림은 Texture Filter의 Nearest 유지 |
+| 비전투 하린 초상화 | RadioPanel / LabPortrait | Texture. 픽셀 그림은 Texture Filter의 Nearest 유지 |
+| 비전투 대화창 높이·초상화 폭 | RadioPanel | Dialogue Height / Portrait Width. Noncombat Mode로 편집 미리보기 전환 |
+| 비전투 금속 패널·입력·버튼 장식 | RadioPanel / LabChrome, Question / FieldChrome, SendButton / ButtonChrome | Frame Kind / Fill Top / Fill Bottom / Rim Color / Accent Color |
+| 비전투 글꼴·입력창 여백·색 | resources / LabDialogueTheme.tres | Theme의 각 스타일·색상·글꼴 |
+| 이전 통신창 노드 | RadioPanel / PortraitFrame 등 | 호환성을 위해 보존, 현재 게임에서는 숨김 |
 | 실험 설정 창 | main.tscn / DebugPanel | 편집 시 Visible을 켜서 배치 확인. 저장 시 다시 끄기 |
 | UI 색·테두리·글꼴·버튼 | resources / GameTheme.tres | Theme의 각 스타일·색상·글꼴 |
 | 기본 비교 방식 | ExperimentSettings.tres | Provider: RuleBased / LocalLLM / Jev |
 | 판단 주기·유효 시간 | 같은 리소스 | Decision Interval / Max Decision Age |
 | 로컬 모델·생성 옵션·말투 지침 | NPCSettings.tres | Model / Thinking / Temperature / Context Size / Max Tokens / System Prompt |
 
-World만 실행할 때 RoomTitle은 Location Name을 사용한다. 전체 게임에서는 중복 안내를 숨기고 main.tscn의 MissionBar를 사용한다. 현재 목표 안내는 퀘스트 단계에 따라 `world.gd → current_guidance()`가 채운다.
+World만 실행할 때 RoomTitle은 Location Name을 사용한다. 전체 게임에서는 비전투 LabObjective와 CombatHUD의 목표 안내를 사용한다. 현재 목표 안내는 퀘스트 단계에 따라 `world.gd → current_guidance()`가 채운다.
 퀘스트 구조가 늘어나 이전의 정적 단계 안내 템플릿은 사용하지 않는다. 새 단계·목표 문장을 추가하려면 이 함수를 수정해야 한다.
 
 NPC의 이름·설명은 로컬 대화 지침에 반영된다. 일부 시스템 알림·규칙/의도별 대사는 `world.gd`와 `npc_policy.gd`에 있다.
@@ -69,11 +77,13 @@ Generator와 Exit는 전력 복구 시 Activated Color가 적용된다.
 - 내부 노드 이름·Unique Name·World의 Player/NPC/Fuse/Generator/Exit 참조는 유지한다.
 - LabDecor와 StorageDecor는 현재 두 구역을 표현하는 별도 그룹이다. 실제 방을 새로 추가하는 기능은 코드 수정이 필요하다.
 - 현재 하린은 열린 공간에서 단순 추적한다. 충돌하는 가구·복잡한 통로를 추가하면 NPC 경로 탐색도 보완해야 한다.
-- main.tscn의 UI는 일반 Control의 저장된 위치·크기를 사용한다. 고정 1280×800 기준이며 다양한 화면 비율의 자동 재배치는 별도 작업이다.
+- main.tscn의 World는 WorldCanvas 아래에 있다. 표시 배율만 비전투 1.35/전투 1.0으로 조정하며 물리 좌표·속도·충돌 크기는 그대로다.
+- 대화·전투·메뉴는 Control 기반이며 1280×800 기준, 960×600 논리 캔버스와 실제 창 렌더링을 검사했다. 임의의 초광폭 비율은 별도 확인이 필요하다.
+- 저장 형식·검증·파일 교체는 mission_save_store.gd, 복원할 실제 값은 world.gd의 save_snapshot/restore_snapshot에서 관리한다. 규칙 변경 시 기존 슬롯의 scenario 해시가 달라져 로드를 거절할 수 있다.
 
 ## 검증 범위
 
-새 자동 검사는 `game/tests/mission_test.gd`의 50개 항목이며 `VERIFY_MISSION.cmd`로 실행한다.
+기본 자동 검사 251개는 `VERIFY_MISSION.cmd`로 실행한다. `scripts/verify_mission.ps1 -Render`는 GPU 임무 시연과 UI 검사 81개를 추가한다. `-LocalAI`는 실행 중인 로컬 모델로 기존 통합 5개와 저장 복원 중 요청 취소 7개를 검사한다.
 키 이동, 입력 중 이동 제한과 전투 지속, 탄환·근거리 적중, 지원 자원/효과, 왕복 진행, 오래된 응답 폐기, 씬 저장·재로드를 검사한다.
 실제 로컬 모델의 치료·보급·대화는 별도 통합 검사로 확인했다. 최신 결과는 `evidence/mission_v1/`에 있다.
 이 버전에서 native 편집기 자동 조작을 새로 수행하지는 않았다. 저장된 씬의 변경 보존은 프로그램 검사로 확인했다.

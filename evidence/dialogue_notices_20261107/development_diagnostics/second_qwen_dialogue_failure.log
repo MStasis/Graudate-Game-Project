@@ -1,0 +1,19 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+DIALOGUE_SAMPLE {"accepted":true,"case":"greeting","text":"오늘도 잘 지냈어? 나도 괜찮아. 뭐 어려운 건 없어?"}
+DIALOGUE_SAMPLE {"accepted":true,"case":"food","text":"밥 먹었어? 응, 간단한 라면 먹었어. 뭐 어려운 건 없어?"}
+DIALOGUE_SAMPLE {"accepted":true,"case":"anxiety","text":"오늘 좀 긴장돼? 응, 나도 약간 힘들었어. 뭐야, 힘든 건 뭐야?"}
+DIALOGUE_SAMPLE {"accepted":true,"case":"generic_question","text":"응, 뭔데? 편하게 물어봐."}
+DIALOGUE_SAMPLE {"accepted":true,"case":"before_handoff","text":"응, 나가서 놓은 거야. 네가 쓸 때까지 기다리고 있을게."}
+ERROR: DIALOGUE_QUALITY_FAILED before_handoff_has_no_fake_completed_delivery
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/dialogue_quality_test.gd:13)
+       [1] run (res://tests/dialogue_quality_test.gd:49)
+       [2] ask (res://tests/dialogue_quality_test.gd:26)
+DIALOGUE_SAMPLE {"accepted":true,"case":"ground_flashlight","text":"하린이 바닥에 놓은 거야. 봐서 줍고 와서 봐."}
+DIALOGUE_SAMPLE {"accepted":true,"case":"flashlight_controls","text":"손전등은 마우스만 움직이면 자동으로 비춰져. 네가 보고 싶은 곳을 향해 마우스를 움직이면 돼."}
+DIALOGUE_SAMPLE {"accepted":true,"case":"panel_offer","text":"내가 반대편 누를게! 빨리 해."}
+DIALOGUE_SAMPLE {"accepted":true,"case":"panel_controls","text":"응, 패널은 동시에 누르면 보관함이 열린다. 내가 반대편 누를게!"}
+DIALOGUE_SAMPLE {"accepted":true,"case":"food_after_mission_chat","text":"어제는 카레 라면이었어. 끝나면 뭐 먹고 싶어?"}
+DIALOGUE_QUALITY_RESULT {"check_count":20,"checks":{"anxiety_actual_model_accepted":true,"asked_panel_help_keeps_two_roles":true,"before_handoff_actual_model_accepted":true,"before_handoff_has_no_fake_completed_delivery":false,"casual_reply_recovers_after_mission_history":true,"emotion_does_not_become_a_tutorial":true,"flashlight_answer_is_specific_and_correct":true,"flashlight_controls_actual_model_accepted":true,"food_actual_model_accepted":true,"food_after_mission_chat_actual_model_accepted":true,"food_does_not_return_to_objective":true,"generic_question_actual_model_accepted":true,"generic_question_does_not_trigger_door_or_mission":true,"greeting_actual_model_accepted":true,"greeting_stays_in_conversation":true,"ground_flashlight_actual_model_accepted":true,"ground_flashlight_is_not_already_collected":true,"panel_controls_actual_model_accepted":true,"panel_offer_actual_model_accepted":true,"panel_offer_is_short_without_timer_or_keys":true},"passed":false}

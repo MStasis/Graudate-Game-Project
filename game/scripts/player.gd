@@ -17,6 +17,7 @@ extends CharacterBody2D
 		_sync_visual()
 
 var movement_enabled := true
+var facing_direction := Vector2.RIGHT
 
 func _ready() -> void:
 	_sync_visual()
@@ -33,5 +34,6 @@ func _physics_process(_delta: float) -> void:
 		velocity = Vector2.ZERO
 		return
 	velocity = Input.get_vector("move_left", "move_right", "move_up", "move_down") * move_speed
+	if velocity.length_squared() > 1: facing_direction = velocity.normalized()
 	move_and_slide()
 

@@ -1,0 +1,157 @@
+WorkerThreadPool: 16 threads, 4 max low-priority.
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+TextServer: Added interface "Dummy"
+TextServer: Added interface "ICU / HarfBuzz / Graphite (Built-in)"
+Using "default" pen tablet driver...
+
+TextServer: Primary interface set to: "ICU / HarfBuzz / Graphite (Built-in)".
+CORE API HASH: 2004498165
+EDITOR API HASH: 1696660745
+Loading resource: res://tests/coop_input_test.gd remapped: res://tests/coop_input_test.gd
+Completed load for: 'res://tests/coop_input_test.gd' remapped 'res://tests/coop_input_test.gd' at thread -1
+SceneTreeFTI: traversal method DEFAULT
+MbedTLS: Some X509 certificates could not be parsed (1 certificates skipped).
+Loaded system CA certificates
+Loading resource: res://scenes/CoopProbe.tscn remapped: res://scenes/CoopProbe.tscn
+Loading resource: res://scripts/coop_probe.gd remapped: res://scripts/coop_probe.gd
+Loading resource: res://scenes/Player.tscn remapped: res://scenes/Player.tscn
+Loading resource: res://assets/temporary/kenney/sprites/soldier1_gun.png remapped: res://assets/temporary/kenney/sprites/soldier1_gun.png
+Loading resource: res://.godot/imported/soldier1_gun.png-2da93475d57d0cbf704cecb88693c8e7.ctex remapped: res://.godot/imported/soldier1_gun.png-2da93475d57d0cbf704cecb88693c8e7.ctex
+Completed load for: 'res://assets/temporary/kenney/sprites/soldier1_gun.png' remapped 'res://assets/temporary/kenney/sprites/soldier1_gun.png' at thread -1
+Loading resource: res://scripts/temporary_actor_aim.gd remapped: res://scripts/temporary_actor_aim.gd
+Completed load for: 'res://scripts/temporary_actor_aim.gd' remapped 'res://scripts/temporary_actor_aim.gd' at thread -1
+Completed load for: 'res://scenes/Player.tscn' remapped 'res://scenes/Player.tscn' at thread -1
+Loading resource: res://scenes/Drone.tscn remapped: res://scenes/Drone.tscn
+Loading resource: res://assets/temporary/kenney/sprites/robot1_machine.png remapped: res://assets/temporary/kenney/sprites/robot1_machine.png
+Loading resource: res://.godot/imported/robot1_machine.png-f965d4ab91a1bccd944612c212eea747.ctex remapped: res://.godot/imported/robot1_machine.png-f965d4ab91a1bccd944612c212eea747.ctex
+Completed load for: 'res://assets/temporary/kenney/sprites/robot1_machine.png' remapped 'res://assets/temporary/kenney/sprites/robot1_machine.png' at thread -1
+Completed load for: 'res://scenes/Drone.tscn' remapped 'res://scenes/Drone.tscn' at thread -1
+Loading resource: res://scenes/Projectile.tscn remapped: res://scenes/Projectile.tscn
+Completed load for: 'res://scenes/Projectile.tscn' remapped 'res://scenes/Projectile.tscn' at thread -1
+Loading resource: res://assets/temporary/kenney/audio/laserSmall_000.ogg remapped: res://assets/temporary/kenney/audio/laserSmall_000.ogg
+Loading resource: res://.godot/imported/laserSmall_000.ogg-90c689cdb3d5325c890120815f9ba57e.oggvorbisstr remapped: res://.godot/imported/laserSmall_000.ogg-90c689cdb3d5325c890120815f9ba57e.oggvorbisstr
+Completed load for: 'res://assets/temporary/kenney/audio/laserSmall_000.ogg' remapped 'res://assets/temporary/kenney/audio/laserSmall_000.ogg' at thread -1
+Completed load for: 'res://scripts/coop_probe.gd' remapped 'res://scripts/coop_probe.gd' at thread -1
+Loading resource: res://resources/GameTheme.tres remapped: res://resources/GameTheme.tres
+Completed load for: 'res://resources/GameTheme.tres' remapped 'res://resources/GameTheme.tres' at thread -1
+Completed load for: 'res://scenes/CoopProbe.tscn' remapped 'res://scenes/CoopProbe.tscn' at thread -1
+Loading resource: res://main.tscn remapped: res://main.tscn
+Loading resource: res://main.gd remapped: res://main.gd
+Loading resource: res://resources/LabDialogueTheme.tres remapped: res://resources/LabDialogueTheme.tres
+Completed load for: 'res://resources/LabDialogueTheme.tres' remapped 'res://resources/LabDialogueTheme.tres' at thread -1
+Loading resource: res://resources/GameTheme.tres remapped: res://resources/GameTheme.tres
+Completed load for: 'res://resources/GameTheme.tres' remapped 'res://resources/GameTheme.tres' at thread -1
+Loading resource: res://scenes/ui/ActorStatus.tscn remapped: res://scenes/ui/ActorStatus.tscn
+Loading resource: res://scripts/actor_status.gd remapped: res://scripts/actor_status.gd
+Completed load for: 'res://scripts/actor_status.gd' remapped 'res://scripts/actor_status.gd' at thread -1
+Loading resource: res://assets/ui/pulse_pistol.svg remapped: res://assets/ui/pulse_pistol.svg
+Loading resource: res://.godot/imported/pulse_pistol.svg-6b03e805bd096424cde0af2fdf6e5ba3.ctex remapped: res://.godot/imported/pulse_pistol.svg-6b03e805bd096424cde0af2fdf6e5ba3.ctex
+Completed load for: 'res://assets/ui/pulse_pistol.svg' remapped 'res://assets/ui/pulse_pistol.svg' at thread -1
+Completed load for: 'res://scenes/ui/ActorStatus.tscn' remapped 'res://scenes/ui/ActorStatus.tscn' at thread -1
+Completed load for: 'res://main.gd' remapped 'res://main.gd' at thread -1
+Loading resource: res://scenes/World.tscn remapped: res://scenes/World.tscn
+Loading resource: res://scenes/NPC.tscn remapped: res://scenes/NPC.tscn
+Loading resource: res://assets/temporary/kenney/sprites/womanGreen_gun.png remapped: res://assets/temporary/kenney/sprites/womanGreen_gun.png
+Loading resource: res://.godot/imported/womanGreen_gun.png-e326ac8cec41140ad7a67bee375bf160.ctex remapped: res://.godot/imported/womanGreen_gun.png-e326ac8cec41140ad7a67bee375bf160.ctex
+Completed load for: 'res://assets/temporary/kenney/sprites/womanGreen_gun.png' remapped 'res://assets/temporary/kenney/sprites/womanGreen_gun.png' at thread -1
+Completed load for: 'res://scenes/NPC.tscn' remapped 'res://scenes/NPC.tscn' at thread -1
+Loading resource: res://scenes/Fuse.tscn remapped: res://scenes/Fuse.tscn
+Loading resource: res://assets/fuse.svg remapped: res://assets/fuse.svg
+Loading resource: res://.godot/imported/fuse.svg-eb4e5450f88ddeeed93020c862fb7ffa.ctex remapped: res://.godot/imported/fuse.svg-eb4e5450f88ddeeed93020c862fb7ffa.ctex
+Completed load for: 'res://assets/fuse.svg' remapped 'res://assets/fuse.svg' at thread -1
+Completed load for: 'res://scenes/Fuse.tscn' remapped 'res://scenes/Fuse.tscn' at thread -1
+Loading resource: res://scenes/Generator.tscn remapped: res://scenes/Generator.tscn
+Loading resource: res://assets/generator.svg remapped: res://assets/generator.svg
+Loading resource: res://.godot/imported/generator.svg-3ab9a9b0406e3155c4e6c6256b3ffab6.ctex remapped: res://.godot/imported/generator.svg-3ab9a9b0406e3155c4e6c6256b3ffab6.ctex
+Completed load for: 'res://assets/generator.svg' remapped 'res://assets/generator.svg' at thread -1
+Completed load for: 'res://scenes/Generator.tscn' remapped 'res://scenes/Generator.tscn' at thread -1
+Loading resource: res://scenes/Exit.tscn remapped: res://scenes/Exit.tscn
+Loading resource: res://assets/exit.svg remapped: res://assets/exit.svg
+Loading resource: res://.godot/imported/exit.svg-b689b8b1306a880745821fb906257f51.ctex remapped: res://.godot/imported/exit.svg-b689b8b1306a880745821fb906257f51.ctex
+Completed load for: 'res://assets/exit.svg' remapped 'res://assets/exit.svg' at thread -1
+Completed load for: 'res://scenes/Exit.tscn' remapped 'res://scenes/Exit.tscn' at thread -1
+Loading resource: res://assets/temporary/kenney/sprites/tile_11.png remapped: res://assets/temporary/kenney/sprites/tile_11.png
+Loading resource: res://.godot/imported/tile_11.png-bc191851bcd76985297e9bd8d4af87e3.ctex remapped: res://.godot/imported/tile_11.png-bc191851bcd76985297e9bd8d4af87e3.ctex
+Completed load for: 'res://assets/temporary/kenney/sprites/tile_11.png' remapped 'res://assets/temporary/kenney/sprites/tile_11.png' at thread -1
+Loading resource: res://resources/flashlight.gdshader remapped: res://resources/flashlight.gdshader
+Completed load for: 'res://resources/flashlight.gdshader' remapped 'res://resources/flashlight.gdshader' at thread -1
+Loading resource: res://scripts/mission_fx.gd remapped: res://scripts/mission_fx.gd
+Completed load for: 'res://scripts/mission_fx.gd' remapped 'res://scripts/mission_fx.gd' at thread -1
+Loading resource: res://scripts/mission_audio.gd remapped: res://scripts/mission_audio.gd
+Loading resource: res://assets/temporary/kenney/audio/laserSmall_001.ogg remapped: res://assets/temporary/kenney/audio/laserSmall_001.ogg
+Loading resource: res://.godot/imported/laserSmall_001.ogg-d58fa910efe22a463c3b996979f65be4.oggvorbisstr remapped: res://.godot/imported/laserSmall_001.ogg-d58fa910efe22a463c3b996979f65be4.oggvorbisstr
+Completed load for: 'res://assets/temporary/kenney/audio/laserSmall_001.ogg' remapped 'res://assets/temporary/kenney/audio/laserSmall_001.ogg' at thread -1
+Loading resource: res://assets/temporary/kenney/audio/impactMetal_000.ogg remapped: res://assets/temporary/kenney/audio/impactMetal_000.ogg
+Loading resource: res://.godot/imported/impactMetal_000.ogg-855f425b0c503940f4acb35742946a72.oggvorbisstr remapped: res://.godot/imported/impactMetal_000.ogg-855f425b0c503940f4acb35742946a72.oggvorbisstr
+Completed load for: 'res://assets/temporary/kenney/audio/impactMetal_000.ogg' remapped 'res://assets/temporary/kenney/audio/impactMetal_000.ogg' at thread -1
+Loading resource: res://assets/temporary/kenney/audio/explosionCrunch_000.ogg remapped: res://assets/temporary/kenney/audio/explosionCrunch_000.ogg
+Loading resource: res://.godot/imported/explosionCrunch_000.ogg-eba4054b9eafbd40648d33251e982c62.oggvorbisstr remapped: res://.godot/imported/explosionCrunch_000.ogg-eba4054b9eafbd40648d33251e982c62.oggvorbisstr
+Completed load for: 'res://assets/temporary/kenney/audio/explosionCrunch_000.ogg' remapped 'res://assets/temporary/kenney/audio/explosionCrunch_000.ogg' at thread -1
+Loading resource: res://assets/temporary/kenney/audio/doorOpen_000.ogg remapped: res://assets/temporary/kenney/audio/doorOpen_000.ogg
+Loading resource: res://.godot/imported/doorOpen_000.ogg-8db44f44f171099bb3f0a8253c1fe088.oggvorbisstr remapped: res://.godot/imported/doorOpen_000.ogg-8db44f44f171099bb3f0a8253c1fe088.oggvorbisstr
+Completed load for: 'res://assets/temporary/kenney/audio/doorOpen_000.ogg' remapped 'res://assets/temporary/kenney/audio/doorOpen_000.ogg' at thread -1
+Loading resource: res://assets/temporary/kenney/audio/forceField_000.ogg remapped: res://assets/temporary/kenney/audio/forceField_000.ogg
+Loading resource: res://.godot/imported/forceField_000.ogg-99980312f8e5fc3f066e80b525cb6e89.oggvorbisstr remapped: res://.godot/imported/forceField_000.ogg-99980312f8e5fc3f066e80b525cb6e89.oggvorbisstr
+Completed load for: 'res://assets/temporary/kenney/audio/forceField_000.ogg' remapped 'res://assets/temporary/kenney/audio/forceField_000.ogg' at thread -1
+Completed load for: 'res://scripts/mission_audio.gd' remapped 'res://scripts/mission_audio.gd' at thread -1
+Completed load for: 'res://scenes/World.tscn' remapped 'res://scenes/World.tscn' at thread -1
+Loading resource: res://resources/NPCSettings.tres remapped: res://resources/NPCSettings.tres
+Completed load for: 'res://resources/NPCSettings.tres' remapped 'res://resources/NPCSettings.tres' at thread -1
+Loading resource: res://resources/ExperimentSettings.tres remapped: res://resources/ExperimentSettings.tres
+Completed load for: 'res://resources/ExperimentSettings.tres' remapped 'res://resources/ExperimentSettings.tres' at thread -1
+Loading resource: res://assets/ui/harin_canva.png remapped: res://assets/ui/harin_canva.png
+Loading resource: res://.godot/imported/harin_canva.png-3280513258305d0ba2f1a320a5f792b6.ctex remapped: res://.godot/imported/harin_canva.png-3280513258305d0ba2f1a320a5f792b6.ctex
+Completed load for: 'res://assets/ui/harin_canva.png' remapped 'res://assets/ui/harin_canva.png' at thread -1
+Loading resource: res://scripts/hud_frame.gd remapped: res://scripts/hud_frame.gd
+Completed load for: 'res://scripts/hud_frame.gd' remapped 'res://scripts/hud_frame.gd' at thread -1
+Loading resource: res://assets/ui/station_mark.svg remapped: res://assets/ui/station_mark.svg
+Loading resource: res://.godot/imported/station_mark.svg-da482907e981aa135e04693f5c20cb57.ctex remapped: res://.godot/imported/station_mark.svg-da482907e981aa135e04693f5c20cb57.ctex
+Completed load for: 'res://assets/ui/station_mark.svg' remapped 'res://assets/ui/station_mark.svg' at thread -1
+Loading resource: res://assets/ui/reticle.svg remapped: res://assets/ui/reticle.svg
+Loading resource: res://.godot/imported/reticle.svg-61049928756fb6de643dd30a60d8ff41.ctex remapped: res://.godot/imported/reticle.svg-61049928756fb6de643dd30a60d8ff41.ctex
+Completed load for: 'res://assets/ui/reticle.svg' remapped 'res://assets/ui/reticle.svg' at thread -1
+Loading resource: res://scripts/industrial_ui_frame.gd remapped: res://scripts/industrial_ui_frame.gd
+Completed load for: 'res://scripts/industrial_ui_frame.gd' remapped 'res://scripts/industrial_ui_frame.gd' at thread -1
+Loading resource: res://assets/ui/harin_bust_v1.png remapped: res://assets/ui/harin_bust_v1.png
+Loading resource: res://.godot/imported/harin_bust_v1.png-7990b348780fd7b4164a9589bbf0a8ec.ctex remapped: res://.godot/imported/harin_bust_v1.png-7990b348780fd7b4164a9589bbf0a8ec.ctex
+Completed load for: 'res://assets/ui/harin_bust_v1.png' remapped 'res://assets/ui/harin_bust_v1.png' at thread -1
+Loading resource: res://scripts/dialogue_speech_bubble.gd remapped: res://scripts/dialogue_speech_bubble.gd
+Completed load for: 'res://scripts/dialogue_speech_bubble.gd' remapped 'res://scripts/dialogue_speech_bubble.gd' at thread -1
+Loading resource: res://scenes/ui/CombatHUD.tscn remapped: res://scenes/ui/CombatHUD.tscn
+Loading resource: res://scenes/ui/SpeechBubble.tscn remapped: res://scenes/ui/SpeechBubble.tscn
+Completed load for: 'res://scenes/ui/SpeechBubble.tscn' remapped 'res://scenes/ui/SpeechBubble.tscn' at thread -1
+Completed load for: 'res://scenes/ui/CombatHUD.tscn' remapped 'res://scenes/ui/CombatHUD.tscn' at thread -1
+Loading resource: res://scenes/ui/PauseMenu.tscn remapped: res://scenes/ui/PauseMenu.tscn
+Loading resource: res://scripts/pause_gear.gd remapped: res://scripts/pause_gear.gd
+Completed load for: 'res://scripts/pause_gear.gd' remapped 'res://scripts/pause_gear.gd' at thread -1
+Completed load for: 'res://scenes/ui/PauseMenu.tscn' remapped 'res://scenes/ui/PauseMenu.tscn' at thread -1
+Completed load for: 'res://main.tscn' remapped 'res://main.tscn' at thread -1
+COOP_INPUT_RESULT {"check_count":10,"checks":{"audio_stream_has_decodable_duration":true,"damage_routes_audio":true,"host_ready":true,"hud_click_does_not_fire":true,"player_shot_routes_audio":true,"room_transition_routes_audio":true,"single_frame_click_deals_real_damage":true,"single_frame_click_fires_exactly_once":true,"single_frame_space_fires_exactly_once":true,"unavailable_host_returns_to_menu":true},"human_audio_listening":false,"passed":true,"suite":"coop_input_and_presentation","synthetic_input_events":true}
+XR: Clearing primary interface
+XR: Removed interface "Native mobile"
+XR: Removed interface "OpenXR"
+Leaked instance: OggPacketSequence:9223372066986657265 - Reference count: 3
+Leaked instance: AudioStreamOggVorbis:9223372067003434482 - Reference count: 1
+Leaked instance: OggPacketSequence:9223372081985488475 - Reference count: 3
+Leaked instance: AudioStreamOggVorbis:9223372082002265692 - Reference count: 1
+Leaked instance: OggPacketSequence:9223372082555913823 - Reference count: 3
+Leaked instance: AudioStreamOggVorbis:9223372082572691040 - Reference count: 1
+Leaked instance: AudioStreamPlaybackOggVorbis:9223372096346785573 - Reference count: 1
+Leaked instance: OggPacketSequencePlayback:9223372096363563096 - Reference count: 1
+Leaked instance: AudioStreamPlaybackOggVorbis:9223372096598444128 - Reference count: 1
+Leaked instance: OggPacketSequencePlayback:9223372096615221345 - Reference count: 1
+Leaked instance: AudioStreamPlaybackOggVorbis:9223372096682330212 - Reference count: 1
+WARNING: 12 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+Leaked instance: OggPacketSequencePlayback:9223372096699107429 - Reference count: 1
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 6 resources still in use at exit.
+   at: clear (core/io/resource.cpp:817)
+Hint: Leaked instances typically happen when nodes are removed from the scene tree (with `remove_child()`) but not freed (with `free()` or `queue_free()`).
+Resource still in use: res://assets/temporary/kenney/audio/laserSmall_000.ogg::OggPacketSequence_8qwgo (OggPacketSequence)
+Resource still in use: res://assets/temporary/kenney/audio/laserSmall_000.ogg (AudioStreamOggVorbis)
+Resource still in use: res://assets/temporary/kenney/audio/impactMetal_000.ogg::OggPacketSequence_tg4uj (OggPacketSequence)
+Resource still in use: res://assets/temporary/kenney/audio/impactMetal_000.ogg (AudioStreamOggVorbis)
+Resource still in use: res://assets/temporary/kenney/audio/doorOpen_000.ogg::OggPacketSequence_t86oi (OggPacketSequence)
+Resource still in use: res://assets/temporary/kenney/audio/doorOpen_000.ogg (AudioStreamOggVorbis)
+Orphan StringName: Master (static: 0, total: 3)
+StringName: 1 unclaimed string names at exit.
