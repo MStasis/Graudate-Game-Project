@@ -1,0 +1,18 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":35795.775,"id":"before_blackout","question":"교대 끝나려면 멀었나. 오늘 근무도 조용하겠지?","text":"교대 끝나지 않았어. 오늘 조용해... 뭐 봐야 할 거야?"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":26700.959,"id":"blackout","question":"방금까지 켜져 있었잖아. 어디부터 확인할까?","text":"아, 오른쪽 통로에서 손전등을 빌려줄게. 먼저 그쪽부터 확인해."}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":51145.043,"id":"new_fear_banter","question":"솔직히 너도 지금 심장 빨리 뛰지?","text":"아... 이거 뭐야? 심장 뛰는 게 아니야. 뭔가 봐야 할 거야."}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":35120.876,"id":"new_banter_followup","question":"딴소리 하지 말고, 내 뒤에 숨으려는 건 아니지?","text":"아니야. 뒤에 숨는 게 아니야... 지금 뭔가 봐야 할 거야."}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":37487.92,"id":"fuse_search","question":"이 방에서 뭘 챙겨야 돌아갈 수 있어?","text":"아, 먼저 세 드론을 잡아야 돼. 그 다음 북동쪽 보관함에서 퓨즈를 찾아 전력 복구할 거야. 지금은 뭔가 봐야 할 거야?"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":22585.951,"id":"panel_question","question":"이 패널 둘 다 내가 누르면 되나?","text":"아, 3드론 먼저 잡아야지. 패널은 나중에."}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":34688.445,"id":"panel_referent","question":"그럼 네가 맡는 건 어느 쪽이라고?","text":"아, 반대 쪽 패널이야. 3드론 먼저 잡아야지."}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":39280.702,"id":"fuse_return","question":"아까 찾던 부품 챙겼어. 그럼 지금은?","text":"아, 퓨즈 장착해야 돼. 연구실 전력 장치에 끼워야지. 뭔가 봐야 할 거야?"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":34985.996,"id":"power_restored","question":"이제 불 들어왔는데? 퓨즈는 더 필요 없어?","text":"아, 불이 들어올 때쯤이야. 퓨즈는 끝났어. 경보 체크 먼저 해."}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":27741.898,"id":"alarm","question":"경고등까지 켜졌네. 이제 다 해결된 거야?","text":"아, 전력은 되었어. 그런데 경보가 켜져서 아직 안 돼. 먼저 그거 확인하고 연구실로 가자."}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":39244.083,"id":"main_entry","question":"아까 네가 말한 그 이상한 장치, 여기선 뭘 확인해?","text":"아, 관측 단말 확인해. 경보 켜지면 내부 봉쇄 경로 봐야지... 봤어?"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":35385.83,"id":"food_new_question","question":"너 메뉴 고르는 데도 이렇게 진지해? 오늘 내가 한턱 낼까?","text":"3드론 먼저 잡아야지. 메뉴는... 네가 쏘는 거야? 히히"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":18090.767,"id":"food_followup","question":"아까 그건 그냥 주문이지, 매일 먹는다는 뜻은 아니지?","text":"아, 매일 먹는 게 아니야. 그냥 오늘만 허락받은 거지. 히히"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":22680.979,"id":"fictional_memory","question":"우리 휴게실에서 스파게티 시켰던 거 기억해?","text":"아, 스파게티? 3드론 먼저 잡아야지. 히히"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":22807.957,"id":"fictional_rule","question":"여긴 정말 퇴근을 못 하는 연구소야?","text":"아, 퇴근은 언제? 3드론 먼저 잡아야지. 히히"}
+STORY_LIVE_RESULT {"check_count":15,"passed":true}

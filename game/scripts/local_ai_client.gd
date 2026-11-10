@@ -28,6 +28,7 @@ var request_prompt := ""
 var request_system := ""
 var request_question := ""
 var output_schema := {}
+var chat_messages: Array = []
 
 func check_connection() -> void:
 	health_request.request_completed.connect(_connection_checked)
@@ -46,13 +47,14 @@ func _connection_checked(result: int, code: int, _headers: PackedStringArray, bo
 			if item.get("name", "") == settings.model: found = true
 	readiness.emit("로컬 모델 준비 완료" if found else "%s 모델 준비가 필요합니다." % settings.model)
 
-func generate(system_text: String, prompt: String, state: Dictionary, question_text: String, schema: Dictionary = {}) -> void:
-	if busy: return
+func generate(system_text: String, prompt: String, state: Dictionary, question_text: String, schema: Dictionary = {}, messages: Array = []) -> bool:
+	if busy: return false
 	request_state = state.duplicate(true)
 	request_system = system_text
 	request_prompt = prompt
 	request_question = question_text
 	output_schema = schema.duplicate(true)
+	chat_messages = messages.duplicate(true)
 	busy = true
 	request_sent = false
 	buffer = PackedByteArray()
@@ -64,7 +66,10 @@ func generate(system_text: String, prompt: String, state: Dictionary, question_t
 	thinking_character_count = 0
 	started.emit()
 	var error := client.connect_to_host(settings.host, settings.port)
-	if error != OK: _fail("연결 시작 실패: %s" % error)
+	if error != OK:
+		_fail("연결 시작 실패: %s" % error)
+		return false
+	return true
 
 func _process(_delta: float) -> void:
 	var now := Time.get_ticks_usec()
@@ -82,9 +87,15 @@ func _process(_delta: float) -> void:
 	var state := client.get_status()
 	if state == HTTPClient.STATUS_CONNECTED and not request_sent:
 		var payload := {"model": settings.model, "system": request_system, "prompt": request_prompt, "stream": true, "keep_alive": "15m", "options": settings.generation_options()}
+		var endpoint := "/api/generate"
+		if not chat_messages.is_empty():
+			payload.erase("system")
+			payload.erase("prompt")
+			payload["messages"] = chat_messages
+			endpoint = "/api/chat"
 		if not output_schema.is_empty(): payload["format"] = output_schema
-		payload["think"] = settings.thinking
-		var error := client.request(HTTPClient.METHOD_POST, "/api/generate", PackedStringArray(["Content-Type: application/json"]), JSON.stringify(payload))
+		if not settings.model.to_lower().begins_with("qwen2.5"): payload["think"] = settings.effective_thinking()
+		var error := client.request(HTTPClient.METHOD_POST, endpoint, PackedStringArray(["Content-Type: application/json"]), JSON.stringify(payload))
 		if error != OK: _fail("요청 전송 실패: %s" % error)
 		else: request_sent = true
 	elif state == HTTPClient.STATUS_BODY:
@@ -121,8 +132,9 @@ func _consume_event(line: String) -> void:
 	if event.has("error"):
 		_fail(str(event.error))
 		return
-	thinking_character_count += str(event.get("thinking", "")).length()
-	var token := str(event.get("response", ""))
+	var message: Dictionary = event.get("message", {})
+	thinking_character_count += str(event.get("thinking", message.get("thinking", ""))).length()
+	var token := str(event.get("response", message.get("content", "")))
 	if not token.is_empty():
 		if first_usec == 0: first_usec = Time.get_ticks_usec()
 		generated += token
@@ -133,11 +145,12 @@ func _consume_event(line: String) -> void:
 		else: _finish(event)
 
 func _base_record() -> Dictionary:
-	return {"schema_version": 4, "run_id": OS.get_process_id(), "timestamp_utc": Time.get_datetime_string_from_system(true, true) + "Z", "source": "godot_scene_stream", "model": settings.model, "thinking": settings.thinking, "output_schema": output_schema, "options": settings.generation_options(), "state": request_state, "question": request_question, "prompt": request_prompt, "system_prompt": request_system}
+	return {"schema_version": 5, "run_id": OS.get_process_id(), "timestamp_utc": Time.get_datetime_string_from_system(true, true) + "Z", "source": "godot_scene_stream", "request_id": request_state.get("_request_id"), "channel": request_state.get("_channel"), "attempt": request_state.get("_attempt", 0), "model": settings.model, "thinking": settings.effective_thinking(), "thinking_requested": settings.thinking, "output_schema": output_schema, "options": settings.generation_options(), "state": request_state, "question": request_question, "prompt": request_prompt, "system_prompt": request_system}
 
 func _finish(metrics: Dictionary) -> void:
 	metrics.erase("context")
 	var record := _base_record()
+	record["chat_messages"] = chat_messages.duplicate(true)
 	record.merge({"success": true, "response": generated, "first_text_ms": (first_usec - started_usec) / 1000.0, "elapsed_ms": (Time.get_ticks_usec() - started_usec) / 1000.0, "frames_while_generating": generation_frames, "max_frame_ms": max_frame_ms, "thinking_character_count": thinking_character_count, "metrics": metrics, "quality_review": "not_automated"})
 	_append_record(record)
 	_end_request()
@@ -146,6 +159,7 @@ func _finish(metrics: Dictionary) -> void:
 func _fail(message: String) -> void:
 	if not busy: return
 	var record := _base_record()
+	record["chat_messages"] = chat_messages.duplicate(true)
 	record.merge({"success": false, "error": message, "partial_response": generated})
 	_append_record(record)
 	_end_request()

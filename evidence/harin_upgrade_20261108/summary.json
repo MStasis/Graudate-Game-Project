@@ -1,0 +1,170 @@
+{
+  "created_utc": "2026-11-08T07:15:39.3194201Z",
+  "final_start_utc": "2026-11-08T07:10:44.5167095Z",
+  "command": ".\\runtime\\harin_20261108_01\\scripts\\verify_mission.ps1 -Render -LocalAI",
+  "exit_code": 0,
+  "passed": true,
+  "totals": {
+    "headless": 443,
+    "hidden_gpu": 278,
+    "local_model": 82
+  },
+  "automatic_mission_completed": true,
+  "human_playtest": false,
+  "screen_automation_used": false,
+  "new_visible_window_used": false,
+  "actual_model": "qwen3:4b",
+  "prompt_version": "companion_v2.1_validated_context_order",
+  "fresh_suites": [
+    {
+      "kind": "headless",
+      "path": "raw/mission_v1/mission_test.json",
+      "passed": true,
+      "check_count": 50,
+      "modified_utc": "2026-11-08T07:10:48.5995569Z"
+    },
+    {
+      "kind": "headless",
+      "path": "raw/chat_input_fix/chat_input_test.json",
+      "passed": true,
+      "check_count": 27,
+      "modified_utc": "2026-11-08T07:10:49.8812761Z"
+    },
+    {
+      "kind": "headless",
+      "path": "raw/native_ime_fix/native_load_test.json",
+      "passed": true,
+      "check_count": 6,
+      "modified_utc": "2026-11-08T07:10:50.1212062Z"
+    },
+    {
+      "kind": "headless",
+      "path": "raw/native_ime_fix/chat_native_integration_test.json",
+      "passed": true,
+      "check_count": 11,
+      "modified_utc": "2026-11-08T07:10:50.3555813Z"
+    },
+    {
+      "kind": "headless",
+      "path": "raw/ui_redesign/ui_layout_test.json",
+      "passed": true,
+      "check_count": 35,
+      "modified_utc": "2026-11-08T07:10:51.6156615Z"
+    },
+    {
+      "kind": "headless",
+      "path": "raw/noncombat_ui/noncombat_dialogue_test.json",
+      "passed": true,
+      "check_count": 42,
+      "modified_utc": "2026-11-08T07:10:52.7673246Z"
+    },
+    {
+      "kind": "headless",
+      "path": "raw/interface_update/interface_update_test.json",
+      "passed": true,
+      "check_count": 80,
+      "modified_utc": "2026-11-08T07:10:55.4621898Z"
+    },
+    {
+      "kind": "headless",
+      "path": "raw/mission_mechanics/test.json",
+      "passed": true,
+      "check_count": 54,
+      "modified_utc": "2026-11-08T07:11:09.54788Z"
+    },
+    {
+      "kind": "headless",
+      "path": "raw/input_aim_collision/test.json",
+      "passed": true,
+      "check_count": 34,
+      "modified_utc": "2026-11-08T07:11:22.1373451Z"
+    },
+    {
+      "kind": "headless",
+      "path": "raw/dialogue_notices/test.json",
+      "passed": true,
+      "check_count": 34,
+      "modified_utc": "2026-11-08T07:11:23.160377Z"
+    },
+    {
+      "kind": "headless",
+      "path": "raw/harin_upgrade/test.json",
+      "passed": true,
+      "check_count": 70,
+      "modified_utc": "2026-11-08T07:11:35.1220989Z"
+    },
+    {
+      "kind": "hidden_gpu",
+      "path": "raw/interface_update/interface_update_render_test.json",
+      "passed": true,
+      "check_count": 81,
+      "modified_utc": "2026-11-08T07:12:06.8398137Z"
+    },
+    {
+      "kind": "hidden_gpu",
+      "path": "raw/mission_mechanics/render.json",
+      "passed": true,
+      "check_count": 56,
+      "modified_utc": "2026-11-08T07:12:21.5202526Z"
+    },
+    {
+      "kind": "hidden_gpu",
+      "path": "raw/input_aim_collision/render.json",
+      "passed": true,
+      "check_count": 35,
+      "modified_utc": "2026-11-08T07:12:34.8091861Z"
+    },
+    {
+      "kind": "hidden_gpu",
+      "path": "raw/dialogue_notices/render.json",
+      "passed": true,
+      "check_count": 35,
+      "modified_utc": "2026-11-08T07:12:36.6937897Z"
+    },
+    {
+      "kind": "hidden_gpu",
+      "path": "raw/harin_upgrade/render.json",
+      "passed": true,
+      "check_count": 71,
+      "modified_utc": "2026-11-08T07:11:47.7115142Z"
+    },
+    {
+      "kind": "local_model",
+      "path": "raw/harin_upgrade/live_26744.json",
+      "passed": true,
+      "check_count": 39,
+      "modified_utc": "2026-11-08T07:12:46.1825413Z"
+    },
+    {
+      "kind": "local_model",
+      "path": "raw/mission_v1/local_integration/live_integration_12644.json",
+      "passed": true,
+      "check_count": 5,
+      "modified_utc": "2026-11-08T07:12:48.5549127Z"
+    },
+    {
+      "kind": "local_model",
+      "path": "raw/interface_update/live_save_load_40540.json",
+      "passed": true,
+      "check_count": 7,
+      "modified_utc": "2026-11-08T07:12:50.0932165Z"
+    },
+    {
+      "kind": "local_model",
+      "path": "raw/mission_mechanics/local_ai_13856.json",
+      "passed": true,
+      "check_count": 11,
+      "modified_utc": "2026-11-08T07:12:57.890021Z"
+    },
+    {
+      "kind": "local_model",
+      "path": "raw/dialogue_notices/local_dialogue_17628.json",
+      "passed": true,
+      "check_count": 20,
+      "modified_utc": "2026-11-08T07:13:03.8912765Z"
+    }
+  ],
+  "raw_includes_preserved_development_failures": true,
+  "git_head": "993ebf80fc716cd7450800c593638d10613d427e",
+  "final_source_files_matched": 24
+}

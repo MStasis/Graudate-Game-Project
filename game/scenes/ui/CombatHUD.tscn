@@ -17,7 +17,7 @@ mouse_filter = 0
 autowrap_mode = 3
 theme_override_font_sizes/font_size = 17
 [node name="HistoryButton" type="Button" parent="."]
-text = "대화 기록"
+text = "통합 기록 · H"
 focus_mode = 0
 offset_right = 130.0
 offset_bottom = 44.0
@@ -48,4 +48,31 @@ offset_top = 60.0
 offset_right = 424.0
 offset_bottom = 340.0
 theme_override_font_sizes/normal_font_size = 18
-scroll_following = true
+scroll_following = false
+[node name="NewMessages" type="Button" parent="HistoryPanel"]
+visible = false
+text = "새 메시지 ↓"
+focus_mode = 0
+offset_left = 16.0
+offset_top = 10.0
+offset_right = 220.0
+offset_bottom = 50.0
+[node name="Recent" type="RichTextLabel" parent="."]
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 15
+scroll_active = false
+[node name="Pending" type="Label" parent="."]
+visible = false
+mouse_filter = 2
+text = "하린 응답 중…"
+theme_override_font_sizes/font_size = 13
+[node name="FullMapPanel" type="Panel" parent="."]
+visible = false
+z_index = 8
+mouse_filter = 0
+[node name="Map" type="Control" parent="FullMapPanel"]
+mouse_filter = 2
+script = ExtResource("2")
+[node name="Close" type="Button" parent="FullMapPanel"]
+text = "지도 닫기 · M / Esc"
+focus_mode = 0

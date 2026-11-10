@@ -1,0 +1,4 @@
+SCRIPT ERROR: Cannot call method 'store_string' on a null value.
+   at: run (res://tests/live_save_load_test.gd:36)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/live_save_load_test.gd:36)

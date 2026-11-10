@@ -1,0 +1,6 @@
+{
+  "owned_pid_file": true,
+  "stopped": true,
+  "reason": "stopped_only_server_created_for_this_verification",
+  "pid": 40248
+}

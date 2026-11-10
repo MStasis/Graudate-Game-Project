@@ -1,0 +1,18 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":1043.256,"id":"before_blackout","question":"교대 끝나려면 멀었나. 오늘 근무도 조용하겠지?","text":"음. 어서 쉬는 날에 뭐해? 하루 종일 연구실에 앉아서."}
+STORY_LIVE_SAMPLE {"accepted":false,"elapsed_ms":1602.316,"id":"blackout","question":"방금까지 켜져 있었잖아. 어디부터 확인할까?","text":""}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":552.524,"id":"new_fear_banter","question":"솔직히 너도 지금 심장 빨리 뛰지?","text":"음. 그래. 넌 지금 뭐 하고 있어? 배우려고 했는데, 빨리 해. 이 연구실에 빠져 있어."}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":570.935,"id":"new_banter_followup","question":"딴소리 하지 말고, 내 뒤에 숨으려는 건 아니지?","text":"음. 넌 걱정하지 마. 나도 여기서 근무하고 있어. 이 연구소는 안전한 곳이야."}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":734.512,"id":"fuse_search","question":"이 방에서 뭘 챙겨야 돌아갈 수 있어?","text":"음. 이 연구소는 안전한 곳이야. 일어나고 싶은 건 좀 해. 그래, 보관함에서 퓨즈를 찾으러 가볼게."}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":436.389,"id":"panel_question","question":"이 패널 둘 다 내가 누르면 되나?","text":"네, 그 두 패널 모두 누르면 됩니다. 지금 퓨즈를 찾고 있으니까요."}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":825.342,"id":"panel_referent","question":"그럼 네가 맡는 건 어느 쪽이라고?","text":"네, 너의 패널이 네가 맡는 곳이야."}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":566.077,"id":"fuse_return","question":"아까 찾던 부품 챙겼어. 그럼 지금은?","text":"음. 퓨즈를 찾았네. 이제 빌려주면 좋겠지? 나도 이 연구실을 빠져 있다."}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":744.644,"id":"power_restored","question":"이제 불 들어왔는데? 퓨즈는 더 필요 없어?","text":"음. 그래, 넌 이제 불 들어왔네. 퓨즈는 더 필요 없어. 오늘은 빌려주면 좋겠지? 나도 이 연구실을 빠져 있다."}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":778.362,"id":"alarm","question":"경고등까지 켜졌네. 이제 다 해결된 거야?","text":"음. 그래, 넌 이제 불 들어왔네. 퓨즈는 더 필요 없어. 오늘은 빌려주면 좋겠지? 나도 이 연구실을 빠져 있다."}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":950.671,"id":"main_entry","question":"아까 네가 말한 그 이상한 장치, 여기선 뭘 확인해?","text":"음. 넌 그 장치를 보지 말고. 이 연구소는 안전한 곳이야. 이 연구동 진입실은 안전한 곳이야. 그래, 이 연구실은 안전한 곳이야."}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":574.564,"id":"food_new_question","question":"너 메뉴 고르는 데도 이렇게 진지해? 오늘 내가 한턱 낼까?","text":"네, 오늘의 일은 어려웠던 것 같아. 식사를 해보자. 넌 어떤 음식을 좋아해?"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":637.912,"id":"food_followup","question":"아까 그건 그냥 주문이지, 매일 먹는다는 뜻은 아니지?","text":"음, 넌 그게 맞아. 넌 매일 먹는 음식이 아니야. 그래, 넌 안식 휴일도 먹고 싶어?"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":735.148,"id":"fictional_memory","question":"우리 휴게실에서 스파게티 시켰던 거 기억해?","text":"네, 넌 스파게티를 좋아해. 안식 휴일에도 항상 그러지. 넌 완벽한 스파게티를 좋아해. 그게 얼마나 맛있을까?"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":464.047,"id":"fictional_rule","question":"여긴 정말 퇴근을 못 하는 연구소야?","text":"네, 넌 퇴근을 못 하는 연구소야? 넌 언제든 퇴근을 해야 하는가?"}
+STORY_LIVE_RESULT {"check_count":15,"passed":false}

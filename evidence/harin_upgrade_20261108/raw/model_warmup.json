@@ -1,0 +1,9 @@
+{
+  "model": "qwen3:4b",
+  "done": true,
+  "done_reason": "length",
+  "total_duration": 3303861600,
+  "load_duration": 3137125400,
+  "prompt_eval_count": 13,
+  "eval_count": 8
+}

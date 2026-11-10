@@ -31,6 +31,7 @@ func _state_changed() -> void:
 func _world_event(event: Dictionary) -> void:
  match str(event.get("event", "")):
   "locker_beep": play(PANEL_BEEP)
+  "anomaly_alarm": play(PANEL_BEEP)
   "locker_opened", "power_restored": play(DOOR)
   "npc_shot": play(NPC_SHOT)
   "player_damage", "npc_damage": play(HIT)

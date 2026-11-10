@@ -1,0 +1,794 @@
+[
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\main.gd",
+    "Hash": "B88EF5A1ADE3B69769E34B7F18D54C3D1ACFB680CC30FF38EEFCD1CF584A6851"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\main.gd.uid",
+    "Hash": "E4C545ED641B2C45C7B1A9EDB0A22CA943679B4B74C2395D716AA95A58B1FAC3"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\main.tscn",
+    "Hash": "B141634D4E18F37DDA0234DF513061858F399AA673941299C5EA86742FEC0588"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\project.godot",
+    "Hash": "C9DB3FEE04E1D081DD0C49E56A2327A216D67E9AD99E69FD02837C796D48673C"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\world.gd",
+    "Hash": "B63950EBD346BB6C88AF63FB390867C8F09A76D223D3D5D90B73DEFB474BE258"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\world.gd.uid",
+    "Hash": "61F68EE0BB8D6AD0DA4F22E17610DCE87EA7988937B90EAC0AE85B315A70D949"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\character.svg",
+    "Hash": "58E0455354F43CC695F1438D34BF892270C45D16E6B7937E936D9433EA784C1C"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\character.svg.import",
+    "Hash": "ACA4069AC9BDD153FF8DCDA4B577D4BC46DBE016B1C5FC482EC76D582606A2C4"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\exit.svg",
+    "Hash": "9923F2F69A8330729741AF630DD53E93023E56E2989ADF7F0E1C61591D4873DB"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\exit.svg.import",
+    "Hash": "0EE8130FA18AC939FEAFDD4ADE748875EAE9962A28871C7A1F7C7D8D4FF18CB0"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\flashlight.svg",
+    "Hash": "94B835A48AE0162ECCF585F941E5CD8BA898C8DD5044A33A2701201735123941"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\flashlight.svg.import",
+    "Hash": "A9FC502C359D625E7065D1C48A8491F9239D3B7F1FAD77083FAD908491E8CA7D"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\fuse.svg",
+    "Hash": "74DB1E6A037529E73449AECFEC1547EAECF5766F98D47BB7C939AA01892D476F"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\fuse.svg.import",
+    "Hash": "1C823DC4B8C4E9E08B1C57C8D5D2A5B255999C3255053D85B79DDC42EAF5C5F5"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\generator.svg",
+    "Hash": "9615EB6EBA81975A3E37938FABB338D5A1DD83428208D169D58F9B540E8CD8C2"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\generator.svg.import",
+    "Hash": "17F1286FE5052642632E9E340B36D1469B1086E8EE86A4EE7D010C16FABC54DA"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\grid.svg",
+    "Hash": "D664D2DF6589A1AE07BBE09FC2336C2628DDF05C4059DB86B5DE6AD7EDBC809A"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\grid.svg.import",
+    "Hash": "FD6E227C9AF7A41B83A16DEC2755197CF65FEE0DE3956569D5F5A4B4BB1EBB0D"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\panel.svg",
+    "Hash": "1133C2EF771AE4FED00236FC1BE00335BB98631FD586CC9446329BD7A7F213A5"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\panel.svg.import",
+    "Hash": "C67E0A9F0284641D223076274920B66288607E3EB2F9E9A2C9ADD01948E808A1"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\supplies.svg",
+    "Hash": "236B312A971607F6736DBC4637BC499BCC35425C1D71943080DDB0A8762EEDB9"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\supplies.svg.import",
+    "Hash": "442824209455A8903B4BB46D690CB41E3C8048634D77B9BAFE07F6E4E19E85AB"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\audio\\panel_beep.wav",
+    "Hash": "E2C6DACD5E896D310C22D92B2B11FFF39D4C458D4E888FB36DB9CF17D74FB9F3"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\audio\\panel_beep.wav.import",
+    "Hash": "31842EA104A0BEED56A25C7565CE55169F6BD813FFF1B6E369465FA419DFDCDC"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\audio\\README.md",
+    "Hash": "C4E8D348BA39C6EDC0EE6A57DC1A2809346C4FCA7EE47A568EAFEA8130CBF560"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\temporary\\kenney\\manifest.json",
+    "Hash": "B6DC7B0960E776F92526B90911F749AF02D1D0BB8E20255A95E87461E4247308"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\temporary\\kenney\\README.md",
+    "Hash": "CBBB18ABE7D5B58DB6ADA319BBEC972B1582B0F29EFE37129466D9C4BF44213D"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\temporary\\kenney\\audio\\doorOpen_000.ogg",
+    "Hash": "5B7E07ECCD4413AD9EF3720C2D14F9CC699F4C50111E9B2F48BD60E6F1A164C3"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\temporary\\kenney\\audio\\doorOpen_000.ogg.import",
+    "Hash": "84B548ECEFC29F8B5E38682B5DAB4D6C24C2E7E02A5CDAB04F39CCF540D816F3"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\temporary\\kenney\\audio\\explosionCrunch_000.ogg",
+    "Hash": "4B597D658D0AE101F0A030FBEEA5FC3A4292AB85F017470A8254A8E7959CBD69"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\temporary\\kenney\\audio\\explosionCrunch_000.ogg.import",
+    "Hash": "26FA9A7FF7749740E0C2A62849D63C3B242BB747E13AA2DA28B96842D7F82140"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\temporary\\kenney\\audio\\forceField_000.ogg",
+    "Hash": "C2916F2A062C8DDD1ACA2826D134FE90847037DB31342726FFB0F9097AFE339C"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\temporary\\kenney\\audio\\forceField_000.ogg.import",
+    "Hash": "CF830811CA46CD1619C23347B41D827376B4507882D8F798E003216F3E0729C5"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\temporary\\kenney\\audio\\impactMetal_000.ogg",
+    "Hash": "956C6612A256AA1A67A2327FFFE2454F6B1D82E4C1C2BE28FD66916335D5B1D6"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\temporary\\kenney\\audio\\impactMetal_000.ogg.import",
+    "Hash": "12D7BD8F0B32BCAD902A0CFA073B2245B72E75EB2751B2D256F80DD5A92D2D96"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\temporary\\kenney\\audio\\laserSmall_000.ogg",
+    "Hash": "72B589EADD41781257AC859E4F4D030222E623390E4A1A83F6D05329A6E026F1"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\temporary\\kenney\\audio\\laserSmall_000.ogg.import",
+    "Hash": "753D10186E3D63DD95EB511F4962FAC5E1B07DC3093041543411839BB7FABEFB"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\temporary\\kenney\\audio\\laserSmall_001.ogg",
+    "Hash": "AB87913ABA9790A0C5FA173D086267BA521AD522FCAD2252271DB49988313CF5"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\temporary\\kenney\\audio\\laserSmall_001.ogg.import",
+    "Hash": "47154DE05610D4B42D5DD6D79806F2496DB9113EA1D2F1B7BE7125FC5EB3DFCC"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\temporary\\kenney\\licenses\\sci-fi-sounds.txt",
+    "Hash": "A9767B25C3533F69D03AF136480EFAD08EFBA19A9F0D89616992B34C79FD6186"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\temporary\\kenney\\licenses\\top-down-shooter.txt",
+    "Hash": "523B1CF39AD1D569CC5D6ABC9E8785668208B9C37F1E29383E2A5F8DDA8444BC"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\temporary\\kenney\\sprites\\robot1_machine.png",
+    "Hash": "FABFDD249A5C3F7932B37A65C6FD0E262182B01F9BBACD98617CF32E9E3B9A15"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\temporary\\kenney\\sprites\\robot1_machine.png.import",
+    "Hash": "52D34B50E47DD3C2B4E0FB14834E53B43A06D529472E407BCB7E876BA65752AD"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\temporary\\kenney\\sprites\\soldier1_gun.png",
+    "Hash": "6F389FAFB4F8A6BE2372CCE4DB4EE6D348AEA6D0A6516968AA17375F96C91089"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\temporary\\kenney\\sprites\\soldier1_gun.png.import",
+    "Hash": "53E5A168D5A07A71C77E20E23C07FFF35F8FABA2A2CCE649AA3E9B695E3A9FDE"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\temporary\\kenney\\sprites\\tile_11.png",
+    "Hash": "2A19B39852ADF18EC8481611C878DB8372463AA859AEFBC62A6338CE6C3B1A4D"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\temporary\\kenney\\sprites\\tile_11.png.import",
+    "Hash": "9ADA4EEB6D773F15F8A6219D92B08E1C164EA1F9E5169B22D56196E45EA2D940"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\temporary\\kenney\\sprites\\womanGreen_gun.png",
+    "Hash": "89BCA2AB371BB1DC6177CEDC21AC8F7DE0F13C8394E30F75E67F65098D280BA4"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\temporary\\kenney\\sprites\\womanGreen_gun.png.import",
+    "Hash": "04C1769D77B921B74454777531DB888EF1F5E5646F723328D0BB46AD316DEF6B"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\ui\\ASSET_SOURCE.md",
+    "Hash": "0C0B081F564BDE0E9F89685D685DAB42527EFC616F27A198293DFDC2FADB0CB9"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\ui\\HARIN_BUST_SOURCE.md",
+    "Hash": "7739685DA59740D9C77BC4B08F9E46E2798390123D1519874AA482EB9C21A051"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\ui\\harin_bust_v1.png",
+    "Hash": "CAFA112DCA35BD49CFB6E9329BE10CD91226B2040613E2C468FC65D40748697D"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\ui\\harin_bust_v1.png.import",
+    "Hash": "CDBEA743B7D290C708EFD947057AACF1B5ECEC8FD13186414C98D558DBBC6316"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\ui\\harin_bust_v1.prompt.txt",
+    "Hash": "EE6BC3624445BAA8EBBA5D7F7CBF675032B9F07ED1176D2230AA53D25BC4671D"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\ui\\harin_canva.png",
+    "Hash": "8BF56CBAFE3EAA6A37C756910159D6CE77BF6D58E932C30D567C9E84DFFEBAE7"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\ui\\harin_canva.png.import",
+    "Hash": "9B9F45AD900BDC77A6EA4FCC54295713BB49A03230DFB22047A3E735382250B0"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\ui\\pulse_pistol.svg",
+    "Hash": "B7E13C30911CBBA52EF152F0C51EE2DA9C2520CB0DB7EA4D69658F5818F08FA6"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\ui\\pulse_pistol.svg.import",
+    "Hash": "AF7447376CE20259C86EB3B81C689E05D93AFA67879617EA36D0A2437554C19F"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\ui\\reticle.svg",
+    "Hash": "1C8DA91B7657F81E9E035BA6EC8D785F7B531CF6FC40DC867A20D0F7D4C25D59"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\ui\\reticle.svg.import",
+    "Hash": "9702B7529A62DCA69B5132ABF822011F34BF4AE0B3BA43D4CE1492B6EBE35FEB"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\ui\\station_mark.svg",
+    "Hash": "192D04884E6DB6384CF459ABD429517BCD63101BB4044E66DBF800FADF72F6DB"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\assets\\ui\\station_mark.svg.import",
+    "Hash": "B91F47754C15FD9497213A030C3A4EA6487C268129B366DA4C70756102CB9C55"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\native\\windows_ime\\windows_ime.dll",
+    "Hash": "72082B7D2F61F9B1F2435BE8F70F2012CCB63D656DD73C3D12BA6777C66851A6"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\native\\windows_ime\\windows_ime.gdextension",
+    "Hash": "9F2AD188DD4C0F680C206FF7C84DD5060F6F0F8D3F7CA3A960DDDE6AFB97383F"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\native\\windows_ime\\windows_ime.gdextension.uid",
+    "Hash": "3F4DDC430C3FEAD0ED186DDAA341E7399DB8615A495EC8ED204C6ABB423475C7"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\resources\\ExperimentSettings.tres",
+    "Hash": "A1245175C4075AF49C56BD61A93F0A663C0F1DD4830EF4B06D3089C2DAB494CC"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\resources\\flashlight.gdshader",
+    "Hash": "D33E586A59F1B58EC6D727B8BB8FDEAD0E6B80891F571C72743A9A12F93FA8BD"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\resources\\flashlight.gdshader.uid",
+    "Hash": "E0C39E14A29B3D7BB13575DCCA8372C143D13D89EA24C3025390B929F2A35D49"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\resources\\GameTheme.tres",
+    "Hash": "43E3A3F63C19343E6184C0100C646D0E59182A5985EFBEF50D8B8F0031C58F3F"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\resources\\HarinCharacter.tres",
+    "Hash": "4BF522E9EAAB4177DF20B918147FBDA25E44D13E04926F000AC19C0307E2906A"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\resources\\LabDialogueTheme.tres",
+    "Hash": "D94A86BD885F2D6F8BF721464E78D66EEEF7B903AC8B499480164319CE59599A"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\resources\\NPCSettings.tres",
+    "Hash": "0E0995C60F537457B50C48C43C467E25E8852F5D710A7F95DF20F7BB3EB8C6AC"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scenes\\CooperativeLocker.tscn",
+    "Hash": "DF51CD9BA77BAB38F2969F015AC68F05BA0073B14FAB4688E0885F126EAEA8C6"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scenes\\CoopProbe.tscn",
+    "Hash": "91919327FF72602E50698AE4EA46851D0CDC2951D70715EA784F27B2AC7D2F3E"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scenes\\Drone.tscn",
+    "Hash": "88AC8FC0802AFA1CEE712672487E3266ACE1C0445ADA82223C84D5754778EF77"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scenes\\Exit.tscn",
+    "Hash": "AA2EBDCA2C55F72F1770366B98443F663FD1B2626738CDB09EA052D8A6370ABC"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scenes\\Fuse.tscn",
+    "Hash": "DE0CA32AA2744CB61D89A0657C36DB07A76D1B5C707F65C9A1B548A8D7BE1AC3"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scenes\\Generator.tscn",
+    "Hash": "477FF91E0AE753BAD596EFAA0DC25BF515FA1C68EB35F0696EDAE517D2038B18"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scenes\\NPC.tscn",
+    "Hash": "1C58BB13BBD2627C250B8C553C7699AE6D91346A518DCC7280A5BFA57B6901B2"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scenes\\Player.tscn",
+    "Hash": "DCA5DF07550465D50FE7AEC15493BFE6429A7BAA7F5145778053BD707F05A77B"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scenes\\Projectile.tscn",
+    "Hash": "0C7C35D24401A8954AE1CACBE87A3FBFFFE99481A9E8D85AB3D39551CA10F8CB"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scenes\\World.tscn",
+    "Hash": "FA818313FB9C97939A28CA8BAEB025FE88CB6CAF34F887646383859972232E5D"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scenes\\ui\\ActorStatus.tscn",
+    "Hash": "F4DCB4BE58E65ADDF2D2D58302F0698745B8A7BAC7DC69964530AC76BACD47AD"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scenes\\ui\\CombatHUD.tscn",
+    "Hash": "970F6AD0C750AF104E5D8368BBF8FBE2D023EF47C0B0B38EF39DD3BBB1B3E54E"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scenes\\ui\\PauseMenu.tscn",
+    "Hash": "A7413706224369FC8539C0EA4995914E6D2DC503932F2A27E1036F61DCC792EF"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scenes\\ui\\SpeechBubble.tscn",
+    "Hash": "C38CB24A1475D1357392C53CEDBD0E4E1256272434A222623673DDAD55DA2965"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\actor_status.gd",
+    "Hash": "303AD19496154CEAB4ED7D813703DC15CBE2A93CB77EF1024975812E3D8BD4BD"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\actor_status.gd.uid",
+    "Hash": "4F0A3DAEF0509E9316C85584D56852D18197C3FBAFE496EA04D89B54E03DF360"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\chat_input.gd",
+    "Hash": "975CAE8F9C7F2ED87C45E70E07A7B480111A4E489C1534C31E5B6E978E1B82A8"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\chat_input.gd.uid",
+    "Hash": "8622BA4A59AC7B3677FF81E3A5EFC202C3F3B801E5E1D341B94D51A20ED9AD88"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\combat_interface.gd",
+    "Hash": "8B0392C0D5CB0826B0A62471D360AAF4D280DB3B5D971FE9EFCA70F312EEF6F8"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\combat_interface.gd.uid",
+    "Hash": "CA73CA335C685BB2F4255428C3EB3F4A87E05F6CE91DD74E32D08FD40719240E"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\companion_motion.gd",
+    "Hash": "E99652A56A874E48A221C7AF4B2AC761ED0CA3CFAF6B3DA72110488D864AEE05"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\companion_motion.gd.uid",
+    "Hash": "AB957F6846B7F8AF6866B6C2DA63E8D670822DB793090B8BD4BDA509F6B1C67F"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\companion_navigation.gd",
+    "Hash": "66EC75E6F63D7EE04FA1DDBE9F914E4766275DA43CA1A9FF101FFB5B36838D7F"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\companion_navigation.gd.uid",
+    "Hash": "6B38DF340DF824BF6C02BFF39E16B778798E82D81741A5428E03FF1E7654A4AE"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\coop_probe.gd",
+    "Hash": "0E78F5A7058FEFB30B7F3C680849C0B7FBD66C40CB790AEE177F9442320DB22E"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\coop_probe.gd.uid",
+    "Hash": "8A6B007C3BCDDE1D93215D233923D5F00A289D57575239C09B7DFDAD3C43A452"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\cooperative_locker.gd",
+    "Hash": "93AD36B8BF19560FCC96C24E47FB42D153EBB2A5F8CD79EFEB97F037450EC309"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\cooperative_locker.gd.uid",
+    "Hash": "2DDCF2E73CEF27F47451CA0BB801E393C428B52394EB55C9EA65A317D09D2803"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\dialogue_speech_bubble.gd",
+    "Hash": "6499D436B9DBFC4A43653690B13A6DBBF35687AD00376FD35E6F6B5D441E736E"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\dialogue_speech_bubble.gd.uid",
+    "Hash": "22C9BFF743362260DB31DA7344E4C5B0355212C68222AEC796395EAF687DF620"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\experiment_settings.gd",
+    "Hash": "A4B722D8F4092A2668E7DF945E75E1E53C57D35A9469D3CE1C75AE73A9F062DE"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\experiment_settings.gd.uid",
+    "Hash": "201CD10A4D69F7D82F011456573B7A6B764274E1F98A608049CB5943F3C647DD"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\exploration_map.gd",
+    "Hash": "1F2EEFF9FAD696281ADC581753516643A24E88C31C15B74EEBE991B0CC0EB926"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\exploration_map.gd.uid",
+    "Hash": "0669C9F38345CDAA63D9C5836C23FFAACA5B192559EB9EA4E0A4C7067522A5F4"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\harin_actor.gd",
+    "Hash": "3258ADB90B949B9293ACF885B954D110F9BE0C2A90890CB7C4853CE99BDF33A9"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\harin_actor.gd.uid",
+    "Hash": "C02F10642E19E085F5571D1848F558ED94F924B038C293995D704F12A9F08CD4"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\harin_character.gd",
+    "Hash": "0EB20B1A77C354DFAC68E19778ECE3C24E1856AB72C9F0B055B386AA7EC3B6A0"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\harin_character.gd.uid",
+    "Hash": "A8E43A87E1F155C776D8E3B53AEC413EA524E8B6FA2781694100C3D2D81C5117"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\harin_dialogue.gd",
+    "Hash": "90CD19E26B4654BE7212BD7104C8BA20136C905AD2ED77B2AB76D6D9204419AE"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\harin_dialogue.gd.uid",
+    "Hash": "F1B1356553281946B10C517F5EABD2171F9BB28B9B8E1990AF275903986847FB"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\hud_frame.gd",
+    "Hash": "3EA5DAB7A509C684BE2495F443271FD77192052A11EE950D2133D1759ABD5D1C"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\hud_frame.gd.uid",
+    "Hash": "C56FF4A5053E31DFE64F5504CB3DF395AFF2653EFC7A8A51260531A8F07AC869"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\industrial_ui_frame.gd",
+    "Hash": "D676B90F8010BFEF819C3ED757F6540C5F77CADBA4482619929DFA5D455DC709"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\industrial_ui_frame.gd.uid",
+    "Hash": "F705C10728728DBFA14150668F41BDEF240DA6991627490F36237F1B84096FD0"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\interactable.gd",
+    "Hash": "CB3C3C583A927ED0229211E2A14F2003CC95C67700189AA6B9F7D275B34BD10C"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\interactable.gd.uid",
+    "Hash": "8CD08E6A56E00E817BD4C76EFA5D471256DE7AA6F25BB1460687BFF718CCF912"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\local_ai_client.gd",
+    "Hash": "864B5082E68C517CBA2DE839725D3640BF42D7EA9BCD345B30E263B5AA57C51D"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\local_ai_client.gd.uid",
+    "Hash": "50394288FCCFD8E0338B0FD4E687B3CE598B5A32C0F2E3BB9B5EC1290299981C"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\local_npc_settings.gd",
+    "Hash": "6C762DCD11215B6CCC3DA484029584F72ABFB0B04E34D34F96905657B3104E17"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\local_npc_settings.gd.uid",
+    "Hash": "CB220113F41EAEB7689BD2D7DE6C1837051F21ADAEC221190EBB132D39E43517"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\mission_audio.gd",
+    "Hash": "935279413EF1E7D192B842EC8FB951AD015409D72935F5896916078E0246DA3C"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\mission_audio.gd.uid",
+    "Hash": "B04AC8E9BFD1284B42FE3660DC26143101BC6A8488AC62698E1DB4C24D818B6B"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\mission_drone.gd",
+    "Hash": "4C77F410608442A6A314CD68B86BDFB4D59E4BBA3E015E17B20C9EE29C05AA10"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\mission_drone.gd.uid",
+    "Hash": "323BAE93F74CB599A822855DFC8558553986D3CF1B422757EE60EB44DC92AEA1"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\mission_evidence.gd",
+    "Hash": "8B29B80B48BCE88057BFE6457547E4506D92AAF3A4E0D1887073D93BCC776F82"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\mission_evidence.gd.uid",
+    "Hash": "E647A33F438F1B1399BA1AC23C75AA2A208C1749A7BC54974B514B4CFBC144D0"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\mission_fx.gd",
+    "Hash": "F5D3BE209F520C9FDF9DD414BD8B295175E302720F1E6DBE5C87841D0AD4A57E"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\mission_fx.gd.uid",
+    "Hash": "CADB468BB5E717D7913689A92A1D727DAAE33AEFAB81E995A6A97E87C745D764"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\mission_projectile.gd",
+    "Hash": "54DA6BE0F676A578962096C7FB6D070D356CCB37FE9E14C5EBD643D7B11E67AC"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\mission_projectile.gd.uid",
+    "Hash": "3223A1E71D4B3EEC54BCAAA3F22E474BF4A13CF5B76BD6F23A7862B3E4C6F3B6"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\mission_save_store.gd",
+    "Hash": "1B835A1427A0785890483507D9C0585C39BD75694233550AD26C6F0326BC82FB"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\mission_save_store.gd.uid",
+    "Hash": "1B4DC372D3BBEFD00B02F06B33E0FA8839CCA32749C6C05BEEA115D52345A54F"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\noncombat_dialogue_panel.gd",
+    "Hash": "2149C7318962410A2142B75AEECD6C36845378B0BF1ABAE71554E0FD97DB6C31"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\noncombat_dialogue_panel.gd.uid",
+    "Hash": "C42F8D7C7461C3E525E595C25F2A36A0C35E383FD331E0B88AD19D5FFAD40376"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\npc_brain.gd",
+    "Hash": "60A6CCE4BD77A97426D35AA0F0808505E4D9E2FBF30F5F73F4EB70FF35050EC8"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\npc_brain.gd.uid",
+    "Hash": "168EFFD81B774C42F5C53EE1E00B0A6EDC61BD3537CA191F1896D19188497AA6"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\npc_policy.gd",
+    "Hash": "7246F475F3E7D9D4D3DDABFAB00E2D7BA653465051E02126AA72F6E52D6BA3B9"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\npc_policy.gd.uid",
+    "Hash": "27B67E49D94C82C89629C4B1F8554F20885C03125AF20255709221ACCE4E5CF5"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\pause_gear.gd",
+    "Hash": "C82F53FDA9F0AA778CEDDF7F20BD696A7F309353051AADE5AF806856B00831AB"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\pause_gear.gd.uid",
+    "Hash": "8352BCAAB1173B02244A473B8419A63DAAEF8DFDF580665C5BAF18ECA03246D4"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\pause_menu.gd",
+    "Hash": "E5F0C18944365F6899F14D2F86D1DA1BB8AA09E7E4AF496D308F53FD7C1F1CEC"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\pause_menu.gd.uid",
+    "Hash": "9BD1D2F07EB88A404DAF8AF2218F73F42FB357817C24F08626E4840A885148FA"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\player.gd",
+    "Hash": "0E9EF4390B51A4F0A424D0ACA4CEEAB297DDE1002BB53BDB016D097BA7F344D1"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\player.gd.uid",
+    "Hash": "3C5C5D2F3EAE05B86D855781BCC322B312EA935CC9DB5EAA197B9621C410D17F"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\rounded_obstacle.gd",
+    "Hash": "721AB61EC38C5F587C5642AF45DD4778BFB32C8187053EC5E73CDB34ACE0AEAC"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\rounded_obstacle.gd.uid",
+    "Hash": "AAEF12B970DC430EBE63217BDB77CD1E9AFF7B84050DADDF0A549A9A48FBA049"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\speech_bubble.gd",
+    "Hash": "93FDF993F95C2C238EF51FEEA2958148229A97DB09FBF38AC96A770B886F9C4F"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\speech_bubble.gd.uid",
+    "Hash": "822ACAD5F388E1B104EAEE8097CA537EE0E653C9500EB4DBE3962717C20FC27A"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\system_notifications.gd",
+    "Hash": "D7D71B01AE516D837C9B7A6B14B32556FF9AED187DEDF753754ABFB9AC2C41FC"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\system_notifications.gd.uid",
+    "Hash": "C41E8C4119D1C2311314F7704B7C28A6EB659A1C66D4A13F0ED5ED46554CCAB8"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\temporary_actor_aim.gd",
+    "Hash": "31A265C3DDABB039297F36B23AD5D12BF674E659FE6296EDBBF7FD0D1AC3A132"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\scripts\\temporary_actor_aim.gd.uid",
+    "Hash": "04A3C2CEA537357A487A74B14926309CA2749DE875A11EC510834BDBC914D402"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\chat_input_probe.gd",
+    "Hash": "A165ADC4C1D768DD1FE2CA62B28803256BAE8C96176A3977A65729230497B687"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\chat_input_probe.gd.uid",
+    "Hash": "1CF7847E4D194E3B0E2FA8F64E710BEDB13BF89B15C80CBF7AE542CA9134B58A"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\chat_input_test.gd",
+    "Hash": "F138510F6CA2616EA4F1A5C6F99E444CDC2A4BC849AE121BE2A8003DF6C12780"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\chat_input_test.gd.uid",
+    "Hash": "F3E50D354FD65CC7F2FC998DE0F96B13E8E012FCAF44F05DF04BD8927B8B055C"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\coop_input_test.gd",
+    "Hash": "ED962FA78CF184F6CB4C85CF73ECB5982E1E25945B390C62B447A76712DB24CE"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\coop_input_test.gd.uid",
+    "Hash": "4C2248E888BDFEE4446607FCE8AE5510819AE1AC193813FB0CCD387AAAD85476"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\coop_probe_test.gd",
+    "Hash": "E096463804578122C3A0503D1DAF589C9321D4D3A684AF9E59F7C3010655144E"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\coop_probe_test.gd.uid",
+    "Hash": "A60FC61F2E95FC3543FBBD2A640572314725851735538E213A412C042EF40606"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\dialogue_notice_test.gd",
+    "Hash": "E740F5387BE4281A86EBF05249EF04ED7BE1D88A4D96C361061FB4A1D6DA9DBD"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\dialogue_notice_test.gd.uid",
+    "Hash": "5594320C1148BC229AC32D28B044E8CE1583047BFD800DDAFBA8F97BD9837292"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\dialogue_quality_test.gd",
+    "Hash": "BEF76465DA238F559B8EF199B8B7D0D88675DD59A49F9F3733C066005E2B3391"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\dialogue_quality_test.gd.uid",
+    "Hash": "EF119CDD4962D8EA7FA52828A4B69530CF4A8223AD3999FE1EF2C70C628A2AF5"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\harin_live_test.gd",
+    "Hash": "F3E2B84E48D83676DC74E250F6CA80B69805C49563A4E206F9C6D56C20241621"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\harin_live_test.gd.uid",
+    "Hash": "0306E2B4B334BFDDA353809F2839CAE10ED1F58559DEC4D09AFB3298C6A9290A"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\harin_upgrade_test.gd",
+    "Hash": "929B3B42FDD63A212709BDE17E6B7B658EC7B8C44326531EFA57233573F03B4C"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\harin_upgrade_test.gd.uid",
+    "Hash": "4A8D7F24C4188BD382E2CE448E0E8BD9E28109ED45C997338811C20F4F67DB4A"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\input_aim_collision_test.gd",
+    "Hash": "E77F6535649CBD294F0B2B13632A01041127EE7D32389AE23D056351C28E6149"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\input_aim_collision_test.gd.uid",
+    "Hash": "5B09F72949278F7F217F7101496145659C022411FD2DCC3F6173770178970433"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\interface_update_test.gd",
+    "Hash": "C0C84AD7FB7229A553A29B826DBCC8DB736F683095F80C88663BE4BE1A4ED0B1"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\interface_update_test.gd.uid",
+    "Hash": "FFD01156F8DBC2447D580AD6E409166F44DACF10A4C790F6A05FF06AFAD7A95F"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\live_save_load_test.gd",
+    "Hash": "BD7044E141F6CC4228B18C3608511D5750C86B9BD86BCD9C23B8ACC226050F67"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\live_save_load_test.gd.uid",
+    "Hash": "943708338B6FCD6A35D3254A1B50CC54DB783C635D97A019044BAB98F3413782"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\local_integration.gd",
+    "Hash": "F718969351DE6C6DC05969EF11EB4DC10ACECD5C8F7EA6299A74931563AF024E"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\local_integration.gd.uid",
+    "Hash": "1D594DBC7A931A19E785B7E0475400866DF0585B9B2D384A1C041F71A6B22283"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\mechanics_local_ai_test.gd",
+    "Hash": "E02677D14406E373ACD2A56AE506A52680B684692A49F9FC99E361DCB86C90E4"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\mechanics_local_ai_test.gd.uid",
+    "Hash": "CD06A89A57BA6CDE7A163E69C9DB97AEBE021667BE575C1BEC83D6BA8FD51365"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\mission_mechanics_test.gd",
+    "Hash": "DAF89C85B1D0EEE906A74E8DE104258F8E070F5CC4E87C4076E476FE14257530"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\mission_mechanics_test.gd.uid",
+    "Hash": "EED58842DED7CCF743D79FAC102B26E6AEE1A5EBBDB24362D076CFE77E8D7817"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\mission_test.gd",
+    "Hash": "5D628E729AE5ED8F6F1705F46A6FEFD83A0E517CCF4A91A9894C3BD4E9820A98"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\mission_test.gd.uid",
+    "Hash": "89D7279C142BA0A8FCE9A839A77600B279BFE82F2ABFA5DD6FD5FED7A5B16865"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\native_ime_chat_test.gd",
+    "Hash": "B3A54E2352BF9A6E5DF8B95C6B1098B44D5C935549B6E83C0882623AB38F29F5"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\native_ime_chat_test.gd.uid",
+    "Hash": "A01F8F2A6F3C194EA5DA3D8093AA1256D36928407A155431F4C8736E9EBED12A"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\native_ime_load_test.gd",
+    "Hash": "E8FEE124E061DB36CD482370D5007AFDE87559AF0EBFBAB10D0B0A28A4A8D5A2"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\native_ime_load_test.gd.uid",
+    "Hash": "6D85B3A341E58DE26AA198A74EA701C9A31BA169811495E3A7BC5942BAEDA292"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\noncombat_dialogue_test.gd",
+    "Hash": "E90E5370F3475C9D15E308EB04914CB6D0BA6360F5AF6A79B422730A595503C1"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\noncombat_dialogue_test.gd.uid",
+    "Hash": "3F2C61D303FDFD61E11069C59C416D8F6CE496F2124DC0814DDE15DF6B20B453"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\provider_probe.gd",
+    "Hash": "10D6EBCB4426A27113B30B044FD521BA7D7440934715A59229F95E4E563E9498"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\provider_probe.gd.uid",
+    "Hash": "309D913F8B4DF47298FA859173BE1AF0FD95BBF23F1AD40E6F9E4FC84BA86F6C"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\ui_layout_test.gd",
+    "Hash": "EA3CC86EF5C87565F42201496386DDB5CD3F166A90F58A8F84E79B132B20D37E"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\ui_layout_test.gd.uid",
+    "Hash": "5881CAFA83232E1640B1BA21F78495FE22C092BEFDAE124D3DA9E52334CDC2CE"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\fixtures\\composing_chat_input.gd",
+    "Hash": "E6E4AFB47EA97B9BCA2E36BD58563B15F9BF5D9CF5755CB439FE6556A3DE4735"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\fixtures\\composing_chat_input.gd.uid",
+    "Hash": "F5530D0F186C34D8EF5343F40D44EA0E076464F31E26F5C8AC28C0CDDC404684"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\helpers\\ui_snapshot.gd",
+    "Hash": "8F476D962BE7C1FAC71B205C5665782E85C92CB71217CE8969906EF6D4DBB0C0"
+  },
+  {
+    "Path": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\game\\tests\\helpers\\ui_snapshot.gd.uid",
+    "Hash": "FA57EA4F12535E09300B0CA0416F1B7EED6F0514AB4D316814CAC6A9A16693C1"
+  }
+]

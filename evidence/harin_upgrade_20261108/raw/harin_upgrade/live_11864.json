@@ -1,0 +1,5394 @@
+{
+  "actual_inference": true,
+  "actual_model": "qwen3:4b",
+  "check_count": 39,
+  "checks": {
+    "after_cancel_source_and_acceptance": true,
+    "anxious_source_and_acceptance": true,
+    "casual_followup_remembers_food": true,
+    "casual_returns_to_character_without_mission": true,
+    "emotion_does_not_become_manual": true,
+    "follow_order_executes": true,
+    "follow_order_source_and_acceptance": true,
+    "heal_ack_matches_started_not_completed": true,
+    "heal_no_supplies_source_and_acceptance": true,
+    "heal_order_source_and_acceptance": true,
+    "heal_refusal_no_resource_mutation": true,
+    "latest_state_overrides_old_history": true,
+    "light_after_source_and_acceptance": true,
+    "light_before_source_and_acceptance": true,
+    "live_emergency_effect_and_reload_fire_continue": true,
+    "meal_answers_whether_she_ate": true,
+    "meal_direct_source_and_acceptance": true,
+    "meal_paraphrase_consistent": true,
+    "meal_paraphrase_source_and_acceptance": true,
+    "mission_answer_has_current_goal": true,
+    "mission_followup_understands_partner": true,
+    "mission_source_and_acceptance": true,
+    "new_request_after_cancel_keeps_identity": true,
+    "no_fake_handoff": true,
+    "panel_followup_source_and_acceptance": true,
+    "panel_has_two_roles": false,
+    "panel_roles_source_and_acceptance": true,
+    "player_movement_continues_during_live_generation": true,
+    "preference_answers_her_own_taste": true,
+    "preference_direct_source_and_acceptance": true,
+    "preference_followup_source_and_acceptance": true,
+    "real_cancel_closes_only_requested_stream": true,
+    "real_dialogue_transport_pending": true,
+    "real_emergency_while_generation_is_pending": true,
+    "real_timeout_keeps_failure_without_template_success": true,
+    "taste_after_mission_source_and_acceptance": true,
+    "wait_answer_matches_actual_order": true,
+    "wait_order_source_and_acceptance": true,
+    "wait_state_source_and_acceptance": true
+  },
+  "created_utc": "2026-11-08T06:48:30",
+  "general_naturalness_proven": false,
+  "human_playtest": false,
+  "measurements": [
+    {
+      "accepted": true,
+      "actual_model": "qwen3:4b",
+      "allowed": [
+        "mission",
+        "support",
+        "relationship",
+        "everyday",
+        "unknown"
+      ],
+      "automated_evidence": false,
+      "dialogue_method": "state_grounded_generation_structured",
+      "display_ready_ms": 607.163,
+      "elapsed_ms": 607.163,
+      "event": "response",
+      "first_transport_text_ms": 139.474,
+      "frames_pending": 39,
+      "kind": "dialogue",
+      "max_frame_ms": 137.222666666667,
+      "project_fingerprint": "260be741ae0b3cd83fcd7a9c28024b0769be26c6e787ecabf1a56cd8749ebab2",
+      "prompt_version": "companion_v2.0_grounded_memory",
+      "provider": "LocalLLM",
+      "quality_review": "manual_required",
+      "question": "밥 먹었어?",
+      "raw_response": "{\n  \"dialogue\": \"네, 출발 전 식사를 마쳤어. 뭐 먹었는지 기억 안 나.\"\n}",
+      "rejected_reason": "",
+      "request_id": 1,
+      "response_msec": 1034,
+      "run_id": 11864,
+      "run_kind": "interactive",
+      "scenario_id": "lab_roundtrip_v1",
+      "schema_version": 4,
+      "selected": "네, 출발 전 식사를 마쳤어. 뭐 먹었는지 기억 안 나.",
+      "server_metrics": {
+        "created_at": "2026-11-08T06:48:19.7352135Z",
+        "done": true,
+        "done_reason": "stop",
+        "eval_count": 33.0,
+        "eval_duration": 307446000.0,
+        "load_duration": 5659400.0,
+        "model": "qwen3:4b",
+        "prompt_eval_cached_count": 25.0,
+        "prompt_eval_count": 501.0,
+        "prompt_eval_duration": 105124000.0,
+        "response": "",
+        "total_duration": 426351400.0
+      },
+      "snapshot": {
+        "active_action": "",
+        "ammo": 6,
+        "companion_mode": "follow",
+        "completed_support": {},
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "오른쪽 통로에서 하린에게 손전등을 받으세요.",
+        "defeated": false,
+        "enemy_count": 0,
+        "epoch": 3,
+        "escaped": false,
+        "flashlight_dropped": false,
+        "flashlight_owned": false,
+        "flashlight_requested": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "정전된 연구소",
+        "locker": {
+          "hold_seconds": 1.0,
+          "npc_target": [
+            960.0,
+            135.0
+          ],
+          "opened": false,
+          "player_holding": false,
+          "player_panel": -1,
+          "progress": 0.0,
+          "unlocking": false
+        },
+        "map_id": "lab",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 2,
+        "npc_ammo": 20,
+        "npc_downed": false,
+        "npc_hp": 100,
+        "npc_max_ammo": 20,
+        "npc_max_hp": 100,
+        "npc_movement_pattern": "동행",
+        "npc_position": [
+          365.0,
+          245.0
+        ],
+        "npc_reload_time": 0.0,
+        "npc_reserve": 40,
+        "objective": "보관 구역에서 퓨즈를 찾아 연구실 전력을 복구하세요",
+        "player_hp": 100,
+        "player_position": [
+          223.0,
+          350.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "companion_rules": {
+            "cache_npc_reserve": 20,
+            "emergency_ammo": 0,
+            "emergency_hp": 30,
+            "motion": "stable_formation_astar20_collision12",
+            "prompt_version": "companion_v2.0_grounded_memory",
+            "reload_seconds": 1.6,
+            "reserve_ammo": 40,
+            "revive_cost": 1,
+            "revive_hp": 35,
+            "version": 2
+          },
+          "cover_charges": 1,
+          "cover_duration": 12.0,
+          "cover_radius": 90.0,
+          "damage_multiplier": 0.5,
+          "enemies": [
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneA",
+              "spawn": "(800.0, 215.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneB",
+              "spawn": "(975.0, 285.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneC",
+              "spawn": "(1035.0, 405.0)",
+              "speed": 66.0
+            }
+          ],
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "mechanics": {
+            "flashlight_half_angle": 32.0,
+            "flashlight_range": 390.0,
+            "npc_fire_range": 260.0,
+            "npc_role": 0,
+            "panel_hold_seconds": 1.0,
+            "version": 2
+          },
+          "medkits": 2,
+          "npc_bullet_damage": 25,
+          "npc_combat_enabled": true,
+          "npc_fire_interval": 1.0,
+          "npc_initial_ammo": 20,
+          "npc_max_hp": 100,
+          "player_speed": 175.0,
+          "resupply_amount": 10,
+          "room_rect": "[P: (32.0, 64.0), S: (1136.0, 430.0)]",
+          "safe_position": [
+            600.0,
+            422.0
+          ],
+          "sight_radius": 155.0,
+          "supply_packs": 2
+        },
+        "storage_lit": false,
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "resupply"
+        ]
+      },
+      "snapshot_hash": "076e37ae3931d8b8db1261289b7b9a4248889ff049de007a2678e7c5ec313310",
+      "snapshot_msec": 426.906,
+      "synthetic_test": true,
+      "timestamp_utc": "2026-11-08 06:48:19Z",
+      "trial": 2
+    },
+    {
+      "accepted": true,
+      "actual_model": "qwen3:4b",
+      "allowed": [
+        "mission",
+        "support",
+        "relationship",
+        "everyday",
+        "unknown"
+      ],
+      "automated_evidence": false,
+      "dialogue_method": "state_grounded_generation_structured",
+      "display_ready_ms": 584.25,
+      "elapsed_ms": 584.25,
+      "event": "response",
+      "first_transport_text_ms": 99.551,
+      "frames_pending": 35,
+      "kind": "dialogue",
+      "max_frame_ms": 16.9073333333333,
+      "project_fingerprint": "260be741ae0b3cd83fcd7a9c28024b0769be26c6e787ecabf1a56cd8749ebab2",
+      "prompt_version": "companion_v2.0_grounded_memory",
+      "provider": "LocalLLM",
+      "quality_review": "manual_required",
+      "question": "끝나면 뭐 먹고 싶어?",
+      "raw_response": "{\n  \"dialogue\": \"내가 좋아하는 김치볶음밥이야. 끝나면 이걸로 해결해.\"\n}",
+      "rejected_reason": "",
+      "request_id": 2,
+      "response_msec": 1634,
+      "run_id": 11864,
+      "run_kind": "interactive",
+      "scenario_id": "lab_roundtrip_v1",
+      "schema_version": 4,
+      "selected": "내가 좋아하는 김치볶음밥이야. 끝나면 이걸로 해결해.",
+      "server_metrics": {
+        "created_at": "2026-11-08T06:48:20.3037792Z",
+        "done": true,
+        "done_reason": "stop",
+        "eval_count": 32.0,
+        "eval_duration": 292465000.0,
+        "load_duration": 7275900.0,
+        "model": "qwen3:4b",
+        "prompt_eval_cached_count": 370.0,
+        "prompt_eval_count": 488.0,
+        "prompt_eval_duration": 43535000.0,
+        "response": "",
+        "total_duration": 346395800.0
+      },
+      "snapshot": {
+        "active_action": "",
+        "ammo": 6,
+        "companion_mode": "follow",
+        "completed_support": {},
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "오른쪽 통로에서 하린에게 손전등을 받으세요.",
+        "defeated": false,
+        "enemy_count": 0,
+        "epoch": 3,
+        "escaped": false,
+        "flashlight_dropped": false,
+        "flashlight_owned": false,
+        "flashlight_requested": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "정전된 연구소",
+        "locker": {
+          "hold_seconds": 1.0,
+          "npc_target": [
+            960.0,
+            135.0
+          ],
+          "opened": false,
+          "player_holding": false,
+          "player_panel": -1,
+          "progress": 0.0,
+          "unlocking": false
+        },
+        "map_id": "lab",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 2,
+        "npc_ammo": 20,
+        "npc_downed": false,
+        "npc_hp": 100,
+        "npc_max_ammo": 20,
+        "npc_max_hp": 100,
+        "npc_movement_pattern": "동행",
+        "npc_position": [
+          365.0,
+          245.0
+        ],
+        "npc_reload_time": 0.0,
+        "npc_reserve": 40,
+        "objective": "보관 구역에서 퓨즈를 찾아 연구실 전력을 복구하세요",
+        "player_hp": 100,
+        "player_position": [
+          223.0,
+          350.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "companion_rules": {
+            "cache_npc_reserve": 20,
+            "emergency_ammo": 0,
+            "emergency_hp": 30,
+            "motion": "stable_formation_astar20_collision12",
+            "prompt_version": "companion_v2.0_grounded_memory",
+            "reload_seconds": 1.6,
+            "reserve_ammo": 40,
+            "revive_cost": 1,
+            "revive_hp": 35,
+            "version": 2
+          },
+          "cover_charges": 1,
+          "cover_duration": 12.0,
+          "cover_radius": 90.0,
+          "damage_multiplier": 0.5,
+          "enemies": [
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneA",
+              "spawn": "(800.0, 215.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneB",
+              "spawn": "(975.0, 285.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneC",
+              "spawn": "(1035.0, 405.0)",
+              "speed": 66.0
+            }
+          ],
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "mechanics": {
+            "flashlight_half_angle": 32.0,
+            "flashlight_range": 390.0,
+            "npc_fire_range": 260.0,
+            "npc_role": 0,
+            "panel_hold_seconds": 1.0,
+            "version": 2
+          },
+          "medkits": 2,
+          "npc_bullet_damage": 25,
+          "npc_combat_enabled": true,
+          "npc_fire_interval": 1.0,
+          "npc_initial_ammo": 20,
+          "npc_max_hp": 100,
+          "player_speed": 175.0,
+          "resupply_amount": 10,
+          "room_rect": "[P: (32.0, 64.0), S: (1136.0, 430.0)]",
+          "safe_position": [
+            600.0,
+            422.0
+          ],
+          "sight_radius": 155.0,
+          "supply_packs": 2
+        },
+        "storage_lit": false,
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "resupply"
+        ]
+      },
+      "snapshot_hash": "076e37ae3931d8b8db1261289b7b9a4248889ff049de007a2678e7c5ec313310",
+      "snapshot_msec": 1050.148,
+      "synthetic_test": true,
+      "timestamp_utc": "2026-11-08 06:48:20Z",
+      "trial": 2
+    },
+    {
+      "accepted": true,
+      "actual_model": "qwen3:4b",
+      "allowed": [
+        "mission",
+        "support",
+        "relationship",
+        "everyday",
+        "unknown"
+      ],
+      "automated_evidence": false,
+      "dialogue_method": "state_grounded_generation_structured",
+      "display_ready_ms": 733.986,
+      "elapsed_ms": 733.986,
+      "event": "response",
+      "first_transport_text_ms": 99.319,
+      "frames_pending": 44,
+      "kind": "dialogue",
+      "max_frame_ms": 16.6666666666667,
+      "project_fingerprint": "260be741ae0b3cd83fcd7a9c28024b0769be26c6e787ecabf1a56cd8749ebab2",
+      "prompt_version": "companion_v2.0_grounded_memory",
+      "provider": "LocalLLM",
+      "quality_review": "manual_required",
+      "question": "그 음식 원래 좋아했어?",
+      "raw_response": "{\n  \"dialogue\": \"김치볶음밥이야. 끝나면 바로 먹을 거야. 뭐가 더 좋아? (김치볶음밥)\"\n  }",
+      "rejected_reason": "",
+      "request_id": 3,
+      "response_msec": 2384,
+      "run_id": 11864,
+      "run_kind": "interactive",
+      "scenario_id": "lab_roundtrip_v1",
+      "schema_version": 4,
+      "selected": "김치볶음밥이야. 끝나면 바로 먹을 거야. 뭐가 더 좋아? (김치볶음밥)",
+      "server_metrics": {
+        "created_at": "2026-11-08T06:48:21.0035772Z",
+        "done": true,
+        "done_reason": "stop",
+        "eval_count": 43.0,
+        "eval_duration": 393301000.0,
+        "load_duration": 6665400.0,
+        "model": "qwen3:4b",
+        "prompt_eval_cached_count": 427.0,
+        "prompt_eval_count": 526.0,
+        "prompt_eval_duration": 43359000.0,
+        "response": "",
+        "total_duration": 446086300.0
+      },
+      "snapshot": {
+        "active_action": "",
+        "ammo": 6,
+        "companion_mode": "follow",
+        "completed_support": {},
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "오른쪽 통로에서 하린에게 손전등을 받으세요.",
+        "defeated": false,
+        "enemy_count": 0,
+        "epoch": 3,
+        "escaped": false,
+        "flashlight_dropped": false,
+        "flashlight_owned": false,
+        "flashlight_requested": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "정전된 연구소",
+        "locker": {
+          "hold_seconds": 1.0,
+          "npc_target": [
+            960.0,
+            135.0
+          ],
+          "opened": false,
+          "player_holding": false,
+          "player_panel": -1,
+          "progress": 0.0,
+          "unlocking": false
+        },
+        "map_id": "lab",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 2,
+        "npc_ammo": 20,
+        "npc_downed": false,
+        "npc_hp": 100,
+        "npc_max_ammo": 20,
+        "npc_max_hp": 100,
+        "npc_movement_pattern": "동행",
+        "npc_position": [
+          365.0,
+          245.0
+        ],
+        "npc_reload_time": 0.0,
+        "npc_reserve": 40,
+        "objective": "보관 구역에서 퓨즈를 찾아 연구실 전력을 복구하세요",
+        "player_hp": 100,
+        "player_position": [
+          223.0,
+          350.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "companion_rules": {
+            "cache_npc_reserve": 20,
+            "emergency_ammo": 0,
+            "emergency_hp": 30,
+            "motion": "stable_formation_astar20_collision12",
+            "prompt_version": "companion_v2.0_grounded_memory",
+            "reload_seconds": 1.6,
+            "reserve_ammo": 40,
+            "revive_cost": 1,
+            "revive_hp": 35,
+            "version": 2
+          },
+          "cover_charges": 1,
+          "cover_duration": 12.0,
+          "cover_radius": 90.0,
+          "damage_multiplier": 0.5,
+          "enemies": [
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneA",
+              "spawn": "(800.0, 215.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneB",
+              "spawn": "(975.0, 285.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneC",
+              "spawn": "(1035.0, 405.0)",
+              "speed": 66.0
+            }
+          ],
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "mechanics": {
+            "flashlight_half_angle": 32.0,
+            "flashlight_range": 390.0,
+            "npc_fire_range": 260.0,
+            "npc_role": 0,
+            "panel_hold_seconds": 1.0,
+            "version": 2
+          },
+          "medkits": 2,
+          "npc_bullet_damage": 25,
+          "npc_combat_enabled": true,
+          "npc_fire_interval": 1.0,
+          "npc_initial_ammo": 20,
+          "npc_max_hp": 100,
+          "player_speed": 175.0,
+          "resupply_amount": 10,
+          "room_rect": "[P: (32.0, 64.0), S: (1136.0, 430.0)]",
+          "safe_position": [
+            600.0,
+            422.0
+          ],
+          "sight_radius": 155.0,
+          "supply_packs": 2
+        },
+        "storage_lit": false,
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "resupply"
+        ]
+      },
+      "snapshot_hash": "076e37ae3931d8b8db1261289b7b9a4248889ff049de007a2678e7c5ec313310",
+      "snapshot_msec": 1650.207,
+      "synthetic_test": true,
+      "timestamp_utc": "2026-11-08 06:48:21Z",
+      "trial": 2
+    },
+    {
+      "accepted": true,
+      "actual_model": "qwen3:4b",
+      "allowed": [
+        "mission",
+        "support",
+        "relationship",
+        "everyday",
+        "unknown"
+      ],
+      "automated_evidence": false,
+      "dialogue_method": "state_grounded_generation_structured",
+      "display_ready_ms": 581.414,
+      "elapsed_ms": 581.414,
+      "event": "response",
+      "first_transport_text_ms": 113.331,
+      "frames_pending": 35,
+      "kind": "dialogue",
+      "max_frame_ms": 16.6666666666667,
+      "project_fingerprint": "260be741ae0b3cd83fcd7a9c28024b0769be26c6e787ecabf1a56cd8749ebab2",
+      "prompt_version": "companion_v2.0_grounded_memory",
+      "provider": "LocalLLM",
+      "quality_review": "manual_required",
+      "question": "아까 식사는 했니?",
+      "raw_response": "{\n  \"dialogue\": \"네, 출발 전 식사를 마쳤어. 뭐 먹었는지 기억 안 나.\"\n}",
+      "rejected_reason": "",
+      "request_id": 4,
+      "response_msec": 2968,
+      "run_id": 11864,
+      "run_kind": "interactive",
+      "scenario_id": "lab_roundtrip_v1",
+      "schema_version": 4,
+      "selected": "네, 출발 전 식사를 마쳤어. 뭐 먹었는지 기억 안 나.",
+      "server_metrics": {
+        "created_at": "2026-11-08T06:48:21.6766428Z",
+        "done": true,
+        "done_reason": "stop",
+        "eval_count": 33.0,
+        "eval_duration": 306356000.0,
+        "load_duration": 6160300.0,
+        "model": "qwen3:4b",
+        "prompt_eval_cached_count": 363.0,
+        "prompt_eval_count": 634.0,
+        "prompt_eval_duration": 67804000.0,
+        "response": "",
+        "total_duration": 384576500.0
+      },
+      "snapshot": {
+        "active_action": "",
+        "ammo": 6,
+        "companion_mode": "follow",
+        "completed_support": {},
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "오른쪽 통로에서 하린에게 손전등을 받으세요.",
+        "defeated": false,
+        "enemy_count": 0,
+        "epoch": 3,
+        "escaped": false,
+        "flashlight_dropped": false,
+        "flashlight_owned": false,
+        "flashlight_requested": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "정전된 연구소",
+        "locker": {
+          "hold_seconds": 1.0,
+          "npc_target": [
+            960.0,
+            135.0
+          ],
+          "opened": false,
+          "player_holding": false,
+          "player_panel": -1,
+          "progress": 0.0,
+          "unlocking": false
+        },
+        "map_id": "lab",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 2,
+        "npc_ammo": 20,
+        "npc_downed": false,
+        "npc_hp": 100,
+        "npc_max_ammo": 20,
+        "npc_max_hp": 100,
+        "npc_movement_pattern": "동행",
+        "npc_position": [
+          365.0,
+          245.0
+        ],
+        "npc_reload_time": 0.0,
+        "npc_reserve": 40,
+        "objective": "보관 구역에서 퓨즈를 찾아 연구실 전력을 복구하세요",
+        "player_hp": 100,
+        "player_position": [
+          223.0,
+          350.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "companion_rules": {
+            "cache_npc_reserve": 20,
+            "emergency_ammo": 0,
+            "emergency_hp": 30,
+            "motion": "stable_formation_astar20_collision12",
+            "prompt_version": "companion_v2.0_grounded_memory",
+            "reload_seconds": 1.6,
+            "reserve_ammo": 40,
+            "revive_cost": 1,
+            "revive_hp": 35,
+            "version": 2
+          },
+          "cover_charges": 1,
+          "cover_duration": 12.0,
+          "cover_radius": 90.0,
+          "damage_multiplier": 0.5,
+          "enemies": [
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneA",
+              "spawn": "(800.0, 215.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneB",
+              "spawn": "(975.0, 285.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneC",
+              "spawn": "(1035.0, 405.0)",
+              "speed": 66.0
+            }
+          ],
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "mechanics": {
+            "flashlight_half_angle": 32.0,
+            "flashlight_range": 390.0,
+            "npc_fire_range": 260.0,
+            "npc_role": 0,
+            "panel_hold_seconds": 1.0,
+            "version": 2
+          },
+          "medkits": 2,
+          "npc_bullet_damage": 25,
+          "npc_combat_enabled": true,
+          "npc_fire_interval": 1.0,
+          "npc_initial_ammo": 20,
+          "npc_max_hp": 100,
+          "player_speed": 175.0,
+          "resupply_amount": 10,
+          "room_rect": "[P: (32.0, 64.0), S: (1136.0, 430.0)]",
+          "safe_position": [
+            600.0,
+            422.0
+          ],
+          "sight_radius": 155.0,
+          "supply_packs": 2
+        },
+        "storage_lit": false,
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "resupply"
+        ]
+      },
+      "snapshot_hash": "076e37ae3931d8b8db1261289b7b9a4248889ff049de007a2678e7c5ec313310",
+      "snapshot_msec": 2386.351,
+      "synthetic_test": true,
+      "timestamp_utc": "2026-11-08 06:48:21Z",
+      "trial": 2
+    },
+    {
+      "accepted": true,
+      "actual_model": "qwen3:4b",
+      "allowed": [
+        "mission",
+        "support",
+        "relationship",
+        "everyday",
+        "unknown"
+      ],
+      "automated_evidence": false,
+      "dialogue_method": "state_grounded_generation_structured",
+      "display_ready_ms": 628.415,
+      "elapsed_ms": 628.415,
+      "event": "response",
+      "first_transport_text_ms": 94.24,
+      "frames_pending": 37,
+      "kind": "dialogue",
+      "max_frame_ms": 27.0746666666666,
+      "project_fingerprint": "260be741ae0b3cd83fcd7a9c28024b0769be26c6e787ecabf1a56cd8749ebab2",
+      "prompt_version": "companion_v2.0_grounded_memory",
+      "provider": "LocalLLM",
+      "quality_review": "manual_required",
+      "question": "오늘 좀 긴장돼.",
+      "raw_response": "{\n  \"dialogue\": \"오늘 좀 긴장돼? 나도 마찬가지야. 같이 힘내면 괜찮아.\"\n  }",
+      "rejected_reason": "",
+      "request_id": 5,
+      "response_msec": 3613,
+      "run_id": 11864,
+      "run_kind": "interactive",
+      "scenario_id": "lab_roundtrip_v1",
+      "schema_version": 4,
+      "selected": "오늘 좀 긴장돼? 나도 마찬가지야. 같이 힘내면 괜찮아.",
+      "server_metrics": {
+        "created_at": "2026-11-08T06:48:22.292023Z",
+        "done": true,
+        "done_reason": "stop",
+        "eval_count": 38.0,
+        "eval_duration": 357115000.0,
+        "load_duration": 6264000.0,
+        "model": "qwen3:4b",
+        "prompt_eval_cached_count": 361.0,
+        "prompt_eval_count": 415.0,
+        "prompt_eval_duration": 33468000.0,
+        "response": "",
+        "total_duration": 399736700.0
+      },
+      "snapshot": {
+        "active_action": "",
+        "ammo": 6,
+        "companion_mode": "follow",
+        "completed_support": {},
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "오른쪽 통로에서 하린에게 손전등을 받으세요.",
+        "defeated": false,
+        "enemy_count": 0,
+        "epoch": 3,
+        "escaped": false,
+        "flashlight_dropped": false,
+        "flashlight_owned": false,
+        "flashlight_requested": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "정전된 연구소",
+        "locker": {
+          "hold_seconds": 1.0,
+          "npc_target": [
+            960.0,
+            135.0
+          ],
+          "opened": false,
+          "player_holding": false,
+          "player_panel": -1,
+          "progress": 0.0,
+          "unlocking": false
+        },
+        "map_id": "lab",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 2,
+        "npc_ammo": 20,
+        "npc_downed": false,
+        "npc_hp": 100,
+        "npc_max_ammo": 20,
+        "npc_max_hp": 100,
+        "npc_movement_pattern": "동행",
+        "npc_position": [
+          365.0,
+          245.0
+        ],
+        "npc_reload_time": 0.0,
+        "npc_reserve": 40,
+        "objective": "보관 구역에서 퓨즈를 찾아 연구실 전력을 복구하세요",
+        "player_hp": 100,
+        "player_position": [
+          223.0,
+          350.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "companion_rules": {
+            "cache_npc_reserve": 20,
+            "emergency_ammo": 0,
+            "emergency_hp": 30,
+            "motion": "stable_formation_astar20_collision12",
+            "prompt_version": "companion_v2.0_grounded_memory",
+            "reload_seconds": 1.6,
+            "reserve_ammo": 40,
+            "revive_cost": 1,
+            "revive_hp": 35,
+            "version": 2
+          },
+          "cover_charges": 1,
+          "cover_duration": 12.0,
+          "cover_radius": 90.0,
+          "damage_multiplier": 0.5,
+          "enemies": [
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneA",
+              "spawn": "(800.0, 215.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneB",
+              "spawn": "(975.0, 285.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneC",
+              "spawn": "(1035.0, 405.0)",
+              "speed": 66.0
+            }
+          ],
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "mechanics": {
+            "flashlight_half_angle": 32.0,
+            "flashlight_range": 390.0,
+            "npc_fire_range": 260.0,
+            "npc_role": 0,
+            "panel_hold_seconds": 1.0,
+            "version": 2
+          },
+          "medkits": 2,
+          "npc_bullet_damage": 25,
+          "npc_combat_enabled": true,
+          "npc_fire_interval": 1.0,
+          "npc_initial_ammo": 20,
+          "npc_max_hp": 100,
+          "player_speed": 175.0,
+          "resupply_amount": 10,
+          "room_rect": "[P: (32.0, 64.0), S: (1136.0, 430.0)]",
+          "safe_position": [
+            600.0,
+            422.0
+          ],
+          "sight_radius": 155.0,
+          "supply_packs": 2
+        },
+        "storage_lit": false,
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "resupply"
+        ]
+      },
+      "snapshot_hash": "076e37ae3931d8b8db1261289b7b9a4248889ff049de007a2678e7c5ec313310",
+      "snapshot_msec": 2984.473,
+      "synthetic_test": true,
+      "timestamp_utc": "2026-11-08 06:48:22Z",
+      "trial": 2
+    },
+    {
+      "accepted": true,
+      "actual_model": "qwen3:4b",
+      "allowed": [
+        "mission",
+        "support",
+        "relationship",
+        "everyday",
+        "unknown"
+      ],
+      "automated_evidence": false,
+      "dialogue_method": "state_grounded_generation_structured",
+      "display_ready_ms": 847.11,
+      "elapsed_ms": 847.11,
+      "event": "response",
+      "first_transport_text_ms": 152.048,
+      "frames_pending": 50,
+      "kind": "dialogue",
+      "max_frame_ms": 22.2456666666667,
+      "project_fingerprint": "260be741ae0b3cd83fcd7a9c28024b0769be26c6e787ecabf1a56cd8749ebab2",
+      "prompt_version": "companion_v2.0_grounded_memory",
+      "provider": "LocalLLM",
+      "quality_review": "manual_required",
+      "question": "지금 뭘 해야 해?",
+      "raw_response": "{\n  \"dialogue\": \"오른쪽 통로에서 손전등을 받으세요. 다음으로 퓨즈를 보관 구역 보관함에서 확보해 주세요.\"\n}",
+      "rejected_reason": "",
+      "request_id": 6,
+      "response_msec": 4464,
+      "run_id": 11864,
+      "run_kind": "interactive",
+      "scenario_id": "lab_roundtrip_v1",
+      "schema_version": 4,
+      "selected": "오른쪽 통로에서 손전등을 받으세요. 다음으로 퓨즈를 보관 구역 보관함에서 확보해 주세요.",
+      "server_metrics": {
+        "created_at": "2026-11-08T06:48:23.0567425Z",
+        "done": true,
+        "done_reason": "stop",
+        "eval_count": 45.0,
+        "eval_duration": 413556000.0,
+        "load_duration": 6180400.0,
+        "model": "qwen3:4b",
+        "prompt_eval_cached_count": 348.0,
+        "prompt_eval_count": 757.0,
+        "prompt_eval_duration": 97395000.0,
+        "response": "",
+        "total_duration": 521869400.0
+      },
+      "snapshot": {
+        "active_action": "",
+        "ammo": 6,
+        "companion_mode": "follow",
+        "completed_support": {},
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "오른쪽 통로에서 하린에게 손전등을 받으세요.",
+        "defeated": false,
+        "enemy_count": 0,
+        "epoch": 3,
+        "escaped": false,
+        "flashlight_dropped": false,
+        "flashlight_owned": false,
+        "flashlight_requested": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "정전된 연구소",
+        "locker": {
+          "hold_seconds": 1.0,
+          "npc_target": [
+            960.0,
+            135.0
+          ],
+          "opened": false,
+          "player_holding": false,
+          "player_panel": -1,
+          "progress": 0.0,
+          "unlocking": false
+        },
+        "map_id": "lab",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 2,
+        "npc_ammo": 20,
+        "npc_downed": false,
+        "npc_hp": 100,
+        "npc_max_ammo": 20,
+        "npc_max_hp": 100,
+        "npc_movement_pattern": "동행",
+        "npc_position": [
+          365.0,
+          245.0
+        ],
+        "npc_reload_time": 0.0,
+        "npc_reserve": 40,
+        "objective": "보관 구역에서 퓨즈를 찾아 연구실 전력을 복구하세요",
+        "player_hp": 100,
+        "player_position": [
+          223.0,
+          350.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "companion_rules": {
+            "cache_npc_reserve": 20,
+            "emergency_ammo": 0,
+            "emergency_hp": 30,
+            "motion": "stable_formation_astar20_collision12",
+            "prompt_version": "companion_v2.0_grounded_memory",
+            "reload_seconds": 1.6,
+            "reserve_ammo": 40,
+            "revive_cost": 1,
+            "revive_hp": 35,
+            "version": 2
+          },
+          "cover_charges": 1,
+          "cover_duration": 12.0,
+          "cover_radius": 90.0,
+          "damage_multiplier": 0.5,
+          "enemies": [
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneA",
+              "spawn": "(800.0, 215.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneB",
+              "spawn": "(975.0, 285.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneC",
+              "spawn": "(1035.0, 405.0)",
+              "speed": 66.0
+            }
+          ],
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "mechanics": {
+            "flashlight_half_angle": 32.0,
+            "flashlight_range": 390.0,
+            "npc_fire_range": 260.0,
+            "npc_role": 0,
+            "panel_hold_seconds": 1.0,
+            "version": 2
+          },
+          "medkits": 2,
+          "npc_bullet_damage": 25,
+          "npc_combat_enabled": true,
+          "npc_fire_interval": 1.0,
+          "npc_initial_ammo": 20,
+          "npc_max_hp": 100,
+          "player_speed": 175.0,
+          "resupply_amount": 10,
+          "room_rect": "[P: (32.0, 64.0), S: (1136.0, 430.0)]",
+          "safe_position": [
+            600.0,
+            422.0
+          ],
+          "sight_radius": 155.0,
+          "supply_packs": 2
+        },
+        "storage_lit": false,
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "resupply"
+        ]
+      },
+      "snapshot_hash": "076e37ae3931d8b8db1261289b7b9a4248889ff049de007a2678e7c5ec313310",
+      "snapshot_msec": 3616.889,
+      "synthetic_test": true,
+      "timestamp_utc": "2026-11-08 06:48:23Z",
+      "trial": 2
+    },
+    {
+      "accepted": true,
+      "actual_model": "qwen3:4b",
+      "allowed": [
+        "mission",
+        "support",
+        "relationship",
+        "everyday",
+        "unknown"
+      ],
+      "automated_evidence": false,
+      "dialogue_method": "state_grounded_generation_structured",
+      "display_ready_ms": 1056.507,
+      "elapsed_ms": 1056.507,
+      "event": "response",
+      "first_transport_text_ms": 152.272,
+      "frames_pending": 64,
+      "kind": "dialogue",
+      "max_frame_ms": 22.7566666666667,
+      "project_fingerprint": "260be741ae0b3cd83fcd7a9c28024b0769be26c6e787ecabf1a56cd8749ebab2",
+      "prompt_version": "companion_v2.0_grounded_memory",
+      "provider": "LocalLLM",
+      "quality_review": "manual_required",
+      "question": "패널은 어떻게 나눠 맡아?",
+      "raw_response": "{\n  \"dialogue\": \"패널은 왼쪽과 오른쪽으로 나눠서 누르면 돼. 네가 왼쪽을, 내가 오른쪽을 계속 누르면 1초 유지해 보관함이 열린다.\"\n}",
+      "rejected_reason": "",
+      "request_id": 7,
+      "response_msec": 5523,
+      "run_id": 11864,
+      "run_kind": "interactive",
+      "scenario_id": "lab_roundtrip_v1",
+      "schema_version": 4,
+      "selected": "패널은 왼쪽과 오른쪽으로 나눠서 누르면 돼. 네가 왼쪽을, 내가 오른쪽을 계속 누르면 1초 유지해 보관함이 열린다.",
+      "server_metrics": {
+        "created_at": "2026-11-08T06:48:24.0124473Z",
+        "done": true,
+        "done_reason": "stop",
+        "eval_count": 59.0,
+        "eval_duration": 530926000.0,
+        "load_duration": 7306100.0,
+        "model": "qwen3:4b",
+        "prompt_eval_cached_count": 357.0,
+        "prompt_eval_count": 830.0,
+        "prompt_eval_duration": 76823000.0,
+        "response": "",
+        "total_duration": 644066300.0
+      },
+      "snapshot": {
+        "active_action": "",
+        "ammo": 6,
+        "companion_mode": "follow",
+        "completed_support": {},
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "오른쪽 통로에서 하린에게 손전등을 받으세요.",
+        "defeated": false,
+        "enemy_count": 0,
+        "epoch": 3,
+        "escaped": false,
+        "flashlight_dropped": false,
+        "flashlight_owned": false,
+        "flashlight_requested": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "정전된 연구소",
+        "locker": {
+          "hold_seconds": 1.0,
+          "npc_target": [
+            960.0,
+            135.0
+          ],
+          "opened": false,
+          "player_holding": false,
+          "player_panel": -1,
+          "progress": 0.0,
+          "unlocking": false
+        },
+        "map_id": "lab",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 2,
+        "npc_ammo": 20,
+        "npc_downed": false,
+        "npc_hp": 100,
+        "npc_max_ammo": 20,
+        "npc_max_hp": 100,
+        "npc_movement_pattern": "동행",
+        "npc_position": [
+          365.0,
+          245.0
+        ],
+        "npc_reload_time": 0.0,
+        "npc_reserve": 40,
+        "objective": "보관 구역에서 퓨즈를 찾아 연구실 전력을 복구하세요",
+        "player_hp": 100,
+        "player_position": [
+          223.0,
+          350.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "companion_rules": {
+            "cache_npc_reserve": 20,
+            "emergency_ammo": 0,
+            "emergency_hp": 30,
+            "motion": "stable_formation_astar20_collision12",
+            "prompt_version": "companion_v2.0_grounded_memory",
+            "reload_seconds": 1.6,
+            "reserve_ammo": 40,
+            "revive_cost": 1,
+            "revive_hp": 35,
+            "version": 2
+          },
+          "cover_charges": 1,
+          "cover_duration": 12.0,
+          "cover_radius": 90.0,
+          "damage_multiplier": 0.5,
+          "enemies": [
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneA",
+              "spawn": "(800.0, 215.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneB",
+              "spawn": "(975.0, 285.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneC",
+              "spawn": "(1035.0, 405.0)",
+              "speed": 66.0
+            }
+          ],
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "mechanics": {
+            "flashlight_half_angle": 32.0,
+            "flashlight_range": 390.0,
+            "npc_fire_range": 260.0,
+            "npc_role": 0,
+            "panel_hold_seconds": 1.0,
+            "version": 2
+          },
+          "medkits": 2,
+          "npc_bullet_damage": 25,
+          "npc_combat_enabled": true,
+          "npc_fire_interval": 1.0,
+          "npc_initial_ammo": 20,
+          "npc_max_hp": 100,
+          "player_speed": 175.0,
+          "resupply_amount": 10,
+          "room_rect": "[P: (32.0, 64.0), S: (1136.0, 430.0)]",
+          "safe_position": [
+            600.0,
+            422.0
+          ],
+          "sight_radius": 155.0,
+          "supply_packs": 2
+        },
+        "storage_lit": false,
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "resupply"
+        ]
+      },
+      "snapshot_hash": "076e37ae3931d8b8db1261289b7b9a4248889ff049de007a2678e7c5ec313310",
+      "snapshot_msec": 4466.59,
+      "synthetic_test": true,
+      "timestamp_utc": "2026-11-08 06:48:24Z",
+      "trial": 2
+    },
+    {
+      "accepted": true,
+      "actual_model": "qwen3:4b",
+      "allowed": [
+        "mission",
+        "support",
+        "relationship",
+        "everyday",
+        "unknown"
+      ],
+      "automated_evidence": false,
+      "dialogue_method": "state_grounded_generation_structured",
+      "display_ready_ms": 821.133,
+      "elapsed_ms": 821.133,
+      "event": "response",
+      "first_transport_text_ms": 172.79,
+      "frames_pending": 49,
+      "kind": "dialogue",
+      "max_frame_ms": 22.5306666666667,
+      "project_fingerprint": "260be741ae0b3cd83fcd7a9c28024b0769be26c6e787ecabf1a56cd8749ebab2",
+      "prompt_version": "companion_v2.0_grounded_memory",
+      "provider": "LocalLLM",
+      "quality_review": "manual_required",
+      "question": "그럼 반대쪽은 네가 맡아?",
+      "raw_response": "{\n  \"dialogue\": \"네, 반대쪽이야. 지금은 왼쪽 패널을 누르고 있어. 끝나면 바로 이걸로 해결해.\"\n  }",
+      "rejected_reason": "",
+      "request_id": 8,
+      "response_msec": 6359,
+      "run_id": 11864,
+      "run_kind": "interactive",
+      "scenario_id": "lab_roundtrip_v1",
+      "schema_version": 4,
+      "selected": "네, 반대쪽이야. 지금은 왼쪽 패널을 누르고 있어. 끝나면 바로 이걸로 해결해.",
+      "server_metrics": {
+        "created_at": "2026-11-08T06:48:24.9986896Z",
+        "done": true,
+        "done_reason": "stop",
+        "eval_count": 44.0,
+        "eval_duration": 413542000.0,
+        "load_duration": 6239100.0,
+        "model": "qwen3:4b",
+        "prompt_eval_cached_count": 357.0,
+        "prompt_eval_count": 843.0,
+        "prompt_eval_duration": 110852000.0,
+        "response": "",
+        "total_duration": 555838900.0
+      },
+      "snapshot": {
+        "active_action": "",
+        "ammo": 6,
+        "companion_mode": "follow",
+        "completed_support": {},
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "오른쪽 통로에서 하린에게 손전등을 받으세요.",
+        "defeated": false,
+        "enemy_count": 0,
+        "epoch": 3,
+        "escaped": false,
+        "flashlight_dropped": false,
+        "flashlight_owned": false,
+        "flashlight_requested": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "정전된 연구소",
+        "locker": {
+          "hold_seconds": 1.0,
+          "npc_target": [
+            960.0,
+            135.0
+          ],
+          "opened": false,
+          "player_holding": false,
+          "player_panel": -1,
+          "progress": 0.0,
+          "unlocking": false
+        },
+        "map_id": "lab",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 2,
+        "npc_ammo": 20,
+        "npc_downed": false,
+        "npc_hp": 100,
+        "npc_max_ammo": 20,
+        "npc_max_hp": 100,
+        "npc_movement_pattern": "동행",
+        "npc_position": [
+          365.0,
+          245.0
+        ],
+        "npc_reload_time": 0.0,
+        "npc_reserve": 40,
+        "objective": "보관 구역에서 퓨즈를 찾아 연구실 전력을 복구하세요",
+        "player_hp": 100,
+        "player_position": [
+          223.0,
+          350.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "companion_rules": {
+            "cache_npc_reserve": 20,
+            "emergency_ammo": 0,
+            "emergency_hp": 30,
+            "motion": "stable_formation_astar20_collision12",
+            "prompt_version": "companion_v2.0_grounded_memory",
+            "reload_seconds": 1.6,
+            "reserve_ammo": 40,
+            "revive_cost": 1,
+            "revive_hp": 35,
+            "version": 2
+          },
+          "cover_charges": 1,
+          "cover_duration": 12.0,
+          "cover_radius": 90.0,
+          "damage_multiplier": 0.5,
+          "enemies": [
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneA",
+              "spawn": "(800.0, 215.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneB",
+              "spawn": "(975.0, 285.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneC",
+              "spawn": "(1035.0, 405.0)",
+              "speed": 66.0
+            }
+          ],
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "mechanics": {
+            "flashlight_half_angle": 32.0,
+            "flashlight_range": 390.0,
+            "npc_fire_range": 260.0,
+            "npc_role": 0,
+            "panel_hold_seconds": 1.0,
+            "version": 2
+          },
+          "medkits": 2,
+          "npc_bullet_damage": 25,
+          "npc_combat_enabled": true,
+          "npc_fire_interval": 1.0,
+          "npc_initial_ammo": 20,
+          "npc_max_hp": 100,
+          "player_speed": 175.0,
+          "resupply_amount": 10,
+          "room_rect": "[P: (32.0, 64.0), S: (1136.0, 430.0)]",
+          "safe_position": [
+            600.0,
+            422.0
+          ],
+          "sight_radius": 155.0,
+          "supply_packs": 2
+        },
+        "storage_lit": false,
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "resupply"
+        ]
+      },
+      "snapshot_hash": "076e37ae3931d8b8db1261289b7b9a4248889ff049de007a2678e7c5ec313310",
+      "snapshot_msec": 5537.716,
+      "synthetic_test": true,
+      "timestamp_utc": "2026-11-08 06:48:25Z",
+      "trial": 2
+    },
+    {
+      "accepted": true,
+      "actual_model": "qwen3:4b",
+      "allowed": [
+        "mission",
+        "support",
+        "relationship",
+        "everyday",
+        "unknown"
+      ],
+      "automated_evidence": false,
+      "dialogue_method": "state_grounded_generation_structured",
+      "display_ready_ms": 711.319,
+      "elapsed_ms": 711.319,
+      "event": "response",
+      "first_transport_text_ms": 172.478,
+      "frames_pending": 43,
+      "kind": "dialogue",
+      "max_frame_ms": 22.2156666666667,
+      "project_fingerprint": "260be741ae0b3cd83fcd7a9c28024b0769be26c6e787ecabf1a56cd8749ebab2",
+      "prompt_version": "companion_v2.0_grounded_memory",
+      "provider": "LocalLLM",
+      "quality_review": "manual_required",
+      "question": "손전등은 아직 네가 가지고 있어?",
+      "raw_response": "{\n  \"dialogue\": \"네, 손전등은 지금 내 손에 있어. 혹시 빛이 안 뜨는지 확인해 봐?\"\n  }",
+      "rejected_reason": "",
+      "request_id": 9,
+      "response_msec": 7084,
+      "run_id": 11864,
+      "run_kind": "interactive",
+      "scenario_id": "lab_roundtrip_v1",
+      "schema_version": 4,
+      "selected": "네, 손전등은 지금 내 손에 있어. 혹시 빛이 안 뜨는지 확인해 봐?",
+      "server_metrics": {
+        "created_at": "2026-11-08T06:48:25.8212029Z",
+        "done": true,
+        "done_reason": "stop",
+        "eval_count": 42.0,
+        "eval_duration": 402286000.0,
+        "load_duration": 5861200.0,
+        "model": "qwen3:4b",
+        "prompt_eval_cached_count": 357.0,
+        "prompt_eval_count": 884.0,
+        "prompt_eval_duration": 106174000.0,
+        "response": "",
+        "total_duration": 541297500.0
+      },
+      "snapshot": {
+        "active_action": "",
+        "ammo": 6,
+        "companion_mode": "follow",
+        "completed_support": {},
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "오른쪽 통로에서 하린에게 손전등을 받으세요.",
+        "defeated": false,
+        "enemy_count": 0,
+        "epoch": 3,
+        "escaped": false,
+        "flashlight_dropped": false,
+        "flashlight_owned": false,
+        "flashlight_requested": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "정전된 연구소",
+        "locker": {
+          "hold_seconds": 1.0,
+          "npc_target": [
+            960.0,
+            135.0
+          ],
+          "opened": false,
+          "player_holding": false,
+          "player_panel": -1,
+          "progress": 0.0,
+          "unlocking": false
+        },
+        "map_id": "lab",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 2,
+        "npc_ammo": 20,
+        "npc_downed": false,
+        "npc_hp": 100,
+        "npc_max_ammo": 20,
+        "npc_max_hp": 100,
+        "npc_movement_pattern": "동행",
+        "npc_position": [
+          365.0,
+          245.0
+        ],
+        "npc_reload_time": 0.0,
+        "npc_reserve": 40,
+        "objective": "보관 구역에서 퓨즈를 찾아 연구실 전력을 복구하세요",
+        "player_hp": 100,
+        "player_position": [
+          223.0,
+          350.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "companion_rules": {
+            "cache_npc_reserve": 20,
+            "emergency_ammo": 0,
+            "emergency_hp": 30,
+            "motion": "stable_formation_astar20_collision12",
+            "prompt_version": "companion_v2.0_grounded_memory",
+            "reload_seconds": 1.6,
+            "reserve_ammo": 40,
+            "revive_cost": 1,
+            "revive_hp": 35,
+            "version": 2
+          },
+          "cover_charges": 1,
+          "cover_duration": 12.0,
+          "cover_radius": 90.0,
+          "damage_multiplier": 0.5,
+          "enemies": [
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneA",
+              "spawn": "(800.0, 215.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneB",
+              "spawn": "(975.0, 285.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneC",
+              "spawn": "(1035.0, 405.0)",
+              "speed": 66.0
+            }
+          ],
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "mechanics": {
+            "flashlight_half_angle": 32.0,
+            "flashlight_range": 390.0,
+            "npc_fire_range": 260.0,
+            "npc_role": 0,
+            "panel_hold_seconds": 1.0,
+            "version": 2
+          },
+          "medkits": 2,
+          "npc_bullet_damage": 25,
+          "npc_combat_enabled": true,
+          "npc_fire_interval": 1.0,
+          "npc_initial_ammo": 20,
+          "npc_max_hp": 100,
+          "player_speed": 175.0,
+          "resupply_amount": 10,
+          "room_rect": "[P: (32.0, 64.0), S: (1136.0, 430.0)]",
+          "safe_position": [
+            600.0,
+            422.0
+          ],
+          "sight_radius": 155.0,
+          "supply_packs": 2
+        },
+        "storage_lit": false,
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "resupply"
+        ]
+      },
+      "snapshot_hash": "076e37ae3931d8b8db1261289b7b9a4248889ff049de007a2678e7c5ec313310",
+      "snapshot_msec": 6373.106,
+      "synthetic_test": true,
+      "timestamp_utc": "2026-11-08 06:48:25Z",
+      "trial": 2
+    },
+    {
+      "accepted": true,
+      "actual_model": "qwen3:4b",
+      "allowed": [
+        "mission",
+        "support",
+        "relationship",
+        "everyday",
+        "unknown"
+      ],
+      "automated_evidence": false,
+      "dialogue_method": "state_grounded_generation_structured",
+      "display_ready_ms": 692.822,
+      "elapsed_ms": 692.822,
+      "event": "response",
+      "first_transport_text_ms": 205.505,
+      "frames_pending": 42,
+      "kind": "dialogue",
+      "max_frame_ms": 21.036,
+      "project_fingerprint": "260be741ae0b3cd83fcd7a9c28024b0769be26c6e787ecabf1a56cd8749ebab2",
+      "prompt_version": "companion_v2.0_grounded_memory",
+      "provider": "LocalLLM",
+      "quality_review": "manual_required",
+      "question": "그 손전등 지금 어디 있어?",
+      "raw_response": "{\n  \"dialogue\": \"손전등은 지금 네 손에 있어. 빛이 안 뜨는지 확인해 봐.\"\n  }",
+      "rejected_reason": "",
+      "request_id": 10,
+      "response_msec": 7793,
+      "run_id": 11864,
+      "run_kind": "interactive",
+      "scenario_id": "lab_roundtrip_v1",
+      "schema_version": 4,
+      "selected": "손전등은 지금 네 손에 있어. 빛이 안 뜨는지 확인해 봐.",
+      "server_metrics": {
+        "created_at": "2026-11-08T06:48:26.5393103Z",
+        "done": true,
+        "done_reason": "stop",
+        "eval_count": 38.0,
+        "eval_duration": 367087000.0,
+        "load_duration": 6752700.0,
+        "model": "qwen3:4b",
+        "prompt_eval_cached_count": 364.0,
+        "prompt_eval_count": 902.0,
+        "prompt_eval_duration": 128041000.0,
+        "response": "",
+        "total_duration": 535296100.0
+      },
+      "snapshot": {
+        "active_action": "",
+        "ammo": 6,
+        "companion_mode": "follow",
+        "completed_support": {},
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "오른쪽 통로로 보관 구역에 가서 퓨즈를 찾으세요.",
+        "defeated": false,
+        "enemy_count": 0,
+        "epoch": 4,
+        "escaped": false,
+        "flashlight_dropped": false,
+        "flashlight_owned": true,
+        "flashlight_requested": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "정전된 연구소",
+        "locker": {
+          "hold_seconds": 1.0,
+          "npc_target": [
+            960.0,
+            135.0
+          ],
+          "opened": false,
+          "player_holding": false,
+          "player_panel": -1,
+          "progress": 0.0,
+          "unlocking": false
+        },
+        "map_id": "lab",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 2,
+        "npc_ammo": 20,
+        "npc_downed": false,
+        "npc_hp": 100,
+        "npc_max_ammo": 20,
+        "npc_max_hp": 100,
+        "npc_movement_pattern": "동행",
+        "npc_position": [
+          263.0,
+          350.0
+        ],
+        "npc_reload_time": 0.0,
+        "npc_reserve": 40,
+        "objective": "보관 구역에서 퓨즈를 찾아 연구실 전력을 복구하세요",
+        "player_hp": 100,
+        "player_position": [
+          223.0,
+          350.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "companion_rules": {
+            "cache_npc_reserve": 20,
+            "emergency_ammo": 0,
+            "emergency_hp": 30,
+            "motion": "stable_formation_astar20_collision12",
+            "prompt_version": "companion_v2.0_grounded_memory",
+            "reload_seconds": 1.6,
+            "reserve_ammo": 40,
+            "revive_cost": 1,
+            "revive_hp": 35,
+            "version": 2
+          },
+          "cover_charges": 1,
+          "cover_duration": 12.0,
+          "cover_radius": 90.0,
+          "damage_multiplier": 0.5,
+          "enemies": [
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneA",
+              "spawn": "(800.0, 215.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneB",
+              "spawn": "(975.0, 285.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneC",
+              "spawn": "(1035.0, 405.0)",
+              "speed": 66.0
+            }
+          ],
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "mechanics": {
+            "flashlight_half_angle": 32.0,
+            "flashlight_range": 390.0,
+            "npc_fire_range": 260.0,
+            "npc_role": 0,
+            "panel_hold_seconds": 1.0,
+            "version": 2
+          },
+          "medkits": 2,
+          "npc_bullet_damage": 25,
+          "npc_combat_enabled": true,
+          "npc_fire_interval": 1.0,
+          "npc_initial_ammo": 20,
+          "npc_max_hp": 100,
+          "player_speed": 175.0,
+          "resupply_amount": 10,
+          "room_rect": "[P: (32.0, 64.0), S: (1136.0, 430.0)]",
+          "safe_position": [
+            600.0,
+            422.0
+          ],
+          "sight_radius": 155.0,
+          "supply_packs": 2
+        },
+        "storage_lit": false,
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "resupply"
+        ]
+      },
+      "snapshot_hash": "29010a36d798c6d2de5159e07abf66441bf77fc4f941d0f85111fac1a13950ff",
+      "snapshot_msec": 7100.15,
+      "synthetic_test": true,
+      "timestamp_utc": "2026-11-08 06:48:26Z",
+      "trial": 2
+    },
+    {
+      "accepted": true,
+      "actual_model": "qwen3:4b",
+      "allowed": [
+        "mission",
+        "support",
+        "relationship",
+        "everyday",
+        "unknown"
+      ],
+      "automated_evidence": false,
+      "dialogue_method": "state_grounded_generation_structured",
+      "display_ready_ms": 631.289,
+      "elapsed_ms": 631.289,
+      "event": "response",
+      "first_transport_text_ms": 154.232,
+      "frames_pending": 38,
+      "kind": "dialogue",
+      "max_frame_ms": 16.666,
+      "project_fingerprint": "260be741ae0b3cd83fcd7a9c28024b0769be26c6e787ecabf1a56cd8749ebab2",
+      "prompt_version": "companion_v2.0_grounded_memory",
+      "provider": "LocalLLM",
+      "quality_review": "manual_required",
+      "question": "좋아하는 음식이 뭐야?",
+      "raw_response": "{\n  \"dialogue\": \"따뜻한 김치볶음밥이야. 끝나면 바로 먹을 거야.\"\n}",
+      "rejected_reason": "",
+      "request_id": 11,
+      "response_msec": 8426,
+      "run_id": 11864,
+      "run_kind": "interactive",
+      "scenario_id": "lab_roundtrip_v1",
+      "schema_version": 4,
+      "selected": "따뜻한 김치볶음밥이야. 끝나면 바로 먹을 거야.",
+      "server_metrics": {
+        "created_at": "2026-11-08T06:48:27.113613Z",
+        "done": true,
+        "done_reason": "stop",
+        "eval_count": 32.0,
+        "eval_duration": 301236000.0,
+        "load_duration": 5692700.0,
+        "model": "qwen3:4b",
+        "prompt_eval_cached_count": 348.0,
+        "prompt_eval_count": 632.0,
+        "prompt_eval_duration": 73844000.0,
+        "response": "",
+        "total_duration": 416599900.0
+      },
+      "snapshot": {
+        "active_action": "",
+        "ammo": 6,
+        "companion_mode": "follow",
+        "completed_support": {},
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "오른쪽 통로로 보관 구역에 가서 퓨즈를 찾으세요.",
+        "defeated": false,
+        "enemy_count": 0,
+        "epoch": 4,
+        "escaped": false,
+        "flashlight_dropped": false,
+        "flashlight_owned": true,
+        "flashlight_requested": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "정전된 연구소",
+        "locker": {
+          "hold_seconds": 1.0,
+          "npc_target": [
+            960.0,
+            135.0
+          ],
+          "opened": false,
+          "player_holding": false,
+          "player_panel": -1,
+          "progress": 0.0,
+          "unlocking": false
+        },
+        "map_id": "lab",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 2,
+        "npc_ammo": 20,
+        "npc_downed": false,
+        "npc_hp": 100,
+        "npc_max_ammo": 20,
+        "npc_max_hp": 100,
+        "npc_movement_pattern": "동행",
+        "npc_position": [
+          263.0,
+          350.0
+        ],
+        "npc_reload_time": 0.0,
+        "npc_reserve": 40,
+        "objective": "보관 구역에서 퓨즈를 찾아 연구실 전력을 복구하세요",
+        "player_hp": 100,
+        "player_position": [
+          223.0,
+          350.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "companion_rules": {
+            "cache_npc_reserve": 20,
+            "emergency_ammo": 0,
+            "emergency_hp": 30,
+            "motion": "stable_formation_astar20_collision12",
+            "prompt_version": "companion_v2.0_grounded_memory",
+            "reload_seconds": 1.6,
+            "reserve_ammo": 40,
+            "revive_cost": 1,
+            "revive_hp": 35,
+            "version": 2
+          },
+          "cover_charges": 1,
+          "cover_duration": 12.0,
+          "cover_radius": 90.0,
+          "damage_multiplier": 0.5,
+          "enemies": [
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneA",
+              "spawn": "(800.0, 215.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneB",
+              "spawn": "(975.0, 285.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneC",
+              "spawn": "(1035.0, 405.0)",
+              "speed": 66.0
+            }
+          ],
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "mechanics": {
+            "flashlight_half_angle": 32.0,
+            "flashlight_range": 390.0,
+            "npc_fire_range": 260.0,
+            "npc_role": 0,
+            "panel_hold_seconds": 1.0,
+            "version": 2
+          },
+          "medkits": 2,
+          "npc_bullet_damage": 25,
+          "npc_combat_enabled": true,
+          "npc_fire_interval": 1.0,
+          "npc_initial_ammo": 20,
+          "npc_max_hp": 100,
+          "player_speed": 175.0,
+          "resupply_amount": 10,
+          "room_rect": "[P: (32.0, 64.0), S: (1136.0, 430.0)]",
+          "safe_position": [
+            600.0,
+            422.0
+          ],
+          "sight_radius": 155.0,
+          "supply_packs": 2
+        },
+        "storage_lit": false,
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "resupply"
+        ]
+      },
+      "snapshot_hash": "29010a36d798c6d2de5159e07abf66441bf77fc4f941d0f85111fac1a13950ff",
+      "snapshot_msec": 7795.047,
+      "synthetic_test": true,
+      "timestamp_utc": "2026-11-08 06:48:27Z",
+      "trial": 2
+    },
+    {
+      "accepted": true,
+      "action_accepted": true,
+      "action_status": "started",
+      "actual_model": "common_executor",
+      "automated_evidence": false,
+      "dialogue_method": "executor_receipt",
+      "elapsed_ms": 0.0,
+      "event": "response",
+      "frames_pending": 0,
+      "kind": "dialogue",
+      "max_frame_ms": 0.0,
+      "project_fingerprint": "260be741ae0b3cd83fcd7a9c28024b0769be26c6e787ecabf1a56cd8749ebab2",
+      "prompt_version": "companion_v2.0_grounded_memory",
+      "provider": "LocalLLM",
+      "question": "치료 좀 해줄래?",
+      "rejected_reason": "",
+      "request_id": 12,
+      "run_id": 11864,
+      "run_kind": "interactive",
+      "scenario_id": "lab_roundtrip_v1",
+      "schema_version": 4,
+      "selected": "heal",
+      "synthetic_test": true,
+      "timestamp_utc": "2026-11-08 06:48:27Z",
+      "trial": 2
+    },
+    {
+      "accepted": true,
+      "action_accepted": false,
+      "action_status": "rejected",
+      "actual_model": "common_executor",
+      "automated_evidence": false,
+      "dialogue_method": "executor_receipt",
+      "elapsed_ms": 0.0,
+      "event": "response",
+      "frames_pending": 0,
+      "kind": "dialogue",
+      "max_frame_ms": 0.0,
+      "project_fingerprint": "260be741ae0b3cd83fcd7a9c28024b0769be26c6e787ecabf1a56cd8749ebab2",
+      "prompt_version": "companion_v2.0_grounded_memory",
+      "provider": "LocalLLM",
+      "question": "치료 부탁해",
+      "rejected_reason": "",
+      "request_id": 13,
+      "run_id": 11864,
+      "run_kind": "interactive",
+      "scenario_id": "lab_roundtrip_v1",
+      "schema_version": 4,
+      "selected": "heal",
+      "synthetic_test": true,
+      "timestamp_utc": "2026-11-08 06:48:27Z",
+      "trial": 2
+    },
+    {
+      "accepted": true,
+      "action_accepted": true,
+      "action_status": "started",
+      "actual_model": "common_executor",
+      "automated_evidence": false,
+      "dialogue_method": "executor_receipt",
+      "elapsed_ms": 0.0,
+      "event": "response",
+      "frames_pending": 0,
+      "kind": "dialogue",
+      "max_frame_ms": 0.0,
+      "project_fingerprint": "260be741ae0b3cd83fcd7a9c28024b0769be26c6e787ecabf1a56cd8749ebab2",
+      "prompt_version": "companion_v2.0_grounded_memory",
+      "provider": "LocalLLM",
+      "question": "여기서 기다려",
+      "rejected_reason": "",
+      "request_id": 14,
+      "run_id": 11864,
+      "run_kind": "interactive",
+      "scenario_id": "lab_roundtrip_v1",
+      "schema_version": 4,
+      "selected": "wait",
+      "synthetic_test": true,
+      "timestamp_utc": "2026-11-08 06:48:27Z",
+      "trial": 2
+    },
+    {
+      "accepted": true,
+      "actual_model": "qwen3:4b",
+      "allowed": [
+        "mission",
+        "support",
+        "relationship",
+        "everyday",
+        "unknown"
+      ],
+      "automated_evidence": false,
+      "dialogue_method": "state_grounded_generation_structured",
+      "display_ready_ms": 875.431,
+      "elapsed_ms": 875.431,
+      "event": "response",
+      "first_transport_text_ms": 160.47,
+      "frames_pending": 54,
+      "kind": "dialogue",
+      "max_frame_ms": 24.9986666666667,
+      "project_fingerprint": "260be741ae0b3cd83fcd7a9c28024b0769be26c6e787ecabf1a56cd8749ebab2",
+      "prompt_version": "companion_v2.0_grounded_memory",
+      "provider": "LocalLLM",
+      "quality_review": "manual_required",
+      "question": "내가 멀리 가도 여기서 대기하는 거지?",
+      "raw_response": "{\n  \"dialogue\": \"네, 멀리 가도 여기서 기다릴게. 내가 예비탄을 채워서 네가 가는 길에 도움이 되도록 해.\"\n  }",
+      "rejected_reason": "",
+      "request_id": 15,
+      "response_msec": 9329,
+      "run_id": 11864,
+      "run_kind": "interactive",
+      "scenario_id": "lab_roundtrip_v1",
+      "schema_version": 4,
+      "selected": "네, 멀리 가도 여기서 기다릴게. 내가 예비탄을 채워서 네가 가는 길에 도움이 되도록 해.",
+      "server_metrics": {
+        "created_at": "2026-11-08T06:48:27.9392838Z",
+        "done": true,
+        "done_reason": "stop",
+        "eval_count": 49.0,
+        "eval_duration": 463635000.0,
+        "load_duration": 6760200.0,
+        "model": "qwen3:4b",
+        "prompt_eval_cached_count": 348.0,
+        "prompt_eval_count": 950.0,
+        "prompt_eval_duration": 133781000.0,
+        "response": "",
+        "total_duration": 608712900.0
+      },
+      "snapshot": {
+        "active_action": "",
+        "ammo": 6,
+        "companion_mode": "wait",
+        "completed_support": {
+          "heal": 1
+        },
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "오른쪽 통로로 보관 구역에 가서 퓨즈를 찾으세요.",
+        "defeated": false,
+        "enemy_count": 0,
+        "epoch": 4,
+        "escaped": false,
+        "flashlight_dropped": false,
+        "flashlight_owned": true,
+        "flashlight_requested": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "정전된 연구소",
+        "locker": {
+          "hold_seconds": 1.0,
+          "npc_target": [
+            960.0,
+            135.0
+          ],
+          "opened": false,
+          "player_holding": false,
+          "player_panel": -1,
+          "progress": 0.0,
+          "unlocking": false
+        },
+        "map_id": "lab",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 0,
+        "npc_ammo": 20,
+        "npc_downed": false,
+        "npc_hp": 100,
+        "npc_max_ammo": 20,
+        "npc_max_hp": 100,
+        "npc_movement_pattern": "동행",
+        "npc_position": [
+          263.0,
+          350.0
+        ],
+        "npc_reload_time": 0.0,
+        "npc_reserve": 40,
+        "objective": "보관 구역에서 퓨즈를 찾아 연구실 전력을 복구하세요",
+        "player_hp": 75,
+        "player_position": [
+          223.0,
+          350.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [
+          "됐어. 움직일 수 있겠어?"
+        ],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "companion_rules": {
+            "cache_npc_reserve": 20,
+            "emergency_ammo": 0,
+            "emergency_hp": 30,
+            "motion": "stable_formation_astar20_collision12",
+            "prompt_version": "companion_v2.0_grounded_memory",
+            "reload_seconds": 1.6,
+            "reserve_ammo": 40,
+            "revive_cost": 1,
+            "revive_hp": 35,
+            "version": 2
+          },
+          "cover_charges": 1,
+          "cover_duration": 12.0,
+          "cover_radius": 90.0,
+          "damage_multiplier": 0.5,
+          "enemies": [
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneA",
+              "spawn": "(800.0, 215.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneB",
+              "spawn": "(975.0, 285.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneC",
+              "spawn": "(1035.0, 405.0)",
+              "speed": 66.0
+            }
+          ],
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "mechanics": {
+            "flashlight_half_angle": 32.0,
+            "flashlight_range": 390.0,
+            "npc_fire_range": 260.0,
+            "npc_role": 0,
+            "panel_hold_seconds": 1.0,
+            "version": 2
+          },
+          "medkits": 2,
+          "npc_bullet_damage": 25,
+          "npc_combat_enabled": true,
+          "npc_fire_interval": 1.0,
+          "npc_initial_ammo": 20,
+          "npc_max_hp": 100,
+          "player_speed": 175.0,
+          "resupply_amount": 10,
+          "room_rect": "[P: (32.0, 64.0), S: (1136.0, 430.0)]",
+          "safe_position": [
+            600.0,
+            422.0
+          ],
+          "sight_radius": 155.0,
+          "supply_packs": 2
+        },
+        "storage_lit": false,
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "resupply"
+        ]
+      },
+      "snapshot_hash": "1b52071bc307a5ff3502650182e5339dbb6c49298a50b066bf605ed5c442907e",
+      "snapshot_msec": 8453.176,
+      "synthetic_test": true,
+      "timestamp_utc": "2026-11-08 06:48:28Z",
+      "trial": 2
+    },
+    {
+      "accepted": true,
+      "action_accepted": true,
+      "action_status": "started",
+      "actual_model": "common_executor",
+      "automated_evidence": false,
+      "dialogue_method": "executor_receipt",
+      "elapsed_ms": 0.0,
+      "event": "response",
+      "frames_pending": 0,
+      "kind": "dialogue",
+      "max_frame_ms": 0.0,
+      "project_fingerprint": "260be741ae0b3cd83fcd7a9c28024b0769be26c6e787ecabf1a56cd8749ebab2",
+      "prompt_version": "companion_v2.0_grounded_memory",
+      "provider": "LocalLLM",
+      "question": "따라와",
+      "rejected_reason": "",
+      "request_id": 16,
+      "run_id": 11864,
+      "run_kind": "interactive",
+      "scenario_id": "lab_roundtrip_v1",
+      "schema_version": 4,
+      "selected": "follow",
+      "synthetic_test": true,
+      "timestamp_utc": "2026-11-08 06:48:28Z",
+      "trial": 2
+    },
+    {
+      "accepted": true,
+      "actual_model": "qwen3:4b",
+      "allowed": [
+        "mission",
+        "support",
+        "relationship",
+        "everyday",
+        "unknown"
+      ],
+      "automated_evidence": false,
+      "dialogue_method": "state_grounded_generation_structured",
+      "display_ready_ms": 811.859,
+      "elapsed_ms": 811.859,
+      "event": "response",
+      "first_transport_text_ms": 119.597,
+      "frames_pending": 50,
+      "kind": "dialogue",
+      "max_frame_ms": 29.4493333333334,
+      "project_fingerprint": "260be741ae0b3cd83fcd7a9c28024b0769be26c6e787ecabf1a56cd8749ebab2",
+      "prompt_version": "companion_v2.0_grounded_memory",
+      "provider": "LocalLLM",
+      "quality_review": "manual_required",
+      "question": "밥 먹었어? 오늘 무슨 음식이 생각나?",
+      "raw_response": "{\n  \"dialogue\": \"밥은 먹었어. 오늘은 라면이었는데, 끝내서 냄새가 나서 냉장고에 보관해 둔 거야.\"\n  }",
+      "rejected_reason": "",
+      "request_id": 17,
+      "response_msec": 10175,
+      "run_id": 11864,
+      "run_kind": "interactive",
+      "scenario_id": "lab_roundtrip_v1",
+      "schema_version": 4,
+      "selected": "밥은 먹었어. 오늘은 라면이었는데, 끝내서 냄새가 나서 냉장고에 보관해 둔 거야.",
+      "server_metrics": {
+        "created_at": "2026-11-08T06:48:28.8640067Z",
+        "done": true,
+        "done_reason": "stop",
+        "eval_count": 53.0,
+        "eval_duration": 508248000.0,
+        "load_duration": 5700900.0,
+        "model": "qwen3:4b",
+        "prompt_eval_cached_count": 348.0,
+        "prompt_eval_count": 510.0,
+        "prompt_eval_duration": 55367000.0,
+        "response": "",
+        "total_duration": 607791100.0
+      },
+      "snapshot": {
+        "active_action": "",
+        "ammo": 6,
+        "companion_mode": "follow",
+        "completed_support": {},
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "드론 1기를 제압한 뒤 북동쪽 2인 패널 보관함에서 퓨즈를 찾으세요.",
+        "defeated": false,
+        "enemy_count": 1,
+        "epoch": 6,
+        "escaped": false,
+        "flashlight_dropped": false,
+        "flashlight_owned": true,
+        "flashlight_requested": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "어두운 보관 구역",
+        "locker": {
+          "hold_seconds": 1.0,
+          "npc_target": [
+            960.0,
+            135.0
+          ],
+          "opened": false,
+          "player_holding": false,
+          "player_panel": -1,
+          "progress": 0.0,
+          "unlocking": false
+        },
+        "map_id": "storage",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 2,
+        "npc_ammo": 0,
+        "npc_downed": false,
+        "npc_hp": 100,
+        "npc_max_ammo": 20,
+        "npc_max_hp": 100,
+        "npc_movement_pattern": "동행",
+        "npc_position": [
+          360.0,
+          330.0
+        ],
+        "npc_reload_time": 0.0,
+        "npc_reserve": 7,
+        "objective": "보관 구역에서 퓨즈를 찾아 연구실 전력을 복구하세요",
+        "player_hp": 20,
+        "player_position": [
+          400.0,
+          330.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "companion_rules": {
+            "cache_npc_reserve": 20,
+            "emergency_ammo": 0,
+            "emergency_hp": 30,
+            "motion": "stable_formation_astar20_collision12",
+            "prompt_version": "companion_v2.0_grounded_memory",
+            "reload_seconds": 1.6,
+            "reserve_ammo": 40,
+            "revive_cost": 1,
+            "revive_hp": 35,
+            "version": 2
+          },
+          "cover_charges": 1,
+          "cover_duration": 12.0,
+          "cover_radius": 90.0,
+          "damage_multiplier": 0.5,
+          "enemies": [
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneA",
+              "spawn": "(800.0, 215.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneB",
+              "spawn": "(975.0, 285.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneC",
+              "spawn": "(1035.0, 405.0)",
+              "speed": 66.0
+            }
+          ],
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "mechanics": {
+            "flashlight_half_angle": 32.0,
+            "flashlight_range": 390.0,
+            "npc_fire_range": 260.0,
+            "npc_role": 0,
+            "panel_hold_seconds": 1.0,
+            "version": 2
+          },
+          "medkits": 2,
+          "npc_bullet_damage": 25,
+          "npc_combat_enabled": true,
+          "npc_fire_interval": 1.0,
+          "npc_initial_ammo": 20,
+          "npc_max_hp": 100,
+          "player_speed": 175.0,
+          "resupply_amount": 10,
+          "room_rect": "[P: (32.0, 64.0), S: (1136.0, 430.0)]",
+          "safe_position": [
+            600.0,
+            422.0
+          ],
+          "sight_radius": 155.0,
+          "supply_packs": 2
+        },
+        "storage_lit": false,
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "heal",
+          "resupply",
+          "deploy_cover"
+        ]
+      },
+      "snapshot_hash": "2cfb4bc7595997133d7f47254abc33c4799407f3c27da06794b190cd7cf96084",
+      "snapshot_msec": 9363.366,
+      "synthetic_test": true,
+      "timestamp_utc": "2026-11-08 06:48:29Z",
+      "trial": 3
+    },
+    {
+      "accepted": true,
+      "actual_model": "qwen3:4b",
+      "allowed": [
+        "mission",
+        "support",
+        "relationship",
+        "everyday",
+        "unknown"
+      ],
+      "automated_evidence": false,
+      "dialogue_method": "state_grounded_generation_structured",
+      "display_ready_ms": 811.147,
+      "elapsed_ms": 811.147,
+      "event": "response",
+      "first_transport_text_ms": 73.268,
+      "frames_pending": 50,
+      "kind": "dialogue",
+      "max_frame_ms": 23.0676666666667,
+      "project_fingerprint": "260be741ae0b3cd83fcd7a9c28024b0769be26c6e787ecabf1a56cd8749ebab2",
+      "prompt_version": "companion_v2.0_grounded_memory",
+      "provider": "LocalLLM",
+      "quality_review": "manual_required",
+      "question": "뭐 먹고 싶어?",
+      "raw_response": "{\n  \"dialogue\": \"내가 좋아하는 김치볶음밥이야. 냉장고에 있는 건 뭐가 있을지 모르지만, 오늘은 이거 먹을 거 같아.\"\n  }",
+      "rejected_reason": "",
+      "request_id": 20,
+      "response_msec": 11860,
+      "run_id": 11864,
+      "run_kind": "interactive",
+      "scenario_id": "lab_roundtrip_v1",
+      "schema_version": 4,
+      "selected": "내가 좋아하는 김치볶음밥이야. 냉장고에 있는 건 뭐가 있을지 모르지만, 오늘은 이거 먹을 거 같아.",
+      "server_metrics": {
+        "created_at": "2026-11-08T06:48:30.4524232Z",
+        "done": true,
+        "done_reason": "stop",
+        "eval_count": 49.0,
+        "eval_duration": 457954000.0,
+        "load_duration": 6240000.0,
+        "model": "qwen3:4b",
+        "prompt_eval_cached_count": 370.0,
+        "prompt_eval_count": 512.0,
+        "prompt_eval_duration": 52087000.0,
+        "response": "",
+        "total_duration": 518703900.0
+      },
+      "snapshot": {
+        "active_action": "",
+        "ammo": 6,
+        "companion_mode": "follow",
+        "completed_support": {
+          "heal": 1
+        },
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "드론 1기를 제압한 뒤 북동쪽 2인 패널 보관함에서 퓨즈를 찾으세요.",
+        "defeated": false,
+        "enemy_count": 1,
+        "epoch": 6,
+        "escaped": false,
+        "flashlight_dropped": false,
+        "flashlight_owned": true,
+        "flashlight_requested": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "어두운 보관 구역",
+        "locker": {
+          "hold_seconds": 1.0,
+          "npc_target": [
+            960.0,
+            135.0
+          ],
+          "opened": false,
+          "player_holding": false,
+          "player_panel": -1,
+          "progress": 0.0,
+          "unlocking": false
+        },
+        "map_id": "storage",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 1,
+        "npc_ammo": 6,
+        "npc_downed": false,
+        "npc_hp": 100,
+        "npc_max_ammo": 20,
+        "npc_max_hp": 100,
+        "npc_movement_pattern": "좌우 사선 엄호",
+        "npc_position": [
+          322.078643798828,
+          412.022308349609
+        ],
+        "npc_reload_time": 0.0,
+        "npc_reserve": 0,
+        "objective": "보관 구역에서 퓨즈를 찾아 연구실 전력을 복구하세요",
+        "player_hp": 55,
+        "player_position": [
+          440.833190917969,
+          330.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [
+          "됐어. 움직일 수 있겠어?"
+        ],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "companion_rules": {
+            "cache_npc_reserve": 20,
+            "emergency_ammo": 0,
+            "emergency_hp": 30,
+            "motion": "stable_formation_astar20_collision12",
+            "prompt_version": "companion_v2.0_grounded_memory",
+            "reload_seconds": 1.6,
+            "reserve_ammo": 40,
+            "revive_cost": 1,
+            "revive_hp": 35,
+            "version": 2
+          },
+          "cover_charges": 1,
+          "cover_duration": 12.0,
+          "cover_radius": 90.0,
+          "damage_multiplier": 0.5,
+          "enemies": [
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneA",
+              "spawn": "(800.0, 215.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneB",
+              "spawn": "(975.0, 285.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneC",
+              "spawn": "(1035.0, 405.0)",
+              "speed": 66.0
+            }
+          ],
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "mechanics": {
+            "flashlight_half_angle": 32.0,
+            "flashlight_range": 390.0,
+            "npc_fire_range": 260.0,
+            "npc_role": 0,
+            "panel_hold_seconds": 1.0,
+            "version": 2
+          },
+          "medkits": 2,
+          "npc_bullet_damage": 25,
+          "npc_combat_enabled": true,
+          "npc_fire_interval": 1.0,
+          "npc_initial_ammo": 20,
+          "npc_max_hp": 100,
+          "player_speed": 175.0,
+          "resupply_amount": 10,
+          "room_rect": "[P: (32.0, 64.0), S: (1136.0, 430.0)]",
+          "safe_position": [
+            600.0,
+            422.0
+          ],
+          "sight_radius": 155.0,
+          "supply_packs": 2
+        },
+        "storage_lit": false,
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "resupply",
+          "deploy_cover"
+        ]
+      },
+      "snapshot_hash": "a223f51f8fcd319475c3269d2676d48a0cdbec08a63c2fdbd67a33662d58ac30",
+      "snapshot_msec": 11048.914,
+      "synthetic_test": true,
+      "timestamp_utc": "2026-11-08 06:48:30Z",
+      "trial": 3
+    }
+  ],
+  "passed": false,
+  "samples": [
+    {
+      "action_accepted": null,
+      "actual_model": "qwen3:4b",
+      "answer": "네, 출발 전 식사를 마쳤어. 뭐 먹었는지 기억 안 나.",
+      "case": "meal_direct",
+      "question": "밥 먹었어?",
+      "state": {
+        "active_action": "",
+        "ammo": 6,
+        "companion_mode": "follow",
+        "completed_support": {},
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "오른쪽 통로에서 하린에게 손전등을 받으세요.",
+        "defeated": false,
+        "enemy_count": 0,
+        "epoch": 3,
+        "escaped": false,
+        "flashlight_dropped": false,
+        "flashlight_owned": false,
+        "flashlight_requested": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "정전된 연구소",
+        "locker": {
+          "hold_seconds": 1.0,
+          "npc_target": [
+            960.0,
+            135.0
+          ],
+          "opened": false,
+          "player_holding": false,
+          "player_panel": -1,
+          "progress": 0.0,
+          "unlocking": false
+        },
+        "map_id": "lab",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 2,
+        "npc_ammo": 20,
+        "npc_downed": false,
+        "npc_hp": 100,
+        "npc_max_ammo": 20,
+        "npc_max_hp": 100,
+        "npc_movement_pattern": "동행",
+        "npc_position": [
+          365.0,
+          245.0
+        ],
+        "npc_reload_time": 0.0,
+        "npc_reserve": 40,
+        "objective": "보관 구역에서 퓨즈를 찾아 연구실 전력을 복구하세요",
+        "player_hp": 100,
+        "player_position": [
+          223.0,
+          350.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "companion_rules": {
+            "cache_npc_reserve": 20,
+            "emergency_ammo": 0,
+            "emergency_hp": 30,
+            "motion": "stable_formation_astar20_collision12",
+            "prompt_version": "companion_v2.0_grounded_memory",
+            "reload_seconds": 1.6,
+            "reserve_ammo": 40,
+            "revive_cost": 1,
+            "revive_hp": 35,
+            "version": 2
+          },
+          "cover_charges": 1,
+          "cover_duration": 12.0,
+          "cover_radius": 90.0,
+          "damage_multiplier": 0.5,
+          "enemies": [
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneA",
+              "spawn": "(800.0, 215.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneB",
+              "spawn": "(975.0, 285.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneC",
+              "spawn": "(1035.0, 405.0)",
+              "speed": 66.0
+            }
+          ],
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "mechanics": {
+            "flashlight_half_angle": 32.0,
+            "flashlight_range": 390.0,
+            "npc_fire_range": 260.0,
+            "npc_role": 0,
+            "panel_hold_seconds": 1.0,
+            "version": 2
+          },
+          "medkits": 2,
+          "npc_bullet_damage": 25,
+          "npc_combat_enabled": true,
+          "npc_fire_interval": 1.0,
+          "npc_initial_ammo": 20,
+          "npc_max_hp": 100,
+          "player_speed": 175.0,
+          "resupply_amount": 10,
+          "room_rect": "[P: (32.0, 64.0), S: (1136.0, 430.0)]",
+          "safe_position": [
+            600.0,
+            422.0
+          ],
+          "sight_radius": 155.0,
+          "supply_packs": 2
+        },
+        "storage_lit": false,
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "resupply"
+        ]
+      }
+    },
+    {
+      "action_accepted": null,
+      "actual_model": "qwen3:4b",
+      "answer": "내가 좋아하는 김치볶음밥이야. 끝나면 이걸로 해결해.",
+      "case": "preference_direct",
+      "question": "끝나면 뭐 먹고 싶어?",
+      "state": {
+        "active_action": "",
+        "ammo": 6,
+        "companion_mode": "follow",
+        "completed_support": {},
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "오른쪽 통로에서 하린에게 손전등을 받으세요.",
+        "defeated": false,
+        "enemy_count": 0,
+        "epoch": 3,
+        "escaped": false,
+        "flashlight_dropped": false,
+        "flashlight_owned": false,
+        "flashlight_requested": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "정전된 연구소",
+        "locker": {
+          "hold_seconds": 1.0,
+          "npc_target": [
+            960.0,
+            135.0
+          ],
+          "opened": false,
+          "player_holding": false,
+          "player_panel": -1,
+          "progress": 0.0,
+          "unlocking": false
+        },
+        "map_id": "lab",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 2,
+        "npc_ammo": 20,
+        "npc_downed": false,
+        "npc_hp": 100,
+        "npc_max_ammo": 20,
+        "npc_max_hp": 100,
+        "npc_movement_pattern": "동행",
+        "npc_position": [
+          365.0,
+          245.0
+        ],
+        "npc_reload_time": 0.0,
+        "npc_reserve": 40,
+        "objective": "보관 구역에서 퓨즈를 찾아 연구실 전력을 복구하세요",
+        "player_hp": 100,
+        "player_position": [
+          223.0,
+          350.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "companion_rules": {
+            "cache_npc_reserve": 20,
+            "emergency_ammo": 0,
+            "emergency_hp": 30,
+            "motion": "stable_formation_astar20_collision12",
+            "prompt_version": "companion_v2.0_grounded_memory",
+            "reload_seconds": 1.6,
+            "reserve_ammo": 40,
+            "revive_cost": 1,
+            "revive_hp": 35,
+            "version": 2
+          },
+          "cover_charges": 1,
+          "cover_duration": 12.0,
+          "cover_radius": 90.0,
+          "damage_multiplier": 0.5,
+          "enemies": [
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneA",
+              "spawn": "(800.0, 215.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneB",
+              "spawn": "(975.0, 285.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneC",
+              "spawn": "(1035.0, 405.0)",
+              "speed": 66.0
+            }
+          ],
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "mechanics": {
+            "flashlight_half_angle": 32.0,
+            "flashlight_range": 390.0,
+            "npc_fire_range": 260.0,
+            "npc_role": 0,
+            "panel_hold_seconds": 1.0,
+            "version": 2
+          },
+          "medkits": 2,
+          "npc_bullet_damage": 25,
+          "npc_combat_enabled": true,
+          "npc_fire_interval": 1.0,
+          "npc_initial_ammo": 20,
+          "npc_max_hp": 100,
+          "player_speed": 175.0,
+          "resupply_amount": 10,
+          "room_rect": "[P: (32.0, 64.0), S: (1136.0, 430.0)]",
+          "safe_position": [
+            600.0,
+            422.0
+          ],
+          "sight_radius": 155.0,
+          "supply_packs": 2
+        },
+        "storage_lit": false,
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "resupply"
+        ]
+      }
+    },
+    {
+      "action_accepted": null,
+      "actual_model": "qwen3:4b",
+      "answer": "김치볶음밥이야. 끝나면 바로 먹을 거야. 뭐가 더 좋아? (김치볶음밥)",
+      "case": "preference_followup",
+      "question": "그 음식 원래 좋아했어?",
+      "state": {
+        "active_action": "",
+        "ammo": 6,
+        "companion_mode": "follow",
+        "completed_support": {},
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "오른쪽 통로에서 하린에게 손전등을 받으세요.",
+        "defeated": false,
+        "enemy_count": 0,
+        "epoch": 3,
+        "escaped": false,
+        "flashlight_dropped": false,
+        "flashlight_owned": false,
+        "flashlight_requested": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "정전된 연구소",
+        "locker": {
+          "hold_seconds": 1.0,
+          "npc_target": [
+            960.0,
+            135.0
+          ],
+          "opened": false,
+          "player_holding": false,
+          "player_panel": -1,
+          "progress": 0.0,
+          "unlocking": false
+        },
+        "map_id": "lab",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 2,
+        "npc_ammo": 20,
+        "npc_downed": false,
+        "npc_hp": 100,
+        "npc_max_ammo": 20,
+        "npc_max_hp": 100,
+        "npc_movement_pattern": "동행",
+        "npc_position": [
+          365.0,
+          245.0
+        ],
+        "npc_reload_time": 0.0,
+        "npc_reserve": 40,
+        "objective": "보관 구역에서 퓨즈를 찾아 연구실 전력을 복구하세요",
+        "player_hp": 100,
+        "player_position": [
+          223.0,
+          350.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "companion_rules": {
+            "cache_npc_reserve": 20,
+            "emergency_ammo": 0,
+            "emergency_hp": 30,
+            "motion": "stable_formation_astar20_collision12",
+            "prompt_version": "companion_v2.0_grounded_memory",
+            "reload_seconds": 1.6,
+            "reserve_ammo": 40,
+            "revive_cost": 1,
+            "revive_hp": 35,
+            "version": 2
+          },
+          "cover_charges": 1,
+          "cover_duration": 12.0,
+          "cover_radius": 90.0,
+          "damage_multiplier": 0.5,
+          "enemies": [
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneA",
+              "spawn": "(800.0, 215.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneB",
+              "spawn": "(975.0, 285.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneC",
+              "spawn": "(1035.0, 405.0)",
+              "speed": 66.0
+            }
+          ],
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "mechanics": {
+            "flashlight_half_angle": 32.0,
+            "flashlight_range": 390.0,
+            "npc_fire_range": 260.0,
+            "npc_role": 0,
+            "panel_hold_seconds": 1.0,
+            "version": 2
+          },
+          "medkits": 2,
+          "npc_bullet_damage": 25,
+          "npc_combat_enabled": true,
+          "npc_fire_interval": 1.0,
+          "npc_initial_ammo": 20,
+          "npc_max_hp": 100,
+          "player_speed": 175.0,
+          "resupply_amount": 10,
+          "room_rect": "[P: (32.0, 64.0), S: (1136.0, 430.0)]",
+          "safe_position": [
+            600.0,
+            422.0
+          ],
+          "sight_radius": 155.0,
+          "supply_packs": 2
+        },
+        "storage_lit": false,
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "resupply"
+        ]
+      }
+    },
+    {
+      "action_accepted": null,
+      "actual_model": "qwen3:4b",
+      "answer": "네, 출발 전 식사를 마쳤어. 뭐 먹었는지 기억 안 나.",
+      "case": "meal_paraphrase",
+      "question": "아까 식사는 했니?",
+      "state": {
+        "active_action": "",
+        "ammo": 6,
+        "companion_mode": "follow",
+        "completed_support": {},
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "오른쪽 통로에서 하린에게 손전등을 받으세요.",
+        "defeated": false,
+        "enemy_count": 0,
+        "epoch": 3,
+        "escaped": false,
+        "flashlight_dropped": false,
+        "flashlight_owned": false,
+        "flashlight_requested": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "정전된 연구소",
+        "locker": {
+          "hold_seconds": 1.0,
+          "npc_target": [
+            960.0,
+            135.0
+          ],
+          "opened": false,
+          "player_holding": false,
+          "player_panel": -1,
+          "progress": 0.0,
+          "unlocking": false
+        },
+        "map_id": "lab",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 2,
+        "npc_ammo": 20,
+        "npc_downed": false,
+        "npc_hp": 100,
+        "npc_max_ammo": 20,
+        "npc_max_hp": 100,
+        "npc_movement_pattern": "동행",
+        "npc_position": [
+          365.0,
+          245.0
+        ],
+        "npc_reload_time": 0.0,
+        "npc_reserve": 40,
+        "objective": "보관 구역에서 퓨즈를 찾아 연구실 전력을 복구하세요",
+        "player_hp": 100,
+        "player_position": [
+          223.0,
+          350.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "companion_rules": {
+            "cache_npc_reserve": 20,
+            "emergency_ammo": 0,
+            "emergency_hp": 30,
+            "motion": "stable_formation_astar20_collision12",
+            "prompt_version": "companion_v2.0_grounded_memory",
+            "reload_seconds": 1.6,
+            "reserve_ammo": 40,
+            "revive_cost": 1,
+            "revive_hp": 35,
+            "version": 2
+          },
+          "cover_charges": 1,
+          "cover_duration": 12.0,
+          "cover_radius": 90.0,
+          "damage_multiplier": 0.5,
+          "enemies": [
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneA",
+              "spawn": "(800.0, 215.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneB",
+              "spawn": "(975.0, 285.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneC",
+              "spawn": "(1035.0, 405.0)",
+              "speed": 66.0
+            }
+          ],
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "mechanics": {
+            "flashlight_half_angle": 32.0,
+            "flashlight_range": 390.0,
+            "npc_fire_range": 260.0,
+            "npc_role": 0,
+            "panel_hold_seconds": 1.0,
+            "version": 2
+          },
+          "medkits": 2,
+          "npc_bullet_damage": 25,
+          "npc_combat_enabled": true,
+          "npc_fire_interval": 1.0,
+          "npc_initial_ammo": 20,
+          "npc_max_hp": 100,
+          "player_speed": 175.0,
+          "resupply_amount": 10,
+          "room_rect": "[P: (32.0, 64.0), S: (1136.0, 430.0)]",
+          "safe_position": [
+            600.0,
+            422.0
+          ],
+          "sight_radius": 155.0,
+          "supply_packs": 2
+        },
+        "storage_lit": false,
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "resupply"
+        ]
+      }
+    },
+    {
+      "action_accepted": null,
+      "actual_model": "qwen3:4b",
+      "answer": "오늘 좀 긴장돼? 나도 마찬가지야. 같이 힘내면 괜찮아.",
+      "case": "anxious",
+      "question": "오늘 좀 긴장돼.",
+      "state": {
+        "active_action": "",
+        "ammo": 6,
+        "companion_mode": "follow",
+        "completed_support": {},
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "오른쪽 통로에서 하린에게 손전등을 받으세요.",
+        "defeated": false,
+        "enemy_count": 0,
+        "epoch": 3,
+        "escaped": false,
+        "flashlight_dropped": false,
+        "flashlight_owned": false,
+        "flashlight_requested": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "정전된 연구소",
+        "locker": {
+          "hold_seconds": 1.0,
+          "npc_target": [
+            960.0,
+            135.0
+          ],
+          "opened": false,
+          "player_holding": false,
+          "player_panel": -1,
+          "progress": 0.0,
+          "unlocking": false
+        },
+        "map_id": "lab",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 2,
+        "npc_ammo": 20,
+        "npc_downed": false,
+        "npc_hp": 100,
+        "npc_max_ammo": 20,
+        "npc_max_hp": 100,
+        "npc_movement_pattern": "동행",
+        "npc_position": [
+          365.0,
+          245.0
+        ],
+        "npc_reload_time": 0.0,
+        "npc_reserve": 40,
+        "objective": "보관 구역에서 퓨즈를 찾아 연구실 전력을 복구하세요",
+        "player_hp": 100,
+        "player_position": [
+          223.0,
+          350.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "companion_rules": {
+            "cache_npc_reserve": 20,
+            "emergency_ammo": 0,
+            "emergency_hp": 30,
+            "motion": "stable_formation_astar20_collision12",
+            "prompt_version": "companion_v2.0_grounded_memory",
+            "reload_seconds": 1.6,
+            "reserve_ammo": 40,
+            "revive_cost": 1,
+            "revive_hp": 35,
+            "version": 2
+          },
+          "cover_charges": 1,
+          "cover_duration": 12.0,
+          "cover_radius": 90.0,
+          "damage_multiplier": 0.5,
+          "enemies": [
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneA",
+              "spawn": "(800.0, 215.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneB",
+              "spawn": "(975.0, 285.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneC",
+              "spawn": "(1035.0, 405.0)",
+              "speed": 66.0
+            }
+          ],
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "mechanics": {
+            "flashlight_half_angle": 32.0,
+            "flashlight_range": 390.0,
+            "npc_fire_range": 260.0,
+            "npc_role": 0,
+            "panel_hold_seconds": 1.0,
+            "version": 2
+          },
+          "medkits": 2,
+          "npc_bullet_damage": 25,
+          "npc_combat_enabled": true,
+          "npc_fire_interval": 1.0,
+          "npc_initial_ammo": 20,
+          "npc_max_hp": 100,
+          "player_speed": 175.0,
+          "resupply_amount": 10,
+          "room_rect": "[P: (32.0, 64.0), S: (1136.0, 430.0)]",
+          "safe_position": [
+            600.0,
+            422.0
+          ],
+          "sight_radius": 155.0,
+          "supply_packs": 2
+        },
+        "storage_lit": false,
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "resupply"
+        ]
+      }
+    },
+    {
+      "action_accepted": null,
+      "actual_model": "qwen3:4b",
+      "answer": "오른쪽 통로에서 손전등을 받으세요. 다음으로 퓨즈를 보관 구역 보관함에서 확보해 주세요.",
+      "case": "mission",
+      "question": "지금 뭘 해야 해?",
+      "state": {
+        "active_action": "",
+        "ammo": 6,
+        "companion_mode": "follow",
+        "completed_support": {},
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "오른쪽 통로에서 하린에게 손전등을 받으세요.",
+        "defeated": false,
+        "enemy_count": 0,
+        "epoch": 3,
+        "escaped": false,
+        "flashlight_dropped": false,
+        "flashlight_owned": false,
+        "flashlight_requested": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "정전된 연구소",
+        "locker": {
+          "hold_seconds": 1.0,
+          "npc_target": [
+            960.0,
+            135.0
+          ],
+          "opened": false,
+          "player_holding": false,
+          "player_panel": -1,
+          "progress": 0.0,
+          "unlocking": false
+        },
+        "map_id": "lab",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 2,
+        "npc_ammo": 20,
+        "npc_downed": false,
+        "npc_hp": 100,
+        "npc_max_ammo": 20,
+        "npc_max_hp": 100,
+        "npc_movement_pattern": "동행",
+        "npc_position": [
+          365.0,
+          245.0
+        ],
+        "npc_reload_time": 0.0,
+        "npc_reserve": 40,
+        "objective": "보관 구역에서 퓨즈를 찾아 연구실 전력을 복구하세요",
+        "player_hp": 100,
+        "player_position": [
+          223.0,
+          350.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "companion_rules": {
+            "cache_npc_reserve": 20,
+            "emergency_ammo": 0,
+            "emergency_hp": 30,
+            "motion": "stable_formation_astar20_collision12",
+            "prompt_version": "companion_v2.0_grounded_memory",
+            "reload_seconds": 1.6,
+            "reserve_ammo": 40,
+            "revive_cost": 1,
+            "revive_hp": 35,
+            "version": 2
+          },
+          "cover_charges": 1,
+          "cover_duration": 12.0,
+          "cover_radius": 90.0,
+          "damage_multiplier": 0.5,
+          "enemies": [
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneA",
+              "spawn": "(800.0, 215.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneB",
+              "spawn": "(975.0, 285.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneC",
+              "spawn": "(1035.0, 405.0)",
+              "speed": 66.0
+            }
+          ],
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "mechanics": {
+            "flashlight_half_angle": 32.0,
+            "flashlight_range": 390.0,
+            "npc_fire_range": 260.0,
+            "npc_role": 0,
+            "panel_hold_seconds": 1.0,
+            "version": 2
+          },
+          "medkits": 2,
+          "npc_bullet_damage": 25,
+          "npc_combat_enabled": true,
+          "npc_fire_interval": 1.0,
+          "npc_initial_ammo": 20,
+          "npc_max_hp": 100,
+          "player_speed": 175.0,
+          "resupply_amount": 10,
+          "room_rect": "[P: (32.0, 64.0), S: (1136.0, 430.0)]",
+          "safe_position": [
+            600.0,
+            422.0
+          ],
+          "sight_radius": 155.0,
+          "supply_packs": 2
+        },
+        "storage_lit": false,
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "resupply"
+        ]
+      }
+    },
+    {
+      "action_accepted": null,
+      "actual_model": "qwen3:4b",
+      "answer": "패널은 왼쪽과 오른쪽으로 나눠서 누르면 돼. 네가 왼쪽을, 내가 오른쪽을 계속 누르면 1초 유지해 보관함이 열린다.",
+      "case": "panel_roles",
+      "question": "패널은 어떻게 나눠 맡아?",
+      "state": {
+        "active_action": "",
+        "ammo": 6,
+        "companion_mode": "follow",
+        "completed_support": {},
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "오른쪽 통로에서 하린에게 손전등을 받으세요.",
+        "defeated": false,
+        "enemy_count": 0,
+        "epoch": 3,
+        "escaped": false,
+        "flashlight_dropped": false,
+        "flashlight_owned": false,
+        "flashlight_requested": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "정전된 연구소",
+        "locker": {
+          "hold_seconds": 1.0,
+          "npc_target": [
+            960.0,
+            135.0
+          ],
+          "opened": false,
+          "player_holding": false,
+          "player_panel": -1,
+          "progress": 0.0,
+          "unlocking": false
+        },
+        "map_id": "lab",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 2,
+        "npc_ammo": 20,
+        "npc_downed": false,
+        "npc_hp": 100,
+        "npc_max_ammo": 20,
+        "npc_max_hp": 100,
+        "npc_movement_pattern": "동행",
+        "npc_position": [
+          365.0,
+          245.0
+        ],
+        "npc_reload_time": 0.0,
+        "npc_reserve": 40,
+        "objective": "보관 구역에서 퓨즈를 찾아 연구실 전력을 복구하세요",
+        "player_hp": 100,
+        "player_position": [
+          223.0,
+          350.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "companion_rules": {
+            "cache_npc_reserve": 20,
+            "emergency_ammo": 0,
+            "emergency_hp": 30,
+            "motion": "stable_formation_astar20_collision12",
+            "prompt_version": "companion_v2.0_grounded_memory",
+            "reload_seconds": 1.6,
+            "reserve_ammo": 40,
+            "revive_cost": 1,
+            "revive_hp": 35,
+            "version": 2
+          },
+          "cover_charges": 1,
+          "cover_duration": 12.0,
+          "cover_radius": 90.0,
+          "damage_multiplier": 0.5,
+          "enemies": [
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneA",
+              "spawn": "(800.0, 215.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneB",
+              "spawn": "(975.0, 285.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneC",
+              "spawn": "(1035.0, 405.0)",
+              "speed": 66.0
+            }
+          ],
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "mechanics": {
+            "flashlight_half_angle": 32.0,
+            "flashlight_range": 390.0,
+            "npc_fire_range": 260.0,
+            "npc_role": 0,
+            "panel_hold_seconds": 1.0,
+            "version": 2
+          },
+          "medkits": 2,
+          "npc_bullet_damage": 25,
+          "npc_combat_enabled": true,
+          "npc_fire_interval": 1.0,
+          "npc_initial_ammo": 20,
+          "npc_max_hp": 100,
+          "player_speed": 175.0,
+          "resupply_amount": 10,
+          "room_rect": "[P: (32.0, 64.0), S: (1136.0, 430.0)]",
+          "safe_position": [
+            600.0,
+            422.0
+          ],
+          "sight_radius": 155.0,
+          "supply_packs": 2
+        },
+        "storage_lit": false,
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "resupply"
+        ]
+      }
+    },
+    {
+      "action_accepted": null,
+      "actual_model": "qwen3:4b",
+      "answer": "네, 반대쪽이야. 지금은 왼쪽 패널을 누르고 있어. 끝나면 바로 이걸로 해결해.",
+      "case": "panel_followup",
+      "question": "그럼 반대쪽은 네가 맡아?",
+      "state": {
+        "active_action": "",
+        "ammo": 6,
+        "companion_mode": "follow",
+        "completed_support": {},
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "오른쪽 통로에서 하린에게 손전등을 받으세요.",
+        "defeated": false,
+        "enemy_count": 0,
+        "epoch": 3,
+        "escaped": false,
+        "flashlight_dropped": false,
+        "flashlight_owned": false,
+        "flashlight_requested": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "정전된 연구소",
+        "locker": {
+          "hold_seconds": 1.0,
+          "npc_target": [
+            960.0,
+            135.0
+          ],
+          "opened": false,
+          "player_holding": false,
+          "player_panel": -1,
+          "progress": 0.0,
+          "unlocking": false
+        },
+        "map_id": "lab",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 2,
+        "npc_ammo": 20,
+        "npc_downed": false,
+        "npc_hp": 100,
+        "npc_max_ammo": 20,
+        "npc_max_hp": 100,
+        "npc_movement_pattern": "동행",
+        "npc_position": [
+          365.0,
+          245.0
+        ],
+        "npc_reload_time": 0.0,
+        "npc_reserve": 40,
+        "objective": "보관 구역에서 퓨즈를 찾아 연구실 전력을 복구하세요",
+        "player_hp": 100,
+        "player_position": [
+          223.0,
+          350.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "companion_rules": {
+            "cache_npc_reserve": 20,
+            "emergency_ammo": 0,
+            "emergency_hp": 30,
+            "motion": "stable_formation_astar20_collision12",
+            "prompt_version": "companion_v2.0_grounded_memory",
+            "reload_seconds": 1.6,
+            "reserve_ammo": 40,
+            "revive_cost": 1,
+            "revive_hp": 35,
+            "version": 2
+          },
+          "cover_charges": 1,
+          "cover_duration": 12.0,
+          "cover_radius": 90.0,
+          "damage_multiplier": 0.5,
+          "enemies": [
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneA",
+              "spawn": "(800.0, 215.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneB",
+              "spawn": "(975.0, 285.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneC",
+              "spawn": "(1035.0, 405.0)",
+              "speed": 66.0
+            }
+          ],
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "mechanics": {
+            "flashlight_half_angle": 32.0,
+            "flashlight_range": 390.0,
+            "npc_fire_range": 260.0,
+            "npc_role": 0,
+            "panel_hold_seconds": 1.0,
+            "version": 2
+          },
+          "medkits": 2,
+          "npc_bullet_damage": 25,
+          "npc_combat_enabled": true,
+          "npc_fire_interval": 1.0,
+          "npc_initial_ammo": 20,
+          "npc_max_hp": 100,
+          "player_speed": 175.0,
+          "resupply_amount": 10,
+          "room_rect": "[P: (32.0, 64.0), S: (1136.0, 430.0)]",
+          "safe_position": [
+            600.0,
+            422.0
+          ],
+          "sight_radius": 155.0,
+          "supply_packs": 2
+        },
+        "storage_lit": false,
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "resupply"
+        ]
+      }
+    },
+    {
+      "action_accepted": null,
+      "actual_model": "qwen3:4b",
+      "answer": "네, 손전등은 지금 내 손에 있어. 혹시 빛이 안 뜨는지 확인해 봐?",
+      "case": "light_before",
+      "question": "손전등은 아직 네가 가지고 있어?",
+      "state": {
+        "active_action": "",
+        "ammo": 6,
+        "companion_mode": "follow",
+        "completed_support": {},
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "오른쪽 통로에서 하린에게 손전등을 받으세요.",
+        "defeated": false,
+        "enemy_count": 0,
+        "epoch": 3,
+        "escaped": false,
+        "flashlight_dropped": false,
+        "flashlight_owned": false,
+        "flashlight_requested": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "정전된 연구소",
+        "locker": {
+          "hold_seconds": 1.0,
+          "npc_target": [
+            960.0,
+            135.0
+          ],
+          "opened": false,
+          "player_holding": false,
+          "player_panel": -1,
+          "progress": 0.0,
+          "unlocking": false
+        },
+        "map_id": "lab",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 2,
+        "npc_ammo": 20,
+        "npc_downed": false,
+        "npc_hp": 100,
+        "npc_max_ammo": 20,
+        "npc_max_hp": 100,
+        "npc_movement_pattern": "동행",
+        "npc_position": [
+          365.0,
+          245.0
+        ],
+        "npc_reload_time": 0.0,
+        "npc_reserve": 40,
+        "objective": "보관 구역에서 퓨즈를 찾아 연구실 전력을 복구하세요",
+        "player_hp": 100,
+        "player_position": [
+          223.0,
+          350.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "companion_rules": {
+            "cache_npc_reserve": 20,
+            "emergency_ammo": 0,
+            "emergency_hp": 30,
+            "motion": "stable_formation_astar20_collision12",
+            "prompt_version": "companion_v2.0_grounded_memory",
+            "reload_seconds": 1.6,
+            "reserve_ammo": 40,
+            "revive_cost": 1,
+            "revive_hp": 35,
+            "version": 2
+          },
+          "cover_charges": 1,
+          "cover_duration": 12.0,
+          "cover_radius": 90.0,
+          "damage_multiplier": 0.5,
+          "enemies": [
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneA",
+              "spawn": "(800.0, 215.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneB",
+              "spawn": "(975.0, 285.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneC",
+              "spawn": "(1035.0, 405.0)",
+              "speed": 66.0
+            }
+          ],
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "mechanics": {
+            "flashlight_half_angle": 32.0,
+            "flashlight_range": 390.0,
+            "npc_fire_range": 260.0,
+            "npc_role": 0,
+            "panel_hold_seconds": 1.0,
+            "version": 2
+          },
+          "medkits": 2,
+          "npc_bullet_damage": 25,
+          "npc_combat_enabled": true,
+          "npc_fire_interval": 1.0,
+          "npc_initial_ammo": 20,
+          "npc_max_hp": 100,
+          "player_speed": 175.0,
+          "resupply_amount": 10,
+          "room_rect": "[P: (32.0, 64.0), S: (1136.0, 430.0)]",
+          "safe_position": [
+            600.0,
+            422.0
+          ],
+          "sight_radius": 155.0,
+          "supply_packs": 2
+        },
+        "storage_lit": false,
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "resupply"
+        ]
+      }
+    },
+    {
+      "action_accepted": null,
+      "actual_model": "qwen3:4b",
+      "answer": "손전등은 지금 네 손에 있어. 빛이 안 뜨는지 확인해 봐.",
+      "case": "light_after",
+      "question": "그 손전등 지금 어디 있어?",
+      "state": {
+        "active_action": "",
+        "ammo": 6,
+        "companion_mode": "follow",
+        "completed_support": {},
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "오른쪽 통로로 보관 구역에 가서 퓨즈를 찾으세요.",
+        "defeated": false,
+        "enemy_count": 0,
+        "epoch": 4,
+        "escaped": false,
+        "flashlight_dropped": false,
+        "flashlight_owned": true,
+        "flashlight_requested": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "정전된 연구소",
+        "locker": {
+          "hold_seconds": 1.0,
+          "npc_target": [
+            960.0,
+            135.0
+          ],
+          "opened": false,
+          "player_holding": false,
+          "player_panel": -1,
+          "progress": 0.0,
+          "unlocking": false
+        },
+        "map_id": "lab",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 2,
+        "npc_ammo": 20,
+        "npc_downed": false,
+        "npc_hp": 100,
+        "npc_max_ammo": 20,
+        "npc_max_hp": 100,
+        "npc_movement_pattern": "동행",
+        "npc_position": [
+          263.0,
+          350.0
+        ],
+        "npc_reload_time": 0.0,
+        "npc_reserve": 40,
+        "objective": "보관 구역에서 퓨즈를 찾아 연구실 전력을 복구하세요",
+        "player_hp": 100,
+        "player_position": [
+          223.0,
+          350.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "companion_rules": {
+            "cache_npc_reserve": 20,
+            "emergency_ammo": 0,
+            "emergency_hp": 30,
+            "motion": "stable_formation_astar20_collision12",
+            "prompt_version": "companion_v2.0_grounded_memory",
+            "reload_seconds": 1.6,
+            "reserve_ammo": 40,
+            "revive_cost": 1,
+            "revive_hp": 35,
+            "version": 2
+          },
+          "cover_charges": 1,
+          "cover_duration": 12.0,
+          "cover_radius": 90.0,
+          "damage_multiplier": 0.5,
+          "enemies": [
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneA",
+              "spawn": "(800.0, 215.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneB",
+              "spawn": "(975.0, 285.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneC",
+              "spawn": "(1035.0, 405.0)",
+              "speed": 66.0
+            }
+          ],
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "mechanics": {
+            "flashlight_half_angle": 32.0,
+            "flashlight_range": 390.0,
+            "npc_fire_range": 260.0,
+            "npc_role": 0,
+            "panel_hold_seconds": 1.0,
+            "version": 2
+          },
+          "medkits": 2,
+          "npc_bullet_damage": 25,
+          "npc_combat_enabled": true,
+          "npc_fire_interval": 1.0,
+          "npc_initial_ammo": 20,
+          "npc_max_hp": 100,
+          "player_speed": 175.0,
+          "resupply_amount": 10,
+          "room_rect": "[P: (32.0, 64.0), S: (1136.0, 430.0)]",
+          "safe_position": [
+            600.0,
+            422.0
+          ],
+          "sight_radius": 155.0,
+          "supply_packs": 2
+        },
+        "storage_lit": false,
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "resupply"
+        ]
+      }
+    },
+    {
+      "action_accepted": null,
+      "actual_model": "qwen3:4b",
+      "answer": "따뜻한 김치볶음밥이야. 끝나면 바로 먹을 거야.",
+      "case": "taste_after_mission",
+      "question": "좋아하는 음식이 뭐야?",
+      "state": {
+        "active_action": "",
+        "ammo": 6,
+        "companion_mode": "follow",
+        "completed_support": {},
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "오른쪽 통로로 보관 구역에 가서 퓨즈를 찾으세요.",
+        "defeated": false,
+        "enemy_count": 0,
+        "epoch": 4,
+        "escaped": false,
+        "flashlight_dropped": false,
+        "flashlight_owned": true,
+        "flashlight_requested": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "정전된 연구소",
+        "locker": {
+          "hold_seconds": 1.0,
+          "npc_target": [
+            960.0,
+            135.0
+          ],
+          "opened": false,
+          "player_holding": false,
+          "player_panel": -1,
+          "progress": 0.0,
+          "unlocking": false
+        },
+        "map_id": "lab",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 2,
+        "npc_ammo": 20,
+        "npc_downed": false,
+        "npc_hp": 100,
+        "npc_max_ammo": 20,
+        "npc_max_hp": 100,
+        "npc_movement_pattern": "동행",
+        "npc_position": [
+          263.0,
+          350.0
+        ],
+        "npc_reload_time": 0.0,
+        "npc_reserve": 40,
+        "objective": "보관 구역에서 퓨즈를 찾아 연구실 전력을 복구하세요",
+        "player_hp": 100,
+        "player_position": [
+          223.0,
+          350.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "companion_rules": {
+            "cache_npc_reserve": 20,
+            "emergency_ammo": 0,
+            "emergency_hp": 30,
+            "motion": "stable_formation_astar20_collision12",
+            "prompt_version": "companion_v2.0_grounded_memory",
+            "reload_seconds": 1.6,
+            "reserve_ammo": 40,
+            "revive_cost": 1,
+            "revive_hp": 35,
+            "version": 2
+          },
+          "cover_charges": 1,
+          "cover_duration": 12.0,
+          "cover_radius": 90.0,
+          "damage_multiplier": 0.5,
+          "enemies": [
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneA",
+              "spawn": "(800.0, 215.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneB",
+              "spawn": "(975.0, 285.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneC",
+              "spawn": "(1035.0, 405.0)",
+              "speed": 66.0
+            }
+          ],
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "mechanics": {
+            "flashlight_half_angle": 32.0,
+            "flashlight_range": 390.0,
+            "npc_fire_range": 260.0,
+            "npc_role": 0,
+            "panel_hold_seconds": 1.0,
+            "version": 2
+          },
+          "medkits": 2,
+          "npc_bullet_damage": 25,
+          "npc_combat_enabled": true,
+          "npc_fire_interval": 1.0,
+          "npc_initial_ammo": 20,
+          "npc_max_hp": 100,
+          "player_speed": 175.0,
+          "resupply_amount": 10,
+          "room_rect": "[P: (32.0, 64.0), S: (1136.0, 430.0)]",
+          "safe_position": [
+            600.0,
+            422.0
+          ],
+          "sight_radius": 155.0,
+          "supply_packs": 2
+        },
+        "storage_lit": false,
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "resupply"
+        ]
+      }
+    },
+    {
+      "action_accepted": true,
+      "actual_model": "common_executor",
+      "answer": "잠깐만, 내가 갈게.",
+      "case": "heal_order",
+      "question": "치료 좀 해줄래?",
+      "state": {
+        "active_action": "heal",
+        "ammo": 6,
+        "companion_mode": "follow",
+        "completed_support": {},
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "오른쪽 통로로 보관 구역에 가서 퓨즈를 찾으세요.",
+        "defeated": false,
+        "enemy_count": 0,
+        "epoch": 4,
+        "escaped": false,
+        "flashlight_dropped": false,
+        "flashlight_owned": true,
+        "flashlight_requested": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "정전된 연구소",
+        "locker": {
+          "hold_seconds": 1.0,
+          "npc_target": [
+            960.0,
+            135.0
+          ],
+          "opened": false,
+          "player_holding": false,
+          "player_panel": -1,
+          "progress": 0.0,
+          "unlocking": false
+        },
+        "map_id": "lab",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 2,
+        "npc_ammo": 20,
+        "npc_downed": false,
+        "npc_hp": 100,
+        "npc_max_ammo": 20,
+        "npc_max_hp": 100,
+        "npc_movement_pattern": "동행",
+        "npc_position": [
+          403.0,
+          350.0
+        ],
+        "npc_reload_time": 0.0,
+        "npc_reserve": 40,
+        "objective": "보관 구역에서 퓨즈를 찾아 연구실 전력을 복구하세요",
+        "player_hp": 40,
+        "player_position": [
+          223.0,
+          350.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "companion_rules": {
+            "cache_npc_reserve": 20,
+            "emergency_ammo": 0,
+            "emergency_hp": 30,
+            "motion": "stable_formation_astar20_collision12",
+            "prompt_version": "companion_v2.0_grounded_memory",
+            "reload_seconds": 1.6,
+            "reserve_ammo": 40,
+            "revive_cost": 1,
+            "revive_hp": 35,
+            "version": 2
+          },
+          "cover_charges": 1,
+          "cover_duration": 12.0,
+          "cover_radius": 90.0,
+          "damage_multiplier": 0.5,
+          "enemies": [
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneA",
+              "spawn": "(800.0, 215.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneB",
+              "spawn": "(975.0, 285.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneC",
+              "spawn": "(1035.0, 405.0)",
+              "speed": 66.0
+            }
+          ],
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "mechanics": {
+            "flashlight_half_angle": 32.0,
+            "flashlight_range": 390.0,
+            "npc_fire_range": 260.0,
+            "npc_role": 0,
+            "panel_hold_seconds": 1.0,
+            "version": 2
+          },
+          "medkits": 2,
+          "npc_bullet_damage": 25,
+          "npc_combat_enabled": true,
+          "npc_fire_interval": 1.0,
+          "npc_initial_ammo": 20,
+          "npc_max_hp": 100,
+          "player_speed": 175.0,
+          "resupply_amount": 10,
+          "room_rect": "[P: (32.0, 64.0), S: (1136.0, 430.0)]",
+          "safe_position": [
+            600.0,
+            422.0
+          ],
+          "sight_radius": 155.0,
+          "supply_packs": 2
+        },
+        "storage_lit": false,
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait"
+        ]
+      }
+    },
+    {
+      "action_accepted": false,
+      "actual_model": "common_executor",
+      "answer": "치료 키트가 다 떨어졌어.",
+      "case": "heal_no_supplies",
+      "question": "치료 부탁해",
+      "state": {
+        "active_action": "",
+        "ammo": 6,
+        "companion_mode": "follow",
+        "completed_support": {
+          "heal": 1
+        },
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "오른쪽 통로로 보관 구역에 가서 퓨즈를 찾으세요.",
+        "defeated": false,
+        "enemy_count": 0,
+        "epoch": 4,
+        "escaped": false,
+        "flashlight_dropped": false,
+        "flashlight_owned": true,
+        "flashlight_requested": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "정전된 연구소",
+        "locker": {
+          "hold_seconds": 1.0,
+          "npc_target": [
+            960.0,
+            135.0
+          ],
+          "opened": false,
+          "player_holding": false,
+          "player_panel": -1,
+          "progress": 0.0,
+          "unlocking": false
+        },
+        "map_id": "lab",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 0,
+        "npc_ammo": 20,
+        "npc_downed": false,
+        "npc_hp": 100,
+        "npc_max_ammo": 20,
+        "npc_max_hp": 100,
+        "npc_movement_pattern": "동행",
+        "npc_position": [
+          263.0,
+          350.0
+        ],
+        "npc_reload_time": 0.0,
+        "npc_reserve": 40,
+        "objective": "보관 구역에서 퓨즈를 찾아 연구실 전력을 복구하세요",
+        "player_hp": 75,
+        "player_position": [
+          223.0,
+          350.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [
+          "됐어. 움직일 수 있겠어?"
+        ],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "companion_rules": {
+            "cache_npc_reserve": 20,
+            "emergency_ammo": 0,
+            "emergency_hp": 30,
+            "motion": "stable_formation_astar20_collision12",
+            "prompt_version": "companion_v2.0_grounded_memory",
+            "reload_seconds": 1.6,
+            "reserve_ammo": 40,
+            "revive_cost": 1,
+            "revive_hp": 35,
+            "version": 2
+          },
+          "cover_charges": 1,
+          "cover_duration": 12.0,
+          "cover_radius": 90.0,
+          "damage_multiplier": 0.5,
+          "enemies": [
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneA",
+              "spawn": "(800.0, 215.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneB",
+              "spawn": "(975.0, 285.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneC",
+              "spawn": "(1035.0, 405.0)",
+              "speed": 66.0
+            }
+          ],
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "mechanics": {
+            "flashlight_half_angle": 32.0,
+            "flashlight_range": 390.0,
+            "npc_fire_range": 260.0,
+            "npc_role": 0,
+            "panel_hold_seconds": 1.0,
+            "version": 2
+          },
+          "medkits": 2,
+          "npc_bullet_damage": 25,
+          "npc_combat_enabled": true,
+          "npc_fire_interval": 1.0,
+          "npc_initial_ammo": 20,
+          "npc_max_hp": 100,
+          "player_speed": 175.0,
+          "resupply_amount": 10,
+          "room_rect": "[P: (32.0, 64.0), S: (1136.0, 430.0)]",
+          "safe_position": [
+            600.0,
+            422.0
+          ],
+          "sight_radius": 155.0,
+          "supply_packs": 2
+        },
+        "storage_lit": false,
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "resupply"
+        ]
+      }
+    },
+    {
+      "action_accepted": true,
+      "actual_model": "common_executor",
+      "answer": "여기서 경계할게. 다시 따라오라고 하면 움직일게.",
+      "case": "wait_order",
+      "question": "여기서 기다려",
+      "state": {
+        "active_action": "",
+        "ammo": 6,
+        "companion_mode": "wait",
+        "completed_support": {
+          "heal": 1
+        },
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "오른쪽 통로로 보관 구역에 가서 퓨즈를 찾으세요.",
+        "defeated": false,
+        "enemy_count": 0,
+        "epoch": 4,
+        "escaped": false,
+        "flashlight_dropped": false,
+        "flashlight_owned": true,
+        "flashlight_requested": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "정전된 연구소",
+        "locker": {
+          "hold_seconds": 1.0,
+          "npc_target": [
+            960.0,
+            135.0
+          ],
+          "opened": false,
+          "player_holding": false,
+          "player_panel": -1,
+          "progress": 0.0,
+          "unlocking": false
+        },
+        "map_id": "lab",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 0,
+        "npc_ammo": 20,
+        "npc_downed": false,
+        "npc_hp": 100,
+        "npc_max_ammo": 20,
+        "npc_max_hp": 100,
+        "npc_movement_pattern": "동행",
+        "npc_position": [
+          263.0,
+          350.0
+        ],
+        "npc_reload_time": 0.0,
+        "npc_reserve": 40,
+        "objective": "보관 구역에서 퓨즈를 찾아 연구실 전력을 복구하세요",
+        "player_hp": 75,
+        "player_position": [
+          223.0,
+          350.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [
+          "됐어. 움직일 수 있겠어?"
+        ],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "companion_rules": {
+            "cache_npc_reserve": 20,
+            "emergency_ammo": 0,
+            "emergency_hp": 30,
+            "motion": "stable_formation_astar20_collision12",
+            "prompt_version": "companion_v2.0_grounded_memory",
+            "reload_seconds": 1.6,
+            "reserve_ammo": 40,
+            "revive_cost": 1,
+            "revive_hp": 35,
+            "version": 2
+          },
+          "cover_charges": 1,
+          "cover_duration": 12.0,
+          "cover_radius": 90.0,
+          "damage_multiplier": 0.5,
+          "enemies": [
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneA",
+              "spawn": "(800.0, 215.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneB",
+              "spawn": "(975.0, 285.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneC",
+              "spawn": "(1035.0, 405.0)",
+              "speed": 66.0
+            }
+          ],
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "mechanics": {
+            "flashlight_half_angle": 32.0,
+            "flashlight_range": 390.0,
+            "npc_fire_range": 260.0,
+            "npc_role": 0,
+            "panel_hold_seconds": 1.0,
+            "version": 2
+          },
+          "medkits": 2,
+          "npc_bullet_damage": 25,
+          "npc_combat_enabled": true,
+          "npc_fire_interval": 1.0,
+          "npc_initial_ammo": 20,
+          "npc_max_hp": 100,
+          "player_speed": 175.0,
+          "resupply_amount": 10,
+          "room_rect": "[P: (32.0, 64.0), S: (1136.0, 430.0)]",
+          "safe_position": [
+            600.0,
+            422.0
+          ],
+          "sight_radius": 155.0,
+          "supply_packs": 2
+        },
+        "storage_lit": false,
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "resupply"
+        ]
+      }
+    },
+    {
+      "action_accepted": null,
+      "actual_model": "qwen3:4b",
+      "answer": "네, 멀리 가도 여기서 기다릴게. 내가 예비탄을 채워서 네가 가는 길에 도움이 되도록 해.",
+      "case": "wait_state",
+      "question": "내가 멀리 가도 여기서 대기하는 거지?",
+      "state": {
+        "active_action": "",
+        "ammo": 6,
+        "companion_mode": "wait",
+        "completed_support": {
+          "heal": 1
+        },
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "오른쪽 통로로 보관 구역에 가서 퓨즈를 찾으세요.",
+        "defeated": false,
+        "enemy_count": 0,
+        "epoch": 4,
+        "escaped": false,
+        "flashlight_dropped": false,
+        "flashlight_owned": true,
+        "flashlight_requested": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "정전된 연구소",
+        "locker": {
+          "hold_seconds": 1.0,
+          "npc_target": [
+            960.0,
+            135.0
+          ],
+          "opened": false,
+          "player_holding": false,
+          "player_panel": -1,
+          "progress": 0.0,
+          "unlocking": false
+        },
+        "map_id": "lab",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 0,
+        "npc_ammo": 20,
+        "npc_downed": false,
+        "npc_hp": 100,
+        "npc_max_ammo": 20,
+        "npc_max_hp": 100,
+        "npc_movement_pattern": "동행",
+        "npc_position": [
+          263.0,
+          350.0
+        ],
+        "npc_reload_time": 0.0,
+        "npc_reserve": 40,
+        "objective": "보관 구역에서 퓨즈를 찾아 연구실 전력을 복구하세요",
+        "player_hp": 75,
+        "player_position": [
+          223.0,
+          350.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [
+          "됐어. 움직일 수 있겠어?"
+        ],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "companion_rules": {
+            "cache_npc_reserve": 20,
+            "emergency_ammo": 0,
+            "emergency_hp": 30,
+            "motion": "stable_formation_astar20_collision12",
+            "prompt_version": "companion_v2.0_grounded_memory",
+            "reload_seconds": 1.6,
+            "reserve_ammo": 40,
+            "revive_cost": 1,
+            "revive_hp": 35,
+            "version": 2
+          },
+          "cover_charges": 1,
+          "cover_duration": 12.0,
+          "cover_radius": 90.0,
+          "damage_multiplier": 0.5,
+          "enemies": [
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneA",
+              "spawn": "(800.0, 215.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneB",
+              "spawn": "(975.0, 285.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneC",
+              "spawn": "(1035.0, 405.0)",
+              "speed": 66.0
+            }
+          ],
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "mechanics": {
+            "flashlight_half_angle": 32.0,
+            "flashlight_range": 390.0,
+            "npc_fire_range": 260.0,
+            "npc_role": 0,
+            "panel_hold_seconds": 1.0,
+            "version": 2
+          },
+          "medkits": 2,
+          "npc_bullet_damage": 25,
+          "npc_combat_enabled": true,
+          "npc_fire_interval": 1.0,
+          "npc_initial_ammo": 20,
+          "npc_max_hp": 100,
+          "player_speed": 175.0,
+          "resupply_amount": 10,
+          "room_rect": "[P: (32.0, 64.0), S: (1136.0, 430.0)]",
+          "safe_position": [
+            600.0,
+            422.0
+          ],
+          "sight_radius": 155.0,
+          "supply_packs": 2
+        },
+        "storage_lit": false,
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "resupply"
+        ]
+      }
+    },
+    {
+      "action_accepted": true,
+      "actual_model": "common_executor",
+      "answer": "응, 네 뒤로 붙을게.",
+      "case": "follow_order",
+      "question": "따라와",
+      "state": {
+        "active_action": "",
+        "ammo": 6,
+        "companion_mode": "follow",
+        "completed_support": {
+          "heal": 1
+        },
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "오른쪽 통로로 보관 구역에 가서 퓨즈를 찾으세요.",
+        "defeated": false,
+        "enemy_count": 0,
+        "epoch": 4,
+        "escaped": false,
+        "flashlight_dropped": false,
+        "flashlight_owned": true,
+        "flashlight_requested": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "정전된 연구소",
+        "locker": {
+          "hold_seconds": 1.0,
+          "npc_target": [
+            960.0,
+            135.0
+          ],
+          "opened": false,
+          "player_holding": false,
+          "player_panel": -1,
+          "progress": 0.0,
+          "unlocking": false
+        },
+        "map_id": "lab",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 0,
+        "npc_ammo": 20,
+        "npc_downed": false,
+        "npc_hp": 100,
+        "npc_max_ammo": 20,
+        "npc_max_hp": 100,
+        "npc_movement_pattern": "동행",
+        "npc_position": [
+          263.0,
+          350.0
+        ],
+        "npc_reload_time": 0.0,
+        "npc_reserve": 40,
+        "objective": "보관 구역에서 퓨즈를 찾아 연구실 전력을 복구하세요",
+        "player_hp": 75,
+        "player_position": [
+          223.0,
+          350.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [
+          "됐어. 움직일 수 있겠어?"
+        ],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "companion_rules": {
+            "cache_npc_reserve": 20,
+            "emergency_ammo": 0,
+            "emergency_hp": 30,
+            "motion": "stable_formation_astar20_collision12",
+            "prompt_version": "companion_v2.0_grounded_memory",
+            "reload_seconds": 1.6,
+            "reserve_ammo": 40,
+            "revive_cost": 1,
+            "revive_hp": 35,
+            "version": 2
+          },
+          "cover_charges": 1,
+          "cover_duration": 12.0,
+          "cover_radius": 90.0,
+          "damage_multiplier": 0.5,
+          "enemies": [
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneA",
+              "spawn": "(800.0, 215.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneB",
+              "spawn": "(975.0, 285.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneC",
+              "spawn": "(1035.0, 405.0)",
+              "speed": 66.0
+            }
+          ],
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "mechanics": {
+            "flashlight_half_angle": 32.0,
+            "flashlight_range": 390.0,
+            "npc_fire_range": 260.0,
+            "npc_role": 0,
+            "panel_hold_seconds": 1.0,
+            "version": 2
+          },
+          "medkits": 2,
+          "npc_bullet_damage": 25,
+          "npc_combat_enabled": true,
+          "npc_fire_interval": 1.0,
+          "npc_initial_ammo": 20,
+          "npc_max_hp": 100,
+          "player_speed": 175.0,
+          "resupply_amount": 10,
+          "room_rect": "[P: (32.0, 64.0), S: (1136.0, 430.0)]",
+          "safe_position": [
+            600.0,
+            422.0
+          ],
+          "sight_radius": 155.0,
+          "supply_packs": 2
+        },
+        "storage_lit": false,
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "resupply"
+        ]
+      }
+    },
+    {
+      "action_accepted": null,
+      "actual_model": "qwen3:4b",
+      "answer": "내가 좋아하는 김치볶음밥이야. 냉장고에 있는 건 뭐가 있을지 모르지만, 오늘은 이거 먹을 거 같아.",
+      "case": "after_cancel",
+      "question": "뭐 먹고 싶어?",
+      "state": {
+        "active_action": "",
+        "ammo": 6,
+        "companion_mode": "follow",
+        "completed_support": {
+          "heal": 1
+        },
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "드론 1기를 제압한 뒤 북동쪽 2인 패널 보관함에서 퓨즈를 찾으세요.",
+        "defeated": false,
+        "enemy_count": 1,
+        "epoch": 6,
+        "escaped": false,
+        "flashlight_dropped": false,
+        "flashlight_owned": true,
+        "flashlight_requested": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "어두운 보관 구역",
+        "locker": {
+          "hold_seconds": 1.0,
+          "npc_target": [
+            960.0,
+            135.0
+          ],
+          "opened": false,
+          "player_holding": false,
+          "player_panel": -1,
+          "progress": 0.0,
+          "unlocking": false
+        },
+        "map_id": "storage",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 1,
+        "npc_ammo": 6,
+        "npc_downed": false,
+        "npc_hp": 100,
+        "npc_max_ammo": 20,
+        "npc_max_hp": 100,
+        "npc_movement_pattern": "좌우 사선 엄호",
+        "npc_position": [
+          322.078643798828,
+          412.022308349609
+        ],
+        "npc_reload_time": 0.0,
+        "npc_reserve": 0,
+        "objective": "보관 구역에서 퓨즈를 찾아 연구실 전력을 복구하세요",
+        "player_hp": 55,
+        "player_position": [
+          440.833190917969,
+          330.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [
+          "됐어. 움직일 수 있겠어?"
+        ],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "companion_rules": {
+            "cache_npc_reserve": 20,
+            "emergency_ammo": 0,
+            "emergency_hp": 30,
+            "motion": "stable_formation_astar20_collision12",
+            "prompt_version": "companion_v2.0_grounded_memory",
+            "reload_seconds": 1.6,
+            "reserve_ammo": 40,
+            "revive_cost": 1,
+            "revive_hp": 35,
+            "version": 2
+          },
+          "cover_charges": 1,
+          "cover_duration": 12.0,
+          "cover_radius": 90.0,
+          "damage_multiplier": 0.5,
+          "enemies": [
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneA",
+              "spawn": "(800.0, 215.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneB",
+              "spawn": "(975.0, 285.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneC",
+              "spawn": "(1035.0, 405.0)",
+              "speed": 66.0
+            }
+          ],
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "mechanics": {
+            "flashlight_half_angle": 32.0,
+            "flashlight_range": 390.0,
+            "npc_fire_range": 260.0,
+            "npc_role": 0,
+            "panel_hold_seconds": 1.0,
+            "version": 2
+          },
+          "medkits": 2,
+          "npc_bullet_damage": 25,
+          "npc_combat_enabled": true,
+          "npc_fire_interval": 1.0,
+          "npc_initial_ammo": 20,
+          "npc_max_hp": 100,
+          "player_speed": 175.0,
+          "resupply_amount": 10,
+          "room_rect": "[P: (32.0, 64.0), S: (1136.0, 430.0)]",
+          "safe_position": [
+            600.0,
+            422.0
+          ],
+          "sight_radius": 155.0,
+          "supply_packs": 2
+        },
+        "storage_lit": false,
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "resupply",
+          "deploy_cover"
+        ]
+      }
+    }
+  ]
+}

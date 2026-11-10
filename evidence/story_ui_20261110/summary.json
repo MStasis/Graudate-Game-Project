@@ -1,0 +1,192 @@
+{
+  "created_utc": "2026-11-10T01:22:02.2885349Z",
+  "local_date": "2026-11-10",
+  "project_root": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project",
+  "isolated_run": "C:\\Users\\Admin\\Desktop\\CODE\\Graduate_Project\\runtime\\story_ui_20261110\\final_run_20261110_100805",
+  "render_command": {
+    "command": "scripts/verify_mission.ps1 -Render",
+    "started_utc": "2026-11-10T01:14:00.8059941Z",
+    "finished_utc": "2026-11-10T01:16:12.6147146Z",
+    "exit_code": 0
+  },
+  "base": {
+    "passed": true,
+    "check_count": 539,
+    "results": [
+      {
+        "file": "final/mission_v1/mission_test.json",
+        "passed": true,
+        "check_count": 50,
+        "fresh": true,
+        "generated_utc": "2026-11-10T01:14:16.9841859Z"
+      },
+      {
+        "file": "final/chat_input_fix/chat_input_test.json",
+        "passed": true,
+        "check_count": 27,
+        "fresh": true,
+        "generated_utc": "2026-11-10T01:14:18.4577741Z"
+      },
+      {
+        "file": "final/native_ime_fix/native_load_test.json",
+        "passed": true,
+        "check_count": 6,
+        "fresh": true,
+        "generated_utc": "2026-11-10T01:14:18.7069806Z"
+      },
+      {
+        "file": "final/native_ime_fix/chat_native_integration_test.json",
+        "passed": true,
+        "check_count": 11,
+        "fresh": true,
+        "generated_utc": "2026-11-10T01:14:18.9469339Z"
+      },
+      {
+        "file": "final/ui_redesign/ui_layout_test.json",
+        "passed": true,
+        "check_count": 35,
+        "fresh": true,
+        "generated_utc": "2026-11-10T01:14:20.368781Z"
+      },
+      {
+        "file": "final/noncombat_ui/noncombat_dialogue_test.json",
+        "passed": true,
+        "check_count": 42,
+        "fresh": true,
+        "generated_utc": "2026-11-10T01:14:21.7169807Z"
+      },
+      {
+        "file": "final/interface_update/interface_update_test.json",
+        "passed": true,
+        "check_count": 80,
+        "fresh": true,
+        "generated_utc": "2026-11-10T01:14:24.6241618Z"
+      },
+      {
+        "file": "final/mission_mechanics/test.json",
+        "passed": true,
+        "check_count": 54,
+        "fresh": true,
+        "generated_utc": "2026-11-10T01:14:38.8882767Z"
+      },
+      {
+        "file": "final/input_aim_collision/test.json",
+        "passed": true,
+        "check_count": 34,
+        "fresh": true,
+        "generated_utc": "2026-11-10T01:14:51.6716568Z"
+      },
+      {
+        "file": "final/dialogue_notices/test.json",
+        "passed": true,
+        "check_count": 34,
+        "fresh": true,
+        "generated_utc": "2026-11-10T01:14:52.9118803Z"
+      },
+      {
+        "file": "final/harin_upgrade/test.json",
+        "passed": true,
+        "check_count": 70,
+        "fresh": true,
+        "generated_utc": "2026-11-10T01:15:05.0536705Z"
+      },
+      {
+        "file": "final/story_ui/test.json",
+        "passed": true,
+        "check_count": 96,
+        "fresh": true,
+        "generated_utc": "2026-11-10T01:15:07.5952537Z"
+      }
+    ]
+  },
+  "gpu": {
+    "passed": true,
+    "check_count": 382,
+    "results": [
+      {
+        "file": "final/harin_upgrade/render.json",
+        "passed": true,
+        "check_count": 71,
+        "gpu_rendered": true,
+        "fresh": true
+      },
+      {
+        "file": "final/interface_update/interface_update_render_test.json",
+        "passed": true,
+        "check_count": 81,
+        "gpu_rendered": true,
+        "fresh": true
+      },
+      {
+        "file": "final/mission_mechanics/render.json",
+        "passed": true,
+        "check_count": 56,
+        "gpu_rendered": true,
+        "fresh": true
+      },
+      {
+        "file": "final/input_aim_collision/render.json",
+        "passed": true,
+        "check_count": 35,
+        "gpu_rendered": true,
+        "fresh": true
+      },
+      {
+        "file": "final/dialogue_notices/render.json",
+        "passed": true,
+        "check_count": 35,
+        "gpu_rendered": true,
+        "fresh": true
+      },
+      {
+        "file": "final/story_ui/render.json",
+        "passed": true,
+        "check_count": 104,
+        "gpu_rendered": true,
+        "fresh": true
+      }
+    ],
+    "png_visually_reviewed": true,
+    "actual_window_capture_used": false
+  },
+  "live_recheck": {
+    "model": "qwen3:4b",
+    "integration": {
+      "passed": true,
+      "check_count": 5,
+      "exit_code": 0,
+      "file": "final/mission_v1/local_integration/live_integration_34620.json"
+    },
+    "save_load": {
+      "passed": true,
+      "check_count": 7,
+      "exit_code": 0,
+      "file": "final/interface_update/live_save_load_31600.json"
+    }
+  },
+  "model_selection": {
+    "selected": "qwen3:4b",
+    "compared": "qwen2.5:1.5b",
+    "reason": "Qwen2.5 is faster but less reliable in mission facts, roles, register and fictional memory separation.",
+    "automatic_fallback": false,
+    "formal_benchmark": false,
+    "general_naturalness_proven": false,
+    "full_LocalAI_final_pass_claimed": false,
+    "selected_role_chat_probe": "diagnostics/qwen3_role_chat_final/final_dialogue_probe.json"
+  },
+  "preservation": {
+    "missing_original_game_files": 0,
+    "original_dialogue_source_unchanged": true,
+    "committed": false,
+    "pushed": false,
+    "tested_source_mismatches": []
+  },
+  "unverified": [
+    "human full playthrough",
+    "actual Microsoft IME",
+    "actual listening",
+    "export build",
+    "two-PC LAN",
+    "general dialogue naturalness"
+  ]
+}

@@ -1,0 +1,9 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":43683.833,"id":"before_blackout","question":"교대 끝나려면 멀었나. 오늘 근무도 조용하겠지?","text":"교대 끝나는 건 아니야. 오늘 조용해... 뭔가 했어?"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":34862.465,"id":"blackout","question":"방금까지 켜져 있었잖아. 어디부터 확인할까?","text":"보관함 오른쪽이야. 뭔가 끊어졌는데... 퓨즈 빠졌을 수도?"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":52057.239,"id":"new_fear_banter","question":"솔직히 너도 지금 심장 빨리 뛰지?","text":"심장 빨리 뛰는 건 아니야. 뭔가 이상한 거야."}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":50923.914,"id":"new_banter_followup","question":"딴소리 하지 말고, 내 뒤에 숨으려는 건 아니지?","text":"아니, 숨은 게 아니야. 빛이 끊어졌어."}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":40054.265,"id":"fuse_search","question":"이 방에서 뭘 챙겨야 돌아갈 수 있어?","text":"아, 퓨즈 빠졌어. 보관함 오른쪽이야. 뭔가 끊어졌는데..."}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":53566.839,"id":"panel_question","question":"이 패널 둘 다 내가 누르면 되나?","text":"아니, 네 쪽만 누르면 돼. 내 쪽은 아직 안 끊어졌어."}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":51637.161,"id":"panel_referent","question":"그럼 네가 맡는 건 어느 쪽이라고?","text":"내 쪽이야. 네 쪽이 끊어졌어..."}

@@ -1,11 +1,14 @@
-[gd_scene load_steps=6 format=3]
-[ext_resource type="Script" path="res://scripts/interactable.gd" id="1"]
+[gd_scene load_steps=7 format=3]
+[ext_resource type="Script" path="res://scripts/harin_actor.gd" id="1"]
 [ext_resource type="Texture2D" path="res://assets/temporary/kenney/sprites/womanGreen_gun.png" id="2"]
 [ext_resource type="Script" path="res://scripts/temporary_actor_aim.gd" id="4"]
 [ext_resource type="Theme" path="res://resources/GameTheme.tres" id="3"]
 [sub_resource type="CircleShape2D" id="Area"]
 radius = 28.0
-[node name="NPC" type="Area2D"]
+[sub_resource type="CircleShape2D" id="Feet"]
+radius = 12.0
+[node name="NPC" type="CharacterBody2D"]
+motion_mode = 1
 script = ExtResource("1")
 interaction_id = "npc"
 display_name = "정비사 하린"
@@ -14,12 +17,17 @@ description = "연구소의 정비사. 플레이어를 차분하고 친절하게
 base_color = Color(1, 1, 1, 1)
 object_texture = ExtResource("2")
 collision_layer = 0
-collision_mask = 0
+collision_mask = 5
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, 10)
 texture = ExtResource("2")
 script = ExtResource("4")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("Feet")
+[node name="Interaction" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 0
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interaction"]
 shape = SubResource("Area")
 [node name="NameLabel" type="Label" parent="."]
 offset_left = -90.0

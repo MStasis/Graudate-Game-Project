@@ -1,0 +1,4 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+NATIVE_IME_CLASS true
+NATIVE_IME_LOAD_TEST {"check_count":6,"checks":{"cannot_cancel_without_window":true,"cannot_complete_without_window":true,"detach_is_safe":true,"empty_buffer":true,"invalid_handle_rejected":true,"starts_detached":true},"dll_sha256":"72082b7d2f61f9b1f2435be8f70f2012ccb63d656dd73c3d12ba6777c66851a6","passed":true,"screen_automation_used":false,"suite":"native_ime_load"}

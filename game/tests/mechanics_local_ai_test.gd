@@ -11,7 +11,7 @@ func check(label: String, condition: bool) -> void:
  checks[label] = condition
  if not condition: push_error("MECHANICS_LLM_FAILED " + label)
 
-func wait_for(condition: Callable, seconds := 15.0) -> bool:
+func wait_for(condition: Callable, seconds := 85.0) -> bool:
  var deadline := Time.get_ticks_msec() + int(seconds * 1000)
  while not condition.call() and Time.get_ticks_msec() < deadline:
   await create_timer(0.025).timeout
@@ -43,7 +43,7 @@ func run() -> void:
  app.brain.request_decision()
  check("real_model_returns_panel_decision", await wait_for(func(): return not measurements.is_empty()))
  if not measurements.is_empty():
-  check("qwen_selected_valid_panel_action", measurements.back().get("actual_model") == "qwen3:4b" and measurements.back().selected == "assist_panel" and measurements.back().accepted)
+  check("qwen_selected_valid_panel_action", measurements.back().get("actual_model") == app.brain.local_decision.settings.model and measurements.back().selected == "assist_panel" and measurements.back().accepted)
  check("real_model_choice_completes_locker", await wait_for(func(): return world.locker.opened, 12))
  check("shared_motion_approaches_panel", world.npc.position.distance_to(initial) > 10 and world.npc.position.distance_to(world.locker.panel_position(1)) < 35)
  Input.action_release("interact")

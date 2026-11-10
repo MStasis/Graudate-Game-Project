@@ -1,0 +1,26 @@
+[
+  {
+    "suite": "local_integration",
+    "completed": true,
+    "exit_code": 1,
+    "failures": []
+  },
+  {
+    "suite": "live_save_load_test",
+    "completed": true,
+    "exit_code": 1,
+    "failures": []
+  },
+  {
+    "suite": "mechanics_local_ai_test",
+    "completed": true,
+    "exit_code": 0,
+    "failures": []
+  },
+  {
+    "suite": "live_async_probe",
+    "completed": true,
+    "exit_code": 0,
+    "failures": []
+  }
+]

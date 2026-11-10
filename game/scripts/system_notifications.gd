@@ -1,6 +1,6 @@
 class_name SystemNotifications
 extends VBoxContainer
-## 캐릭터 대사와 분리된, 입력을 가로채지 않는 짧은 시스템 알림.
+## 화면 고정 영역의 페이드 알림. 통합 기록은 CombatInterface가 별도로 기록한다.
 var entries: Array[Dictionary] = []
 var latest_text := ""
 const LIFETIME := 3.2
@@ -35,9 +35,9 @@ func post(message: String) -> void:
  style.corner_radius_bottom_right = 4
  card.add_theme_stylebox_override("panel", style)
  var label := Label.new()
- label.text = message
+ label.text = "[시스템] " + message
  label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
- label.max_lines_visible = 4
+ label.max_lines_visible = 2
  label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
  label.add_theme_font_size_override("font_size", 16)
  label.add_theme_color_override("font_color", Color("d8e2df"))

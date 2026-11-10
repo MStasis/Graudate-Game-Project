@@ -64,8 +64,12 @@ func run(app) -> void:
  await app.capture_screen("05_return_with_friend")
  world.apply_interaction("generator")
  world.apply_interaction("exit")
- await app.capture_screen("06_completed")
- print("MISSION_EVIDENCE_PASS escaped=", world.finished)
+ await app.capture_screen("06_main_entry")
+ if world.map_id != "main_entry" or not world.story.tutorial_completed or world.finished:
+  print("MISSION_EVIDENCE_FAIL tutorial_departure")
+  app.get_tree().quit(1)
+  return
+ print("MISSION_EVIDENCE_PASS tutorial_completed=true main_entry=true mission_complete=false")
  world.get_node("MissionAudio").stop_all()
  await app.get_tree().create_timer(0.15).timeout
  app.get_tree().quit(0)

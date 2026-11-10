@@ -1,0 +1,162 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Safe save failed. This may be a permissions problem, but also may happen because you are running a paranoid antivirus. If this is the case, please switch to Windows Defender or disable the 'safe save' option in editor settings. This makes it work, but increases the risk of file corruption in a crash.
+   at: _close (drivers/windows/file_access_windows.cpp:277)
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started 프로젝트 초기화 (5 steps)[39m[0m
+[   0% ] [90m[1mfirst_scan_filesystem[22m | 파일 구조 스캔 중...[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | 전역 클래스 이름을 불러오는 중...[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | GDExtensions 검증 중...[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | 오토로드 스크립트를 만드는 중...[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | 플러그인을 초기화 중...[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | 파일 스캔 시작 중...[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | Started 전역 클래스를 등록하는 중... (55 steps)[39m[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | ActorStatus[39m[0m
+[   1% ] [90m[1mupdate_scripts_classes[22m | ChatInput[39m[0m
+[   3% ] [90m[1mupdate_scripts_classes[22m | CombatInterface[39m[0m
+[   5% ] [90m[1mupdate_scripts_classes[22m | CompanionMotion[39m[0m
+[   7% ] [90m[1mupdate_scripts_classes[22m | CooperativeLocker[39m[0m
+[   8% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  10% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  12% ] [90m[1mupdate_scripts_classes[22m | ExperimentSettings[39m[0m
+[  14% ] [90m[1mupdate_scripts_classes[22m | ExplorationMap[39m[0m
+[  16% ] [90m[1mupdate_scripts_classes[22m | HarinCharacter[39m[0m
+[  17% ] [90m[1mupdate_scripts_classes[22m | HarinDialogue[39m[0m
+[  19% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  21% ] [90m[1mupdate_scripts_classes[22m | IndustrialUIFrame[39m[0m
+[  23% ] [90m[1mupdate_scripts_classes[22m | DemoInteractable[39m[0m
+[  25% ] [90m[1mupdate_scripts_classes[22m | LocalAIClient[39m[0m
+[  26% ] [90m[1mupdate_scripts_classes[22m | LocalNPCSettings[39m[0m
+[  28% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  30% ] [90m[1mupdate_scripts_classes[22m | MissionDrone[39m[0m
+[  32% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  33% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  35% ] [90m[1mupdate_scripts_classes[22m | MissionProjectile[39m[0m
+[  37% ] [90m[1mupdate_scripts_classes[22m | MissionSaveStore[39m[0m
+[  39% ] [90m[1mupdate_scripts_classes[22m | NoncombatDialoguePanel[39m[0m
+[  41% ] [90m[1mupdate_scripts_classes[22m | NPCBrain[39m[0m
+[  42% ] [90m[1mupdate_scripts_classes[22m | NPCPolicy[39m[0m
+[  44% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  46% ] [90m[1mupdate_scripts_classes[22m | MissionPauseMenu[39m[0m
+[  48% ] [90m[1mupdate_scripts_classes[22m | DemoPlayer[39m[0m
+[  50% ] [90m[1mupdate_scripts_classes[22m | RoundedObstacle[39m[0m
+[  51% ] [90m[1mupdate_scripts_classes[22m | SpeechBubble[39m[0m
+[  53% ] [90m[1mupdate_scripts_classes[22m | SystemNotifications[39m[0m
+[  55% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  57% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  58% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  60% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  62% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  64% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  66% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  67% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  69% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  71% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  73% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  75% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  76% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  78% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  80% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  82% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  83% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  85% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  87% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  89% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  91% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  92% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  94% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  96% ] [90m[1mupdate_scripts_classes[22m | DemoWorld[39m[0m
+[92m[ DONE ][39m [1mupdate_scripts_classes[22m
+[0m
+[   0% ] [90m[1m_update_scan_actions[22m | Started 액션 스캔 중... (24 steps)[39m[0m
+[   0% ] [90m[1m_update_scan_actions[22m | panel_beep.wav[39m[0m
+[   4% ] [90m[1m_update_scan_actions[22m | doorOpen_000.ogg[39m[0m
+[   8% ] [90m[1m_update_scan_actions[22m | explosionCrunch_000.ogg[39m[0m
+[  12% ] [90m[1m_update_scan_actions[22m | forceField_000.ogg[39m[0m
+[  16% ] [90m[1m_update_scan_actions[22m | impactMetal_000.ogg[39m[0m
+[  20% ] [90m[1m_update_scan_actions[22m | laserSmall_000.ogg[39m[0m
+[  24% ] [90m[1m_update_scan_actions[22m | laserSmall_001.ogg[39m[0m
+[  28% ] [90m[1m_update_scan_actions[22m | robot1_machine.png[39m[0m
+[  32% ] [90m[1m_update_scan_actions[22m | soldier1_gun.png[39m[0m
+[  36% ] [90m[1m_update_scan_actions[22m | tile_11.png[39m[0m
+[  40% ] [90m[1m_update_scan_actions[22m | womanGreen_gun.png[39m[0m
+[  44% ] [90m[1m_update_scan_actions[22m | harin_bust_v1.png[39m[0m
+[  48% ] [90m[1m_update_scan_actions[22m | harin_canva.png[39m[0m
+[  52% ] [90m[1m_update_scan_actions[22m | pulse_pistol.svg[39m[0m
+[  56% ] [90m[1m_update_scan_actions[22m | reticle.svg[39m[0m
+[  60% ] [90m[1m_update_scan_actions[22m | station_mark.svg[39m[0m
+[  64% ] [90m[1m_update_scan_actions[22m | character.svg[39m[0m
+[  68% ] [90m[1m_update_scan_actions[22m | exit.svg[39m[0m
+[  72% ] [90m[1m_update_scan_actions[22m | flashlight.svg[39m[0m
+[  76% ] [90m[1m_update_scan_actions[22m | fuse.svg[39m[0m
+[  80% ] [90m[1m_update_scan_actions[22m | generator.svg[39m[0m
+[  84% ] [90m[1m_update_scan_actions[22m | grid.svg[39m[0m
+[  88% ] [90m[1m_update_scan_actions[22m | panel.svg[39m[0m
+[  92% ] [90m[1m_update_scan_actions[22m | supplies.svg[39m[0m
+[92m[ DONE ][39m [1m_update_scan_actions[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started 애셋 (다시) 가져오는 중 (24 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | 다시 가져올 파일을 준비 중...[39m[0m
+[   4% ] [90m[1mreimport[22m | 다시 가져올 파일을 준비 중...[39m[0m
+[   8% ] [90m[1mreimport[22m | 다시 가져올 파일을 준비 중...[39m[0m
+[  12% ] [90m[1mreimport[22m | 다시 가져올 파일을 준비 중...[39m[0m
+[  16% ] [90m[1mreimport[22m | 다시 가져올 파일을 준비 중...[39m[0m
+[  20% ] [90m[1mreimport[22m | 다시 가져올 파일을 준비 중...[39m[0m
+[  24% ] [90m[1mreimport[22m | 다시 가져올 파일을 준비 중...[39m[0m
+[  28% ] [90m[1mreimport[22m | 다시 가져올 파일을 준비 중...[39m[0m
+[  32% ] [90m[1mreimport[22m | 다시 가져올 파일을 준비 중...[39m[0m
+[  36% ] [90m[1mreimport[22m | 다시 가져올 파일을 준비 중...[39m[0m
+[  40% ] [90m[1mreimport[22m | 다시 가져올 파일을 준비 중...[39m[0m
+[  44% ] [90m[1mreimport[22m | 다시 가져올 파일을 준비 중...[39m[0m
+[  48% ] [90m[1mreimport[22m | 다시 가져올 파일을 준비 중...[39m[0m
+[  52% ] [90m[1mreimport[22m | 다시 가져올 파일을 준비 중...[39m[0m
+[  56% ] [90m[1mreimport[22m | 다시 가져올 파일을 준비 중...[39m[0m
+[  60% ] [90m[1mreimport[22m | 다시 가져올 파일을 준비 중...[39m[0m
+[  64% ] [90m[1mreimport[22m | 다시 가져올 파일을 준비 중...[39m[0m
+[  68% ] [90m[1mreimport[22m | 다시 가져올 파일을 준비 중...[39m[0m
+[  72% ] [90m[1mreimport[22m | 다시 가져올 파일을 준비 중...[39m[0m
+[  76% ] [90m[1mreimport[22m | 다시 가져올 파일을 준비 중...[39m[0m
+[  80% ] [90m[1mreimport[22m | 다시 가져올 파일을 준비 중...[39m[0m
+[  84% ] [90m[1mreimport[22m | 다시 가져올 파일을 준비 중...[39m[0m
+[  88% ] [90m[1mreimport[22m | 다시 가져올 파일을 준비 중...[39m[0m
+[  92% ] [90m[1mreimport[22m | 다시 가져올 파일을 준비 중...[39m[0m
+[   0% ] [90m[1mreimport[22m | 다시 가져오기 전 작업을 수행 중...[39m[0m
+[   0% ] [90m[1mreimport[22m | doorOpen_000.ogg[39m[0m
+[   4% ] [90m[1mreimport[22m | explosionCrunch_000.ogg[39m[0m
+[   8% ] [90m[1mreimport[22m | forceField_000.ogg[39m[0m
+[  12% ] [90m[1mreimport[22m | impactMetal_000.ogg[39m[0m
+[  16% ] [90m[1mreimport[22m | laserSmall_000.ogg[39m[0m
+[  20% ] [90m[1mreimport[22m | laserSmall_001.ogg[39m[0m
+[  24% ] [90m[1mreimport[22m | doorOpen_000.ogg[39m[0m
+[  28% ] [90m[1mreimport[22m | explosionCrunch_000.ogg[39m[0m
+[  32% ] [90m[1mreimport[22m | forceField_000.ogg[39m[0m
+[  36% ] [90m[1mreimport[22m | impactMetal_000.ogg[39m[0m
+[  40% ] [90m[1mreimport[22m | laserSmall_000.ogg[39m[0m
+[  44% ] [90m[1mreimport[22m | laserSmall_001.ogg[39m[0m
+[  48% ] [90m[1mreimport[22m | supplies.svg[39m[0m
+[  52% ] [90m[1mreimport[22m | panel.svg[39m[0m
+[  56% ] [90m[1mreimport[22m | grid.svg[39m[0m
+[  60% ] [90m[1mreimport[22m | generator.svg[39m[0m
+[  64% ] [90m[1mreimport[22m | fuse.svg[39m[0m
+[  68% ] [90m[1mreimport[22m | flashlight.svg[39m[0m
+[  72% ] [90m[1mreimport[22m | exit.svg[39m[0m
+[  76% ] [90m[1mreimport[22m | character.svg[39m[0m
+[  80% ] [90m[1mreimport[22m | station_mark.svg[39m[0m
+[  84% ] [90m[1mreimport[22m | reticle.svg[39m[0m
+[  88% ] [90m[1mreimport[22m | pulse_pistol.svg[39m[0m
+[  92% ] [90m[1mreimport[22m | panel_beep.wav[39m[0m
+[  96% ] [90m[1mreimport[22m | 애셋 가져오기 마무리 중...[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started 애셋 (다시) 가져오는 중 (24 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | 다시 가져오기 후 작업을 수행 중...[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Started 편집기를 불러오는 중 (5 steps)[39m[0m
+[   0% ] [90m[1mloading_editor_layout[22m | 편집기 레이아웃을 불러오는 중...[39m[0m
+[  16% ] [90m[1mloading_editor_layout[22m | 독을 불러오는 중...[39m[0m
+[92m[ DONE ][39m [1mloading_editor_layout[22m
+[0m
+ERROR: Safe save failed. This may be a permissions problem, but also may happen because you are running a paranoid antivirus. If this is the case, please switch to Windows Defender or disable the 'safe save' option in editor settings. This makes it work, but increases the risk of file corruption in a crash.
+   at: _close (drivers/windows/file_access_windows.cpp:277)

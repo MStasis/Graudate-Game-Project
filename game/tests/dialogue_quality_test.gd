@@ -15,13 +15,14 @@ func check(label: String, passed: bool) -> void:
 func ask(label: String, question: String) -> String:
  var count_before := measurements.size()
  app._send_question(question)
- var deadline := Time.get_ticks_msec() + 25000
+ var deadline := Time.get_ticks_msec() + 85000
  while measurements.size() == count_before and Time.get_ticks_msec() < deadline:
   await create_timer(0.02).timeout
- var accepted: bool = measurements.size() > count_before and measurements.back().get("accepted", false) and measurements.back().get("actual_model") == "qwen3:4b"
+ var expected: String = "common_executor" if not NPCPolicy.requested_action(question).is_empty() else app.brain.local_dialogue.settings.model
+ var accepted: bool = measurements.size() > count_before and measurements.back().get("accepted", false) and measurements.back().get("actual_model") == expected
  check(label + "_actual_model_accepted", accepted)
  var text: String = app.answer.text if accepted else ""
- responses.append({"case": label, "question": question, "text": text, "accepted": accepted, "snapshot": world.game_state().duplicate(true)})
+ responses.append({"case": label, "question": question, "text": text, "accepted": accepted, "actual_model": expected, "snapshot": world.game_state().duplicate(true)})
  print("DIALOGUE_SAMPLE ", JSON.stringify({"case": label, "text": text, "accepted": accepted}))
  return text
 
@@ -67,7 +68,7 @@ func run() -> void:
  check("casual_reply_recovers_after_mission_history", no_manual(text))
  var directory := ProjectSettings.globalize_path("res://../evidence/dialogue_notices")
  DirAccess.make_dir_recursive_absolute(directory)
- var result := {"suite": "dialogue_live_quality_cases", "actual_model": "qwen3:4b", "actual_inference": true, "check_count": checks.size(), "passed": not checks.values().has(false), "checks": checks, "responses": responses, "measurements": measurements, "human_quality_review": "raw responses inspected separately; lexical checks do not prove general naturalness", "formal_comparison_benchmark": false}
+ var result := {"suite": "dialogue_live_quality_cases", "actual_model": app.brain.local_dialogue.settings.model, "actual_inference": true, "check_count": checks.size(), "passed": not checks.values().has(false), "checks": checks, "responses": responses, "measurements": measurements, "human_quality_review": "raw responses inspected separately; lexical checks do not prove general naturalness", "formal_comparison_benchmark": false}
  FileAccess.open(directory.path_join("local_dialogue_%d.json" % OS.get_process_id()), FileAccess.WRITE).store_string(JSON.stringify(result, "  "))
  print("DIALOGUE_QUALITY_RESULT ", JSON.stringify({"passed": result.passed, "check_count": checks.size(), "checks": checks}))
  app.queue_free()

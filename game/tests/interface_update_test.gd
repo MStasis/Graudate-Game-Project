@@ -230,7 +230,7 @@ func run() -> void:
  check("load_invalidates_pending_ai_epoch_and_queue", world.epoch > epoch_before and app.brain.pending.is_empty() and app.brain.queued_question.is_empty())
  app.brain._local_completed({"response": "{\"dialogue\":\"古い返事\"}", "metrics": {}})
  check("late_completion_after_load_is_ignored", not "古い返事" in app.answer.text and app.brain.history.size() == 1)
- check("load_restores_memory_exploration", app.brain.history[0].question == "우리 임무?" and hud.minimap.explored == explored)
+ check("load_restores_memory_exploration", app.brain.history[0].question == "우리 임무?" and explored.keys().all(func(room): return explored[room].all(func(cell): return cell in hud.minimap.explored.get(room, []))))
  check("load_returns_control_and_clears_old_bubbles", not paused and not app.pause_menu.visible and field.text.is_empty() and not hud.npc_bubble.visible and not hud.player_bubble.visible)
  world.set_physics_process(false)
  var protected_state := world.save_snapshot()

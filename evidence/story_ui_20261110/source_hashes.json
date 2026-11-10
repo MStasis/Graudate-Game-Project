@@ -1,0 +1,846 @@
+[
+  {
+    "path": "game\\main.gd",
+    "sha256": "08306ABB93BEA239D24F5DB1A34CBCA22013AB57FAE753682FC92092DD403A22"
+  },
+  {
+    "path": "game\\main.gd.uid",
+    "sha256": "E4C545ED641B2C45C7B1A9EDB0A22CA943679B4B74C2395D716AA95A58B1FAC3"
+  },
+  {
+    "path": "game\\main.tscn",
+    "sha256": "B141634D4E18F37DDA0234DF513061858F399AA673941299C5EA86742FEC0588"
+  },
+  {
+    "path": "game\\project.godot",
+    "sha256": "C9DB3FEE04E1D081DD0C49E56A2327A216D67E9AD99E69FD02837C796D48673C"
+  },
+  {
+    "path": "game\\world.gd",
+    "sha256": "3AD627BFD79B8A02DF558083F685FB3F114FDBF0E32147D4498097237DFEFB6D"
+  },
+  {
+    "path": "game\\world.gd.uid",
+    "sha256": "61F68EE0BB8D6AD0DA4F22E17610DCE87EA7988937B90EAC0AE85B315A70D949"
+  },
+  {
+    "path": "game\\assets\\character.svg",
+    "sha256": "58E0455354F43CC695F1438D34BF892270C45D16E6B7937E936D9433EA784C1C"
+  },
+  {
+    "path": "game\\assets\\character.svg.import",
+    "sha256": "ACA4069AC9BDD153FF8DCDA4B577D4BC46DBE016B1C5FC482EC76D582606A2C4"
+  },
+  {
+    "path": "game\\assets\\exit.svg",
+    "sha256": "9923F2F69A8330729741AF630DD53E93023E56E2989ADF7F0E1C61591D4873DB"
+  },
+  {
+    "path": "game\\assets\\exit.svg.import",
+    "sha256": "0EE8130FA18AC939FEAFDD4ADE748875EAE9962A28871C7A1F7C7D8D4FF18CB0"
+  },
+  {
+    "path": "game\\assets\\flashlight.svg",
+    "sha256": "94B835A48AE0162ECCF585F941E5CD8BA898C8DD5044A33A2701201735123941"
+  },
+  {
+    "path": "game\\assets\\flashlight.svg.import",
+    "sha256": "A9FC502C359D625E7065D1C48A8491F9239D3B7F1FAD77083FAD908491E8CA7D"
+  },
+  {
+    "path": "game\\assets\\fuse.svg",
+    "sha256": "74DB1E6A037529E73449AECFEC1547EAECF5766F98D47BB7C939AA01892D476F"
+  },
+  {
+    "path": "game\\assets\\fuse.svg.import",
+    "sha256": "1C823DC4B8C4E9E08B1C57C8D5D2A5B255999C3255053D85B79DDC42EAF5C5F5"
+  },
+  {
+    "path": "game\\assets\\generator.svg",
+    "sha256": "9615EB6EBA81975A3E37938FABB338D5A1DD83428208D169D58F9B540E8CD8C2"
+  },
+  {
+    "path": "game\\assets\\generator.svg.import",
+    "sha256": "17F1286FE5052642632E9E340B36D1469B1086E8EE86A4EE7D010C16FABC54DA"
+  },
+  {
+    "path": "game\\assets\\grid.svg",
+    "sha256": "D664D2DF6589A1AE07BBE09FC2336C2628DDF05C4059DB86B5DE6AD7EDBC809A"
+  },
+  {
+    "path": "game\\assets\\grid.svg.import",
+    "sha256": "FD6E227C9AF7A41B83A16DEC2755197CF65FEE0DE3956569D5F5A4B4BB1EBB0D"
+  },
+  {
+    "path": "game\\assets\\panel.svg",
+    "sha256": "1133C2EF771AE4FED00236FC1BE00335BB98631FD586CC9446329BD7A7F213A5"
+  },
+  {
+    "path": "game\\assets\\panel.svg.import",
+    "sha256": "C67E0A9F0284641D223076274920B66288607E3EB2F9E9A2C9ADD01948E808A1"
+  },
+  {
+    "path": "game\\assets\\supplies.svg",
+    "sha256": "236B312A971607F6736DBC4637BC499BCC35425C1D71943080DDB0A8762EEDB9"
+  },
+  {
+    "path": "game\\assets\\supplies.svg.import",
+    "sha256": "442824209455A8903B4BB46D690CB41E3C8048634D77B9BAFE07F6E4E19E85AB"
+  },
+  {
+    "path": "game\\assets\\audio\\panel_beep.wav",
+    "sha256": "E2C6DACD5E896D310C22D92B2B11FFF39D4C458D4E888FB36DB9CF17D74FB9F3"
+  },
+  {
+    "path": "game\\assets\\audio\\panel_beep.wav.import",
+    "sha256": "31842EA104A0BEED56A25C7565CE55169F6BD813FFF1B6E369465FA419DFDCDC"
+  },
+  {
+    "path": "game\\assets\\audio\\README.md",
+    "sha256": "C4E8D348BA39C6EDC0EE6A57DC1A2809346C4FCA7EE47A568EAFEA8130CBF560"
+  },
+  {
+    "path": "game\\assets\\temporary\\kenney\\manifest.json",
+    "sha256": "B6DC7B0960E776F92526B90911F749AF02D1D0BB8E20255A95E87461E4247308"
+  },
+  {
+    "path": "game\\assets\\temporary\\kenney\\README.md",
+    "sha256": "CBBB18ABE7D5B58DB6ADA319BBEC972B1582B0F29EFE37129466D9C4BF44213D"
+  },
+  {
+    "path": "game\\assets\\temporary\\kenney\\audio\\doorOpen_000.ogg",
+    "sha256": "5B7E07ECCD4413AD9EF3720C2D14F9CC699F4C50111E9B2F48BD60E6F1A164C3"
+  },
+  {
+    "path": "game\\assets\\temporary\\kenney\\audio\\doorOpen_000.ogg.import",
+    "sha256": "84B548ECEFC29F8B5E38682B5DAB4D6C24C2E7E02A5CDAB04F39CCF540D816F3"
+  },
+  {
+    "path": "game\\assets\\temporary\\kenney\\audio\\explosionCrunch_000.ogg",
+    "sha256": "4B597D658D0AE101F0A030FBEEA5FC3A4292AB85F017470A8254A8E7959CBD69"
+  },
+  {
+    "path": "game\\assets\\temporary\\kenney\\audio\\explosionCrunch_000.ogg.import",
+    "sha256": "26FA9A7FF7749740E0C2A62849D63C3B242BB747E13AA2DA28B96842D7F82140"
+  },
+  {
+    "path": "game\\assets\\temporary\\kenney\\audio\\forceField_000.ogg",
+    "sha256": "C2916F2A062C8DDD1ACA2826D134FE90847037DB31342726FFB0F9097AFE339C"
+  },
+  {
+    "path": "game\\assets\\temporary\\kenney\\audio\\forceField_000.ogg.import",
+    "sha256": "CF830811CA46CD1619C23347B41D827376B4507882D8F798E003216F3E0729C5"
+  },
+  {
+    "path": "game\\assets\\temporary\\kenney\\audio\\impactMetal_000.ogg",
+    "sha256": "956C6612A256AA1A67A2327FFFE2454F6B1D82E4C1C2BE28FD66916335D5B1D6"
+  },
+  {
+    "path": "game\\assets\\temporary\\kenney\\audio\\impactMetal_000.ogg.import",
+    "sha256": "12D7BD8F0B32BCAD902A0CFA073B2245B72E75EB2751B2D256F80DD5A92D2D96"
+  },
+  {
+    "path": "game\\assets\\temporary\\kenney\\audio\\laserSmall_000.ogg",
+    "sha256": "72B589EADD41781257AC859E4F4D030222E623390E4A1A83F6D05329A6E026F1"
+  },
+  {
+    "path": "game\\assets\\temporary\\kenney\\audio\\laserSmall_000.ogg.import",
+    "sha256": "753D10186E3D63DD95EB511F4962FAC5E1B07DC3093041543411839BB7FABEFB"
+  },
+  {
+    "path": "game\\assets\\temporary\\kenney\\audio\\laserSmall_001.ogg",
+    "sha256": "AB87913ABA9790A0C5FA173D086267BA521AD522FCAD2252271DB49988313CF5"
+  },
+  {
+    "path": "game\\assets\\temporary\\kenney\\audio\\laserSmall_001.ogg.import",
+    "sha256": "47154DE05610D4B42D5DD6D79806F2496DB9113EA1D2F1B7BE7125FC5EB3DFCC"
+  },
+  {
+    "path": "game\\assets\\temporary\\kenney\\licenses\\sci-fi-sounds.txt",
+    "sha256": "A9767B25C3533F69D03AF136480EFAD08EFBA19A9F0D89616992B34C79FD6186"
+  },
+  {
+    "path": "game\\assets\\temporary\\kenney\\licenses\\top-down-shooter.txt",
+    "sha256": "523B1CF39AD1D569CC5D6ABC9E8785668208B9C37F1E29383E2A5F8DDA8444BC"
+  },
+  {
+    "path": "game\\assets\\temporary\\kenney\\sprites\\robot1_machine.png",
+    "sha256": "FABFDD249A5C3F7932B37A65C6FD0E262182B01F9BBACD98617CF32E9E3B9A15"
+  },
+  {
+    "path": "game\\assets\\temporary\\kenney\\sprites\\robot1_machine.png.import",
+    "sha256": "52D34B50E47DD3C2B4E0FB14834E53B43A06D529472E407BCB7E876BA65752AD"
+  },
+  {
+    "path": "game\\assets\\temporary\\kenney\\sprites\\soldier1_gun.png",
+    "sha256": "6F389FAFB4F8A6BE2372CCE4DB4EE6D348AEA6D0A6516968AA17375F96C91089"
+  },
+  {
+    "path": "game\\assets\\temporary\\kenney\\sprites\\soldier1_gun.png.import",
+    "sha256": "53E5A168D5A07A71C77E20E23C07FFF35F8FABA2A2CCE649AA3E9B695E3A9FDE"
+  },
+  {
+    "path": "game\\assets\\temporary\\kenney\\sprites\\tile_11.png",
+    "sha256": "2A19B39852ADF18EC8481611C878DB8372463AA859AEFBC62A6338CE6C3B1A4D"
+  },
+  {
+    "path": "game\\assets\\temporary\\kenney\\sprites\\tile_11.png.import",
+    "sha256": "9ADA4EEB6D773F15F8A6219D92B08E1C164EA1F9E5169B22D56196E45EA2D940"
+  },
+  {
+    "path": "game\\assets\\temporary\\kenney\\sprites\\womanGreen_gun.png",
+    "sha256": "89BCA2AB371BB1DC6177CEDC21AC8F7DE0F13C8394E30F75E67F65098D280BA4"
+  },
+  {
+    "path": "game\\assets\\temporary\\kenney\\sprites\\womanGreen_gun.png.import",
+    "sha256": "04C1769D77B921B74454777531DB888EF1F5E5646F723328D0BB46AD316DEF6B"
+  },
+  {
+    "path": "game\\assets\\ui\\ASSET_SOURCE.md",
+    "sha256": "0C0B081F564BDE0E9F89685D685DAB42527EFC616F27A198293DFDC2FADB0CB9"
+  },
+  {
+    "path": "game\\assets\\ui\\HARIN_BUST_SOURCE.md",
+    "sha256": "7739685DA59740D9C77BC4B08F9E46E2798390123D1519874AA482EB9C21A051"
+  },
+  {
+    "path": "game\\assets\\ui\\harin_bust_v1.png",
+    "sha256": "CAFA112DCA35BD49CFB6E9329BE10CD91226B2040613E2C468FC65D40748697D"
+  },
+  {
+    "path": "game\\assets\\ui\\harin_bust_v1.png.import",
+    "sha256": "CDBEA743B7D290C708EFD947057AACF1B5ECEC8FD13186414C98D558DBBC6316"
+  },
+  {
+    "path": "game\\assets\\ui\\harin_bust_v1.prompt.txt",
+    "sha256": "EE6BC3624445BAA8EBBA5D7F7CBF675032B9F07ED1176D2230AA53D25BC4671D"
+  },
+  {
+    "path": "game\\assets\\ui\\harin_canva.png",
+    "sha256": "8BF56CBAFE3EAA6A37C756910159D6CE77BF6D58E932C30D567C9E84DFFEBAE7"
+  },
+  {
+    "path": "game\\assets\\ui\\harin_canva.png.import",
+    "sha256": "9B9F45AD900BDC77A6EA4FCC54295713BB49A03230DFB22047A3E735382250B0"
+  },
+  {
+    "path": "game\\assets\\ui\\pulse_pistol.svg",
+    "sha256": "B7E13C30911CBBA52EF152F0C51EE2DA9C2520CB0DB7EA4D69658F5818F08FA6"
+  },
+  {
+    "path": "game\\assets\\ui\\pulse_pistol.svg.import",
+    "sha256": "AF7447376CE20259C86EB3B81C689E05D93AFA67879617EA36D0A2437554C19F"
+  },
+  {
+    "path": "game\\assets\\ui\\reticle.svg",
+    "sha256": "1C8DA91B7657F81E9E035BA6EC8D785F7B531CF6FC40DC867A20D0F7D4C25D59"
+  },
+  {
+    "path": "game\\assets\\ui\\reticle.svg.import",
+    "sha256": "9702B7529A62DCA69B5132ABF822011F34BF4AE0B3BA43D4CE1492B6EBE35FEB"
+  },
+  {
+    "path": "game\\assets\\ui\\station_mark.svg",
+    "sha256": "192D04884E6DB6384CF459ABD429517BCD63101BB4044E66DBF800FADF72F6DB"
+  },
+  {
+    "path": "game\\assets\\ui\\station_mark.svg.import",
+    "sha256": "B91F47754C15FD9497213A030C3A4EA6487C268129B366DA4C70756102CB9C55"
+  },
+  {
+    "path": "game\\native\\windows_ime\\windows_ime.dll",
+    "sha256": "72082B7D2F61F9B1F2435BE8F70F2012CCB63D656DD73C3D12BA6777C66851A6"
+  },
+  {
+    "path": "game\\native\\windows_ime\\windows_ime.gdextension",
+    "sha256": "9F2AD188DD4C0F680C206FF7C84DD5060F6F0F8D3F7CA3A960DDDE6AFB97383F"
+  },
+  {
+    "path": "game\\native\\windows_ime\\windows_ime.gdextension.uid",
+    "sha256": "3F4DDC430C3FEAD0ED186DDAA341E7399DB8615A495EC8ED204C6ABB423475C7"
+  },
+  {
+    "path": "game\\resources\\ExperimentSettings.tres",
+    "sha256": "A1245175C4075AF49C56BD61A93F0A663C0F1DD4830EF4B06D3089C2DAB494CC"
+  },
+  {
+    "path": "game\\resources\\flashlight.gdshader",
+    "sha256": "F4252422E63ED052A31C66EAE364540476D6549339E43067DCF7CF86A8797B0E"
+  },
+  {
+    "path": "game\\resources\\flashlight.gdshader.uid",
+    "sha256": "E0C39E14A29B3D7BB13575DCCA8372C143D13D89EA24C3025390B929F2A35D49"
+  },
+  {
+    "path": "game\\resources\\GameTheme.tres",
+    "sha256": "43E3A3F63C19343E6184C0100C646D0E59182A5985EFBEF50D8B8F0031C58F3F"
+  },
+  {
+    "path": "game\\resources\\harin_style_examples.json",
+    "sha256": "4CADB7DDE936801B269174730AF7F3FC5DAC83560BF217A29D875A95C0EB7CB6"
+  },
+  {
+    "path": "game\\resources\\HarinCharacter.tres",
+    "sha256": "4BF522E9EAAB4177DF20B918147FBDA25E44D13E04926F000AC19C0307E2906A"
+  },
+  {
+    "path": "game\\resources\\LabDialogueTheme.tres",
+    "sha256": "D94A86BD885F2D6F8BF721464E78D66EEEF7B903AC8B499480164319CE59599A"
+  },
+  {
+    "path": "game\\resources\\NPCSettings.tres",
+    "sha256": "99A8A0B8C39A4830A92C50576E634A7FF3A0B88BA79B406A02D9790FA55590E6"
+  },
+  {
+    "path": "game\\scenes\\CooperativeLocker.tscn",
+    "sha256": "DF51CD9BA77BAB38F2969F015AC68F05BA0073B14FAB4688E0885F126EAEA8C6"
+  },
+  {
+    "path": "game\\scenes\\CoopProbe.tscn",
+    "sha256": "91919327FF72602E50698AE4EA46851D0CDC2951D70715EA784F27B2AC7D2F3E"
+  },
+  {
+    "path": "game\\scenes\\Drone.tscn",
+    "sha256": "88AC8FC0802AFA1CEE712672487E3266ACE1C0445ADA82223C84D5754778EF77"
+  },
+  {
+    "path": "game\\scenes\\Exit.tscn",
+    "sha256": "AA2EBDCA2C55F72F1770366B98443F663FD1B2626738CDB09EA052D8A6370ABC"
+  },
+  {
+    "path": "game\\scenes\\Fuse.tscn",
+    "sha256": "DE0CA32AA2744CB61D89A0657C36DB07A76D1B5C707F65C9A1B548A8D7BE1AC3"
+  },
+  {
+    "path": "game\\scenes\\Generator.tscn",
+    "sha256": "477FF91E0AE753BAD596EFAA0DC25BF515FA1C68EB35F0696EDAE517D2038B18"
+  },
+  {
+    "path": "game\\scenes\\NPC.tscn",
+    "sha256": "1C58BB13BBD2627C250B8C553C7699AE6D91346A518DCC7280A5BFA57B6901B2"
+  },
+  {
+    "path": "game\\scenes\\Player.tscn",
+    "sha256": "DCA5DF07550465D50FE7AEC15493BFE6429A7BAA7F5145778053BD707F05A77B"
+  },
+  {
+    "path": "game\\scenes\\Projectile.tscn",
+    "sha256": "0C7C35D24401A8954AE1CACBE87A3FBFFFE99481A9E8D85AB3D39551CA10F8CB"
+  },
+  {
+    "path": "game\\scenes\\World.tscn",
+    "sha256": "7E78F1CF295CD49ED296804AE53F421F2FBB01696A0FEF5B05F10D3D0BEBB731"
+  },
+  {
+    "path": "game\\scenes\\ui\\ActorStatus.tscn",
+    "sha256": "F4DCB4BE58E65ADDF2D2D58302F0698745B8A7BAC7DC69964530AC76BACD47AD"
+  },
+  {
+    "path": "game\\scenes\\ui\\CombatHUD.tscn",
+    "sha256": "D9D6476DE9AFA208031483404ABAECEC02B21E8BB9655CD75338BD5279EC700D"
+  },
+  {
+    "path": "game\\scenes\\ui\\PauseMenu.tscn",
+    "sha256": "A7413706224369FC8539C0EA4995914E6D2DC503932F2A27E1036F61DCC792EF"
+  },
+  {
+    "path": "game\\scenes\\ui\\SpeechBubble.tscn",
+    "sha256": "C38CB24A1475D1357392C53CEDBD0E4E1256272434A222623673DDAD55DA2965"
+  },
+  {
+    "path": "game\\scripts\\actor_status.gd",
+    "sha256": "90C375153B53EBBA22E0FBFE6E06C392CFC94494AA79CC716FE466F5596756FC"
+  },
+  {
+    "path": "game\\scripts\\actor_status.gd.uid",
+    "sha256": "4F0A3DAEF0509E9316C85584D56852D18197C3FBAFE496EA04D89B54E03DF360"
+  },
+  {
+    "path": "game\\scripts\\chat_input.gd",
+    "sha256": "975CAE8F9C7F2ED87C45E70E07A7B480111A4E489C1534C31E5B6E978E1B82A8"
+  },
+  {
+    "path": "game\\scripts\\chat_input.gd.uid",
+    "sha256": "8622BA4A59AC7B3677FF81E3A5EFC202C3F3B801E5E1D341B94D51A20ED9AD88"
+  },
+  {
+    "path": "game\\scripts\\combat_interface.gd",
+    "sha256": "E2570523AADE33D514E09ACA75202FBEBC360C264FA8F8640280985009C5E84F"
+  },
+  {
+    "path": "game\\scripts\\combat_interface.gd.uid",
+    "sha256": "CA73CA335C685BB2F4255428C3EB3F4A87E05F6CE91DD74E32D08FD40719240E"
+  },
+  {
+    "path": "game\\scripts\\companion_motion.gd",
+    "sha256": "E99652A56A874E48A221C7AF4B2AC761ED0CA3CFAF6B3DA72110488D864AEE05"
+  },
+  {
+    "path": "game\\scripts\\companion_motion.gd.uid",
+    "sha256": "AB957F6846B7F8AF6866B6C2DA63E8D670822DB793090B8BD4BDA509F6B1C67F"
+  },
+  {
+    "path": "game\\scripts\\companion_navigation.gd",
+    "sha256": "66EC75E6F63D7EE04FA1DDBE9F914E4766275DA43CA1A9FF101FFB5B36838D7F"
+  },
+  {
+    "path": "game\\scripts\\companion_navigation.gd.uid",
+    "sha256": "6B38DF340DF824BF6C02BFF39E16B778798E82D81741A5428E03FF1E7654A4AE"
+  },
+  {
+    "path": "game\\scripts\\coop_probe.gd",
+    "sha256": "0E78F5A7058FEFB30B7F3C680849C0B7FBD66C40CB790AEE177F9442320DB22E"
+  },
+  {
+    "path": "game\\scripts\\coop_probe.gd.uid",
+    "sha256": "8A6B007C3BCDDE1D93215D233923D5F00A289D57575239C09B7DFDAD3C43A452"
+  },
+  {
+    "path": "game\\scripts\\cooperative_locker.gd",
+    "sha256": "93AD36B8BF19560FCC96C24E47FB42D153EBB2A5F8CD79EFEB97F037450EC309"
+  },
+  {
+    "path": "game\\scripts\\cooperative_locker.gd.uid",
+    "sha256": "2DDCF2E73CEF27F47451CA0BB801E393C428B52394EB55C9EA65A317D09D2803"
+  },
+  {
+    "path": "game\\scripts\\dialogue_speech_bubble.gd",
+    "sha256": "6499D436B9DBFC4A43653690B13A6DBBF35687AD00376FD35E6F6B5D441E736E"
+  },
+  {
+    "path": "game\\scripts\\dialogue_speech_bubble.gd.uid",
+    "sha256": "22C9BFF743362260DB31DA7344E4C5B0355212C68222AEC796395EAF687DF620"
+  },
+  {
+    "path": "game\\scripts\\experiment_settings.gd",
+    "sha256": "A4B722D8F4092A2668E7DF945E75E1E53C57D35A9469D3CE1C75AE73A9F062DE"
+  },
+  {
+    "path": "game\\scripts\\experiment_settings.gd.uid",
+    "sha256": "201CD10A4D69F7D82F011456573B7A6B764274E1F98A608049CB5943F3C647DD"
+  },
+  {
+    "path": "game\\scripts\\exploration_map.gd",
+    "sha256": "8D8264A4E4D110963EE032BF1DA4C7ADE522E4E6675473131C981638E850014E"
+  },
+  {
+    "path": "game\\scripts\\exploration_map.gd.uid",
+    "sha256": "0669C9F38345CDAA63D9C5836C23FFAACA5B192559EB9EA4E0A4C7067522A5F4"
+  },
+  {
+    "path": "game\\scripts\\harin_actor.gd",
+    "sha256": "3258ADB90B949B9293ACF885B954D110F9BE0C2A90890CB7C4853CE99BDF33A9"
+  },
+  {
+    "path": "game\\scripts\\harin_actor.gd.uid",
+    "sha256": "C02F10642E19E085F5571D1848F558ED94F924B038C293995D704F12A9F08CD4"
+  },
+  {
+    "path": "game\\scripts\\harin_character.gd",
+    "sha256": "0F72AE29470F5FB01622F2FFE937DD9EE0B36238E560D125642214B8993FFCE6"
+  },
+  {
+    "path": "game\\scripts\\harin_character.gd.uid",
+    "sha256": "A8E43A87E1F155C776D8E3B53AEC413EA524E8B6FA2781694100C3D2D81C5117"
+  },
+  {
+    "path": "game\\scripts\\harin_dialogue.gd",
+    "sha256": "55356FB2E6B6841589D05985ED1D5457357A1FFC020FF00B891C5F02D4CF1470"
+  },
+  {
+    "path": "game\\scripts\\harin_dialogue.gd.uid",
+    "sha256": "F1B1356553281946B10C517F5EABD2171F9BB28B9B8E1990AF275903986847FB"
+  },
+  {
+    "path": "game\\scripts\\hud_frame.gd",
+    "sha256": "3EA5DAB7A509C684BE2495F443271FD77192052A11EE950D2133D1759ABD5D1C"
+  },
+  {
+    "path": "game\\scripts\\hud_frame.gd.uid",
+    "sha256": "C56FF4A5053E31DFE64F5504CB3DF395AFF2653EFC7A8A51260531A8F07AC869"
+  },
+  {
+    "path": "game\\scripts\\industrial_ui_frame.gd",
+    "sha256": "D676B90F8010BFEF819C3ED757F6540C5F77CADBA4482619929DFA5D455DC709"
+  },
+  {
+    "path": "game\\scripts\\industrial_ui_frame.gd.uid",
+    "sha256": "F705C10728728DBFA14150668F41BDEF240DA6991627490F36237F1B84096FD0"
+  },
+  {
+    "path": "game\\scripts\\interactable.gd",
+    "sha256": "C4E8A53144EEDD6C89DEE5FF50628CA5D6AA3D905B8B12788D8D9B8A5C5EFF96"
+  },
+  {
+    "path": "game\\scripts\\interactable.gd.uid",
+    "sha256": "8CD08E6A56E00E817BD4C76EFA5D471256DE7AA6F25BB1460687BFF718CCF912"
+  },
+  {
+    "path": "game\\scripts\\local_ai_client.gd",
+    "sha256": "D7288B243F3C7C3D3A851BB5B0B7E204F46EE5C48188EB81B23843DDABCC6132"
+  },
+  {
+    "path": "game\\scripts\\local_ai_client.gd.uid",
+    "sha256": "50394288FCCFD8E0338B0FD4E687B3CE598B5A32C0F2E3BB9B5EC1290299981C"
+  },
+  {
+    "path": "game\\scripts\\local_npc_settings.gd",
+    "sha256": "18F0FD10645E3F79E71F72CBD154FB53329BB8ED8A3855CF531D0BDC849E1710"
+  },
+  {
+    "path": "game\\scripts\\local_npc_settings.gd.uid",
+    "sha256": "CB220113F41EAEB7689BD2D7DE6C1837051F21ADAEC221190EBB132D39E43517"
+  },
+  {
+    "path": "game\\scripts\\message_journal.gd",
+    "sha256": "7E2ECC64AC0E154E7F707E70411BCCA853C6FB2E113B631E8DB0E9782D2D8039"
+  },
+  {
+    "path": "game\\scripts\\message_journal.gd.uid",
+    "sha256": "0A7F0267326481C5BCB88BE0D519AFE1F04FE0C34389F82B644F09552D0CDE39"
+  },
+  {
+    "path": "game\\scripts\\mission_audio.gd",
+    "sha256": "AC88FE82BD1C5EE016F5D539986B24525BFB097E033967B2B57B687F2396698F"
+  },
+  {
+    "path": "game\\scripts\\mission_audio.gd.uid",
+    "sha256": "B04AC8E9BFD1284B42FE3660DC26143101BC6A8488AC62698E1DB4C24D818B6B"
+  },
+  {
+    "path": "game\\scripts\\mission_drone.gd",
+    "sha256": "4C77F410608442A6A314CD68B86BDFB4D59E4BBA3E015E17B20C9EE29C05AA10"
+  },
+  {
+    "path": "game\\scripts\\mission_drone.gd.uid",
+    "sha256": "323BAE93F74CB599A822855DFC8558553986D3CF1B422757EE60EB44DC92AEA1"
+  },
+  {
+    "path": "game\\scripts\\mission_evidence.gd",
+    "sha256": "7E5807D7F9A8C2A47965F20FDDFE9E361D56E6FFA410D7D13E5F56F52BC54043"
+  },
+  {
+    "path": "game\\scripts\\mission_evidence.gd.uid",
+    "sha256": "E647A33F438F1B1399BA1AC23C75AA2A208C1749A7BC54974B514B4CFBC144D0"
+  },
+  {
+    "path": "game\\scripts\\mission_fx.gd",
+    "sha256": "F5D3BE209F520C9FDF9DD414BD8B295175E302720F1E6DBE5C87841D0AD4A57E"
+  },
+  {
+    "path": "game\\scripts\\mission_fx.gd.uid",
+    "sha256": "CADB468BB5E717D7913689A92A1D727DAAE33AEFAB81E995A6A97E87C745D764"
+  },
+  {
+    "path": "game\\scripts\\mission_projectile.gd",
+    "sha256": "54DA6BE0F676A578962096C7FB6D070D356CCB37FE9E14C5EBD643D7B11E67AC"
+  },
+  {
+    "path": "game\\scripts\\mission_projectile.gd.uid",
+    "sha256": "3223A1E71D4B3EEC54BCAAA3F22E474BF4A13CF5B76BD6F23A7862B3E4C6F3B6"
+  },
+  {
+    "path": "game\\scripts\\mission_save_store.gd",
+    "sha256": "8FF5F0DCE6A03B5918A30128C9CC1B932C39A5307B055F84EB0DFCE1D29CA69E"
+  },
+  {
+    "path": "game\\scripts\\mission_save_store.gd.uid",
+    "sha256": "1B4DC372D3BBEFD00B02F06B33E0FA8839CCA32749C6C05BEEA115D52345A54F"
+  },
+  {
+    "path": "game\\scripts\\noncombat_dialogue_panel.gd",
+    "sha256": "2149C7318962410A2142B75AEECD6C36845378B0BF1ABAE71554E0FD97DB6C31"
+  },
+  {
+    "path": "game\\scripts\\noncombat_dialogue_panel.gd.uid",
+    "sha256": "C42F8D7C7461C3E525E595C25F2A36A0C35E383FD331E0B88AD19D5FFAD40376"
+  },
+  {
+    "path": "game\\scripts\\npc_brain.gd",
+    "sha256": "2BBD1A6A2E3ED97856D2791DBBAF4BFD6DACF461F239B067D7D58AE3508626CC"
+  },
+  {
+    "path": "game\\scripts\\npc_brain.gd.uid",
+    "sha256": "168EFFD81B774C42F5C53EE1E00B0A6EDC61BD3537CA191F1896D19188497AA6"
+  },
+  {
+    "path": "game\\scripts\\npc_policy.gd",
+    "sha256": "6CCF3767CC64A3BC9B114A3BCF1B661AE49D0BD8044CD438AAB54E19014EA617"
+  },
+  {
+    "path": "game\\scripts\\npc_policy.gd.uid",
+    "sha256": "27B67E49D94C82C89629C4B1F8554F20885C03125AF20255709221ACCE4E5CF5"
+  },
+  {
+    "path": "game\\scripts\\pause_gear.gd",
+    "sha256": "C82F53FDA9F0AA778CEDDF7F20BD696A7F309353051AADE5AF806856B00831AB"
+  },
+  {
+    "path": "game\\scripts\\pause_gear.gd.uid",
+    "sha256": "8352BCAAB1173B02244A473B8419A63DAAEF8DFDF580665C5BAF18ECA03246D4"
+  },
+  {
+    "path": "game\\scripts\\pause_menu.gd",
+    "sha256": "E5F0C18944365F6899F14D2F86D1DA1BB8AA09E7E4AF496D308F53FD7C1F1CEC"
+  },
+  {
+    "path": "game\\scripts\\pause_menu.gd.uid",
+    "sha256": "9BD1D2F07EB88A404DAF8AF2218F73F42FB357817C24F08626E4840A885148FA"
+  },
+  {
+    "path": "game\\scripts\\player.gd",
+    "sha256": "0E9EF4390B51A4F0A424D0ACA4CEEAB297DDE1002BB53BDB016D097BA7F344D1"
+  },
+  {
+    "path": "game\\scripts\\player.gd.uid",
+    "sha256": "3C5C5D2F3EAE05B86D855781BCC322B312EA935CC9DB5EAA197B9621C410D17F"
+  },
+  {
+    "path": "game\\scripts\\rounded_obstacle.gd",
+    "sha256": "721AB61EC38C5F587C5642AF45DD4778BFB32C8187053EC5E73CDB34ACE0AEAC"
+  },
+  {
+    "path": "game\\scripts\\rounded_obstacle.gd.uid",
+    "sha256": "AAEF12B970DC430EBE63217BDB77CD1E9AFF7B84050DADDF0A549A9A48FBA049"
+  },
+  {
+    "path": "game\\scripts\\speech_bubble.gd",
+    "sha256": "93FDF993F95C2C238EF51FEEA2958148229A97DB09FBF38AC96A770B886F9C4F"
+  },
+  {
+    "path": "game\\scripts\\speech_bubble.gd.uid",
+    "sha256": "822ACAD5F388E1B104EAEE8097CA537EE0E653C9500EB4DBE3962717C20FC27A"
+  },
+  {
+    "path": "game\\scripts\\story_progress.gd",
+    "sha256": "C7C2EB21BB76FC57F1F82FB587A704D0457FB91BC6A5360D7C551092585CB38D"
+  },
+  {
+    "path": "game\\scripts\\story_progress.gd.uid",
+    "sha256": "EE2BF8CC71B0704227DF8ABD7FD90744EA48F8AE56B75733ABB2BB43F10CC409"
+  },
+  {
+    "path": "game\\scripts\\system_notifications.gd",
+    "sha256": "797D930B5597491375096778417DAEF2B200D67E49AEE869CC71C171DB357B04"
+  },
+  {
+    "path": "game\\scripts\\system_notifications.gd.uid",
+    "sha256": "C41E8C4119D1C2311314F7704B7C28A6EB659A1C66D4A13F0ED5ED46554CCAB8"
+  },
+  {
+    "path": "game\\scripts\\temporary_actor_aim.gd",
+    "sha256": "31A265C3DDABB039297F36B23AD5D12BF674E659FE6296EDBBF7FD0D1AC3A132"
+  },
+  {
+    "path": "game\\scripts\\temporary_actor_aim.gd.uid",
+    "sha256": "04A3C2CEA537357A487A74B14926309CA2749DE875A11EC510834BDBC914D402"
+  },
+  {
+    "path": "game\\tests\\chat_input_probe.gd",
+    "sha256": "A165ADC4C1D768DD1FE2CA62B28803256BAE8C96176A3977A65729230497B687"
+  },
+  {
+    "path": "game\\tests\\chat_input_probe.gd.uid",
+    "sha256": "1CF7847E4D194E3B0E2FA8F64E710BEDB13BF89B15C80CBF7AE542CA9134B58A"
+  },
+  {
+    "path": "game\\tests\\chat_input_test.gd",
+    "sha256": "F138510F6CA2616EA4F1A5C6F99E444CDC2A4BC849AE121BE2A8003DF6C12780"
+  },
+  {
+    "path": "game\\tests\\chat_input_test.gd.uid",
+    "sha256": "F3E50D354FD65CC7F2FC998DE0F96B13E8E012FCAF44F05DF04BD8927B8B055C"
+  },
+  {
+    "path": "game\\tests\\coop_input_test.gd",
+    "sha256": "ED962FA78CF184F6CB4C85CF73ECB5982E1E25945B390C62B447A76712DB24CE"
+  },
+  {
+    "path": "game\\tests\\coop_input_test.gd.uid",
+    "sha256": "4C2248E888BDFEE4446607FCE8AE5510819AE1AC193813FB0CCD387AAAD85476"
+  },
+  {
+    "path": "game\\tests\\coop_probe_test.gd",
+    "sha256": "E096463804578122C3A0503D1DAF589C9321D4D3A684AF9E59F7C3010655144E"
+  },
+  {
+    "path": "game\\tests\\coop_probe_test.gd.uid",
+    "sha256": "A60FC61F2E95FC3543FBBD2A640572314725851735538E213A412C042EF40606"
+  },
+  {
+    "path": "game\\tests\\dialogue_notice_test.gd",
+    "sha256": "EDB24572E114CE5BF75EE7ED71F1F832207366E8D19B598BEAC92F906BEC8AF5"
+  },
+  {
+    "path": "game\\tests\\dialogue_notice_test.gd.uid",
+    "sha256": "5594320C1148BC229AC32D28B044E8CE1583047BFD800DDAFBA8F97BD9837292"
+  },
+  {
+    "path": "game\\tests\\dialogue_quality_test.gd",
+    "sha256": "5F03693F824569B879C969001E5A4B51CD263DC98978DB428B689F6FFB5F7667"
+  },
+  {
+    "path": "game\\tests\\dialogue_quality_test.gd.uid",
+    "sha256": "EF119CDD4962D8EA7FA52828A4B69530CF4A8223AD3999FE1EF2C70C628A2AF5"
+  },
+  {
+    "path": "game\\tests\\final_dialogue_probe.gd",
+    "sha256": "FBAA7E87A9621C6202DC8214FC36FD473BC3AB38B9131ED93FE38DF023F40921"
+  },
+  {
+    "path": "game\\tests\\final_dialogue_probe.gd.uid",
+    "sha256": "A23C0EEC22DCDD8ED50AEBFF7AFF51EC8A5666DDC4ABD2FD304E877D93B541ED"
+  },
+  {
+    "path": "game\\tests\\harin_live_test.gd",
+    "sha256": "A192880C42796C513D5901030D92CAAB651206F3707BC118B5601063EF53BC1F"
+  },
+  {
+    "path": "game\\tests\\harin_live_test.gd.uid",
+    "sha256": "0306E2B4B334BFDDA353809F2839CAE10ED1F58559DEC4D09AFB3298C6A9290A"
+  },
+  {
+    "path": "game\\tests\\harin_upgrade_test.gd",
+    "sha256": "23419FF9E5EC2954BBBB0C0E7B2B77ED45B7141561F16185488B858420A09137"
+  },
+  {
+    "path": "game\\tests\\harin_upgrade_test.gd.uid",
+    "sha256": "4A8D7F24C4188BD382E2CE448E0E8BD9E28109ED45C997338811C20F4F67DB4A"
+  },
+  {
+    "path": "game\\tests\\input_aim_collision_test.gd",
+    "sha256": "E77F6535649CBD294F0B2B13632A01041127EE7D32389AE23D056351C28E6149"
+  },
+  {
+    "path": "game\\tests\\input_aim_collision_test.gd.uid",
+    "sha256": "5B09F72949278F7F217F7101496145659C022411FD2DCC3F6173770178970433"
+  },
+  {
+    "path": "game\\tests\\interface_update_test.gd",
+    "sha256": "3C65CF32AA8480D645BFE51F071F020F2263112C0ED1991C053A1CEBA1685D79"
+  },
+  {
+    "path": "game\\tests\\interface_update_test.gd.uid",
+    "sha256": "FFD01156F8DBC2447D580AD6E409166F44DACF10A4C790F6A05FF06AFAD7A95F"
+  },
+  {
+    "path": "game\\tests\\live_async_probe.gd",
+    "sha256": "50CB46E825650EFFB16229165D7BFCEDC6854C669ED3D232CD343B1244BFC08B"
+  },
+  {
+    "path": "game\\tests\\live_async_probe.gd.uid",
+    "sha256": "FF4E55E050D550E8DBE93A7A6DF2F48ADE57F1F500ED75C9A9601F7786060517"
+  },
+  {
+    "path": "game\\tests\\live_save_load_test.gd",
+    "sha256": "7117A02F61A465676722C94AFFA188EFA5DF4144009BA3A047C77AB5C33CB7B8"
+  },
+  {
+    "path": "game\\tests\\live_save_load_test.gd.uid",
+    "sha256": "943708338B6FCD6A35D3254A1B50CC54DB783C635D97A019044BAB98F3413782"
+  },
+  {
+    "path": "game\\tests\\local_integration.gd",
+    "sha256": "2EF51229DD3DA29706802066F7FC62F8AFEBB4EF24EC281C2949A3C508D74446"
+  },
+  {
+    "path": "game\\tests\\local_integration.gd.uid",
+    "sha256": "1D594DBC7A931A19E785B7E0475400866DF0585B9B2D384A1C041F71A6B22283"
+  },
+  {
+    "path": "game\\tests\\mechanics_local_ai_test.gd",
+    "sha256": "83189107670A9E5838DD880B01921A62D30B9F69D74BE3A626D3B534A0EFC446"
+  },
+  {
+    "path": "game\\tests\\mechanics_local_ai_test.gd.uid",
+    "sha256": "CD06A89A57BA6CDE7A163E69C9DB97AEBE021667BE575C1BEC83D6BA8FD51365"
+  },
+  {
+    "path": "game\\tests\\mission_mechanics_test.gd",
+    "sha256": "A5CD06546B88182B7F9ACCEEFBFCE18814C985DD29ED2D0D39FF53C85837745F"
+  },
+  {
+    "path": "game\\tests\\mission_mechanics_test.gd.uid",
+    "sha256": "EED58842DED7CCF743D79FAC102B26E6AEE1A5EBBDB24362D076CFE77E8D7817"
+  },
+  {
+    "path": "game\\tests\\mission_test.gd",
+    "sha256": "2233B3F3545B3DA13FC6C708C990EC077BE08730195F4D69C2E71D15E0EBED6A"
+  },
+  {
+    "path": "game\\tests\\mission_test.gd.uid",
+    "sha256": "89D7279C142BA0A8FCE9A839A77600B279BFE82F2ABFA5DD6FD5FED7A5B16865"
+  },
+  {
+    "path": "game\\tests\\native_ime_chat_test.gd",
+    "sha256": "B3A54E2352BF9A6E5DF8B95C6B1098B44D5C935549B6E83C0882623AB38F29F5"
+  },
+  {
+    "path": "game\\tests\\native_ime_chat_test.gd.uid",
+    "sha256": "A01F8F2A6F3C194EA5DA3D8093AA1256D36928407A155431F4C8736E9EBED12A"
+  },
+  {
+    "path": "game\\tests\\native_ime_load_test.gd",
+    "sha256": "E8FEE124E061DB36CD482370D5007AFDE87559AF0EBFBAB10D0B0A28A4A8D5A2"
+  },
+  {
+    "path": "game\\tests\\native_ime_load_test.gd.uid",
+    "sha256": "6D85B3A341E58DE26AA198A74EA701C9A31BA169811495E3A7BC5942BAEDA292"
+  },
+  {
+    "path": "game\\tests\\noncombat_dialogue_test.gd",
+    "sha256": "A10028518131967F02869E5B4B40BF35F165C735C52682CDDBDF892F90479660"
+  },
+  {
+    "path": "game\\tests\\noncombat_dialogue_test.gd.uid",
+    "sha256": "3F2C61D303FDFD61E11069C59C416D8F6CE496F2124DC0814DDE15DF6B20B453"
+  },
+  {
+    "path": "game\\tests\\provider_probe.gd",
+    "sha256": "10D6EBCB4426A27113B30B044FD521BA7D7440934715A59229F95E4E563E9498"
+  },
+  {
+    "path": "game\\tests\\provider_probe.gd.uid",
+    "sha256": "309D913F8B4DF47298FA859173BE1AF0FD95BBF23F1AD40E6F9E4FC84BA86F6C"
+  },
+  {
+    "path": "game\\tests\\story_dialogue_live_test.gd",
+    "sha256": "168A2FB525A8D2C32B858844DBF326AE1D11149398E69197BD18C0524F587AEB"
+  },
+  {
+    "path": "game\\tests\\story_dialogue_live_test.gd.uid",
+    "sha256": "C45207811207C0A68CD4FDDC6F8EBDCC98622876B5FBEBD55AE5AFC030FF0C4D"
+  },
+  {
+    "path": "game\\tests\\story_ui_test.gd",
+    "sha256": "C7145F30B03C4AE8C5388203064695AE9FA8D98D77FFF8F62F8AB55CDB41D477"
+  },
+  {
+    "path": "game\\tests\\story_ui_test.gd.uid",
+    "sha256": "7DE9680C332FC4739715CB26E118E1506FE9264D2890F92FCA6C640170B4CB7E"
+  },
+  {
+    "path": "game\\tests\\ui_layout_test.gd",
+    "sha256": "94AF656063349B27BF4120F2E358B6C95735D8C9AF78E9CBE4DA3F663708C059"
+  },
+  {
+    "path": "game\\tests\\ui_layout_test.gd.uid",
+    "sha256": "5881CAFA83232E1640B1BA21F78495FE22C092BEFDAE124D3DA9E52334CDC2CE"
+  },
+  {
+    "path": "game\\tests\\fixtures\\composing_chat_input.gd",
+    "sha256": "E6E4AFB47EA97B9BCA2E36BD58563B15F9BF5D9CF5755CB439FE6556A3DE4735"
+  },
+  {
+    "path": "game\\tests\\fixtures\\composing_chat_input.gd.uid",
+    "sha256": "F5530D0F186C34D8EF5343F40D44EA0E076464F31E26F5C8AC28C0CDDC404684"
+  },
+  {
+    "path": "game\\tests\\helpers\\ui_snapshot.gd",
+    "sha256": "8F476D962BE7C1FAC71B205C5665782E85C92CB71217CE8969906EF6D4DBB0C0"
+  },
+  {
+    "path": "game\\tests\\helpers\\ui_snapshot.gd.uid",
+    "sha256": "FA57EA4F12535E09300B0CA0416F1B7EED6F0514AB4D316814CAC6A9A16693C1"
+  }
+]

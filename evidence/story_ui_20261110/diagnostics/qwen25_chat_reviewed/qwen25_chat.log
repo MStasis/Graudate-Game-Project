@@ -1,0 +1,18 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+STORY_LIVE_SAMPLE {"accepted":false,"elapsed_ms":659.71,"id":"before_blackout","question":"교대 끝나려면 멀었나. 오늘 근무도 조용하겠지?","text":""}
+STORY_LIVE_SAMPLE {"accepted":false,"elapsed_ms":892.115,"id":"blackout","question":"방금까지 켜져 있었잖아. 어디부터 확인할까?","text":""}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":425.431,"id":"new_fear_banter","question":"솔직히 너도 지금 심장 빨리 뛰지?","text":"아, 네, 저도. 이 연구소에서 작업하는 내내 이런 심장박동은."}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":430.596,"id":"new_banter_followup","question":"딴소리 하지 말고, 내 뒤에 숨으려는 건 아니지?","text":"그럼에도 불구하고, 저도. 이 연구소는 꽤나 고요한 곳이에요."}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":1058.086,"id":"fuse_search","question":"이 방에서 뭘 챙겨야 돌아갈 수 있어?","text":"물론이죠. 전력 계통의 상태를 확인하고 보관함에 있는 퓨즈를 찾으려 합니다."}
+STORY_LIVE_SAMPLE {"accepted":false,"elapsed_ms":690.338,"id":"panel_question","question":"이 패널 둘 다 내가 누르면 되나?","text":""}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":1192.144,"id":"panel_referent","question":"그럼 네가 맡는 건 어느 쪽이라고?","text":"드론 3기를 제압한 후 북동쪽 2인 패널 보관함에서 퓨즈를 찾으려 합니다."}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":470.684,"id":"fuse_return","question":"아까 찾던 부품 챙겼어. 그럼 지금은?","text":"물론이죠. 퓨즈를 찾은 뒤에 바로 전력 장치에 붙여야 해."}
+STORY_LIVE_SAMPLE {"accepted":false,"elapsed_ms":1415.495,"id":"power_restored","question":"이제 불 들어왔는데? 퓨즈는 더 필요 없어?","text":""}
+STORY_LIVE_SAMPLE {"accepted":false,"elapsed_ms":1246.204,"id":"alarm","question":"경고등까지 켜졌네. 이제 다 해결된 거야?","text":""}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":1006.286,"id":"main_entry","question":"아까 네가 말한 그 이상한 장치, 여기선 뭘 확인해?","text":"그 이상한 장치는 침식된 분석 장치, 즉, 침식 현상을 느끼는 장치죠. 이 장치는 우리가 연구하는 과정에서 발생하는 침식 현상을 감지하고, 이를 방지하기 위해 필요합니다."}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":635.967,"id":"food_new_question","question":"너 메뉴 고르는 데도 이렇게 진지해? 오늘 내가 한턱 낼까?","text":"네, 그게야. 이 연구소는 항상 정비가 필요한 곳이야. 그래서 항상 쓰레기만 떨어뜨리는 건 아니야."}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":691.73,"id":"food_followup","question":"아까 그건 그냥 주문이지, 매일 먹는다는 뜻은 아니지?","text":"네, 네가 말한 것처럼, 이 연구소에서 제 먹는 식사는 항상 계획된 것이야. 그러므로, 항상 준비되어 있어야 해."}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":657.299,"id":"fictional_memory","question":"우리 휴게실에서 스파게티 시켰던 거 기억해?","text":"네, 기억해. 그게야. 우리 휴게실에서 스파게티 시키는 건, 주말이면 가장 좋아하는 음식이야."}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":706.624,"id":"fictional_rule","question":"여긴 정말 퇴근을 못 하는 연구소야?","text":"네, 네가 말한 것처럼, 이 연구소는 모든 사람이 퇴근을 못하는 곳이야. 그러니 항상 임무를 수행하고 있어야 해."}
+STORY_LIVE_RESULT {"check_count":15,"passed":false}

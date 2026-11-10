@@ -1,0 +1,18 @@
+{
+  "actual_model": "qwen3:4b",
+  "actual_windows_ime_tested": false,
+  "check_count": 7,
+  "checks": {
+    "initial_save": true,
+    "load_closes_old_stream_and_changes_epoch": true,
+    "load_during_real_inference": true,
+    "new_reply_is_shown_in_bubble": true,
+    "new_request_completes_after_cancel": true,
+    "old_question_never_enters_restored_history": true,
+    "real_http_request_was_pending": true
+  },
+  "http_requests_started": 2,
+  "human_playtest": false,
+  "passed": true,
+  "suite": "live_save_load"
+}

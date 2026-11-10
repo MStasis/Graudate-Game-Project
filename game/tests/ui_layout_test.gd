@@ -81,7 +81,7 @@ func run() -> void:
  app._send_question("지원이 필요해")
  check("pending_locks_only_composer", not field.editable and app.send_button.disabled and app.world.can_move)
  check("pending_disables_draft_buttons", app.get_node("RadioPanel/MissionPrompt").disabled)
- check("pending_has_visible_state", app.combat_hud.system_notices.visible and "기다리는" in app.combat_hud.system_notices.latest_text)
+ check("pending_has_visible_state", "응답 중" in app.get_node("RadioPanel/RadioState").text)
  app.brain.pending = {}
  app.brain.queued_question = ""
  app.brain.dialogue_ready.emit("검사용 합성 대사입니다.")

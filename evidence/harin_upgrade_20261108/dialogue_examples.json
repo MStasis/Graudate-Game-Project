@@ -1,0 +1,121 @@
+[
+  {
+    "case": "meal_direct",
+    "question": "밥 먹었어?",
+    "answer": "응. 떠나기 전에 먹었어.",
+    "actual_model": "qwen3:4b",
+    "action_accepted": null
+  },
+  {
+    "case": "preference_direct",
+    "question": "끝나면 뭐 먹고 싶어?",
+    "answer": "응. 따뜻한 김치볶음밥이야.",
+    "actual_model": "qwen3:4b",
+    "action_accepted": null
+  },
+  {
+    "case": "preference_followup",
+    "question": "그 음식 원래 좋아했어?",
+    "answer": "응. 그 음식이 원래 좋아했어.",
+    "actual_model": "qwen3:4b",
+    "action_accepted": null
+  },
+  {
+    "case": "meal_paraphrase",
+    "question": "아까 식사는 했니?",
+    "answer": "응. 떠나기 전에 먹었어.",
+    "actual_model": "qwen3:4b",
+    "action_accepted": null
+  },
+  {
+    "case": "anxious",
+    "question": "오늘 좀 긴장돼.",
+    "answer": "응, 긴장해도 괜찮아. 같이 힘내면 되는 거야.",
+    "actual_model": "qwen3:4b",
+    "action_accepted": null
+  },
+  {
+    "case": "mission",
+    "question": "지금 뭘 해야 해?",
+    "answer": "응. 지금은 연구실 오른쪽 통로에서 손전등을 수령해야 해.",
+    "actual_model": "qwen3:4b",
+    "action_accepted": null
+  },
+  {
+    "case": "panel_roles",
+    "question": "패널은 어떻게 나눠 맡아?",
+    "answer": "응. 네가 왼쪽 패널을 E를 계속 누르고, 내가 오른쪽 패: E를 동시에 누르면 보관함이 열린다.",
+    "actual_model": "qwen3:4b",
+    "action_accepted": null
+  },
+  {
+    "case": "panel_followup",
+    "question": "그럼 반대쪽은 네가 맡아?",
+    "answer": "응. 반대쪽 패널은 내가 맡아.",
+    "actual_model": "qwen3:4b",
+    "action_accepted": null
+  },
+  {
+    "case": "light_before",
+    "question": "손전등은 아직 네가 가지고 있어?",
+    "answer": "응. 지금 내 손 안에 있어.",
+    "actual_model": "qwen3:4b",
+    "action_accepted": null
+  },
+  {
+    "case": "light_after",
+    "question": "그 손전등 지금 어디 있어?",
+    "answer": "응. 지금 네 손 안에 있어.",
+    "actual_model": "qwen3:4b",
+    "action_accepted": null
+  },
+  {
+    "case": "taste_after_mission",
+    "question": "좋아하는 음식이 뭐야?",
+    "answer": "응. 따뜻한 김치볶음밥이야.",
+    "actual_model": "qwen3:4b",
+    "action_accepted": null
+  },
+  {
+    "case": "heal_order",
+    "question": "치료 좀 해줄래?",
+    "answer": "잠깐만, 내가 갈게.",
+    "actual_model": "common_executor",
+    "action_accepted": true
+  },
+  {
+    "case": "heal_no_supplies",
+    "question": "치료 부탁해",
+    "answer": "치료 키트가 다 떨어졌어.",
+    "actual_model": "common_executor",
+    "action_accepted": false
+  },
+  {
+    "case": "wait_order",
+    "question": "여기서 기다려",
+    "answer": "여기서 경계할게. 다시 따라오라고 하면 움직일게.",
+    "actual_model": "common_executor",
+    "action_accepted": true
+  },
+  {
+    "case": "wait_state",
+    "question": "내가 멀리 가도 여기서 대기하는 거지?",
+    "answer": "응. 네가 멀리 가면 여기서 기다릴게.",
+    "actual_model": "qwen3:4b",
+    "action_accepted": null
+  },
+  {
+    "case": "follow_order",
+    "question": "따라와",
+    "answer": "응, 네 뒤로 붙을게.",
+    "actual_model": "common_executor",
+    "action_accepted": true
+  },
+  {
+    "case": "after_cancel",
+    "question": "뭐 먹고 싶어?",
+    "answer": "응, 따뜻한 김치볶음밥이야.",
+    "actual_model": "qwen3:4b",
+    "action_accepted": null
+  }
+]

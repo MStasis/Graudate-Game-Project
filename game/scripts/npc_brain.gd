@@ -11,8 +11,20 @@ signal measured(record: Dictionary)
 var world: DemoWorld
 var provider := 0
 var auto_enabled := true
-var pending := {}
+var dialogue_pending := {}
+var tactical_pending := {}
+# 하나의 추론 슬롯을 두 채널이 공유한다. 공통 긴급 실행기는 슬롯을 기다리지 않는다.
+var pending: Dictionary:
+ get: return dialogue_pending if not dialogue_pending.is_empty() else tactical_pending
+ set(value):
+  if value.is_empty():
+   dialogue_pending = {}
+   tactical_pending = {}
+  elif value.get("kind", "") == "dialogue": dialogue_pending = value
+  else: tactical_pending = value
 var queued_question := ""
+var queued_epoch := -1
+var dialogue_grounding := {}
 var history: Array[Dictionary] = []
 var clock := 0.0
 var trial := 0
@@ -34,16 +46,20 @@ func setup(mission: DemoWorld, directory: String) -> void:
  project_fingerprint = (sources + FileAccess.get_file_as_string("res://scripts/chat_input.gd") + FileAccess.get_file_as_string("res://resources/GameTheme.tres")).sha256_text()
  project_fingerprint = (project_fingerprint + FileAccess.get_file_as_string("res://scripts/hud_frame.gd") + FileAccess.get_sha256("res://assets/ui/harin_canva.png")).sha256_text()
  project_fingerprint = (project_fingerprint + FileAccess.get_sha256("res://native/windows_ime/windows_ime.dll")).sha256_text()
- for path in ["res://scripts/companion_motion.gd", "res://scripts/cooperative_locker.gd", "res://scenes/CooperativeLocker.tscn", "res://scripts/rounded_obstacle.gd", "res://scripts/harin_dialogue.gd", "res://scripts/system_notifications.gd"]:
+ for path in ["res://scripts/companion_motion.gd", "res://scripts/companion_navigation.gd", "res://scripts/harin_actor.gd", "res://scripts/temporary_actor_aim.gd", "res://scripts/harin_character.gd", "res://resources/HarinCharacter.tres", "res://scripts/cooperative_locker.gd", "res://scenes/CooperativeLocker.tscn", "res://scripts/rounded_obstacle.gd", "res://scripts/harin_dialogue.gd", "res://scripts/system_notifications.gd"]:
   project_fingerprint = (project_fingerprint + FileAccess.get_file_as_string(path)).sha256_text()
  log_dir = directory
+ for path in ["res://scripts/combat_interface.gd", "res://scripts/actor_status.gd", "res://scripts/mission_save_store.gd", "res://scripts/story_progress.gd", "res://scripts/message_journal.gd", "res://scripts/exploration_map.gd", "res://resources/harin_style_examples.json"]:
+  project_fingerprint = (project_fingerprint + FileAccess.get_file_as_string(path)).sha256_text()
  provider = settings.provider
  for client in [local_dialogue, local_decision]:
   client.log_dir = log_dir
   client.settings = client.settings.duplicate(true)
   client.completed.connect(_local_completed)
-  client.failed.connect(_failed)
+  client.failed.connect(func(message): _client_failed(message, client))
  local_decision.settings.max_tokens = 48
+ # 전술은 기존 짧은 후보 선택 조건을 보존한다. 긴급 대응/명시적 지시는 공통 실행기다.
+ local_decision.settings.thinking = false
  local_decision.settings.temperature = 0.1
  local_decision.settings.timeout_seconds = settings.request_timeout
  jev.timeout = settings.request_timeout
@@ -65,6 +81,12 @@ func new_trial(mode: int = -1) -> void:
 
 func _process(delta: float) -> void:
  if not world: return
+ if auto_enabled and not world.finished and not world.defeated:
+  var urgent := world.emergency_support()
+  if not urgent.is_empty():
+   # 전술 추론은 긴급 실행 이후의 낡은 판단을 적용하지 않도록 취소한다.
+   cancel_channel("decision", "emergency_preempted")
+   _log({"event": "common_emergency", "action": urgent, "during_dialogue": not dialogue_pending.is_empty(), "executor_version": 2})
  if not pending.is_empty():
   frame_count += 1
   max_frame_ms = maxf(max_frame_ms, delta * 1000.0)
@@ -72,6 +94,9 @@ func _process(delta: float) -> void:
  if not queued_question.is_empty():
   var text := queued_question
   queued_question = ""
+  if queued_epoch != world.epoch:
+   dialogue_error.emit("장소나 상황이 바뀌어 대기 중이던 질문을 취소했습니다.")
+   return
   request_dialogue(text)
   return
  if not auto_enabled or world.finished or world.defeated or not jev_disabled.is_empty(): return
@@ -87,9 +112,25 @@ func request_decision() -> bool:
 func request_dialogue(text: String) -> bool:
  text = text.strip_edges().substr(0, 300)
  if text.is_empty(): return false
+ var action := NPCPolicy.requested_action(text)
+ if not action.is_empty():
+  queued_question = ""
+  cancel_channel("decision", "player_order_preempted")
+  if not dialogue_pending.is_empty(): cancel_channel("dialogue", "player_order_preempted")
+  var receipt := world.request_player_order(action)
+  serial += 1
+  history.append({"question": text, "answer": receipt.text})
+  dialogue_grounding = {"action": action, "action_accepted": receipt.accepted, "status": receipt.status, "epoch": world.epoch}
+  if history.size() > HarinDialogue.HISTORY_LIMIT: history.pop_front()
+  dialogue_ready.emit(receipt.text)
+  var record := {"event": "response", "kind": "dialogue", "request_id": serial, "question": text, "selected": action, "accepted": true, "action_accepted": receipt.accepted, "action_status": receipt.status, "actual_model": "common_executor", "dialogue_method": "executor_receipt", "prompt_version": NPCPolicy.PROMPT_VERSION, "elapsed_ms": 0.0, "frames_pending": 0, "max_frame_ms": 0.0, "rejected_reason": ""}
+  _log(record)
+  measured.emit(record)
+  return true
  if not pending.is_empty():
   if pending.kind == "decision":
    queued_question = text
+   queued_epoch = world.epoch
    status_changed.emit("지원 판단 뒤 질문에 답합니다.")
    return true
   return false
@@ -104,12 +145,13 @@ func _request(kind: String, question: String) -> bool:
  frame_count = 0
  max_frame_ms = 0.0
  if provider == 0:
-  var result := NPCPolicy.rule_action(NPCPolicy.model_state(snapshot)) if kind == "decision" else NPCPolicy.rule_intent(question)
+  var result := NPCPolicy.rule_action(NPCPolicy.model_state(snapshot)) if kind == "decision" else HarinDialogue.topic_for(question, history)
   _resolve(result, {"actual_model": "rules_v1", "dialogue_method": "intent_template"})
  elif provider == 1:
   var system := ""
   var prompt := ""
   var schema := {}
+  var messages: Array = []
   if kind == "decision":
    system = NPCPolicy.DECISION_INSTRUCTIONS + " Return only JSON with one action from valid_actions."
    var choices := {}
@@ -121,11 +163,13 @@ func _request(kind: String, question: String) -> bool:
    system = dialogue.system
    prompt = dialogue.prompt
    schema = dialogue.schema
+   messages = dialogue.messages
   var client := local_decision if kind == "decision" else local_dialogue
   var request_state := snapshot.duplicate(true)
   request_state["_channel"] = kind
+  request_state["_request_id"] = pending.request_id
   status_changed.emit("로컬 LLM " + ("지원 판단 중" if kind == "decision" else "대화 생성 중"))
-  client.generate(system, prompt, request_state, question, schema)
+  if not client.generate(system, prompt, request_state, question, schema, messages): _failed("로컬 추론 채널이 이미 사용 중이거나 시작하지 못했습니다.")
  else:
   var key := OS.get_environment("TYPESAFE_API_KEY").strip_edges()
   if key.is_empty():
@@ -145,6 +189,10 @@ func _request(kind: String, question: String) -> bool:
 
 func _local_completed(record: Dictionary) -> void:
  if pending.is_empty(): return
+ var source: Dictionary = record.get("state", {})
+ if source.get("_request_id", -1) != pending.request_id or source.get("_channel", "") != pending.kind or source.get("_attempt", 0) != pending.get("retry", 0):
+  _log({"event": "transport_response_ignored", "reason": "request_id_mismatch", "state": source})
+  return
  var selected: String = record.response
  if pending.kind == "decision":
   var parsed = JSON.parse_string(selected)
@@ -153,12 +201,25 @@ func _local_completed(record: Dictionary) -> void:
    return
   selected = parsed.action
  else:
-  var parsed = JSON.parse_string(selected)
-  if not parsed is Dictionary or not parsed.get("dialogue", "") is String:
-   _failed("로컬 대사 JSON 해석 실패")
+  # 대화는 모델이 생성한 최종 발화 그대로 받는다. 전술 후보만 JSON 스키마로 제한한다.
+  selected = selected.strip_edges()
+  var issue := HarinDialogue.response_issue(selected, world.game_state(), pending.question)
+  if not issue.is_empty() and int(pending.get("retry", 0)) < 1 and world.epoch == int(pending.epoch):
+   # 같은 모델에 한 번만 재생성 요청. 실패 원문은 세션/이벤트 양쪽에 남기며 템플릿으로 대체하지 않는다.
+   _log({"event": "dialogue_validation_failed", "request_id": pending.request_id, "attempt": 0, "reason": issue, "raw_response": record.response})
+   dialogue_pending["retry"] = 1
+   var retry := HarinDialogue.build(world.game_state(), pending.question, history, world.npc.description, local_dialogue.settings.system_prompt)
+   var retry_state := world.game_state().duplicate(true)
+   retry_state.merge({"_channel": "dialogue", "_request_id": pending.request_id, "_attempt": 1})
+   var repair := "현재 사실과 맞지 않는 주장만 고쳐서 자연스럽게 다시 답해. 반문과 장난은 가능해."
+   if issue == "formal_voice": repair = "존댓말 어미 '~요/~습니다'를 쓰지 말고 한국어 반말로 다시 답해."
+   elif issue == "invented_food_event": repair = "실제 주문/함께 식사한 사건은 없어. 가상 예시를 기억으로 만들지 마. 먹고 싶은 메뉴 제안은 가능해."
+   elif issue == "unsupported_world_rule": repair = "퇴근 금지 규정은 설정된 적 없어. 예시 농담을 실제 규정으로 확정하지 마."
+   retry.prompt += "\n[재생성 이유: " + issue + "] " + repair
+   retry.messages.insert(retry.messages.size() - 1, {"role": "system", "content": "재생성 이유: " + issue + ". " + repair})
+   if not local_dialogue.generate(retry.system, retry.prompt, retry_state, pending.question, retry.schema, retry.messages): _failed("대사 재생성을 시작하지 못했습니다.")
    return
-  selected = parsed.dialogue
- _resolve(selected, {"actual_model": record.metrics.get("model", local_dialogue.settings.model), "raw_response": record.response, "first_transport_text_ms": record.first_text_ms, "server_metrics": record.metrics, "dialogue_method": "state_grounded_generation_structured" if pending.kind == "dialogue" else "structured_choice"})
+ _resolve(selected, {"actual_model": record.metrics.get("model", local_dialogue.settings.model), "raw_response": record.response, "first_transport_text_ms": record.first_text_ms, "server_metrics": record.metrics, "dialogue_method": "state_grounded_generation_plain" if pending.kind == "dialogue" else "structured_choice"})
 
 func _jev_completed(result: int, code: int, _headers: PackedStringArray, body: PackedByteArray) -> void:
  if pending.is_empty(): return
@@ -174,10 +235,15 @@ func _jev_completed(result: int, code: int, _headers: PackedStringArray, body: P
  _resolve(parsed.choice, parsed)
 
 func _resolve(selected: String, metadata: Dictionary) -> void:
+ if pending.is_empty(): return
  var job := pending.duplicate(true)
  var elapsed := (Time.get_ticks_usec() - int(job.started_usec)) / 1000.0
  var reason := ""
  if world.epoch != int(job.epoch): reason = "stale_epoch"
+ if job.kind == "dialogue" and reason.is_empty() and HarinDialogue.topic_for(job.question, history) in ["mission", "support"]:
+  var before := HarinDialogue.facts(job.snapshot, job.question, HarinDialogue.topic_for(job.question, history))
+  var after := HarinDialogue.facts(world.game_state(), job.question, HarinDialogue.topic_for(job.question, history))
+  if before != after: reason = "stale_facts"
  var allowed_age := settings.max_decision_age
  # 정지된 패널 과제는 8초까지 허용하되 실행 직전 유지/위치 조건을 다시 검사한다.
  if selected == "assist_panel": allowed_age = maxf(allowed_age, minf(settings.request_timeout, 8.0))
@@ -190,10 +256,12 @@ func _resolve(selected: String, metadata: Dictionary) -> void:
  elif reason.is_empty():
   var text := selected if provider == 1 else NPCPolicy.template_response(selected, job.snapshot, job.question)
   if text.strip_edges().is_empty(): reason = "empty_dialogue"
+  elif provider == 1 and not HarinDialogue.response_issue(text, world.game_state(), job.question).is_empty(): reason = HarinDialogue.response_issue(text, world.game_state(), job.question)
   else:
    accepted = true
    history.append({"question": job.question, "answer": text})
-   if history.size() > 3: history.pop_front()
+   dialogue_grounding = {"question": job.question, "topic": HarinDialogue.topic_for(job.question, history), "facts": HarinDialogue.facts(world.game_state(), job.question, HarinDialogue.topic_for(job.question, history)), "epoch": world.epoch}
+   if history.size() > HarinDialogue.HISTORY_LIMIT: history.pop_front()
    dialogue_ready.emit(text)
  pending = {}
  var record := {"event": "response", "request_id": job.request_id, "kind": job.kind, "question": job.question, "snapshot": job.snapshot, "snapshot_hash": job.snapshot_hash, "allowed": job.allowed, "selected": selected, "accepted": accepted, "rejected_reason": reason, "elapsed_ms": elapsed, "frames_pending": frame_count, "max_frame_ms": max_frame_ms}
@@ -201,11 +269,13 @@ func _resolve(selected: String, metadata: Dictionary) -> void:
  record["snapshot_msec"] = int(job.started_usec) / 1000.0
  record["response_msec"] = Time.get_ticks_msec()
  record["quality_review"] = "manual_required"
+ record["generation_attempts"] = 1 + int(job.get("retry", 0))
  if job.kind == "dialogue" and accepted: record["display_ready_ms"] = elapsed
  record.merge(metadata)
  _log(record)
  measured.emit(record)
- if not reason.is_empty() and job.kind == "dialogue": dialogue_error.emit("상황이 바뀌어 이전 답변을 버렸습니다. 다시 질문하세요.")
+ if not reason.is_empty() and job.kind == "dialogue":
+  dialogue_error.emit("상황이 바뀌어 이전 답변을 버렸습니다. 다시 질문하세요." if reason in ["stale_epoch", "stale_facts"] else "하린의 답변을 확인하지 못했습니다. 다시 질문하세요.")
  clock = 0.0
 
 func _failed(message: String) -> void:
@@ -217,12 +287,27 @@ func _failed(message: String) -> void:
  status_changed.emit(message)
  clock = -2.0
 
-func cancel_pending(reason: String) -> void:
+func _client_failed(message: String, source: LocalAIClient) -> void:
  if pending.is_empty(): return
- _failed(reason)
- jev.cancel_request()
- local_dialogue.cancel(reason)
- local_decision.cancel(reason)
+ if source.request_state.get("_request_id", -1) == pending.get("request_id", -2) and source.request_state.get("_channel") == pending.get("kind"):
+  _failed(message)
+
+func cancel_channel(kind: String, reason: String) -> void:
+ var job := dialogue_pending if kind == "dialogue" else tactical_pending
+ if job.is_empty(): return
+ if kind == "dialogue": dialogue_pending = {}
+ else: tactical_pending = {}
+ _log({"event": "request_cancelled", "kind": kind, "request_id": job.get("request_id"), "reason": reason})
+ if provider == 2: jev.cancel_request()
+ var client := local_dialogue if kind == "dialogue" else local_decision
+ client.cancel(reason)
+ if kind == "dialogue": dialogue_error.emit("답변 요청을 취소했습니다: " + reason)
+
+func cancel_pending(reason: String) -> void:
+ queued_question = ""
+ queued_epoch = -1
+ cancel_channel("dialogue", reason)
+ cancel_channel("decision", reason)
 
 func _world_event(event: Dictionary) -> void:
  _log({"event": "world_event", "details": event})

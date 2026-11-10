@@ -45,7 +45,7 @@ func begin(index: int) -> String:
  if opened: return "보관함이 열렸습니다. 퓨즈와 보급을 챙기세요."
  if sequence_elapsed >= 0: return "잠금 해제 확인 중입니다."
  if world.enemies_remaining() > 0: return "주변 드론을 먼저 제압하세요."
- if world.npc_hp <= 0: return "하린이 전투 불능이라 두 패널을 작동할 수 없습니다. 이전 저장이나 새 회차를 이용하세요."
+ if world.npc_hp <= 0: return "먼저 하린 가까이에서 E로 치료 키트를 사용해 소생하세요."
  if world.player.position.distance_to(panel_position(index)) > use_radius: return "패널에 더 가까이 다가가세요."
  if player_panel != index:
   cancel("panel_changed")
@@ -82,7 +82,7 @@ func tick(delta: float, holding: bool) -> void:
    world._remember("둘이 패널을 유지해 보관함을 열었다")
    world._event("support_completed", {"action": "assist_panel", "request": world.action_metadata})
    world._event("locker_opened", {"elapsed_ms": Time.get_ticks_msec() - attempt_started, "hold_seconds": hold_seconds})
-   world.companion_spoke.emit("열렸다! 뭐가 있나 보자.")
+   world.say_companion("열렸다! 뭐가 있나 보자.", 30, "assist_panel_done")
    world.notice.emit("보관함 개방 · 퓨즈와 보급 회수 가능")
    world._sync_state()
    world.state_changed.emit()

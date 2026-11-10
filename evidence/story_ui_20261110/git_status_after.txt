@@ -1,0 +1,68 @@
+## main...origin/main
+ M AGENTS.md
+ M DEVELOPMENT_PLAN.md
+ M evidence/mission_v1/npc_events.jsonl
+ M evidence/mission_v1/npc_sessions.jsonl
+ M evidence/native_ime_fix/bridge_status_20644.json
+ M game/main.gd
+ M game/resources/NPCSettings.tres
+ M game/resources/flashlight.gdshader
+ M game/scenes/NPC.tscn
+ M game/scenes/World.tscn
+ M game/scenes/ui/CombatHUD.tscn
+ M game/scripts/actor_status.gd
+ M game/scripts/combat_interface.gd
+ M game/scripts/companion_motion.gd
+ M game/scripts/cooperative_locker.gd
+ M game/scripts/exploration_map.gd
+ M game/scripts/harin_dialogue.gd
+ M game/scripts/interactable.gd
+ M game/scripts/local_ai_client.gd
+ M game/scripts/local_npc_settings.gd
+ M game/scripts/mission_audio.gd
+ M game/scripts/mission_evidence.gd
+ M game/scripts/mission_save_store.gd
+ M game/scripts/npc_brain.gd
+ M game/scripts/npc_policy.gd
+ M game/scripts/system_notifications.gd
+ M game/tests/dialogue_notice_test.gd
+ M game/tests/dialogue_quality_test.gd
+ M game/tests/interface_update_test.gd
+ M game/tests/live_save_load_test.gd
+ M game/tests/local_integration.gd
+ M game/tests/mechanics_local_ai_test.gd
+ M game/tests/mission_mechanics_test.gd
+ M game/tests/mission_test.gd
+ M game/tests/noncombat_dialogue_test.gd
+ M game/tests/ui_layout_test.gd
+ M game/world.gd
+ M scripts/verify_mission.ps1
+?? evidence/harin_upgrade_20261108/
+?? evidence/native_ime_fix/bridge_status_33412.json
+?? evidence/story_ui_20261110/
+?? game/resources/HarinCharacter.tres
+?? game/resources/harin_style_examples.json
+?? game/scripts/companion_navigation.gd
+?? game/scripts/companion_navigation.gd.uid
+?? game/scripts/harin_actor.gd
+?? game/scripts/harin_actor.gd.uid
+?? game/scripts/harin_character.gd
+?? game/scripts/harin_character.gd.uid
+?? game/scripts/message_journal.gd
+?? game/scripts/message_journal.gd.uid
+?? game/scripts/story_progress.gd
+?? game/scripts/story_progress.gd.uid
+?? game/tests/final_dialogue_probe.gd
+?? game/tests/final_dialogue_probe.gd.uid
+?? game/tests/harin_live_test.gd
+?? game/tests/harin_live_test.gd.uid
+?? game/tests/harin_upgrade_test.gd
+?? game/tests/harin_upgrade_test.gd.uid
+?? game/tests/live_async_probe.gd
+?? game/tests/live_async_probe.gd.uid
+?? game/tests/story_dialogue_live_test.gd
+?? game/tests/story_dialogue_live_test.gd.uid
+?? game/tests/story_ui_test.gd
+?? game/tests/story_ui_test.gd.uid
+?? review/HARIN_UPGRADE_20261108.md
+?? review/STORY_UI_20261110.md

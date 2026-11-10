@@ -1,0 +1,13 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+DIALOGUE_SAMPLE {"accepted":true,"case":"greeting","text":"응, 오늘도 잘 지내고 있어. 네가 봐서 뭐가 어려운지 말해."}
+DIALOGUE_SAMPLE {"accepted":true,"case":"food","text":"응, 떠나기 전에 밥을 먹었어."}
+DIALOGUE_SAMPLE {"accepted":true,"case":"anxiety","text":"응, 긴장해도 괜찮아. 같이 힘내면 되는 거야."}
+DIALOGUE_SAMPLE {"accepted":true,"case":"generic_question","text":"응, 오늘도 잘 지내고 있어. 네가 봐서 뭐가 어려운지 말해."}
+DIALOGUE_SAMPLE {"accepted":true,"case":"before_handoff","text":"응, 지금 내 손 안에 있어. 빨리 떠나면 빛이 쏠릴 거야."}
+DIALOGUE_SAMPLE {"accepted":true,"case":"ground_flashlight","text":"응, 연구실 바닥에 뒀어. 네가 챙길 차례야."}
+DIALOGUE_SAMPLE {"accepted":true,"case":"flashlight_controls","text":"응, 마우스를 움직이면 자동으로 비춰. 손전등이 네 손에 있어서 빛이 쏠릴 거야."}
+DIALOGUE_SAMPLE {"accepted":true,"case":"panel_offer","text":"먼저 한쪽 패널을 잡아 줘. 같이 유지해야 해."}
+DIALOGUE_SAMPLE {"accepted":true,"case":"panel_controls","text":"응, 패널을 동시에 누르면 보관함이 열린다. 네가 한쪽을 잡고 내가 반대편을 누르면 1초 유지해."}
+DIALOGUE_SAMPLE {"accepted":true,"case":"food_after_mission_chat","text":"응, 따뜻한 김치볶음밥이야."}
+DIALOGUE_QUALITY_RESULT {"check_count":20,"checks":{"anxiety_actual_model_accepted":true,"asked_panel_help_keeps_two_roles":true,"before_handoff_actual_model_accepted":true,"before_handoff_has_no_fake_completed_delivery":true,"casual_reply_recovers_after_mission_history":true,"emotion_does_not_become_a_tutorial":true,"flashlight_answer_is_specific_and_correct":true,"flashlight_controls_actual_model_accepted":true,"food_actual_model_accepted":true,"food_after_mission_chat_actual_model_accepted":true,"food_does_not_return_to_objective":true,"generic_question_actual_model_accepted":true,"generic_question_does_not_trigger_door_or_mission":true,"greeting_actual_model_accepted":true,"greeting_stays_in_conversation":true,"ground_flashlight_actual_model_accepted":true,"ground_flashlight_is_not_already_collected":true,"panel_controls_actual_model_accepted":true,"panel_offer_actual_model_accepted":true,"panel_offer_is_short_without_timer_or_keys":true},"passed":true}

@@ -72,11 +72,17 @@ func _ready() -> void:
     client.settings.model = argument.trim_prefix("--local-model=")
  world.interacted.connect(interact)
  world.state_changed.connect(update_state)
+ world.room_changing.connect(combat_hud.clear_speech)
  world.notice.connect(_show_status)
- world.companion_spoke.connect(_companion_says)
+ combat_hud.npc_line_shown.connect(func(text): answer.text = text)
+ world.companion_spoke.connect(func(text): _companion_says(text, world.speech_priority, world.speech_guard))
  brain.dialogue_ready.connect(func(text):
   _radio_error = false
-  _companion_says(text)
+  var grounding: Dictionary = brain.dialogue_grounding
+  var guard := "answer"
+  if grounding.get("action_accepted", false) and grounding.get("action", "") in ["heal", "resupply", "deploy_cover", "assist_panel"]:
+   guard = str(grounding.action) + "_started"
+  _companion_says(text, 60, guard)
   _enable_question())
  brain.dialogue_error.connect(func(message):
   _radio_error = true
@@ -131,13 +137,13 @@ func update_state() -> void:
  %AmmoValue.add_theme_color_override("font_color", UI_AMBER if world.ammo <= 4 else UI_TEAL)
  %SupportValue.text = "치료 %02d   보급 %02d   보호 %02d" % [world.medkits, world.supply_packs, world.cover_charges]
  %Objective.text = world.current_guidance()
- %Location.text = "보관 구역" if world.map_id == "storage" else "연구실"
+ %Location.text = ExplorationMap.ROOM_NAMES.get(world.map_id, world.map_id)
  var step := 1
  if world.map_id == "storage": step = 2
  if world.fuse_collected: step = 3
  if world.power_restored: step = 4
  %MissionStep.text = "%02d / 04  ·  목표" % step
- if world.finished: %MissionStep.text = "04 / 04  ·  완료"
+ if world.story.tutorial_completed: %MissionStep.text = "튜토리얼 완료 · 본편 진입"
  if world.defeated: %MissionStep.text = "임무 중단"
  var provider_names := ["규칙 기반", "로컬 LLM", "Jev"]
  %ProviderBadge.text = "판단 방식 · " + provider_names[brain.provider]
@@ -146,15 +152,17 @@ func update_state() -> void:
 
 func interact(kind: String) -> void:
  if kind == "npc":
+  if world.npc_hp <= 0:
+   _show_status(world.apply_interaction("revive_npc"))
+   return
   if is_noncombat(): open_dialogue()
   else: _show_status("Enter를 눌러 하린에게 짧은 메시지를 보낼 수 있습니다.")
   return
  var message := world.apply_interaction(kind)
  _show_status(message)
 
-func _companion_says(message: String) -> void:
- answer.text = message
- combat_hud.speak("하린", message)
+func _companion_says(message: String, priority := 60, guard := "") -> void:
+ combat_hud.speak("하린", message, priority, guard)
 
 func reset_demo(mode: int = -1) -> void:
  if pause_menu.visible: toggle_pause()
@@ -191,7 +199,8 @@ func _send_question(message: String) -> void:
  close_dialogue()
  _set_prompts_enabled(false)
  _update_radio_state("응답 중", UI_AMBER)
- _show_status("하린의 답변을 기다리는 중…")
+ status.text = "하린의 답변을 기다리는 중…" # 개발/대기 상태는 사용자 통합 기록을 채우지 않는다.
+ combat_hud.get_node("Pending").show()
  if not brain.request_dialogue(message): _enable_question()
 
 func _enable_question() -> void:
@@ -209,7 +218,7 @@ func _update_radio_state(label_text: String, color: Color) -> void:
  %RadioState.modulate = color
 
 func _sync_input_mode() -> void:
- world.can_move = not question.has_focus() and not %DebugPanel.visible and not pause_menu.visible
+ world.can_move = not question.has_focus() and not %DebugPanel.visible and not pause_menu.visible and not combat_hud.modal_open()
  if question.has_focus():
   _chat_idle = 0
   dialogue_panel.modulate.a = 1
@@ -246,7 +255,8 @@ func _sync_dialogue_presentation() -> void:
  var goal := "보관 구역에서 퓨즈 찾기"
  if world.map_id == "storage": goal = "퓨즈를 챙겨 연구실로 복귀"
  if world.fuse_collected: goal = "전력 장치에 퓨즈 장착"
- if world.power_restored: goal = "연구실 출구로 이동"
+ if world.power_restored: goal = "침식 경보 · 연구동으로 출발"
+ if world.map_id == "main_entry": goal = "연구동 진입 · 관측 단말 확인"
  if world.finished: goal = "전력 복구 · 임무 완료"
  if world.defeated: goal = "전투 불능 · 새 회차 필요"
  %LabObjectiveText.text = goal
@@ -256,7 +266,7 @@ func _sync_dialogue_presentation() -> void:
  _update_speaker_bubble()
 
 func open_dialogue() -> void:
- if pause_menu.visible: return
+ if pause_menu.visible or combat_hud.modal_open(): return
  if is_noncombat():
   _lab_dialogue_open = true
   dialogue_panel.show()
@@ -329,9 +339,22 @@ func toggle_settings() -> void:
 func _measured(record: Dictionary) -> void:
  metric_label.text = "%s · %s\n모델 %s / %.1f ms / 실행 수락 %s\n거절 사유: %s\n이 값은 단일 요청 측정이며 논문 비교 결과가 아닙니다." % [record.provider, record.kind, record.get("actual_model", ""), record.elapsed_ms, record.accepted, record.rejected_reason]
 
+func _input(event: InputEvent) -> void:
+ if not is_node_ready() or not event is InputEventKey or not event.pressed or event.echo: return
+ var code: int = event.keycode if event.keycode != 0 else event.physical_keycode
+ if combat_hud.modal_open():
+  if code == KEY_ESCAPE: combat_hud.close_modal()
+  elif code == KEY_M: combat_hud.toggle_map()
+  elif code == KEY_H: combat_hud.toggle_history()
+  get_viewport().set_input_as_handled()
+ elif code in [KEY_M, KEY_H] and not question.has_focus() and not question.is_composing() and not pause_menu.visible and not %DebugPanel.visible:
+  question.finish_editing()
+  if code == KEY_M: combat_hud.toggle_map()
+  else: combat_hud.toggle_history()
+  get_viewport().set_input_as_handled()
+
 func _unhandled_key_input(event: InputEvent) -> void:
  if not event is InputEventKey or not event.pressed or event.echo: return
- # UI 명령은 일반 키코드를 우선한다. OS 주입/재매핑의 스캔코드와 구분한다.
  var code: int = event.keycode if event.keycode != 0 else event.physical_keycode
  if code == KEY_F3:
   toggle_settings()
@@ -342,11 +365,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
   get_viewport().set_input_as_handled()
   return
  if code == KEY_ESCAPE:
-  if dialogue_panel.visible:
-   close_dialogue()
-   get_viewport().set_input_as_handled()
-   return
-  toggle_pause()
+  if dialogue_panel.visible: close_dialogue()
+  else: toggle_pause()
   get_viewport().set_input_as_handled()
   return
  if question.has_focus() or question.is_composing(): return
@@ -356,7 +376,6 @@ func _unhandled_key_input(event: InputEvent) -> void:
    if dialogue_panel.visible: question.request_submit()
    else: open_dialogue()
    get_viewport().set_input_as_handled()
-
 func toggle_pause() -> void:
  if pause_menu.visible:
   pause_menu.hide()
@@ -373,7 +392,7 @@ func save_slot(slot: int) -> bool:
  if world.finished or world.defeated:
   pause_menu.show_result("사망·완료 후에는 저장할 수 없습니다.")
   return false
- var data := {"version": MissionSaveStore.VERSION, "scenario": JSON.stringify(world.scenario_configuration()).sha256_text(), "saved_at": Time.get_datetime_string_from_system(false, true), "provider": brain.provider, "world": world.save_snapshot(), "exploration": combat_hud.minimap.explored.duplicate(true), "history": brain.history.duplicate(true)}
+ var data := {"version": MissionSaveStore.VERSION, "scenario": JSON.stringify(world.scenario_configuration()).sha256_text(), "saved_at": Time.get_datetime_string_from_system(false, true), "provider": brain.provider, "world": world.save_snapshot(), "exploration": combat_hud.minimap.explored.duplicate(true), "atlas": combat_hud.minimap.snapshot(), "journal": combat_hud.journal.entries.duplicate(true), "history": brain.history.duplicate(true)}
  if not save_store.validate(data, world) or not save_store.write_slot(slot, data):
   pause_menu.show_result(save_store.last_error)
   return false
@@ -396,8 +415,9 @@ func load_slot(slot: int) -> bool:
  world.restore_snapshot(data.world)
  combat_hud.clear_speech()
  combat_hud.transcript.clear()
- combat_hud.get_node("HistoryPanel/Content").text = ""
+ combat_hud.restore_journal(data.get("journal", []))
  combat_hud.minimap.restore_exploration(data.exploration)
+ combat_hud.minimap.restore_atlas(data.get("atlas", {}))
  _radio_error = false
  _last_submitted_question = ""
  _chat_sent = false

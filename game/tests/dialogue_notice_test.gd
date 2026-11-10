@@ -66,7 +66,7 @@ func test_notices() -> void:
  check("system_notice_preserves_character_dialogue", app.answer.text == original_answer and hud.npc_bubble.full_text == original_bubble)
  check("system_notice_is_not_in_conversation_history", hud.transcript.size() == transcript_count)
  check("system_notice_does_not_focus_or_block_movement", not app.question.has_focus() and world.can_move and hud.system_notices.mouse_filter == Control.MOUSE_FILTER_IGNORE)
- check("notice_starts_to_player_right", hud.system_notices.position.x > hud.screen_point(world.player).x + 20)
+ check("notice_starts_to_player_right", hud.system_notices.position == Vector2(282, 146))
  check("notice_fits_play_area", app.play_rect().encloses(hud.system_notices.get_rect()))
  check("legacy_dialogue_status_is_hidden", not app.status.visible)
  await capture("01_system_notice_right")
@@ -96,12 +96,12 @@ func test_conversation() -> void:
  var rule_greeting := NPCPolicy.template_response(NPCPolicy.rule_intent("안녕 하린"), state, "안녕 하린")
  check("rule_greeting_does_not_recap_mission", not NPCPolicy.has_word(rule_greeting, ["퓨즈", "손전등", "보관", "E로"]))
  var rule_food := NPCPolicy.template_response(NPCPolicy.rule_intent("밥 먹었어?"), state, "밥 먹었어?")
- check("rule_food_reply_stays_on_food", "먹" in rule_food and not "퓨즈" in rule_food)
+ check("rule_food_reply_stays_on_food", NPCPolicy.has_word(rule_food, ["먹", "밥", "메뉴"]) and not "퓨즈" in rule_food)
  var unknown := NPCPolicy.template_response("unknown", state, "질문이 있어")
  check("unknown_reply_does_not_redirect_to_mission", not NPCPolicy.has_word(unknown, ["임무", "퓨즈", "목표"]))
- var history := [{"question": "임무가 뭐야?", "answer": "보관 구역에서 퓨즈를 찾자."}, {"question": "밥 먹었어?", "answer": "배고프네. 넌?"}]
+ var history := [{"question": "임무가 뭐야?", "answer": "보관 구역에서 퓨즈를 찾자."}, {"question": "밥 먹었어?", "answer": "배고프네. 넌?"}, {"question": "아까도 긴장됐어", "answer": "잠깐 숨 돌리자."}]
  var casual := HarinDialogue.build(state, "오늘 좀 긴장돼", history, world.npc.description, "")
- check("casual_prompt_omits_goal_manual_and_mission_history", not NPCPolicy.has_word(casual.prompt, ["퓨즈", "손전등", "패널", "현재 임무 안내"]) and "배고프네" in casual.prompt)
+ check("casual_prompt_keeps_relevant_emotion_without_mission_or_food_drift", not NPCPolicy.has_word(casual.prompt, ["퓨즈", "손전등", "패널", "현재 임무 안내"]) and "숨 돌리자" in casual.prompt)
  var before_light := HarinDialogue.build(state, "손전등은 네가 갖고 있어?", [], "", "")
  check("pre_handoff_context_says_not_delivered", "내 손 안" in before_light.prompt and not "사용 방법" in before_light.prompt)
  var narrow_light := HarinDialogue.build(state, "손전등은 어떻게 비춰?", [], "", "")
@@ -114,7 +114,7 @@ func test_conversation() -> void:
  app.question.text = "밥 먹었어?"
  app.question.request_submit()
  await frames()
- check("rule_chat_roundtrip_is_actual_food_reply", "먹" in app.answer.text and app.combat_hud.npc_bubble.full_text == app.answer.text and not "퓨즈" in app.answer.text)
+ check("rule_chat_roundtrip_is_actual_food_reply", NPCPolicy.has_word(app.answer.text, ["먹", "밥", "메뉴"]) and app.combat_hud.npc_bubble.full_text == app.answer.text and not "퓨즈" in app.answer.text)
  check("sent_lab_message_is_cleared", app.question.text.is_empty() and not app.dialogue_panel.visible)
  app.open_dialogue()
  check("reopened_chat_has_no_sent_message", app.question.text.is_empty())
@@ -143,7 +143,7 @@ func test_world_channels() -> void:
  world.request_support("assist_panel")
  await frames()
  check("panel_support_uses_short_character_line", app.combat_hud.npc_bubble.full_text == "내가 반대편 누를게!" and not app.dialogue_panel.visible)
- check("system_instructions_never_enter_npc_transcript", not app.combat_hud.get_node("HistoryPanel/Content").text.contains("1.0초"))
+ check("system_instructions_never_enter_npc_transcript", not "\n".join(app.combat_hud.transcript).contains("1.0초") and app.combat_hud.journal.entries.any(func(item): return item.channel == "system" and "1.0초" in item.body))
  await capture("04_panel_channels")
  world.locker.cancel("test_done")
  world.active_action = ""

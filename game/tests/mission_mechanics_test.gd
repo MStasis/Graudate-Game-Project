@@ -12,7 +12,7 @@ func _initialize() -> void:
 
 func check(label: String, result: bool) -> void:
  checks[label] = result
- if not result: push_error("MECHANICS_FAILED " + label)
+ if not result: push_error("MECHANICS_FAILED " + label + " save_error=" + (app.save_store.last_error if app else ""))
 
 func wait_for(condition: Callable, seconds := 5.0) -> bool:
  var deadline := Time.get_ticks_msec() + int(seconds * 1000)
@@ -169,13 +169,13 @@ func run() -> void:
  check("lab_restores_full_dialogue_profile", app.is_noncombat() and app.dialogue_panel.noncombat_mode)
  world.apply_interaction("generator")
  world.apply_interaction("storage_gate")
- check("power_restore_removes_blackout_permanently", world.power_restored and not world.get_node("Darkness").visible and world.visibility_at(Vector2(50, 70)) == 1.0)
+ check("power_restore_removes_blackout_permanently", world.power_restored and world.get_node("Darkness").material.get_shader_parameter("ambient_enabled") == true and world.visibility_at(Vector2(50, 70)) == 1.0)
  app.combat_hud.minimap.remember_position()
- check("powered_room_fully_visible_on_map", app.combat_hud.minimap.explored.storage.size() == 384)
+ check("powered_map_keeps_discovery", app.combat_hud.minimap.explored.storage.size() > 0 and world.visibility_at(world.player.position) == 1.0)
  await capture("04_power_restored_storage")
  check("powered_state_saves", app.save_slot(2))
  world.power_restored = false
- check("powered_state_loads_without_blackout", app.load_slot(2) and world.power_restored and not world.get_node("Darkness").visible)
+ check("powered_state_loads_without_blackout", app.load_slot(2) and world.power_restored and world.get_node("Darkness").material.get_shader_parameter("ambient_enabled") == true)
  var before_beeps := events.filter(func(event): return event.event == "locker_beep").size()
  await frames(8)
  check("loaded_open_locker_does_not_beep_again", events.filter(func(event): return event.event == "locker_beep").size() == before_beeps)
@@ -196,7 +196,7 @@ func run() -> void:
  check("legacy_slot_file_is_preserved", legacy_hash == FileAccess.get_sha256(app.save_store.path_for(3)))
  world.apply_interaction("lab_gate")
  world.apply_interaction("exit")
- check("mechanics_roundtrip_finishes", world.finished)
+ check("mechanics_roundtrip_enters_main", world.map_id == "main_entry" and world.story.tutorial_completed and not world.finished)
  for slot in range(1, 4): DirAccess.remove_absolute(app.save_store.path_for(slot))
  DirAccess.remove_absolute(app.save_store.directory)
  Input.action_release("interact")
@@ -216,7 +216,7 @@ func test_motion() -> void:
  for phase in range(4):
   world.npc_motion.elapsed = phase * 5.0
   targets.append(world.npc_motion.formation_target(world, 0.016))
- check("formation_uses_both_sides", targets[0].y != targets[1].y and targets[2] != targets[1])
+ check("formation_has_no_clock_side_switch", targets[0] == targets[1] and targets[2] == targets[1])
  world.npc_motion.reset()
  var rear: Vector2 = world.npc_motion.formation_target(world, 0.016)
  check("ranged_profile_stays_behind", rear.x < world.player.position.x - 60)

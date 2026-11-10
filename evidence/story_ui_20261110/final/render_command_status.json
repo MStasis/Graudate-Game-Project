@@ -1,0 +1,6 @@
+{
+  "command": "scripts/verify_mission.ps1 -Render",
+  "started_utc": "2026-11-10T01:14:00.8059941Z",
+  "finished_utc": "2026-11-10T01:16:12.6147146Z",
+  "exit_code": 0
+}

@@ -1,0 +1,7 @@
+{
+  "elapsed_ms": 2353,
+  "model": "qwen3:4b",
+  "done": true,
+  "done_reason": "load",
+  "load_duration": null
+}

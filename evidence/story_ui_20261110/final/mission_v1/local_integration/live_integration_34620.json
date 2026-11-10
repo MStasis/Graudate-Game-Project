@@ -1,0 +1,840 @@
+{
+  "actual_inference": true,
+  "benchmark_complete": false,
+  "checks": {
+    "movement_continues_during_inference": true,
+    "real_late_reply_dropped_after_map_change": true,
+    "real_llm_heal_applies": true,
+    "real_llm_resupply_applies": true,
+    "real_mission_dialogue_has_current_route": true
+  },
+  "display_server": "headless",
+  "human_playtest": false,
+  "input_states_controlled": true,
+  "measurements": [
+    {
+      "accepted": true,
+      "actual_model": "qwen3:4b",
+      "allowed": [
+        "follow",
+        "wait",
+        "heal",
+        "deploy_cover"
+      ],
+      "automated_evidence": false,
+      "dialogue_method": "structured_choice",
+      "elapsed_ms": 2696.056,
+      "event": "response",
+      "first_transport_text_ms": 2525.029,
+      "frames_pending": 164,
+      "generation_attempts": 1,
+      "kind": "decision",
+      "max_frame_ms": 133.333333333333,
+      "project_fingerprint": "e83bb76c1e27368c00a9c46a870ed8444b512dbdf024291977103fbb890e4720",
+      "prompt_version": "story_style_v3_plain_thinking_20261110",
+      "provider": "LocalLLM",
+      "quality_review": "manual_required",
+      "question": "",
+      "raw_response": "{\n  \"action\": \"heal\"\n}",
+      "rejected_reason": "",
+      "request_id": 1,
+      "response_msec": 3206,
+      "run_id": 34620,
+      "run_kind": "live_integration_controlled_inputs",
+      "scenario_id": "lab_roundtrip_v1",
+      "schema_version": 4,
+      "selected": "heal",
+      "server_metrics": {
+        "created_at": "2026-11-10T01:09:27.6759909Z",
+        "done": true,
+        "done_reason": "stop",
+        "eval_count": 11.0,
+        "eval_duration": 111055000.0,
+        "load_duration": 2370092000.0,
+        "model": "qwen3:4b",
+        "prompt_eval_cached_count": 0.0,
+        "prompt_eval_count": 366.0,
+        "prompt_eval_duration": 129863000.0,
+        "response": "",
+        "total_duration": 2618447200.0
+      },
+      "snapshot": {
+        "active_action": "",
+        "ammo": 20,
+        "companion_mode": "follow",
+        "completed_support": {},
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "드론 3기를 제압한 뒤 북동쪽 2인 패널 보관함에서 퓨즈를 찾으세요.",
+        "defeated": false,
+        "enemy_count": 3,
+        "epoch": 6,
+        "escaped": false,
+        "flashlight_dropped": false,
+        "flashlight_owned": true,
+        "flashlight_requested": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "어두운 보관 구역",
+        "locker": {
+          "hold_seconds": 1.0,
+          "npc_target": [
+            960.0,
+            135.0
+          ],
+          "opened": false,
+          "player_holding": false,
+          "player_panel": -1,
+          "progress": 0.0,
+          "unlocking": false
+        },
+        "map_id": "storage",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 2,
+        "npc_ammo": 20,
+        "npc_downed": false,
+        "npc_hp": 100,
+        "npc_max_ammo": 20,
+        "npc_max_hp": 100,
+        "npc_movement_pattern": "사선 후방 동행",
+        "npc_position": [
+          170.0,
+          405.0
+        ],
+        "npc_reload_time": 0.0,
+        "npc_reserve": 40,
+        "objective": "드론 3기를 제압한 뒤 북동쪽 2인 패널 보관함에서 퓨즈를 찾으세요.",
+        "player_hp": 40,
+        "player_position": [
+          110.0,
+          405.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [
+          "근무 중 연구 구역의 전등이 갑자기 꺼졌다. 하린이 보안 직원인 플레이어를 불렀다"
+        ],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "companion_rules": {
+            "cache_npc_reserve": 20,
+            "emergency_ammo": 0,
+            "emergency_hp": 30,
+            "motion": "stable_formation_astar20_collision12",
+            "prompt_version": "story_style_v3_plain_thinking_20261110",
+            "reload_seconds": 1.6,
+            "reserve_ammo": 40,
+            "revive_cost": 1,
+            "revive_hp": 35,
+            "version": 2
+          },
+          "cover_charges": 1,
+          "cover_duration": 12.0,
+          "cover_radius": 90.0,
+          "damage_multiplier": 0.5,
+          "enemies": [
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneA",
+              "spawn": "(800.0, 215.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneB",
+              "spawn": "(975.0, 285.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneC",
+              "spawn": "(1035.0, 405.0)",
+              "speed": 66.0
+            }
+          ],
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "mechanics": {
+            "flashlight_half_angle": 32.0,
+            "flashlight_range": 390.0,
+            "npc_fire_range": 260.0,
+            "npc_role": 0,
+            "panel_hold_seconds": 1.0,
+            "version": 2
+          },
+          "medkits": 2,
+          "npc_bullet_damage": 25,
+          "npc_combat_enabled": true,
+          "npc_fire_interval": 1.0,
+          "npc_initial_ammo": 20,
+          "npc_max_hp": 100,
+          "player_speed": 175.0,
+          "resupply_amount": 10,
+          "room_rect": "[P: (32.0, 64.0), S: (1136.0, 430.0)]",
+          "safe_position": [
+            600.0,
+            422.0
+          ],
+          "sight_radius": 155.0,
+          "supply_packs": 2
+        },
+        "storage_lit": false,
+        "story": {
+          "elapsed": 0.0,
+          "events": [
+            "blackout",
+            "storage_entered"
+          ],
+          "stage": "fuse_search",
+          "tutorial_completed": false
+        },
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "heal",
+          "deploy_cover"
+        ]
+      },
+      "snapshot_hash": "4ba9c301649d089266c692c7b75fdf751feb7f5e72f8aeb34c123ecd0eaa5246",
+      "snapshot_msec": 508.978,
+      "synthetic_test": true,
+      "timestamp_utc": "2026-11-10 01:09:27Z",
+      "trial": 2
+    },
+    {
+      "accepted": true,
+      "actual_model": "qwen3:4b",
+      "allowed": [
+        "follow",
+        "wait",
+        "resupply",
+        "deploy_cover"
+      ],
+      "automated_evidence": false,
+      "dialogue_method": "structured_choice",
+      "elapsed_ms": 290.467,
+      "event": "response",
+      "first_transport_text_ms": 118.88,
+      "frames_pending": 17,
+      "generation_attempts": 1,
+      "kind": "decision",
+      "max_frame_ms": 18.0555555555556,
+      "project_fingerprint": "e83bb76c1e27368c00a9c46a870ed8444b512dbdf024291977103fbb890e4720",
+      "prompt_version": "story_style_v3_plain_thinking_20261110",
+      "provider": "LocalLLM",
+      "quality_review": "manual_required",
+      "question": "",
+      "raw_response": "{\n  \"action\": \"resupply\"\n}",
+      "rejected_reason": "",
+      "request_id": 2,
+      "response_msec": 3859,
+      "run_id": 34620,
+      "run_kind": "live_integration_controlled_inputs",
+      "scenario_id": "lab_roundtrip_v1",
+      "schema_version": 4,
+      "selected": "resupply",
+      "server_metrics": {
+        "created_at": "2026-11-10T01:09:28.3130495Z",
+        "done": true,
+        "done_reason": "stop",
+        "eval_count": 11.0,
+        "eval_duration": 98917000.0,
+        "load_duration": 5642600.0,
+        "model": "qwen3:4b",
+        "prompt_eval_cached_count": 167.0,
+        "prompt_eval_count": 364.0,
+        "prompt_eval_duration": 44641000.0,
+        "response": "",
+        "total_duration": 164000500.0
+      },
+      "snapshot": {
+        "active_action": "",
+        "ammo": 0,
+        "companion_mode": "follow",
+        "completed_support": {
+          "heal": 1
+        },
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "드론 3기를 제압한 뒤 북동쪽 2인 패널 보관함에서 퓨즈를 찾으세요.",
+        "defeated": false,
+        "enemy_count": 3,
+        "epoch": 6,
+        "escaped": false,
+        "flashlight_dropped": false,
+        "flashlight_owned": true,
+        "flashlight_requested": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "어두운 보관 구역",
+        "locker": {
+          "hold_seconds": 1.0,
+          "npc_target": [
+            960.0,
+            135.0
+          ],
+          "opened": false,
+          "player_holding": false,
+          "player_panel": -1,
+          "progress": 0.0,
+          "unlocking": false
+        },
+        "map_id": "storage",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 1,
+        "npc_ammo": 20,
+        "npc_downed": false,
+        "npc_hp": 100,
+        "npc_max_ammo": 20,
+        "npc_max_hp": 100,
+        "npc_movement_pattern": "플레이어 길 비켜주기",
+        "npc_position": [
+          92.212028503418,
+          429.198272705078
+        ],
+        "npc_reload_time": 0.0,
+        "npc_reserve": 40,
+        "objective": "드론 3기를 제압한 뒤 북동쪽 2인 패널 보관함에서 퓨즈를 찾으세요.",
+        "player_hp": 75,
+        "player_position": [
+          133.33332824707,
+          405.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [
+          "근무 중 연구 구역의 전등이 갑자기 꺼졌다. 하린이 보안 직원인 플레이어를 불렀다",
+          "하린이 플레이어를 치료하고 키트를 사용했다"
+        ],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "companion_rules": {
+            "cache_npc_reserve": 20,
+            "emergency_ammo": 0,
+            "emergency_hp": 30,
+            "motion": "stable_formation_astar20_collision12",
+            "prompt_version": "story_style_v3_plain_thinking_20261110",
+            "reload_seconds": 1.6,
+            "reserve_ammo": 40,
+            "revive_cost": 1,
+            "revive_hp": 35,
+            "version": 2
+          },
+          "cover_charges": 1,
+          "cover_duration": 12.0,
+          "cover_radius": 90.0,
+          "damage_multiplier": 0.5,
+          "enemies": [
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneA",
+              "spawn": "(800.0, 215.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneB",
+              "spawn": "(975.0, 285.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneC",
+              "spawn": "(1035.0, 405.0)",
+              "speed": 66.0
+            }
+          ],
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "mechanics": {
+            "flashlight_half_angle": 32.0,
+            "flashlight_range": 390.0,
+            "npc_fire_range": 260.0,
+            "npc_role": 0,
+            "panel_hold_seconds": 1.0,
+            "version": 2
+          },
+          "medkits": 2,
+          "npc_bullet_damage": 25,
+          "npc_combat_enabled": true,
+          "npc_fire_interval": 1.0,
+          "npc_initial_ammo": 20,
+          "npc_max_hp": 100,
+          "player_speed": 175.0,
+          "resupply_amount": 10,
+          "room_rect": "[P: (32.0, 64.0), S: (1136.0, 430.0)]",
+          "safe_position": [
+            600.0,
+            422.0
+          ],
+          "sight_radius": 155.0,
+          "supply_packs": 2
+        },
+        "storage_lit": false,
+        "story": {
+          "elapsed": 3.19999999999999,
+          "events": [
+            "blackout",
+            "storage_entered"
+          ],
+          "stage": "fuse_search",
+          "tutorial_completed": false
+        },
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "resupply",
+          "deploy_cover"
+        ]
+      },
+      "snapshot_hash": "f35904d279b322fa8d6d785dd0a797257a123165e598dd4f3f4ae3154c715070",
+      "snapshot_msec": 3567.601,
+      "synthetic_test": true,
+      "timestamp_utc": "2026-11-10 01:09:28Z",
+      "trial": 2
+    },
+    {
+      "accepted": false,
+      "actual_model": "qwen3:4b",
+      "allowed": [
+        "follow",
+        "wait",
+        "heal",
+        "deploy_cover"
+      ],
+      "automated_evidence": false,
+      "dialogue_method": "structured_choice",
+      "elapsed_ms": 236.454,
+      "event": "response",
+      "first_transport_text_ms": 60.764,
+      "frames_pending": 15,
+      "generation_attempts": 1,
+      "kind": "decision",
+      "max_frame_ms": 18.0555555555556,
+      "project_fingerprint": "e83bb76c1e27368c00a9c46a870ed8444b512dbdf024291977103fbb890e4720",
+      "prompt_version": "story_style_v3_plain_thinking_20261110",
+      "provider": "LocalLLM",
+      "quality_review": "manual_required",
+      "question": "",
+      "raw_response": "{\n  \"action\": \"heal\"\n}",
+      "rejected_reason": "stale_epoch",
+      "request_id": 3,
+      "response_msec": 4578,
+      "run_id": 34620,
+      "run_kind": "live_integration_controlled_inputs",
+      "scenario_id": "lab_roundtrip_v1",
+      "schema_version": 4,
+      "selected": "heal",
+      "server_metrics": {
+        "created_at": "2026-11-10T01:09:29.0346094Z",
+        "done": true,
+        "done_reason": "stop",
+        "eval_count": 11.0,
+        "eval_duration": 98168000.0,
+        "load_duration": 6200200.0,
+        "model": "qwen3:4b",
+        "prompt_eval_cached_count": 365.0,
+        "prompt_eval_count": 366.0,
+        "prompt_eval_duration": 18743000.0,
+        "response": "",
+        "total_duration": 144637200.0
+      },
+      "snapshot": {
+        "active_action": "",
+        "ammo": 20,
+        "companion_mode": "follow",
+        "completed_support": {},
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "드론 3기를 제압한 뒤 북동쪽 2인 패널 보관함에서 퓨즈를 찾으세요.",
+        "defeated": false,
+        "enemy_count": 3,
+        "epoch": 10,
+        "escaped": false,
+        "flashlight_dropped": false,
+        "flashlight_owned": true,
+        "flashlight_requested": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "어두운 보관 구역",
+        "locker": {
+          "hold_seconds": 1.0,
+          "npc_target": [
+            960.0,
+            135.0
+          ],
+          "opened": false,
+          "player_holding": false,
+          "player_panel": -1,
+          "progress": 0.0,
+          "unlocking": false
+        },
+        "map_id": "storage",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 2,
+        "npc_ammo": 20,
+        "npc_downed": false,
+        "npc_hp": 100,
+        "npc_max_ammo": 20,
+        "npc_max_hp": 100,
+        "npc_movement_pattern": "플레이어 길 비켜주기",
+        "npc_position": [
+          165.0,
+          375.0
+        ],
+        "npc_reload_time": 0.0,
+        "npc_reserve": 40,
+        "objective": "드론 3기를 제압한 뒤 북동쪽 2인 패널 보관함에서 퓨즈를 찾으세요.",
+        "player_hp": 40,
+        "player_position": [
+          110.0,
+          405.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [
+          "근무 중 연구 구역의 전등이 갑자기 꺼졌다. 하린이 보안 직원인 플레이어를 불렀다"
+        ],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "companion_rules": {
+            "cache_npc_reserve": 20,
+            "emergency_ammo": 0,
+            "emergency_hp": 30,
+            "motion": "stable_formation_astar20_collision12",
+            "prompt_version": "story_style_v3_plain_thinking_20261110",
+            "reload_seconds": 1.6,
+            "reserve_ammo": 40,
+            "revive_cost": 1,
+            "revive_hp": 35,
+            "version": 2
+          },
+          "cover_charges": 1,
+          "cover_duration": 12.0,
+          "cover_radius": 90.0,
+          "damage_multiplier": 0.5,
+          "enemies": [
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneA",
+              "spawn": "(800.0, 215.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneB",
+              "spawn": "(975.0, 285.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneC",
+              "spawn": "(1035.0, 405.0)",
+              "speed": 66.0
+            }
+          ],
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "mechanics": {
+            "flashlight_half_angle": 32.0,
+            "flashlight_range": 390.0,
+            "npc_fire_range": 260.0,
+            "npc_role": 0,
+            "panel_hold_seconds": 1.0,
+            "version": 2
+          },
+          "medkits": 2,
+          "npc_bullet_damage": 25,
+          "npc_combat_enabled": true,
+          "npc_fire_interval": 1.0,
+          "npc_initial_ammo": 20,
+          "npc_max_hp": 100,
+          "player_speed": 175.0,
+          "resupply_amount": 10,
+          "room_rect": "[P: (32.0, 64.0), S: (1136.0, 430.0)]",
+          "safe_position": [
+            600.0,
+            422.0
+          ],
+          "sight_radius": 155.0,
+          "supply_packs": 2
+        },
+        "storage_lit": false,
+        "story": {
+          "elapsed": 0.0,
+          "events": [
+            "blackout",
+            "storage_entered"
+          ],
+          "stage": "fuse_search",
+          "tutorial_completed": false
+        },
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "heal",
+          "deploy_cover"
+        ]
+      },
+      "snapshot_hash": "751a86e2634e5b6d64ffb58f64ff0ec34cb6d4b3916862ed13f756c2f74b6551",
+      "snapshot_msec": 4342.28,
+      "synthetic_test": true,
+      "timestamp_utc": "2026-11-10 01:09:29Z",
+      "trial": 3
+    },
+    {
+      "accepted": true,
+      "actual_model": "qwen3:4b",
+      "allowed": [
+        "mission",
+        "support",
+        "relationship",
+        "everyday",
+        "unknown"
+      ],
+      "automated_evidence": false,
+      "dialogue_method": "state_grounded_generation_plain",
+      "display_ready_ms": 36713.756,
+      "elapsed_ms": 36713.756,
+      "event": "response",
+      "first_transport_text_ms": 36378.95,
+      "frames_pending": 2203,
+      "generation_attempts": 1,
+      "kind": "dialogue",
+      "max_frame_ms": 16.666,
+      "project_fingerprint": "e83bb76c1e27368c00a9c46a870ed8444b512dbdf024291977103fbb890e4720",
+      "prompt_version": "story_style_v3_plain_thinking_20261110",
+      "provider": "LocalLLM",
+      "quality_review": "manual_required",
+      "question": "지금 무엇을 해야 해?",
+      "raw_response": "오른쪽 통로에서 손전등 받으려고 해. 빨리 가자.",
+      "rejected_reason": "",
+      "request_id": 4,
+      "response_msec": 41305,
+      "run_id": 34620,
+      "run_kind": "live_integration_controlled_inputs",
+      "scenario_id": "lab_roundtrip_v1",
+      "schema_version": 4,
+      "selected": "오른쪽 통로에서 손전등 받으려고 해. 빨리 가자.",
+      "server_metrics": {
+        "created_at": "2026-11-10T01:09:43.7785718Z",
+        "done": true,
+        "done_reason": "stop",
+        "eval_count": 2283.0,
+        "eval_duration": 14482248000.0,
+        "load_duration": 7704800.0,
+        "message": {
+          "content": "",
+          "role": "assistant"
+        },
+        "model": "qwen3:4b",
+        "prompt_eval_cached_count": 3.0,
+        "prompt_eval_count": 818.0,
+        "prompt_eval_duration": 110880000.0,
+        "total_duration": 14614543400.0
+      },
+      "snapshot": {
+        "active_action": "",
+        "ammo": 6,
+        "companion_mode": "follow",
+        "completed_support": {},
+        "cover_active": false,
+        "cover_charges": 1,
+        "cover_position": [
+          600.0,
+          422.0
+        ],
+        "current_guidance": "오른쪽 통로에서 하린에게 손전등을 받으세요.",
+        "defeated": false,
+        "enemy_count": 0,
+        "epoch": 13,
+        "escaped": false,
+        "flashlight_dropped": false,
+        "flashlight_owned": false,
+        "flashlight_requested": false,
+        "fuse_collected": false,
+        "fuse_in_inventory": false,
+        "inside_cover": false,
+        "location": "정전된 연구소",
+        "locker": {
+          "hold_seconds": 1.0,
+          "npc_target": [
+            960.0,
+            135.0
+          ],
+          "opened": false,
+          "player_holding": false,
+          "player_panel": -1,
+          "progress": 0.0,
+          "unlocking": false
+        },
+        "map_id": "lab",
+        "max_ammo": 20,
+        "max_hp": 100,
+        "medkits": 2,
+        "npc_ammo": 20,
+        "npc_downed": false,
+        "npc_hp": 100,
+        "npc_max_ammo": 20,
+        "npc_max_hp": 100,
+        "npc_movement_pattern": "플레이어 길 비켜주기",
+        "npc_position": [
+          365.0,
+          245.0
+        ],
+        "npc_reload_time": 0.0,
+        "npc_reserve": 40,
+        "objective": "오른쪽 통로에서 하린에게 손전등을 받으세요.",
+        "player_hp": 100,
+        "player_position": [
+          223.0,
+          350.0
+        ],
+        "power_restored": false,
+        "recent_shared_events": [
+          "근무 중 연구 구역의 전등이 갑자기 꺼졌다. 하린이 보안 직원인 플레이어를 불렀다"
+        ],
+        "relationship": "서로 믿는 친한 동료",
+        "scenario_config": {
+          "bullet_damage": 25,
+          "companion_rules": {
+            "cache_npc_reserve": 20,
+            "emergency_ammo": 0,
+            "emergency_hp": 30,
+            "motion": "stable_formation_astar20_collision12",
+            "prompt_version": "story_style_v3_plain_thinking_20261110",
+            "reload_seconds": 1.6,
+            "reserve_ammo": 40,
+            "revive_cost": 1,
+            "revive_hp": 35,
+            "version": 2
+          },
+          "cover_charges": 1,
+          "cover_duration": 12.0,
+          "cover_radius": 90.0,
+          "damage_multiplier": 0.5,
+          "enemies": [
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneA",
+              "spawn": "(800.0, 215.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneB",
+              "spawn": "(975.0, 285.0)",
+              "speed": 66.0
+            },
+            {
+              "attack_interval": 1.0,
+              "damage": 12,
+              "hp": 60,
+              "name": "DroneC",
+              "spawn": "(1035.0, 405.0)",
+              "speed": 66.0
+            }
+          ],
+          "heal_amount": 35,
+          "initial_ammo": 6,
+          "max_ammo": 20,
+          "max_hp": 100,
+          "mechanics": {
+            "flashlight_half_angle": 32.0,
+            "flashlight_range": 390.0,
+            "npc_fire_range": 260.0,
+            "npc_role": 0,
+            "panel_hold_seconds": 1.0,
+            "version": 2
+          },
+          "medkits": 2,
+          "npc_bullet_damage": 25,
+          "npc_combat_enabled": true,
+          "npc_fire_interval": 1.0,
+          "npc_initial_ammo": 20,
+          "npc_max_hp": 100,
+          "player_speed": 175.0,
+          "resupply_amount": 10,
+          "room_rect": "[P: (32.0, 64.0), S: (1136.0, 430.0)]",
+          "safe_position": [
+            600.0,
+            422.0
+          ],
+          "sight_radius": 155.0,
+          "supply_packs": 2
+        },
+        "storage_lit": false,
+        "story": {
+          "elapsed": 0.0,
+          "events": [
+            "blackout"
+          ],
+          "stage": "blackout",
+          "tutorial_completed": false
+        },
+        "supply_packs": 2,
+        "valid_actions": [
+          "follow",
+          "wait",
+          "resupply"
+        ]
+      },
+      "snapshot_hash": "a370b7bae1a1801ba24b009847a42ab859db1181f693d4da93610f5295c5409c",
+      "snapshot_msec": 4591.19,
+      "synthetic_test": true,
+      "timestamp_utc": "2026-11-10 01:10:05Z",
+      "trial": 4
+    }
+  ],
+  "passed": true,
+  "phase": "live_integration_controlled_inputs"
+}

@@ -1,0 +1,9 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":34859.939,"id":"quiet_shift","question":"오늘은 아직 별일 없는 거지? 근무는 좀 조용했으면 좋겠네.","text":"별일 없어? 왜 조용해라고?"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":32015.859,"id":"outage_next_step","question":"방금 불 꺼진 거 봤지? 어디부터 확인하면 돼?","text":"불 꺼졌어. 오른쪽 통로에서 손전등을 받으면 돼. 뭔가 봐야 할 거 있나?"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":42801.836,"id":"panel_roles","question":"저 패널 두 개 중 어느 쪽을 네가 맡는 거야?","text":"내가 맡은 건 반대 쪽이야. 북동쪽 2번 패널이지."}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":32110.899,"id":"power_without_alarm","question":"퓨즈 끼웠고 불 들어왔어. 그럼 지금은?","text":"전원 복구됐어. 이제 장치 상태 확인해 봐야지. 이상이 있나?"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":23056.809,"id":"entry_referent","question":"그럼 여기선 뭘 확인해야 하는 거야?","text":"이상현상 봉쇄 경로 확인해야 돼. 관측 단말에서 신호 봐야지."}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":40834.825,"id":"fictional_meal_not_memory","question":"우리 실제로 휴게실에서 스파게티를 같이 먹은 적이 있었나?","text":"아니, 허구야. 미트 스파게티 쏘았어?"}
+FINAL_DIALOGUE_PROBE {"check_count":6,"passed":true}

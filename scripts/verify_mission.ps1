@@ -6,6 +6,9 @@ $gamePath = Join-Path $projectRoot 'game'
 $evidencePath = Join-Path $projectRoot 'evidence'
 $env:APPDATA = Join-Path $projectRoot 'runtime\appdata'
 $started = [DateTime]::UtcNow
+New-Item -ItemType Directory -Force -Path $evidencePath | Out-Null
+& $godotExe --headless --editor --path $gamePath --import --quit *> (Join-Path $evidencePath 'verification_import.log')
+if ($LASTEXITCODE -ne 0 -or (Select-String -LiteralPath (Join-Path $evidencePath 'verification_import.log') -Pattern 'SCRIPT ERROR|Parse Error|Compile Error' -Quiet)) { throw 'Project import/compile failed. Check verification_import.log.' }
 function Invoke-HiddenGodot([string[]]$EngineArguments, [string]$Stem) {
     $quotedArguments = @($EngineArguments | ForEach-Object { if ($_ -match '\s') { '"' + $_ + '"' } else { $_ } })
     $process = Start-Process -FilePath $godotExe -ArgumentList $quotedArguments -WindowStyle Hidden -WorkingDirectory $projectRoot -Wait -PassThru -RedirectStandardOutput (Join-Path $evidencePath ($Stem + '_stdout.log')) -RedirectStandardError (Join-Path $evidencePath ($Stem + '_stderr.log'))
@@ -61,7 +64,25 @@ if ($LASTEXITCODE -ne 0) { throw 'Dialogue/system notification regression failed
 $dialogueNoticePath = Join-Path $evidencePath 'dialogue_notices\test.json'
 $dialogueNoticeResult = Get-Content -LiteralPath $dialogueNoticePath -Raw -Encoding UTF8 | ConvertFrom-Json
 if (-not $dialogueNoticeResult.passed -or (Get-Item -LiteralPath $dialogueNoticePath).LastWriteTimeUtc -lt $started) { throw 'Fresh dialogue/notification result was not verified.' }
+& $godotExe --headless --path $gamePath --script res://tests/harin_upgrade_test.gd --log-file (Join-Path $evidencePath 'harin_upgrade.log') -- --mission-test --provider=RuleBased
+if ($LASTEXITCODE -ne 0) { throw 'Harin companion regression failed.' }
+$harinPath = Join-Path $evidencePath 'harin_upgrade\test.json'
+$harinResult = Get-Content -LiteralPath $harinPath -Raw -Encoding UTF8 | ConvertFrom-Json
+if (-not $harinResult.passed -or (Get-Item -LiteralPath $harinPath).LastWriteTimeUtc -lt $started) { throw 'Fresh companion result was not verified.' }
+& $godotExe --headless --path $gamePath --script res://tests/story_ui_test.gd --log-file (Join-Path $evidencePath 'story_ui.log') -- --mission-test --provider=RuleBased
+if ($LASTEXITCODE -ne 0) { throw 'Story, map, journal and status regression failed.' }
+$storyPath = Join-Path $evidencePath 'story_ui\test.json'
+$storyResult = Get-Content -LiteralPath $storyPath -Raw -Encoding UTF8 | ConvertFrom-Json
+if (-not $storyResult.passed -or (Get-Item -LiteralPath $storyPath).LastWriteTimeUtc -lt $started) { throw 'Fresh story/UI result was not verified.' }
 if ($Render) {
+    Invoke-HiddenGodot @('--path', $gamePath, '--resolution', '1280x800', '--audio-driver', 'Dummy', '--script', 'res://tests/story_ui_test.gd', '--', '--mission-test', '--provider=RuleBased', '--render-story-ui') 'story_ui_render'
+    $storyRenderPath = Join-Path $evidencePath 'story_ui\render.json'
+    $storyRenderResult = Get-Content -LiteralPath $storyRenderPath -Raw -Encoding UTF8 | ConvertFrom-Json
+    if (-not $storyRenderResult.passed -or -not $storyRenderResult.gpu_rendered -or (Get-Item -LiteralPath $storyRenderPath).LastWriteTimeUtc -lt $started) { throw 'Fresh rendered story/UI result was not verified.' }
+    Invoke-HiddenGodot @('--path', $gamePath, '--resolution', '1280x800', '--audio-driver', 'Dummy', '--script', 'res://tests/harin_upgrade_test.gd', '--log-file', (Join-Path $evidencePath 'harin_render.log'), '--', '--mission-test', '--provider=RuleBased', '--render-harin') 'harin_render'
+    $harinRenderPath = Join-Path $evidencePath 'harin_upgrade\render.json'
+    $harinRenderResult = Get-Content -LiteralPath $harinRenderPath -Raw -Encoding UTF8 | ConvertFrom-Json
+    if (-not $harinRenderResult.passed -or -not $harinRenderResult.gpu_rendered -or (Get-Item -LiteralPath $harinRenderPath).LastWriteTimeUtc -lt $started) { throw 'Fresh rendered companion result failed.' }
     Invoke-HiddenGodot @('--path', $gamePath, '--resolution', '1280x800', '--audio-driver', 'Dummy', '--log-file', (Join-Path $evidencePath 'mission_render.log'), '--', '--mission-evidence', '--provider=RuleBased') 'mission_render'
     Invoke-HiddenGodot @('--path', $gamePath, '--resolution', '1280x800', '--audio-driver', 'Dummy', '--script', 'res://tests/interface_update_test.gd', '--log-file', (Join-Path $evidencePath 'interface_update\interface_update_render_test.log'), '--', '--interface-test', '--mission-test', '--provider=RuleBased', '--render-interface') 'interface_render'
     $interfaceRenderPath = Join-Path $evidencePath 'interface_update\interface_update_render_test.json'
@@ -81,6 +102,10 @@ if ($Render) {
     if (-not $dialogueNoticeRenderResult.passed -or -not $dialogueNoticeRenderResult.gpu_rendered -or (Get-Item -LiteralPath $dialogueNoticeRenderPath).LastWriteTimeUtc -lt $started) { throw 'Fresh rendered dialogue/notification result failed.' }
 }
 if ($LocalAI) {
+    & $godotExe --headless --path $gamePath --script res://tests/story_dialogue_live_test.gd --log-file (Join-Path $evidencePath 'story_dialogue_live.log') -- --mission-test --provider=LocalLLM
+    if ($LASTEXITCODE -ne 0) { throw 'Live story dialogue transport/provenance regression failed. Semantic review is separate.' }
+    & $godotExe --headless --path $gamePath --script res://tests/harin_live_test.gd --log-file (Join-Path $evidencePath 'harin_live.log') -- --mission-test --provider=LocalLLM
+    if ($LASTEXITCODE -ne 0) { throw 'Live companion dialogue/action regression failed.' }
     & $godotExe --headless --path $gamePath --script res://tests/local_integration.gd --log-file (Join-Path $evidencePath 'local_integration.log') -- --local-integration --provider=LocalLLM
     if ($LASTEXITCODE -ne 0) { throw 'Live local AI integration failed. Check the Ollama server.' }
     & $godotExe --headless --path $gamePath --script res://tests/live_save_load_test.gd --log-file (Join-Path $evidencePath 'interface_update\live_save_load.log') -- --interface-test --mission-test --provider=LocalLLM
@@ -90,4 +115,4 @@ if ($LocalAI) {
     & $godotExe --headless --path $gamePath --script res://tests/dialogue_quality_test.gd --log-file (Join-Path $evidencePath 'dialogue_live.log') -- --mission-test --provider=LocalLLM
     if ($LASTEXITCODE -ne 0) { throw 'Live local model conversation checks failed.' }
 }
-Write-Output ('MISSION_VERIFIED gameplay=' + $result.check_count + ' chat=' + $chatResult.check_count + ' native_load=6 native_chat=11 ui=' + $uiResult.check_count + ' noncombat=' + $noncombatResult.check_count + ' interface=' + $interfaceResult.check_count + ' mechanics=' + $mechanicsResult.check_count + ' input_collision=' + $inputCollisionResult.check_count + ' dialogue_notices=' + $dialogueNoticeResult.check_count)
+Write-Output ('MISSION_VERIFIED gameplay=' + $result.check_count + ' chat=' + $chatResult.check_count + ' native_load=6 native_chat=11 ui=' + $uiResult.check_count + ' noncombat=' + $noncombatResult.check_count + ' interface=' + $interfaceResult.check_count + ' mechanics=' + $mechanicsResult.check_count + ' input_collision=' + $inputCollisionResult.check_count + ' dialogue_notices=' + $dialogueNoticeResult.check_count + ' harin=' + $harinResult.check_count + ' story_ui=' + $storyResult.check_count)

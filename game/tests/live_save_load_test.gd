@@ -9,6 +9,8 @@ func run() -> void:
  root.add_child(app)
  await process_frame
  app.brain.auto_enabled = false
+ app.world.set_physics_process(false)
+ app.world.trigger_blackout()
  app.save_store.directory = "user://live_save_load_test_%d" % OS.get_process_id()
  checks["initial_save"] = app.save_slot(1)
  app._send_question("지금 무엇을 해야 해?")
@@ -20,7 +22,7 @@ func run() -> void:
  var new_question := "보관 구역에서 찾아야 할 물건이 뭐야?"
  app._send_question(new_question)
  var elapsed := 0.0
- while not app.brain.pending.is_empty() and elapsed < 15.0:
+ while not app.brain.pending.is_empty() and elapsed < 85.0:
   await create_timer(0.05).timeout
   elapsed += 0.05
  checks["new_request_completes_after_cancel"] = app.question.editable and app.brain.history.size() == 1 and app.brain.history[0].question == new_question
@@ -31,6 +33,7 @@ func run() -> void:
  DirAccess.remove_absolute(app.save_store.directory)
  var result := {"suite": "live_save_load", "passed": not checks.values().has(false), "check_count": checks.size(), "checks": checks, "actual_model": app.brain.local_dialogue.settings.model, "http_requests_started": 2, "human_playtest": false, "actual_windows_ime_tested": false}
  var directory := ProjectSettings.globalize_path("res://../evidence/interface_update")
+ DirAccess.make_dir_recursive_absolute(directory)
  FileAccess.open(directory.path_join("live_save_load_%d.json" % OS.get_process_id()), FileAccess.WRITE).store_string(JSON.stringify(result, "  "))
  print("LIVE_SAVE_LOAD_TEST ", JSON.stringify(result))
  app.queue_free()

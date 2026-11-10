@@ -141,7 +141,7 @@ func run() -> void:
  check("portrait_click_does_not_fire", app.world.ammo == 6)
  check("goal_updates_after_fuse_return", app.get_node("LabObjective/LabObjectiveText").text == "전력 장치에 퓨즈 장착")
  app.world.apply_interaction("generator")
- check("goal_updates_after_power_restored", app.get_node("LabObjective/LabObjectiveText").text == "연구실 출구로 이동")
+ check("goal_updates_after_power_restored", app.get_node("LabObjective/LabObjectiveText").text == "침식 경보 · 연구동으로 출발")
  var composing = load("res://tests/fixtures/composing_chat_input.gd").new()
  root.add_child(composing)
  var close_signals := []

@@ -1,6 +1,7 @@
 class_name NPCPolicy
 extends RefCounted
-const PROMPT_VERSION := "companion_v1.12_conversation"
+const CHARACTER = preload("res://resources/HarinCharacter.tres")
+const PROMPT_VERSION := "story_style_v3_plain_thinking_20261110"
 const DECISION_INSTRUCTIONS := "Choose one allowed action to help a close companion. Prioritize urgent unmet needs: critically low health calls for healing; zero or nearly empty ammunition calls for resupply. If player_ammo_empty is true and resupply is allowed, resupply takes priority over preventive cover. Install preventive cover after urgent recovery needs are handled. Guide the player into existing cover when useful. Do not waste resources or invent actions. Use follow or wait when support is unnecessary. If locker.player_holding is true and assist_panel is allowed, choose assist_panel."
 ## 공통 행동/대화 목록. 판단과 실제 자원 소비는 별개입니다.
 const ACTIONS := {
@@ -18,6 +19,22 @@ const INTENTS := {
  "everyday": "안부, 기분, 식사, 일상, 격려, 잡담",
  "unknown": "주어진 정보로 답할 수 없는 질문"}
 
+static func requested_action(question: String) -> String:
+ var text := question.replace(" ", "")
+ if has_word(text, ["하지마", "하지말", "안해도", "말아줘", "말자", "오지마", "따라오지", "기다리지", "라고말", "라고하면", "라는말", "명령어"]): return ""
+ if has_word(text, ["따라와", "따라와줘", "따라오", "같이와", "동행해"]): return "follow"
+ if has_word(text, ["기다려", "대기해", "여기있어", "여기서있어", "여기지켜"]): return "wait"
+ if has_word(text, ["도와줘", "도와줄래", "도움좀"]): return "clarify"
+ if has_word(text, ["문열어줘", "문을열어줘", "주워줘", "춤춰줘", "공격해줘"]): return "unsupported"
+ var request := has_word(text, ["해줘", "해줄", "해줄래", "해줄수", "해주라", "부탁", "누르자", "맡아줘", "좀줘", "보충해", "치료해", "엄호해"])
+ if not request: return ""
+ if has_word(text, ["치료", "회복"]): return "heal"
+ if has_word(text, ["탄약", "총알", "보급"]): return "resupply"
+ if has_word(text, ["패널", "반대쪽"]): return "assist_panel"
+ if has_word(text, ["엄호", "보호장비"]): return "deploy_cover"
+ if has_word(text, ["도와", "도움"]): return "clarify"
+ return ""
+
 static func rule_action(state: Dictionary) -> String:
  var valid: Array = state.get("valid_actions", [])
  if "assist_panel" in valid: return "assist_panel"
@@ -29,8 +46,8 @@ static func rule_action(state: Dictionary) -> String:
 
 static func rule_intent(question: String) -> String:
  var text := question.to_lower().replace(" ", "")
- if has_word(text, ["치료", "체력", "보급", "탄약", "총알", "전투", "보호장비", "싸우", "엄호", "도와", "도움"]): return "support"
- if has_word(text, ["임무", "목표", "퓨즈", "전력", "발전기", "출구", "뭘해야", "무엇을해야", "뭐해야", "어디로가", "어디가야", "진행", "보관", "패널", "손전등", "문열", "문닫", "출입문", "그문", "저문"]) or text.begins_with("문"): return "mission"
+ if has_word(text, ["치료", "체력", "보급", "탄약", "총알", "전투", "보호장비", "싸우", "엄호", "도와", "도움", "따라", "기다", "대기"]): return "support"
+ if has_word(text, ["정전", "어디부터", "뭘챙", "부품", "불들어", "경고등", "경보", "이상현상", "해결", "장치", "임무", "목표", "퓨즈", "전력", "발전기", "출구", "뭘해야", "무엇을해야", "뭐해야", "어디로가", "어디가야", "진행", "보관", "패널", "손전등", "문열", "문닫", "출입문", "그문", "저문"]) or text.begins_with("문"): return "mission"
  if has_word(text, ["우리사이", "우린", "동료", "관계", "친구", "기억"]): return "relationship"
  if has_word(text, ["안녕", "반가", "하이", "ㅎㅇ", "기분", "괜찮", "고마", "밥", "먹", "배고", "수고", "피곤", "오늘", "무서", "힘들", "좋아", "싫", "심심", "쉬", "긴장", "뭐해", "너는", "하린", "잘잤", "가자", "hello", "hi", "thanks"]): return "everyday"
  return "unknown"
@@ -41,7 +58,7 @@ static func has_word(text: String, words: Array) -> bool:
  return false
 
 static func opening_line(state: Dictionary) -> String:
- return "미안, 아직 움직이기 힘들어." if state.get("npc_downed", false) else "왔네. 난 준비됐어. 너는 어때?"
+ return "미안, 아직 움직이기 힘들어." if state.get("npc_downed", false) else "잠깐, 전등 상태가 이상한데. 여기 좀 봐."
 
 static func asks_controls(question: String) -> bool:
  return has_word(question.replace(" ", ""), ["어떻게", "방법", "조작", "무슨키", "어느키", "뭘눌러", "뭐눌러", "몇초", "얼마나", "버튼", "방향", "비추", "비춰"])
@@ -54,15 +71,18 @@ static func template_response(intent: String, state: Dictionary, question := "")
     if state.get("flashlight_owned", false): return "보고 싶은 쪽으로 마우스를 움직여 봐. 그쪽을 비춰 줄 거야." if asks_controls(question) else "네가 챙겨서 들고 있어. 앞이 어두우면 그걸 쓰면 돼."
     if state.get("flashlight_dropped", false): return "바닥에 놓아뒀어. 가까이 가서 E로 집으면 돼." if asks_controls(question) else "바닥에 놓아뒀어. 챙겨 가."
     return "내가 갖고 있어. 어두운 데 들어가기 전에 건네줄게."
-   if has_word(question, ["패널", "보관함"]):
-    return "한쪽 패널에서 E를 누르고 있어. 내가 반대편을 맡을게. 1초만 같이 버티면 돼." if asks_controls(question) else "좋아, 내가 반대편 누를게!"
-   if state.get("power_restored", false): return "불 들어왔다. 이제 출구로 나가자."
+   if has_word(question, ["패널", "보관함", "반대쪽"]):
+    if state.locker.opened: return "보관함은 열렸어. 물건을 챙기면 돼."
+    return "한쪽 패널에서 E를 누르고 있어. 반대편도 동시에 눌러야 해. 1초 동안 같이 유지해야 열려." if asks_controls(question) else "너는 한쪽 패널, 나는 반대편이야. 먼저 한쪽을 잡아 줘."
+   if state.get("power_restored", false): return "불은 들어왔는데 경보까지 켜졌어. 출발 문으로 연구동에 가 보자."
    if state.get("fuse_collected", false): return "퓨즈는 챙겼으니까 연구실 전력 장치에 끼우면 돼. 같이 돌아가자."
    return "보관 구역에서 퓨즈를 찾아야 해. 내가 같이 갈게."
   "support": return "치료랑 탄약은 내가 챙길게. 필요하면 가까이 와." if state.medkits > 0 or state.supply_packs > 0 else "지금은 나도 남은 물자가 없어. 조심해서 움직이자."
   "relationship": return "너랑 같이 있으면 좀 든든하지. 우리 둘 다 무사히 돌아가자."
   "everyday":
-   if has_word(question, ["밥", "먹", "배고"]): return "그 얘기 하니까 배고프네. 넌 뭐 먹고 싶어?"
+   if has_word(question, ["밥", "먹", "배고"]):
+    if has_word(question, ["싶", "좋아", "취향"]): return "네가 사는 거야? 메뉴부터 봐야겠는데."
+    return CHARACTER.meal_reply()
    if has_word(question, ["고마", "수고", "thanks"]): return "뭘, 서로 챙겨야지. 너도 고생했어."
    if has_word(question, ["긴장", "무서", "힘들", "피곤"]): return "나도 좀 그래. 괜찮아, 나 여기 있잖아."
    if has_word(question, ["어때", "기분", "잘지내"]): return "조금 긴장되긴 하는데, 네가 있으니까 괜찮아."

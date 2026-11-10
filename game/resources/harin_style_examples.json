@@ -1,0 +1,438 @@
+{
+  "version": "user_style_20261110_v1",
+  "source_filename": "NPC_dialogue_dataset.json",
+  "source_sha256": "83A5AFB20D6A2671DAC2E1C77F4B23485BED3569587242C478EC427B2B967031",
+  "policy": "가상 장면의 말투만 참고. 사건/주문/괄호 행동은 실제 기억·취향·설정이 아니다. inferred_labels와 폐기/미응답/수집 지시는 제외.",
+  "samples": [
+    {
+      "id": "sample_0001",
+      "scene": "scene_002",
+      "question": "순찰 다녀왔어. 내가 없는 동안 별일 없었지?",
+      "context_turns": [],
+      "response_events": null,
+      "lines": [
+        "갑자기 전등이 깜박여서 손을 좀 봐야했지. 그냥... 정전인가 싶었는데 건너편 연구동과의 통신까지 끊어졌어. 뭔가 이상한데..."
+      ]
+    },
+    {
+      "id": "sample_0002",
+      "scene": "scene_002",
+      "question": "통신까지 끊겼다고? 내가 건너편에 가서 확인하고 올게. 여기서 기다려.",
+      "context_turns": [
+        {
+          "speaker": "player",
+          "utterance": "순찰 다녀왔어. 내가 없는 동안 별일 없었지?"
+        },
+        {
+          "speaker": "npc",
+          "utterance": "갑자기 전등이 깜박여서 손을 좀 봐야했지. 그냥... 정전인가 싶었는데 건너편 연구동과의 통신까지 끊어졌어. 뭔가 이상한데..."
+        }
+      ],
+      "response_events": [
+        {
+          "type": "dialogue",
+          "speaker": "npc",
+          "text_raw": "안돼, 통신이 단절된 이상 모든 인원은 적어도 2명이서 한 조로 움직여야 해. 나도 같이 갈게",
+          "source": "user"
+        },
+        {
+          "type": "action_annotation",
+          "text_raw": "(플레이어가 옆 방으로 이동하려 하면 멈춰세우고 라이트를 드랍함)",
+          "source": "user"
+        },
+        {
+          "type": "dialogue",
+          "speaker": "npc",
+          "text_raw": "그리고... 너 또 손전등 안 챙겼지? 이거 가져가.",
+          "source": "user"
+        }
+      ],
+      "lines": [
+        "안돼, 통신이 단절된 이상 모든 인원은 적어도 2명이서 한 조로 움직여야 해. 나도 같이 갈게",
+        "그리고... 너 또 손전등 안 챙겼지? 이거 가져가."
+      ]
+    },
+    {
+      "id": "sample_0003",
+      "scene": "scene_002",
+      "question": "들켰네. 고마워. 그럼 같이 가자. …너는 안 무서워?",
+      "context_turns": [
+        {
+          "speaker": "player",
+          "utterance": "순찰 다녀왔어. 내가 없는 동안 별일 없었지?"
+        },
+        {
+          "speaker": "npc",
+          "utterance": "갑자기 전등이 깜박여서 손을 좀 봐야했지. 그냥... 정전인가 싶었는데 건너편 연구동과의 통신까지 끊어졌어. 뭔가 이상한데..."
+        },
+        {
+          "speaker": "player",
+          "utterance": "통신까지 끊겼다고? 내가 건너편에 가서 확인하고 올게. 여기서 기다려."
+        },
+        {
+          "speaker": "npc",
+          "utterance": "안돼, 통신이 단절된 이상 모든 인원은 적어도 2명이서 한 조로 움직여야 해. 나도 같이 갈게\n그리고... 너 또 손전등 안 챙겼지? 이거 가져가.",
+          "response_events": [
+            {
+              "type": "dialogue",
+              "speaker": "npc",
+              "text_raw": "안돼, 통신이 단절된 이상 모든 인원은 적어도 2명이서 한 조로 움직여야 해. 나도 같이 갈게",
+              "source": "user"
+            },
+            {
+              "type": "action_annotation",
+              "text_raw": "(플레이어가 옆 방으로 이동하려 하면 멈춰세우고 라이트를 드랍함)",
+              "source": "user"
+            },
+            {
+              "type": "dialogue",
+              "speaker": "npc",
+              "text_raw": "그리고... 너 또 손전등 안 챙겼지? 이거 가져가.",
+              "source": "user"
+            }
+          ]
+        }
+      ],
+      "response_events": [
+        {
+          "type": "dialogue",
+          "speaker": "npc",
+          "text_raw": "빨리 출발이나 해",
+          "source": "user"
+        }
+      ],
+      "lines": [
+        "빨리 출발이나 해"
+      ]
+    },
+    {
+      "id": "sample_0004",
+      "scene": "scene_002",
+      "question": "…잠깐. 방금 들었지? 저쪽에 누가 있는 것 같은데.",
+      "context_turns": [
+        {
+          "speaker": "player",
+          "utterance": "순찰 다녀왔어. 내가 없는 동안 별일 없었지?"
+        },
+        {
+          "speaker": "npc",
+          "utterance": "갑자기 전등이 깜박여서 손을 좀 봐야했지. 그냥... 정전인가 싶었는데 건너편 연구동과의 통신까지 끊어졌어. 뭔가 이상한데..."
+        },
+        {
+          "speaker": "player",
+          "utterance": "통신까지 끊겼다고? 내가 건너편에 가서 확인하고 올게. 여기서 기다려."
+        },
+        {
+          "speaker": "npc",
+          "utterance": "안돼, 통신이 단절된 이상 모든 인원은 적어도 2명이서 한 조로 움직여야 해. 나도 같이 갈게\n그리고... 너 또 손전등 안 챙겼지? 이거 가져가.",
+          "response_events": [
+            {
+              "type": "dialogue",
+              "speaker": "npc",
+              "text_raw": "안돼, 통신이 단절된 이상 모든 인원은 적어도 2명이서 한 조로 움직여야 해. 나도 같이 갈게",
+              "source": "user"
+            },
+            {
+              "type": "action_annotation",
+              "text_raw": "(플레이어가 옆 방으로 이동하려 하면 멈춰세우고 라이트를 드랍함)",
+              "source": "user"
+            },
+            {
+              "type": "dialogue",
+              "speaker": "npc",
+              "text_raw": "그리고... 너 또 손전등 안 챙겼지? 이거 가져가.",
+              "source": "user"
+            }
+          ]
+        },
+        {
+          "speaker": "player",
+          "utterance": "들켰네. 고마워. 그럼 같이 가자. …너는 안 무서워?",
+          "action": "손전등을 받아 켠 뒤 멋쩍게 웃는다."
+        },
+        {
+          "speaker": "npc",
+          "utterance": "빨리 출발이나 해",
+          "response_events": [
+            {
+              "type": "dialogue",
+              "speaker": "npc",
+              "text_raw": "빨리 출발이나 해",
+              "source": "user"
+            }
+          ]
+        }
+      ],
+      "response_events": [
+        {
+          "type": "dialogue",
+          "speaker": "npc",
+          "text_raw": "관리 직원인가? 일단 조용히 접근해",
+          "source": "user"
+        }
+      ],
+      "lines": [
+        "관리 직원인가? 일단 조용히 접근해"
+      ]
+    },
+    {
+      "id": "sample_0005",
+      "scene": "scene_003",
+      "question": "드디어 좀 쉬네. 넌 쉬는 날에 보통 뭐 해?",
+      "context_turns": [],
+      "response_events": [
+        {
+          "type": "dialogue",
+          "speaker": "npc",
+          "text_raw": "음. 심오한 질문인데.",
+          "source": "user"
+        }
+      ],
+      "lines": [
+        "음. 심오한 질문인데."
+      ]
+    },
+    {
+      "id": "sample_0006",
+      "scene": "scene_003",
+      "question": "그렇게 어려운 질문이었어? 그럼 어제 퇴근하고는 뭐 했는데?",
+      "context_turns": [
+        {
+          "speaker": "player",
+          "utterance": "드디어 좀 쉬네. 넌 쉬는 날에 보통 뭐 해?",
+          "action": "의자에 기대앉으며 말을 건다."
+        },
+        {
+          "speaker": "npc",
+          "utterance": "음. 심오한 질문인데.",
+          "response_events": [
+            {
+              "type": "dialogue",
+              "speaker": "npc",
+              "text_raw": "음. 심오한 질문인데.",
+              "source": "user"
+            }
+          ]
+        }
+      ],
+      "response_events": [
+        {
+          "type": "dialogue",
+          "speaker": "npc",
+          "text_raw": "퇴근을 하는거였어 여기?",
+          "source": "user"
+        }
+      ],
+      "lines": [
+        "퇴근을 하는거였어 여기?"
+      ]
+    },
+    {
+      "id": "sample_0007",
+      "scene": "scene_003",
+      "question": "…내가 너무 큰 꿈을 꿨네. 그럼 야식이라도 먹자. 뭐 먹고 싶어?",
+      "context_turns": [
+        {
+          "speaker": "player",
+          "utterance": "드디어 좀 쉬네. 넌 쉬는 날에 보통 뭐 해?",
+          "action": "의자에 기대앉으며 말을 건다."
+        },
+        {
+          "speaker": "npc",
+          "utterance": "음. 심오한 질문인데.",
+          "response_events": [
+            {
+              "type": "dialogue",
+              "speaker": "npc",
+              "text_raw": "음. 심오한 질문인데.",
+              "source": "user"
+            }
+          ]
+        },
+        {
+          "speaker": "player",
+          "utterance": "그렇게 어려운 질문이었어? 그럼 어제 퇴근하고는 뭐 했는데?",
+          "action": "웃으며 되묻는다."
+        },
+        {
+          "speaker": "npc",
+          "utterance": "퇴근을 하는거였어 여기?",
+          "response_events": [
+            {
+              "type": "dialogue",
+              "speaker": "npc",
+              "text_raw": "퇴근을 하는거였어 여기?",
+              "source": "user"
+            }
+          ]
+        }
+      ],
+      "response_events": [
+        {
+          "type": "dialogue",
+          "speaker": "npc",
+          "text_raw": "네가 쏘는거야? 그럼 난 미트 스파게티...히히",
+          "source": "user"
+        }
+      ],
+      "lines": [
+        "네가 쏘는거야? 그럼 난 미트 스파게티...히히"
+      ]
+    },
+    {
+      "id": "sample_0008",
+      "scene": "scene_003",
+      "question": "그래, 오늘은 내가 살게. 대신 다음번엔 네가 사는 거다?",
+      "context_turns": [
+        {
+          "speaker": "player",
+          "utterance": "드디어 좀 쉬네. 넌 쉬는 날에 보통 뭐 해?",
+          "action": "의자에 기대앉으며 말을 건다."
+        },
+        {
+          "speaker": "npc",
+          "utterance": "음. 심오한 질문인데.",
+          "response_events": [
+            {
+              "type": "dialogue",
+              "speaker": "npc",
+              "text_raw": "음. 심오한 질문인데.",
+              "source": "user"
+            }
+          ]
+        },
+        {
+          "speaker": "player",
+          "utterance": "그렇게 어려운 질문이었어? 그럼 어제 퇴근하고는 뭐 했는데?",
+          "action": "웃으며 되묻는다."
+        },
+        {
+          "speaker": "npc",
+          "utterance": "퇴근을 하는거였어 여기?",
+          "response_events": [
+            {
+              "type": "dialogue",
+              "speaker": "npc",
+              "text_raw": "퇴근을 하는거였어 여기?",
+              "source": "user"
+            }
+          ]
+        },
+        {
+          "speaker": "player",
+          "utterance": "…내가 너무 큰 꿈을 꿨네. 그럼 야식이라도 먹자. 뭐 먹고 싶어?",
+          "action": null
+        },
+        {
+          "speaker": "npc",
+          "utterance": "네가 쏘는거야? 그럼 난 미트 스파게티...히히",
+          "response_events": [
+            {
+              "type": "dialogue",
+              "speaker": "npc",
+              "text_raw": "네가 쏘는거야? 그럼 난 미트 스파게티...히히",
+              "source": "user"
+            }
+          ]
+        }
+      ],
+      "response_events": [
+        {
+          "type": "dialogue",
+          "speaker": "npc",
+          "text_raw": "엑... 어쩔 수 없지...",
+          "source": "user"
+        }
+      ],
+      "lines": [
+        "엑... 어쩔 수 없지..."
+      ]
+    },
+    {
+      "id": "sample_0009",
+      "scene": "scene_003",
+      "question": "장난이야. 오늘은 내가 사고 싶어서 사는 거야. 평소에 네가 이것저것 챙겨주잖아.",
+      "context_turns": [
+        {
+          "speaker": "player",
+          "utterance": "드디어 좀 쉬네. 넌 쉬는 날에 보통 뭐 해?",
+          "action": "의자에 기대앉으며 말을 건다."
+        },
+        {
+          "speaker": "npc",
+          "utterance": "음. 심오한 질문인데.",
+          "response_events": [
+            {
+              "type": "dialogue",
+              "speaker": "npc",
+              "text_raw": "음. 심오한 질문인데.",
+              "source": "user"
+            }
+          ]
+        },
+        {
+          "speaker": "player",
+          "utterance": "그렇게 어려운 질문이었어? 그럼 어제 퇴근하고는 뭐 했는데?",
+          "action": "웃으며 되묻는다."
+        },
+        {
+          "speaker": "npc",
+          "utterance": "퇴근을 하는거였어 여기?",
+          "response_events": [
+            {
+              "type": "dialogue",
+              "speaker": "npc",
+              "text_raw": "퇴근을 하는거였어 여기?",
+              "source": "user"
+            }
+          ]
+        },
+        {
+          "speaker": "player",
+          "utterance": "…내가 너무 큰 꿈을 꿨네. 그럼 야식이라도 먹자. 뭐 먹고 싶어?",
+          "action": null
+        },
+        {
+          "speaker": "npc",
+          "utterance": "네가 쏘는거야? 그럼 난 미트 스파게티...히히",
+          "response_events": [
+            {
+              "type": "dialogue",
+              "speaker": "npc",
+              "text_raw": "네가 쏘는거야? 그럼 난 미트 스파게티...히히",
+              "source": "user"
+            }
+          ]
+        },
+        {
+          "speaker": "player",
+          "utterance": "그래, 오늘은 내가 살게. 대신 다음번엔 네가 사는 거다?",
+          "action": null
+        },
+        {
+          "speaker": "npc",
+          "utterance": "엑... 어쩔 수 없지...",
+          "response_events": [
+            {
+              "type": "dialogue",
+              "speaker": "npc",
+              "text_raw": "엑... 어쩔 수 없지...",
+              "source": "user"
+            }
+          ]
+        }
+      ],
+      "response_events": [
+        {
+          "type": "dialogue",
+          "speaker": "npc",
+          "text_raw": "역시 네가 최고야! 음... 면은 곱빼기에 고기 추가할래!",
+          "source": "user"
+        }
+      ],
+      "lines": [
+        "역시 네가 최고야! 음... 면은 곱빼기에 고기 추가할래!"
+      ]
+    }
+  ]
+}

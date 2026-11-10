@@ -1,7 +1,7 @@
 class_name MissionSaveStore
 extends RefCounted
 ## JSON만 읽고 전체 검증을 끝낸 후 호출자가 월드를 복원한다.
-const VERSION := 2
+const VERSION := 3
 var directory := "user://mission_saves"
 var last_error := ""
 
@@ -69,20 +69,50 @@ func point(value: Variant, bounds: Rect2) -> bool:
  return value is Array and value.size() == 2 and number(value[0], bounds.position.x, bounds.end.x) and number(value[1], bounds.position.y, bounds.end.y)
 
 func validate(data: Dictionary, world: DemoWorld) -> bool:
+ var source_version = data.get("version")
+ if source_version in [1, 2] and data.get("world") is Dictionary:
+  var compatible := []
+  for prompt in [NPCPolicy.PROMPT_VERSION, "companion_v2.1_validated_context_order"]:
+   var config := world.scenario_configuration().duplicate(true)
+   config.companion_rules.prompt_version = prompt
+   if source_version == 1: config.erase("mechanics")
+   compatible.append(JSON.stringify(config).sha256_text())
+   config.erase("companion_rules")
+   compatible.append(JSON.stringify(config).sha256_text())
+  if data.get("scenario") not in compatible: return fail("이전 저장의 전투 조건이 일치하지 않습니다.")
+  data.scenario = JSON.stringify(world.scenario_configuration()).sha256_text()
  if data.get("version") == 1:
-  var legacy := world.scenario_configuration().duplicate(true)
-  legacy.erase("mechanics")
-  if data.get("scenario") != JSON.stringify(legacy).sha256_text() or not data.get("world") is Dictionary: return fail("이전 저장의 전투 조건이 일치하지 않습니다.")
+  # 위 호환 해시 검사에서 원래 조건을 검증했다.
   # 검증할 메모리 사본만 변환한다. 원본 슬롯은 덮어쓰지 않는다.
   var old: Dictionary = data.world
   old.merge({"flashlight_owned": true, "flashlight_dropped": false, "flashlight_position": old.get("npc_position"), "facing": [1.0, 0.0], "locker": {"opened": old.get("fuse_collected", false), "supply_taken": false, "sequence_elapsed": -1.0, "beep_index": 0}})
   data.version = VERSION
   data.scenario = JSON.stringify(world.scenario_configuration()).sha256_text()
   data["migrated_from"] = 1
+ # 이전 v2의 전투 조건을 정확히 대조한 뒤 새 선택 필드만 보완한다. 원본 파일은 쓰지 않는다.
+ if data.get("version") == VERSION and data.get("scenario") != JSON.stringify(world.scenario_configuration()).sha256_text():
+  var previous := world.scenario_configuration().duplicate(true)
+  previous.erase("companion_rules")
+  if data.get("scenario") == JSON.stringify(previous).sha256_text():
+   data.scenario = JSON.stringify(world.scenario_configuration()).sha256_text()
+   data["migrated_companion_rules"] = true
+ if source_version in [1, 2]:
+  data.version = VERSION
+  data["migrated_from"] = source_version
+  if not data.world.has("story"): data.world["story"] = StoryProgress.legacy(data.world)
+  data["atlas"] = {}
+  data["journal"] = []
  if data.get("version") != VERSION or data.get("scenario") != JSON.stringify(world.scenario_configuration()).sha256_text(): return fail("다른 버전이나 전투 규칙의 저장 파일입니다.")
  if not whole(data.get("provider"), 0, 2) or not data.get("saved_at") is String: return fail("저장 정보가 올바르지 않습니다.")
  var state = data.get("world")
- if not state is Dictionary or state.get("map_id") not in ["lab", "storage"]: return fail("구역 정보가 올바르지 않습니다.")
+ if not state is Dictionary or state.get("map_id") not in ["lab", "storage", "main_entry"]: return fail("구역 정보가 올바르지 않습니다.")
+ if not whole(state.get("npc_reserve", world.npc_initial_reserve), 0, world.npc_initial_reserve) or not number(state.get("npc_reload_time", 0), 0, world.npc_reload_seconds): return fail("하린 예비탄/장전 상태가 손상되었습니다.")
+ if state.get("companion_mode", "follow") not in ["follow", "wait"]: return fail("동행 상태가 손상되었습니다.")
+ if state.get("companion_mode", "follow") == "wait" and not point(state.get("wait_position"), world.room_rect): return fail("대기 위치가 손상되었습니다.")
+ var support = state.get("completed_support", {})
+ if not support is Dictionary or support.size() > 7: return fail("지원 결과가 손상되었습니다.")
+ for action in support:
+  if action not in NPCPolicy.ACTIONS or not whole(support[action], 0, 1000): return fail("지원 결과가 손상되었습니다.")
  for key in ["fuse_collected", "power_restored", "finished", "defeated", "cache_used"]:
   if not state.get(key) is bool: return fail("임무 정보가 손상되었습니다.")
  if state.finished or state.defeated or (state.power_restored and not state.fuse_collected): return fail("복원할 수 없는 임무 상태입니다.")
@@ -113,13 +143,57 @@ func validate(data: Dictionary, world: DemoWorld) -> bool:
  if not state.get("recent_events") is Array or state.recent_events.size() > 6: return fail("임무 기억이 올바르지 않습니다.")
  for text in state.recent_events:
   if not text is String or text.length() > 1000: return fail("임무 기억이 손상되었습니다.")
- if not data.history is Array or data.history.size() > 3: return fail("대화 기억이 올바르지 않습니다.")
+ if not data.history is Array or data.history.size() > HarinDialogue.HISTORY_LIMIT: return fail("대화 기억이 올바르지 않습니다.")
  for item in data.history:
   if not item is Dictionary or not item.get("question") is String or not item.get("answer") is String: return fail("대화 기억이 손상되었습니다.")
   if item.question.length() > 300 or item.answer.length() > 2000: return fail("대화 기억이 너무 깁니다.")
  if not data.exploration is Dictionary: return fail("탐색 기록이 손상되었습니다.")
  for room in data.exploration:
-  if room not in ["lab", "storage"] or not data.exploration[room] is Array or data.exploration[room].size() > 384: return fail("탐색 구역이 올바르지 않습니다.")
+  if room not in ["lab", "storage", "main_entry"] or not data.exploration[room] is Array or data.exploration[room].size() > 384: return fail("탐색 구역이 올바르지 않습니다.")
   for cell in data.exploration[room]:
    if not whole(cell, 0, 383): return fail("탐색 위치가 올바르지 않습니다.")
+ return validate_story_ui(data, world)
+
+func validate_story_ui(data: Dictionary, world: DemoWorld) -> bool:
+ var state: Dictionary = data.world
+ var story = state.get("story")
+ if not story is Dictionary or story.get("stage") not in StoryProgress.STAGES or not story.get("events") is Array or story.events.size() > 16 or not story.get("tutorial_completed") is bool or not number(story.get("elapsed"), 0, 1000000): return fail("서사 상태가 손상되었습니다.")
+ for event in story.events:
+  if event not in ["blackout", "flashlight_collected", "storage_entered", "fuse_collected", "power_restored", "anomaly_alarm", "main_entered", "anomaly_observed"]: return fail("서사 사건이 손상되었습니다.")
+ var unique_events := {}
+ for event in story.events:
+  if unique_events.has(event): return fail("서사 사건이 중복되었습니다.")
+  unique_events[event] = true
+ if story.stage in ["power_restored", "anomaly_alarm", "main_entry"] and not state.power_restored: return fail("서사와 전력이 일치하지 않습니다.")
+ if state.map_id == "main_entry" and (not story.tutorial_completed or not state.power_restored): return fail("본편 진입 조건이 일치하지 않습니다.")
+ if story.tutorial_completed and (story.stage != "main_entry" or "main_entered" not in story.events): return fail("튜토리얼 완료 사건이 일치하지 않습니다.")
+ var journal = data.get("journal", [])
+ if not journal is Array or journal.size() > MessageJournal.LIMIT: return fail("통합 기록이 손상되었습니다.")
+ var previous := 0
+ var ids := {}
+ for item in journal:
+  if not item is Dictionary or not whole(item.get("sequence"), previous + 1, 1000000000) or not item.get("id") is String or ids.has(item.id): return fail("기록 순서·ID가 손상되었습니다.")
+  for key in ["sender", "body", "room", "trial", "time"]:
+   if not item.get(key) is String or item[key].length() > 2000: return fail("기록 본문이 손상되었습니다.")
+  if item.get("channel") not in ["dialogue", "system"] or not whole(item.get("repeat"), 1, 100000): return fail("기록 채널이 손상되었습니다.")
+  previous = int(item.sequence)
+  ids[item.id] = true
+ var atlas = data.get("atlas", {})
+ if not atlas is Dictionary: return fail("지도 데이터가 손상되었습니다.")
+ for group in ["known", "rooms"]:
+  if not atlas.get(group, {}) is Dictionary: return fail("지도 정보가 손상되었습니다.")
+  for room in atlas.get(group, {}):
+   if room not in ExplorationMap.ROOM_NAMES: return fail("지도 방이 손상되었습니다.")
+ for room in atlas.get("known", {}):
+  var items = atlas.known[room]
+  if not items is Dictionary or items.size() > 16: return fail("지도 표식이 손상되었습니다.")
+  for item in items.values():
+   if not item is Dictionary or not point(item.get("position"), world.room_rect) or item.get("kind") not in ["door", "objective", "supply", "device"] or not item.get("active") is bool or not item.get("id") is String or not item.get("name") is String or not item.get("destination") is String: return fail("지도 표식 위치가 손상되었습니다.")
+ for room in atlas.get("rooms", {}):
+  var geometry = atlas.rooms[room]
+  if not geometry is Dictionary or geometry.get("bounds") != [world.room_rect.position.x, world.room_rect.position.y, world.room_rect.size.x, world.room_rect.size.y] or not geometry.get("obstacles") is Array or geometry.obstacles.size() > 32: return fail("지도 지형이 손상되었습니다.")
+  for rect in geometry.obstacles:
+   if not rect is Array or rect.size() != 4: return fail("지도 장애물이 손상되었습니다.")
+   for value in rect:
+    if not number(value, 0, 2000): return fail("지도 장애물 좌표가 손상되었습니다.")
  return true

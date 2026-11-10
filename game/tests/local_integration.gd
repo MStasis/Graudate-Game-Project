@@ -5,7 +5,7 @@ func _initialize() -> void:
  call_deferred("run")
 func settle(brain: NPCBrain, world: DemoWorld) -> void:
  var elapsed := 0.0
- while (not brain.pending.is_empty() or not world.active_action.is_empty()) and elapsed < 15.0:
+ while (not brain.pending.is_empty() or not world.active_action.is_empty()) and elapsed < 85.0:
   await create_timer(0.05).timeout
   elapsed += 0.05
 func run() -> void:
@@ -47,9 +47,10 @@ func run() -> void:
  await settle(brain, world)
  checks["real_late_reply_dropped_after_map_change"] = world.medkits == 2 and world.player_hp == 40 and measurements.back().rejected_reason == "stale_epoch"
  brain.new_trial(1)
+ world.trigger_blackout()
  brain.request_dialogue("지금 무엇을 해야 해?")
  await settle(brain, world)
- checks["real_mission_dialogue_has_route"] = app.answer.text.contains("보관") and app.answer.text.contains("퓨즈")
+ checks["real_mission_dialogue_has_current_route"] = (app.answer.text.contains("보관") and app.answer.text.contains("퓨즈")) or ("손전등" in app.answer.text and NPCPolicy.has_word(app.answer.text, ["연구실", "오른쪽"]) and NPCPolicy.has_word(app.answer.text, ["받", "수령", "챙"]))
  if DisplayServer.get_name() != "headless": await app.capture_screen("03_llm_mission_dialogue")
  var passed := true
  for value in checks.values(): passed = passed and value

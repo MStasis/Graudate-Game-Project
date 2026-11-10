@@ -1,0 +1,162 @@
+[
+  {
+    "path": "AGENTS.md",
+    "sha256": "6A1B592B3F078378752278A63763E08BC8A4C08CBCEF995B10B6257B391583AD",
+    "matches_test_copy": null
+  },
+  {
+    "path": "DEVELOPMENT_PLAN.md",
+    "sha256": "96DE2ABFB854DBB6C97C754D6C354D79AE0E6C66A048A12C66855B42ABA00DF3",
+    "matches_test_copy": null
+  },
+  {
+    "path": "game/main.gd",
+    "sha256": "B88EF5A1ADE3B69769E34B7F18D54C3D1ACFB680CC30FF38EEFCD1CF584A6851",
+    "matches_test_copy": true
+  },
+  {
+    "path": "game/resources/HarinCharacter.tres",
+    "sha256": "4BF522E9EAAB4177DF20B918147FBDA25E44D13E04926F000AC19C0307E2906A",
+    "matches_test_copy": true
+  },
+  {
+    "path": "game/scenes/NPC.tscn",
+    "sha256": "1C58BB13BBD2627C250B8C553C7699AE6D91346A518DCC7280A5BFA57B6901B2",
+    "matches_test_copy": true
+  },
+  {
+    "path": "game/scripts/actor_status.gd",
+    "sha256": "303AD19496154CEAB4ED7D813703DC15CBE2A93CB77EF1024975812E3D8BD4BD",
+    "matches_test_copy": true
+  },
+  {
+    "path": "game/scripts/combat_interface.gd",
+    "sha256": "8B0392C0D5CB0826B0A62471D360AAF4D280DB3B5D971FE9EFCA70F312EEF6F8",
+    "matches_test_copy": true
+  },
+  {
+    "path": "game/scripts/companion_motion.gd",
+    "sha256": "E99652A56A874E48A221C7AF4B2AC761ED0CA3CFAF6B3DA72110488D864AEE05",
+    "matches_test_copy": true
+  },
+  {
+    "path": "game/scripts/companion_navigation.gd",
+    "sha256": "66EC75E6F63D7EE04FA1DDBE9F914E4766275DA43CA1A9FF101FFB5B36838D7F",
+    "matches_test_copy": true
+  },
+  {
+    "path": "game/scripts/companion_navigation.gd.uid",
+    "sha256": "6B38DF340DF824BF6C02BFF39E16B778798E82D81741A5428E03FF1E7654A4AE",
+    "matches_test_copy": null
+  },
+  {
+    "path": "game/scripts/cooperative_locker.gd",
+    "sha256": "93AD36B8BF19560FCC96C24E47FB42D153EBB2A5F8CD79EFEB97F037450EC309",
+    "matches_test_copy": true
+  },
+  {
+    "path": "game/scripts/harin_actor.gd",
+    "sha256": "3258ADB90B949B9293ACF885B954D110F9BE0C2A90890CB7C4853CE99BDF33A9",
+    "matches_test_copy": true
+  },
+  {
+    "path": "game/scripts/harin_actor.gd.uid",
+    "sha256": "C02F10642E19E085F5571D1848F558ED94F924B038C293995D704F12A9F08CD4",
+    "matches_test_copy": null
+  },
+  {
+    "path": "game/scripts/harin_character.gd",
+    "sha256": "0EB20B1A77C354DFAC68E19778ECE3C24E1856AB72C9F0B055B386AA7EC3B6A0",
+    "matches_test_copy": true
+  },
+  {
+    "path": "game/scripts/harin_character.gd.uid",
+    "sha256": "A8E43A87E1F155C776D8E3B53AEC413EA524E8B6FA2781694100C3D2D81C5117",
+    "matches_test_copy": null
+  },
+  {
+    "path": "game/scripts/harin_dialogue.gd",
+    "sha256": "90CD19E26B4654BE7212BD7104C8BA20136C905AD2ED77B2AB76D6D9204419AE",
+    "matches_test_copy": true
+  },
+  {
+    "path": "game/scripts/local_ai_client.gd",
+    "sha256": "864B5082E68C517CBA2DE839725D3640BF42D7EA9BCD345B30E263B5AA57C51D",
+    "matches_test_copy": true
+  },
+  {
+    "path": "game/scripts/local_npc_settings.gd",
+    "sha256": "6C762DCD11215B6CCC3DA484029584F72ABFB0B04E34D34F96905657B3104E17",
+    "matches_test_copy": true
+  },
+  {
+    "path": "game/scripts/mission_save_store.gd",
+    "sha256": "1B835A1427A0785890483507D9C0585C39BD75694233550AD26C6F0326BC82FB",
+    "matches_test_copy": true
+  },
+  {
+    "path": "game/scripts/npc_brain.gd",
+    "sha256": "60A6CCE4BD77A97426D35AA0F0808505E4D9E2FBF30F5F73F4EB70FF35050EC8",
+    "matches_test_copy": true
+  },
+  {
+    "path": "game/scripts/npc_policy.gd",
+    "sha256": "7246F475F3E7D9D4D3DDABFAB00E2D7BA653465051E02126AA72F6E52D6BA3B9",
+    "matches_test_copy": true
+  },
+  {
+    "path": "game/tests/dialogue_notice_test.gd",
+    "sha256": "E740F5387BE4281A86EBF05249EF04ED7BE1D88A4D96C361061FB4A1D6DA9DBD",
+    "matches_test_copy": true
+  },
+  {
+    "path": "game/tests/dialogue_quality_test.gd",
+    "sha256": "BEF76465DA238F559B8EF199B8B7D0D88675DD59A49F9F3733C066005E2B3391",
+    "matches_test_copy": true
+  },
+  {
+    "path": "game/tests/harin_live_test.gd",
+    "sha256": "F3E2B84E48D83676DC74E250F6CA80B69805C49563A4E206F9C6D56C20241621",
+    "matches_test_copy": true
+  },
+  {
+    "path": "game/tests/harin_live_test.gd.uid",
+    "sha256": "0306E2B4B334BFDDA353809F2839CAE10ED1F58559DEC4D09AFB3298C6A9290A",
+    "matches_test_copy": null
+  },
+  {
+    "path": "game/tests/harin_upgrade_test.gd",
+    "sha256": "929B3B42FDD63A212709BDE17E6B7B658EC7B8C44326531EFA57233573F03B4C",
+    "matches_test_copy": true
+  },
+  {
+    "path": "game/tests/harin_upgrade_test.gd.uid",
+    "sha256": "4A8D7F24C4188BD382E2CE448E0E8BD9E28109ED45C997338811C20F4F67DB4A",
+    "matches_test_copy": null
+  },
+  {
+    "path": "game/tests/local_integration.gd",
+    "sha256": "F718969351DE6C6DC05969EF11EB4DC10ACECD5C8F7EA6299A74931563AF024E",
+    "matches_test_copy": true
+  },
+  {
+    "path": "game/tests/mission_mechanics_test.gd",
+    "sha256": "DAF89C85B1D0EEE906A74E8DE104258F8E070F5CC4E87C4076E476FE14257530",
+    "matches_test_copy": true
+  },
+  {
+    "path": "game/world.gd",
+    "sha256": "B63950EBD346BB6C88AF63FB390867C8F09A76D223D3D5D90B73DEFB474BE258",
+    "matches_test_copy": true
+  },
+  {
+    "path": "review/HARIN_UPGRADE_20261108.md",
+    "sha256": "ECF4AC0F5CAFD0DE0D458FC595327CDDFDDD9932295F3F411EA870DFD602058A",
+    "matches_test_copy": null
+  },
+  {
+    "path": "scripts/verify_mission.ps1",
+    "sha256": "C978AB99A213CAEDBA188EFC51F7A38C39D3EC88179C224FB7A6EED4D64C0FDA",
+    "matches_test_copy": true
+  }
+]

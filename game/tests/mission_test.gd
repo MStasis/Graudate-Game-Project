@@ -15,7 +15,7 @@ func run() -> void:
  var world: DemoWorld = app.world
  var brain: NPCBrain = app.brain
  brain.auto_enabled = false
- check("starts_in_lab", world.map_id == "lab" and not world.get_node("Darkness").visible)
+ check("starts_in_lab", world.map_id == "lab" and world.get_node("Darkness").material.get_shader_parameter("ambient_enabled") == true)
  check("fuse_not_in_lab", not world.fuse.visible)
  world.apply_interaction("fuse")
  check("cannot_collect_fuse_in_lab", not world.fuse_collected)
@@ -134,11 +134,11 @@ func run() -> void:
  world.apply_interaction("fuse")
  check("fuse_collects_after_clear", world.fuse_collected and world.game_state().fuse_in_inventory)
  world.apply_interaction("lab_gate")
- check("returns_to_lab_with_item", world.map_id == "lab" and world.fuse_collected and not world.get_node("Darkness").visible)
+ check("returns_to_lab_with_item", world.map_id == "lab" and world.fuse_collected and world.story.stage == "fuse_return")
  world.apply_interaction("generator")
  check("power_consumes_fuse_inventory", world.power_restored and not world.game_state().fuse_in_inventory)
  world.apply_interaction("exit")
- check("roundtrip_can_complete", world.finished)
+ check("roundtrip_enters_main_after_tutorial", world.map_id == "main_entry" and world.story.tutorial_completed and not world.finished)
  brain.new_trial(0)
  check("restart_restores_full_trial", world.player_hp == 100 and world.ammo == world.initial_ammo and world.medkits == 2 and world.cover_charges == 1 and world.enemies_remaining() == 3 and not world.fuse_collected)
  world.player.position = Vector2(world.room_rect.end.x - 20, 260)

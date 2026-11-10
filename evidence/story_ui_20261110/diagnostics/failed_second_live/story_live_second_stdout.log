@@ -1,0 +1,18 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":693.262,"id":"before_blackout","question":"교대 끝나려면 멀었나. 오늘 근무도 조용하겠지?","text":"어제 퇴근하고는 뭐 했어? (이거 왜 또 물어보는 거야)"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":1430.744,"id":"blackout","question":"방금까지 켜져 있었잖아. 어디부터 확인할까?","text":"아... 어제 퇴근하고 뭐 했어? (이거 왜 또 물어보는 거야) 뭔가 이상한데... 전등이 깜박이려고 했지. 근데 퇴근하고 바로 전원이 끊어졌어. 뭔가 이상한데... (손전등 빌려줄게)"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":716.338,"id":"new_fear_banter","question":"솔직히 너도 지금 심장 빨리 뛰지?","text":"근데 뭐야 빨리 뛰는 게 아니야. (다시 보안 레벨 3을 확인 중이지?)"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":815.125,"id":"new_banter_followup","question":"딴소리 하지 말고, 내 뒤에 숨으려는 건 아니지?","text":"어이, 지금 뭔가 떠오르는 거야? (진짜로 뒤를 숨을 거야? 놀라게 하려는 건 아니야)"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":1319.556,"id":"fuse_search","question":"이 방에서 뭘 챙겨야 돌아갈 수 있어?","text":"근데 이전에 켜진 전등이 뭐가 끊어졌어? (손전등 빌려줄게) 뭔가 이상한데... 이거 끊어진 건데, 어제 퇴근하고 뭐 했어? (이거 왜 또 물어보는 거야)"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":1059.631,"id":"panel_question","question":"이 패널 둘 다 내가 누르면 되나?","text":"아... 이거 뭐야? (손전등 빌려줄게) 뭔가 이상한데... 이 방에서 뭘 챙겨야 돌아갈 수 있어? (이거 왜 또 물어보는 거야)"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":888.616,"id":"panel_referent","question":"그럼 네가 맡는 건 어느 쪽이라고?","text":"이거 끊어진 건데... (손전등 빌려줄게) 근데 뭔가 이상한데, 이 방에서 뭘 챙겨야 돌아갈 수 있어?"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":1026.676,"id":"fuse_return","question":"아까 찾던 부품 챙겼어. 그럼 지금은?","text":"이거 끊어진 건데... (손전등 빌려줄게) 근데 뭔가 이상한데, 이 방에서 뭘 챙겨야 돌아갈 수 있어?"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":1037.944,"id":"power_restored","question":"이제 불 들어왔는데? 퓨즈는 더 필요 없어?","text":"이거 끊어진 건데... (손전등 빌려줄게) 근데 뭔가 이상한데, 이 방에서 뭘 챙겨야 돌아갈 수 있어?"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":1068.016,"id":"alarm","question":"경고등까지 켜졌네. 이제 다 해결된 거야?","text":"아... 왜 또 똑같은 질문이야? (손전등 빌려줄게) 뭔가 이상한데... 이 방에서 뭘 챙겨야 돌아갈 수 있어?"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":995.852,"id":"main_entry","question":"아까 네가 말한 그 이상한 장치, 여기선 뭘 확인해?","text":"이거 끊어진 건데... (손전등 빌려줄게) 뭔가 이상한데... 이 방에서 뭘 챙겨야 돌아갈 수 있어?"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":1008.165,"id":"food_new_question","question":"너 메뉴 고르는 데도 이렇게 진지해? 오늘 내가 한턱 낼까?","text":"어이, 내 뒤에 숨을 거야? (이거 끊어진 건데... 손전등 빌려줄게) 근데 이 방에서 뭘 챙겨야 돌아갈 수 있어?"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":946.026,"id":"food_followup","question":"아까 그건 그냥 주문이지, 매일 먹는다는 뜻은 아니지?","text":"이거 끊어진 건데... (손전등 빌려줄게) 뭔가 이상한데... 이 방에서 뭘 챙겨야 돌아갈 수 있어?"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":951.987,"id":"fictional_memory","question":"우리 휴게실에서 스파게티 시켰던 거 기억해?","text":"이거 끊어진 건데... (손전등 빌려줄게) 근데 뭔가 이상한데, 이 방에서 뭘 챙겨야 돌아갈 수 있어?"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":779.935,"id":"fictional_rule","question":"여긴 정말 퇴근을 못 하는 연구소야?","text":"이거 끊어진 건데... (손전등 빌려줄게) 근데 이 방에서 뭘 챙겨야 돌아갈 수 있어?"}
+STORY_LIVE_RESULT {"check_count":15,"passed":true}
