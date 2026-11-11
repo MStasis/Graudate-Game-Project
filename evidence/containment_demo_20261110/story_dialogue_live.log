@@ -1,0 +1,18 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":44132.89,"id":"before_blackout","question":"교대 끝나려면 멀었나. 오늘 근무도 조용하겠지?","text":"교대 끝나려면 5분만. 오늘 조용해. 뭐 했어?"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":16767.569,"id":"blackout","question":"방금까지 켜져 있었잖아. 어디부터 확인할까?","text":"오른쪽 통로 손전등 받고 시작해. 뭐부터 체크할까?"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":24975.548,"id":"new_fear_banter","question":"솔직히 너도 지금 심장 빨리 뛰지?","text":"심장 빨리 뛰는 거야? 뭐 했어?"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":37254.193,"id":"new_banter_followup","question":"딴소리 하지 말고, 내 뒤에 숨으려는 건 아니지?","text":"아니야. 뒤에 숨은 게 아니야. 뭐 보고 있니?"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":41587.249,"id":"fuse_search","question":"이 방에서 뭘 챙겨야 돌아갈 수 있어?","text":"퓨즈 먼저 북동쪽 보관함에서 찾아. 뭐 했어?"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":24974.089,"id":"panel_question","question":"이 패널 둘 다 내가 누르면 되나?","text":"둘 다 누르면 안 돼. 퓨즈 먼저 북동쪽 보관함에서 찾아. 뭐 했어?"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":17852.536,"id":"panel_referent","question":"그럼 네가 맡는 건 어느 쪽이라고?","text":"반대 쪽이야. 뭐 했어?"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":13143.739,"id":"fuse_return","question":"아까 찾던 부품 챙겼어. 그럼 지금은?","text":"퓨즈 장착해. 뭐 했어?"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":16003.983,"id":"power_restored","question":"이제 불 들어왔는데? 퓨즈는 더 필요 없어?","text":"퓨즈 완료했어. 뭐 더 해야?"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":25309.397,"id":"alarm","question":"경고등까지 켜졌네. 이제 다 해결된 거야?","text":"아니야. 아직 이상이야. 뭘 더 해야?"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":17657.802,"id":"main_entry","question":"아까 네가 말한 그 이상한 장치, 여기선 뭘 확인해?","text":"E로 침식 확인해. 뭐 했어?"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":26600.219,"id":"food_new_question","question":"너 메뉴 고르는 데도 이렇게 진지해? 오늘 내가 한턱 낼까?","text":"임무 끝나면 먹자. 지금은 안 돼~"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":20603.124,"id":"food_followup","question":"아까 그건 그냥 주문이지, 매일 먹는다는 뜻은 아니지?","text":"급한 거야? 끝나면 먹자~"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":21296.738,"id":"fictional_memory","question":"우리 휴게실에서 스파게티 시켰던 거 기억해?","text":"아, 기억해. 끝나면 먹자~"}
+STORY_LIVE_SAMPLE {"accepted":true,"elapsed_ms":30647.943,"id":"fictional_rule","question":"여긴 정말 퇴근을 못 하는 연구소야?","text":"아니야, 임무 끝나면 퇴근해. 스파게티 먹기 전까지는 안 돼~"}
+STORY_LIVE_RESULT {"check_count":15,"passed":true}

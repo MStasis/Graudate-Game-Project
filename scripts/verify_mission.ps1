@@ -74,7 +74,16 @@ if ($LASTEXITCODE -ne 0) { throw 'Story, map, journal and status regression fail
 $storyPath = Join-Path $evidencePath 'story_ui\test.json'
 $storyResult = Get-Content -LiteralPath $storyPath -Raw -Encoding UTF8 | ConvertFrom-Json
 if (-not $storyResult.passed -or (Get-Item -LiteralPath $storyPath).LastWriteTimeUtc -lt $started) { throw 'Fresh story/UI result was not verified.' }
+& $godotExe --headless --path $gamePath --script res://tests/containment_test.gd --log-file (Join-Path $evidencePath 'containment.log') -- --mission-test --provider=RuleBased
+if ($LASTEXITCODE -ne 0) { throw 'Containment mission regression failed.' }
+$containmentPath = Join-Path $evidencePath 'containment\test.json'
+$containmentResult = Get-Content -LiteralPath $containmentPath -Raw -Encoding UTF8 | ConvertFrom-Json
+if (-not $containmentResult.passed -or (Get-Item -LiteralPath $containmentPath).LastWriteTimeUtc -lt $started) { throw 'Fresh containment result was not verified.' }
 if ($Render) {
+    Invoke-HiddenGodot @('--path', $gamePath, '--resolution', '1280x800', '--audio-driver', 'Dummy', '--script', 'res://tests/containment_test.gd', '--', '--mission-test', '--provider=RuleBased', '--render-containment') 'containment_render'
+    $containmentRenderPath = Join-Path $evidencePath 'containment\render.json'
+    $containmentRenderResult = Get-Content -LiteralPath $containmentRenderPath -Raw -Encoding UTF8 | ConvertFrom-Json
+    if (-not $containmentRenderResult.passed -or -not $containmentRenderResult.gpu_rendered -or (Get-Item -LiteralPath $containmentRenderPath).LastWriteTimeUtc -lt $started) { throw 'Fresh rendered containment result was not verified.' }
     Invoke-HiddenGodot @('--path', $gamePath, '--resolution', '1280x800', '--audio-driver', 'Dummy', '--script', 'res://tests/story_ui_test.gd', '--', '--mission-test', '--provider=RuleBased', '--render-story-ui') 'story_ui_render'
     $storyRenderPath = Join-Path $evidencePath 'story_ui\render.json'
     $storyRenderResult = Get-Content -LiteralPath $storyRenderPath -Raw -Encoding UTF8 | ConvertFrom-Json
@@ -102,6 +111,8 @@ if ($Render) {
     if (-not $dialogueNoticeRenderResult.passed -or -not $dialogueNoticeRenderResult.gpu_rendered -or (Get-Item -LiteralPath $dialogueNoticeRenderPath).LastWriteTimeUtc -lt $started) { throw 'Fresh rendered dialogue/notification result failed.' }
 }
 if ($LocalAI) {
+    & $godotExe --headless --path $gamePath --script res://tests/containment_live_test.gd --log-file (Join-Path $evidencePath 'containment_live.log') -- --mission-test --provider=LocalLLM
+    if ($LASTEXITCODE -ne 0) { throw 'Live containment cancellation regression failed.' }
     & $godotExe --headless --path $gamePath --script res://tests/story_dialogue_live_test.gd --log-file (Join-Path $evidencePath 'story_dialogue_live.log') -- --mission-test --provider=LocalLLM
     if ($LASTEXITCODE -ne 0) { throw 'Live story dialogue transport/provenance regression failed. Semantic review is separate.' }
     & $godotExe --headless --path $gamePath --script res://tests/harin_live_test.gd --log-file (Join-Path $evidencePath 'harin_live.log') -- --mission-test --provider=LocalLLM
@@ -115,4 +126,4 @@ if ($LocalAI) {
     & $godotExe --headless --path $gamePath --script res://tests/dialogue_quality_test.gd --log-file (Join-Path $evidencePath 'dialogue_live.log') -- --mission-test --provider=LocalLLM
     if ($LASTEXITCODE -ne 0) { throw 'Live local model conversation checks failed.' }
 }
-Write-Output ('MISSION_VERIFIED gameplay=' + $result.check_count + ' chat=' + $chatResult.check_count + ' native_load=6 native_chat=11 ui=' + $uiResult.check_count + ' noncombat=' + $noncombatResult.check_count + ' interface=' + $interfaceResult.check_count + ' mechanics=' + $mechanicsResult.check_count + ' input_collision=' + $inputCollisionResult.check_count + ' dialogue_notices=' + $dialogueNoticeResult.check_count + ' harin=' + $harinResult.check_count + ' story_ui=' + $storyResult.check_count)
+Write-Output ('MISSION_VERIFIED gameplay=' + $result.check_count + ' chat=' + $chatResult.check_count + ' native_load=6 native_chat=11 ui=' + $uiResult.check_count + ' noncombat=' + $noncombatResult.check_count + ' interface=' + $interfaceResult.check_count + ' mechanics=' + $mechanicsResult.check_count + ' input_collision=' + $inputCollisionResult.check_count + ' dialogue_notices=' + $dialogueNoticeResult.check_count + ' harin=' + $harinResult.check_count + ' story_ui=' + $storyResult.check_count + ' containment=' + $containmentResult.check_count)

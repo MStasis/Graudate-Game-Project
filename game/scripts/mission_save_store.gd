@@ -70,6 +70,15 @@ func point(value: Variant, bounds: Rect2) -> bool:
 
 func validate(data: Dictionary, world: DemoWorld) -> bool:
  var source_version = data.get("version")
+ # v3 선택 확장: 이전 시나리오 해시를 정확히 확인하고 메모리 사본만 변환한다.
+ var previous_config := world.scenario_configuration().duplicate(true)
+ previous_config.erase("containment")
+ var prior_hash := JSON.stringify(previous_config).sha256_text()
+ previous_config.erase("companion_rules")
+ var prior_without_companion := JSON.stringify(previous_config).sha256_text()
+ if source_version == VERSION and data.get("scenario") in [prior_hash, prior_without_companion] and data.get("world") is Dictionary and not data.world.has("containment"):
+  data.scenario = JSON.stringify(world.scenario_configuration()).sha256_text()
+  data["migrated_containment"] = true
  if source_version in [1, 2] and data.get("world") is Dictionary:
   var compatible := []
   for prompt in [NPCPolicy.PROMPT_VERSION, "companion_v2.1_validated_context_order"]:
@@ -77,7 +86,12 @@ func validate(data: Dictionary, world: DemoWorld) -> bool:
    config.companion_rules.prompt_version = prompt
    if source_version == 1: config.erase("mechanics")
    compatible.append(JSON.stringify(config).sha256_text())
+   var without_containment := config.duplicate(true)
+   without_containment.erase("containment")
+   compatible.append(JSON.stringify(without_containment).sha256_text())
    config.erase("companion_rules")
+   compatible.append(JSON.stringify(config).sha256_text())
+   config.erase("containment")
    compatible.append(JSON.stringify(config).sha256_text())
   if data.get("scenario") not in compatible: return fail("이전 저장의 전투 조건이 일치하지 않습니다.")
   data.scenario = JSON.stringify(world.scenario_configuration()).sha256_text()
@@ -102,7 +116,15 @@ func validate(data: Dictionary, world: DemoWorld) -> bool:
   if not data.world.has("story"): data.world["story"] = StoryProgress.legacy(data.world)
   data["atlas"] = {}
   data["journal"] = []
+  data.world["containment"] = world.containment.initial_snapshot()
  if data.get("version") != VERSION or data.get("scenario") != JSON.stringify(world.scenario_configuration()).sha256_text(): return fail("다른 버전이나 전투 규칙의 저장 파일입니다.")
+ if data.get("world") is Dictionary and not data.world.has("containment"):
+  data.world["containment"] = world.containment.initial_snapshot()
+  var old_story = data.world.get("story", {})
+  if old_story is Dictionary and old_story.get("events") is Array and "anomaly_observed" in old_story.events:
+   data.world.containment.stage = "ready"
+   data.world.story.stage = "containment"
+   if "containment_briefed" not in data.world.story.events: data.world.story.events.append("containment_briefed")
  if not whole(data.get("provider"), 0, 2) or not data.get("saved_at") is String: return fail("저장 정보가 올바르지 않습니다.")
  var state = data.get("world")
  if not state is Dictionary or state.get("map_id") not in ["lab", "storage", "main_entry"]: return fail("구역 정보가 올바르지 않습니다.")
@@ -152,21 +174,49 @@ func validate(data: Dictionary, world: DemoWorld) -> bool:
   if room not in ["lab", "storage", "main_entry"] or not data.exploration[room] is Array or data.exploration[room].size() > 384: return fail("탐색 구역이 올바르지 않습니다.")
   for cell in data.exploration[room]:
    if not whole(cell, 0, 383): return fail("탐색 위치가 올바르지 않습니다.")
- return validate_story_ui(data, world)
+ return validate_story_ui(data, world) and validate_containment(state, world)
+
+func validate_containment(state: Dictionary, world: DemoWorld) -> bool:
+ var mission = state.get("containment")
+ if not mission is Dictionary or mission.get("stage") not in ContainmentMission.STAGES or not mission.get("supply_used") is bool: return fail("봉쇄 임무 단계가 손상되었습니다.")
+ var stage: String = mission.stage
+ if stage == "complete": return fail("완료된 봉쇄 임무는 불러올 수 없습니다.")
+ if stage == "unobserved" and ("containment_briefed" in state.story.events or state.story.stage in ["containment", "contained"]): return fail("봉쇄 관측 사건과 단계가 일치하지 않습니다.")
+ if stage != "unobserved" and (not state.power_restored or not state.story.tutorial_completed or state.story.stage != "containment" or "containment_briefed" not in state.story.events): return fail("봉쇄 서사와 임무 단계가 일치하지 않습니다.")
+ if stage in ["wave_one", "wave_two"] and (state.map_id != "main_entry" or not mission.supply_used): return fail("봉쇄 전투 구역/보급 상태가 일치하지 않습니다.")
+ var panel = mission.get("panel")
+ if not panel is Dictionary or not panel.get("opened") is bool or not panel.get("supply_taken") is bool or not number(panel.get("sequence_elapsed"), -1, 1.1) or not whole(panel.get("beep_index"), 0, 6): return fail("봉쇄 패널 상태가 손상되었습니다.")
+ if panel.opened or panel.supply_taken or (panel.sequence_elapsed >= 0 and stage != "panel_ready"): return fail("봉쇄 패널과 임무 단계가 일치하지 않습니다.")
+ if not mission.get("enemies") is Dictionary or mission.enemies.size() != world.containment.enemies().size(): return fail("봉쇄 적 목록이 손상되었습니다.")
+ var alive := 0
+ for drone in world.containment.enemies():
+  var enemy = mission.enemies.get(str(drone.name))
+  if not enemy is Dictionary or not whole(enemy.get("hp"), 0, drone.max_hp) or not point(enemy.get("position"), world.room_rect) or not number(enemy.get("attack_wait"), -60, 60): return fail("봉쇄 적 상태가 손상되었습니다.")
+  if enemy.hp > 0:
+   alive += 1
+   if stage not in ["wave_one", "wave_two"] or drone.get_meta("wave") != (1 if stage == "wave_one" else 2): return fail("봉쇄 무리와 적 상태가 일치하지 않습니다.")
+ if stage in ["wave_one", "wave_two"] and alive == 0: return fail("진행할 봉쇄 전투 대상이 없습니다.")
+ for event in ["containment_wave_1", "containment_wave_2", "containment_waves_cleared"]:
+  var required: bool = stage_event_index(event) <= ContainmentMission.STAGES.find(stage)
+  if required != (event in state.story.events): return fail("봉쇄 사건 순서가 일치하지 않습니다.")
+ return true
+
+func stage_event_index(event: String) -> int:
+ return {"containment_wave_1": 2, "containment_wave_2": 3, "containment_waves_cleared": 4}[event]
 
 func validate_story_ui(data: Dictionary, world: DemoWorld) -> bool:
  var state: Dictionary = data.world
  var story = state.get("story")
  if not story is Dictionary or story.get("stage") not in StoryProgress.STAGES or not story.get("events") is Array or story.events.size() > 16 or not story.get("tutorial_completed") is bool or not number(story.get("elapsed"), 0, 1000000): return fail("서사 상태가 손상되었습니다.")
  for event in story.events:
-  if event not in ["blackout", "flashlight_collected", "storage_entered", "fuse_collected", "power_restored", "anomaly_alarm", "main_entered", "anomaly_observed"]: return fail("서사 사건이 손상되었습니다.")
+  if event not in ["blackout", "flashlight_collected", "storage_entered", "fuse_collected", "power_restored", "anomaly_alarm", "main_entered", "anomaly_observed", "containment_briefed", "containment_wave_1", "containment_wave_2", "containment_waves_cleared", "containment_completed"]: return fail("서사 사건이 손상되었습니다.")
  var unique_events := {}
  for event in story.events:
   if unique_events.has(event): return fail("서사 사건이 중복되었습니다.")
   unique_events[event] = true
- if story.stage in ["power_restored", "anomaly_alarm", "main_entry"] and not state.power_restored: return fail("서사와 전력이 일치하지 않습니다.")
+ if story.stage in ["power_restored", "anomaly_alarm", "main_entry", "containment", "contained"] and not state.power_restored: return fail("서사와 전력이 일치하지 않습니다.")
  if state.map_id == "main_entry" and (not story.tutorial_completed or not state.power_restored): return fail("본편 진입 조건이 일치하지 않습니다.")
- if story.tutorial_completed and (story.stage != "main_entry" or "main_entered" not in story.events): return fail("튜토리얼 완료 사건이 일치하지 않습니다.")
+ if story.tutorial_completed and (story.stage not in ["main_entry", "containment", "contained"] or "main_entered" not in story.events): return fail("튜토리얼 완료 사건이 일치하지 않습니다.")
  var journal = data.get("journal", [])
  if not journal is Array or journal.size() > MessageJournal.LIMIT: return fail("통합 기록이 손상되었습니다.")
  var previous := 0

@@ -3,6 +3,7 @@ extends RefCounted
 ## 현재 방의 실제 발밑 충돌을 확장한 A* 격자. 물리 이동은 CharacterBody2D가 최종 제한한다.
 const CELL := 20.0
 const CLEARANCE := 14.0
+var clearance := CLEARANCE
 var grid := AStarGrid2D.new()
 var path := PackedVector2Array()
 var destination := Vector2.INF
@@ -31,12 +32,12 @@ func rebuild(world: Node2D) -> void:
  for node in world.find_children("*", "StaticBody2D", true, false):
   if node is RoundedObstacle and node.is_visible_in_tree() and node.collision_layer != 0:
    var center: Vector2 = world.to_local(node.global_position)
-   obstacles.append(Rect2(center - node.footprint * 0.5, node.footprint).grow(CLEARANCE))
+   obstacles.append(Rect2(center - node.footprint * 0.5, node.footprint).grow(clearance))
  for x in grid.region.size.x:
   for y in grid.region.size.y:
    var id := Vector2i(x, y)
    var point := grid.get_point_position(id)
-   var solid: bool = not world.room_rect.grow(-CLEARANCE).has_point(point)
+   var solid: bool = not world.room_rect.grow(-clearance).has_point(point)
    for rect: Rect2 in obstacles:
     if rect.has_point(point): solid = true; break
    grid.set_point_solid(id, solid)
@@ -58,10 +59,10 @@ func free_near(point: Vector2) -> Vector2i:
    if next < distance: best = id; distance = next
  return best
 
-func plan(world: Node2D, target: Vector2) -> void:
+func plan(world: Node2D, target: Vector2, actor: Node2D = null) -> void:
  if map_key != world.map_id: rebuild(world)
  destination = target
- var start := free_near(world.npc.position)
+ var start := free_near((actor if actor else world.npc).position)
  var goal := free_near(target)
  path.clear()
  if start.x >= 0 and goal.x >= 0: path = grid.get_point_path(start, goal)
@@ -71,15 +72,16 @@ func plan(world: Node2D, target: Vector2) -> void:
  blocked_time = 0
  replans += 1
 
-func waypoint(world: Node2D, target: Vector2, delta: float) -> Vector2:
+func waypoint(world: Node2D, target: Vector2, delta: float, actor: Node2D = null) -> Vector2:
+ if not actor: actor = world.npc
  repath_time -= delta
- if previous.is_finite() and world.npc.position.distance_to(previous) < 0.2 and not path.is_empty(): blocked_time += delta
+ if previous.is_finite() and actor.position.distance_to(previous) < 0.2 and not path.is_empty(): blocked_time += delta
  else: blocked_time = 0
- previous = world.npc.position
+ previous = actor.position
  if map_key != world.map_id or not destination.is_finite() or destination.distance_to(target) > 34 or repath_time <= 0 or blocked_time > 0.35:
   # 막히면 실제 가구 위치/표시 상태를 다시 읽는다.
   if blocked_time > 0.35 or repath_time <= 0: map_key = ""
-  plan(world, target)
- while path.size() > 1 and world.npc.position.distance_to(path[0]) < 9: path.remove_at(0)
- if path.is_empty(): return world.npc.position
+  plan(world, target, actor)
+ while path.size() > 1 and actor.position.distance_to(path[0]) < 9: path.remove_at(0)
+ if path.is_empty(): return actor.position
  return path[0]

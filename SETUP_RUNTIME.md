@@ -51,3 +51,15 @@ $env:OLLAMA_NO_CLOUD = '1'
 - `README.md`: 현재 구현, 조작, 연구 비교 방식과 남은 작업.
 
 기록된 자동 검사와 정적 UI 미리보기는 실제 Microsoft 한글 입력기·모든 PC의 화면·플레이 품질을 보증하지 않는다. 기존 `deliverables/` 발표 자료는 이전 단일 방 구성을 기준으로 작성되어 현재 왕복 임무·UI 개편 내용을 반영하는 작업이 남아 있다.
+
+## Windows x64 배포 빌드
+
+위의 Godot 실행 파일 두 개와 [Godot 4.7.2 공식 내보내기 템플릿](https://github.com/godotengine/godot/releases/download/4.7.2-stable/Godot_v4.7.2-stable_export_templates.tpz)이 필요하다. 저장소 루트에서 다음을 실행한다.
+
+```powershell
+.\scripts\package_windows.ps1 -TemplatesArchive .\runtime\archives\Godot_v4.7.2-stable_export_templates.tpz
+```
+
+스크립트는 템플릿의 SHA-256을 확인한 뒤 격리 폴더에서 `Windows x64` 릴리스 프리셋으로 내보낸다. 결과는 `build/ContainmentDemo-Windows-x64.zip`과 `.sha256` 파일이다. 기존 ZIP이 있으면 `-OutputDirectory`로 새 위치를 지정한다.
+
+대상 PC에서 ZIP 전체를 풀고 `ContainmentDemo.exe`를 실행한다. 배포판의 저장과 진단 로그는 Windows 사용자 데이터 폴더에 기록된다. 기본 규칙 기반 실행에 Ollama와 모델은 필요 없다. 로컬 AI 모드를 사용하려면 대상 PC에서 별도로 준비한다. Godot·Kenney 라이선스와 초상화 출처는 ZIP의 `licenses` 폴더에 있다.

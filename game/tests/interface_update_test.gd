@@ -72,7 +72,7 @@ func run() -> void:
  check("combat_keeps_single_native_composer", field.get_instance_id() == field_id and field.get_signal_connection_list("text_submitted").size() == 1)
  check("large_dialogue_hidden_in_combat", not app.answer.visible and not app.get_node("RadioPanel/LabPortrait").visible and app.dialogue_panel.size.y == 56)
  check("top_left_exploration_map", hud.minimap.visible and hud.minimap.position == Vector2(20, 20))
- check("actor_huds_exist_for_all_targets", hud.statuses.size() == 5)
+ check("actor_huds_exist_for_all_targets", hud.statuses.size() == 2 + world.all_enemies().size())
  world.player_hp = 68
  world.ammo = 4
  world.npc_hp = 53

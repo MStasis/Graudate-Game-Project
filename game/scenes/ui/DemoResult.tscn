@@ -1,0 +1,78 @@
+[gd_scene format=3]
+[ext_resource type="Theme" path="res://resources/GameTheme.tres" id="1"]
+[sub_resource type="StyleBoxFlat" id="Card"]
+bg_color = Color(0.055, 0.10, 0.13, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.45, 0.78, 0.71, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_left = 12
+corner_radius_bottom_right = 12
+[node name="DemoResult" type="Control"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+z_index = 200
+theme = ExtResource("1")
+mouse_filter = 0
+[node name="Shade" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.015, 0.027, 0.04, 0.98)
+mouse_filter = 0
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+[node name="Card" type="PanelContainer" parent="Center"]
+custom_minimum_size = Vector2(600, 360)
+layout_mode = 2
+theme_override_styles/panel = SubResource("Card")
+[node name="Margin" type="MarginContainer" parent="Center/Card"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 36
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+[node name="Content" type="VBoxContainer" parent="Center/Card/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 22
+[node name="Title" type="Label" parent="Center/Card/Margin/Content"]
+layout_mode = 2
+text = "데모 완료"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 38
+theme_override_colors/font_color = Color(0.45, 0.78, 0.71, 1)
+[node name="Objective" type="Label" parent="Center/Card/Margin/Content"]
+layout_mode = 2
+text = "연구동 외곽 구역 봉쇄 성공"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 25
+[node name="Afterword" type="Label" parent="Center/Card/Margin/Content"]
+layout_mode = 2
+text = "외곽의 침식 확산을 일시적으로 차단했습니다.\n연구동 내부의 이상현상은 후속 조사가 필요합니다."
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 18
+[node name="Buttons" type="HBoxContainer" parent="Center/Card/Margin/Content"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 20
+[node name="Restart" type="Button" parent="Center/Card/Margin/Content/Buttons"]
+layout_mode = 2
+custom_minimum_size = Vector2(210, 52)
+text = "다시 시작"
+[node name="Quit" type="Button" parent="Center/Card/Margin/Content/Buttons"]
+layout_mode = 2
+custom_minimum_size = Vector2(210, 52)
+text = "종료"

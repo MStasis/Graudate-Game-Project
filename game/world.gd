@@ -111,7 +111,9 @@ func obstruction_rects() -> Array[Rect2]:
  return _sight_rects
 
 func line_of_sight(point: Vector2) -> bool:
- var start := player.position
+ return clear_line(player.position, point)
+
+func clear_line(start: Vector2, point: Vector2) -> bool:
  for rect in obstruction_rects():
   # 물체 자체의 표면은 관측할 수 있지만 그 뒤는 가린다.
   if rect.has_point(point) or rect.has_point(start): continue
@@ -133,10 +135,10 @@ func line_of_sight(point: Vector2) -> bool:
 
 func map_landmarks() -> Array:
  var result := []
- var targets: Array = [$ToStorage, $Generator, $Exit, $FlashlightPickup] if map_id == "lab" else [$ToLab, $SupplyCache, $Fuse, $LockerSupply] + locker.panels() if map_id == "storage" else [$ToLab, $MainDecor/Console]
+ var targets: Array = [$ToStorage, $Generator, $Exit, $FlashlightPickup] if map_id == "lab" else [$ToLab, $SupplyCache, $Fuse, $LockerSupply] + locker.panels() if map_id == "storage" else [$ToLab, $MainDecor/Console, $Containment/Device, $Containment/Supply] + containment.panel.panels()
  for target in targets:
   if not target.is_visible_in_tree(): continue
-  var kind := "door" if target.interaction_id in ["storage_gate", "lab_gate", "exit"] else "objective" if target.interaction_id in ["fuse", "generator", "anomaly_console"] else "supply" if target.interaction_id in ["flashlight", "cache", "locker_supply"] else "device"
+  var kind := "door" if target.interaction_id in ["storage_gate", "lab_gate", "exit"] else "objective" if target.interaction_id in ["fuse", "generator", "anomaly_console", "containment_device"] else "supply" if target.interaction_id in ["flashlight", "cache", "locker_supply", "containment_supply"] else "device"
   var destination := "storage" if target == $ToStorage else "lab" if target == $ToLab else "main_entry" if target == $Exit else ""
   var active: bool = flashlight_owned if target == $ToStorage else power_restored if target == $Exit else true if target == $ToLab else target.activated
   result.append({"id": str(target.interaction_id), "name": target.display_name, "kind": kind, "position": [target.position.x, target.position.y] if target.get_parent() == self else [to_local(target.global_position).x, to_local(target.global_position).y], "destination": destination, "active": active})
@@ -172,14 +174,14 @@ func say_companion(text: String, priority := 30, guard := "") -> void:
  companion_spoke.emit(text)
 
 func combat_target() -> MissionDrone:
- if map_id != "storage":
+ if not is_combat_area():
   _combat_target = null
   return null
  var current: MissionDrone = _combat_target if is_instance_valid(_combat_target) and _combat_target.hp > 0 and _combat_target.visible and npc.position.distance_to(_combat_target.position) <= npc_fire_range + 140 else null
  if current and _target_hold > 0: return current
  var candidate: MissionDrone
  var best := npc_fire_range + 140
- for enemy in get_node("Enemies").get_children():
+ for enemy in room_enemies():
   var distance: float = npc.position.distance_to(enemy.position)
   if enemy.hp > 0 and enemy.visible and distance < best:
    candidate = enemy
@@ -189,6 +191,42 @@ func combat_target() -> MissionDrone:
  _target_hold = 1.0
  return _combat_target
 @onready var locker: CooperativeLocker = $Locker
+@onready var containment: ContainmentMission = $Containment
+
+func is_combat_area() -> bool:
+ return map_id in ["storage", "main_entry"]
+
+func room_enemies() -> Array:
+ return containment.enemies() if map_id == "main_entry" else $Enemies.get_children()
+
+func all_enemies() -> Array:
+ return $Enemies.get_children() + containment.enemies()
+
+func current_panel() -> CooperativeLocker:
+ return containment.panel if map_id == "main_entry" else locker
+
+func clear_projectiles() -> void:
+ for bullet in $Projectiles.get_children():
+  bullet.set_physics_process(false)
+  $Projectiles.remove_child(bullet)
+  bullet.queue_free()
+
+func complete_demo() -> void:
+ if finished or defeated or containment.stage != "complete": return
+ finished = true
+ active_action = ""
+ cover_time = 0
+ guide_time = 0
+ player.velocity = Vector2.ZERO
+ npc.velocity = Vector2.ZERO
+ clear_projectiles()
+ story_event("contained", "containment_completed")
+ _remember("함께 연구동 외곽 침식 확산을 일시 봉쇄했다. 내부는 후속 조사가 필요하다")
+ _event("mission_completed", {"scope": "research_outer_containment", "source": "fixed_mission"})
+ say_companion("됐어. 외곽은 일단 잠잠해졌네.\n……보고서는 네가 좀 써줄래?", 120, "demo_ending")
+ notice.emit("연구동 외곽 구역 봉쇄 성공 · 내부 이상현상은 후속 조사 필요")
+ _sync_state()
+ state_changed.emit()
 var can_move: bool:
  get: return _can_move
  set(value):
@@ -201,6 +239,7 @@ func _ready() -> void:
  _spawn_position = player.position
  _npc_spawn = npc.position
  locker.bind(self)
+ containment.bind(self)
  for enemy in get_node("Enemies").get_children():
   _enemy_spawns[enemy.name] = enemy.position
   enemy.target = player
@@ -262,6 +301,7 @@ func reset_world() -> void:
  npc_navigation.reset()
  _combat_target = null
  locker.reset()
+ containment.reset()
  recent_events.clear()
  completed_support.clear()
  player.position = _spawn_position
@@ -271,14 +311,14 @@ func reset_world() -> void:
  for enemy in get_node("Enemies").get_children():
   enemy.position = _enemy_spawns[enemy.name]
   enemy.reset_enemy()
- for bullet in get_node("Projectiles").get_children(): bullet.queue_free()
+ clear_projectiles()
  _sync_state()
  _event("trial_reset", {})
  state_changed.emit()
 
 func enemies_remaining() -> int:
  var count := 0
- for enemy in get_node("Enemies").get_children():
+ for enemy in room_enemies():
   if enemy.hp > 0: count += 1
  return count
 
@@ -287,6 +327,7 @@ func _sync_state() -> void:
  var dark := map_id == "storage"
  get_node("LabDecor").visible = map_id == "lab"
  $MainDecor.visible = map_id == "main_entry"
+ containment.sync()
  $MainDecor/Console.set_active("anomaly_observed" in story.events)
  get_node("StorageDecor").visible = dark
  get_node("ToStorage").visible = map_id == "lab"
@@ -309,13 +350,14 @@ func _sync_state() -> void:
  # 전력 조명과 시야 가림은 별개다. 밝아진 뒤에도 가구 뒤를 투시하지 않는다.
  get_node("Darkness").visible = true
  (get_node("Darkness").material as ShaderMaterial).set_shader_parameter("ambient_enabled", power_restored or story.stage == "on_shift")
- $Alarm.visible = "anomaly_alarm" in story.events
- $LabDecor/Desk.modulate = Color("ff7777") if power_restored else Color.WHITE
+ $Alarm.visible = "anomaly_alarm" in story.events and not finished
+ $LabDecor/Desk.modulate = Color("ff7777") if power_restored and not finished else Color.WHITE
+ $ToLab.display_name = "격리 중 · 드론 제압 후 복귀 가능" if map_id == "main_entry" and containment.fighting() else "연구실로 · E"
  get_node("RoomTitle").text = "연구동 진입실" if map_id == "main_entry" else ("전력이 복구된 보관 구역" if power_restored else "어두운 보관 구역") if dark else location_name
  get_node("GoalText").text = current_guidance()
  var ending := get_node("Ending") as Label
- ending.visible = finished or defeated
- ending.text = "전력 복구 · 임무 완료" if finished else "전투 불능 · 다시 시작으로 재도전"
+ ending.visible = defeated
+ ending.text = "전투 불능 · 다시 시작으로 재도전"
  for enemy in get_node("Enemies").get_children():
   enemy.visible = dark and enemy.hp > 0
   enemy.active = dark and enemy.hp > 0 and not defeated and not finished
@@ -347,7 +389,7 @@ func _unhandled_input(event: InputEvent) -> void:
  var closest: Node2D
  var distance := player.interaction_distance
  var targets := [npc, fuse, generator, exit_object, get_node("ToStorage"), get_node("ToLab"), get_node("SupplyCache"), $FlashlightPickup, $LockerSupply]
- if map_id == "main_entry": targets.append($MainDecor/Console)
+ if map_id == "main_entry": targets.append_array([$MainDecor/Console, $Containment/Device, $Containment/Supply] + containment.panel.panels())
  if map_id == "storage": targets.append_array(locker.panels())
  for target in targets:
   if not target.is_visible_in_tree(): continue
@@ -376,6 +418,7 @@ func apply_interaction(kind: String) -> String:
    message = "보관 구역 진입. 드론을 제압하고 퓨즈를 찾으세요."
   "lab_gate":
    if map_id not in ["storage", "main_entry"]: return "이 방에서는 돌아갈 수 없습니다."
+   if map_id == "main_entry" and containment.fighting(): return "봉쇄 장치의 안전 격리 중입니다. 이번 두 무리의 드론을 제압한 뒤 연구실로 돌아갈 수 있습니다."
    _change_map("lab", get_node("LabReturn").position)
    message = "연구실로 돌아왔습니다."
   "fuse":
@@ -448,13 +491,14 @@ func apply_interaction(kind: String) -> String:
    story.tutorial_completed = true
    story_event("main_entry", "main_entered")
    _change_map("main_entry", Vector2(130, 405))
-   message = "연구동 진입 · 관측 단말을 확인하세요. 이상현상 봉쇄 임무는 계속됩니다."
-   say_companion("여기부터는 내가 아는 고장 수준이 아니네. 저 단말부터 보자.", 60)
+   message = "연구동 진입 · " + containment.guidance()
+   if containment.stage == "unobserved": say_companion("여기부터는 내가 아는 고장 수준이 아니네. 저 단말부터 보자.", 60)
   "anomaly_console":
    if map_id != "main_entry": return "연구동 진입실의 관측 단말입니다."
-   story_event("main_entry", "anomaly_observed")
-   _remember("연구동 관측 단말에서 침식이 내부 구역으로 이어짐을 확인했다")
-   message = "관측 완료 · 내부 봉쇄 경로 조사 필요 (후속 전투·구역은 아직 미구현)"
+   message = containment.observe()
+  "containment_device", "containment_supply", "containment_panel_a", "containment_panel_b":
+   if map_id != "main_entry": return "연구동 외곽에서 이용할 수 있습니다."
+   message = containment.interact(kind)
  _sync_state()
  _event("interaction", {"kind": kind, "message": message})
  state_changed.emit()
@@ -462,7 +506,7 @@ func apply_interaction(kind: String) -> String:
 
 func _change_map(destination: String, spawn: Vector2) -> void:
  room_changing.emit()
- locker.cancel("map_changed")
+ current_panel().cancel("map_changed")
  epoch += 1
  map_id = destination
  player.position = spawn
@@ -473,7 +517,7 @@ func _change_map(destination: String, spawn: Vector2) -> void:
  active_action = ""
  cover_time = 0.0
  guide_time = 0.0
- for bullet in get_node("Projectiles").get_children(): bullet.queue_free()
+ clear_projectiles()
  _sync_state()
 
 func _physics_process(delta: float) -> void:
@@ -494,20 +538,22 @@ func _physics_process(delta: float) -> void:
  if finished or defeated: return
  if map_id == "lab" and not flashlight_owned and not flashlight_dropped and player.position.distance_to($ToStorage.position) < 150:
   request_flashlight()
- for enemy in get_node("Enemies").get_children():
+ for enemy in room_enemies():
   enemy.companion_alive = npc_combat_enabled and npc_hp > 0
  if npc_combat_enabled and npc_hp > 0: _npc_fire()
  if npc_hp > 0: _npc_reload(delta)
- if map_id == "storage" and enemies_remaining() > 0 and ammo <= 0 and npc_ammo + npc_reserve <= 0 and supply_packs <= 0 and cache_used and not (locker.opened and not locker.supply_taken):
+ var spare_available := not containment.supply_used if map_id == "main_entry" else not cache_used or (locker.opened and not locker.supply_taken)
+ if is_combat_area() and enemies_remaining() > 0 and ammo <= 0 and npc_ammo + npc_reserve <= 0 and supply_packs <= 0 and not spare_available:
   fail_mission("전투에 필요한 탄약과 보급을 모두 소진했습니다.")
   return
  if npc_hp <= 0:
   npc_motion.velocity = Vector2.ZERO
   npc.show_pose("down", npc.position + Vector2.RIGHT)
-  locker.tick(delta, false)
+  current_panel().tick(delta, false)
   if medkits <= 0: fail_mission("하린을 소생할 치료 키트가 없습니다.")
   queue_redraw()
   return
+ containment.ensure_panel_assistance()
  var target := npc_motion.formation_target(self, delta)
  var scripted := not active_action.is_empty() or flashlight_requested
  var arrival := 8.0
@@ -515,7 +561,7 @@ func _physics_process(delta: float) -> void:
  if active_action in ["heal", "resupply"]:
   target = player.position
   arrival = 38
- if active_action == "assist_panel": target = locker.partner_position()
+ if active_action == "assist_panel": target = current_panel().partner_position()
  if flashlight_requested:
   target = player.position
   arrival = 50
@@ -534,16 +580,16 @@ func _physics_process(delta: float) -> void:
  if not active_action.is_empty():
   action_age += delta
   if active_action == "assist_panel":
-   if not locker.needs_assistance() and locker.sequence_elapsed < 0: active_action = ""
-   elif action_age > 10 and locker.progress <= 0 and locker.sequence_elapsed < 0:
-    locker.cancel("approach_timeout")
+   if not current_panel().needs_assistance() and current_panel().sequence_elapsed < 0: active_action = ""
+   elif action_age > 10 and current_panel().progress <= 0 and current_panel().sequence_elapsed < 0:
+    current_panel().cancel("approach_timeout")
     say_companion("반대편으로 가는 길이 막혔어. 잠깐 놓고 다시 해 보자.", 30, "assist_panel_done")
   elif action_age > 5.0:
    _event("support_rejected", {"action": active_action, "reason": "approach_timeout", "request": action_metadata})
    say_companion("길이 막혀서 못 가겠어. 가까이 와 줄래?", 30, active_action + "_done")
    active_action = ""
   elif npc.position.distance_to(target) <= 50.0: _finish_support()
- locker.tick(delta, Input.is_action_pressed("interact"))
+ current_panel().tick(delta, Input.is_action_pressed("interact"))
  queue_redraw()
 
 func update_visibility() -> void:
@@ -596,7 +642,7 @@ func visibility_at(point: Vector2) -> float:
 func nearest_enemy_position() -> Vector2:
  var nearest := Vector2.INF
  var best := INF
- for enemy in get_node("Enemies").get_children():
+ for enemy in room_enemies():
   if enemy.hp > 0 and enemy.visible:
    var distance: float = player.position.distance_to(enemy.position)
    if distance < best and visibility_at(enemy.position) > 0.12:
@@ -606,7 +652,7 @@ func nearest_enemy_position() -> Vector2:
 
 func shoot(target: Vector2) -> bool:
  if not target.is_finite(): return false
- if map_id != "storage" or finished or defeated or shoot_cd > 0.0 or ammo <= 0: return false
+ if not is_combat_area() or finished or defeated or shoot_cd > 0.0 or ammo <= 0: return false
  var direction := player.position.direction_to(target)
  if direction.is_zero_approx(): return false
  shoot_cd = 0.28
@@ -614,37 +660,36 @@ func shoot(target: Vector2) -> bool:
  var bullet := (load("res://scenes/Projectile.tscn") as PackedScene).instantiate() as MissionProjectile
  bullet.direction = direction
  bullet.shooter = player
+ bullet.hit_mask = 7 if map_id == "main_entry" else 3
  bullet.position = player.position
  bullet.impacted.connect(func(collider):
-  if collider is MissionDrone: collider.take_damage(bullet_damage))
+  if not finished and not defeated and collider is MissionDrone and collider in room_enemies(): collider.take_damage(bullet_damage))
  get_node("Projectiles").add_child(bullet)
  state_changed.emit()
  return true
 
 func take_damage(amount: int) -> void:
- if map_id != "storage" or defeated or finished: return
+ if not is_combat_area() or defeated or finished: return
  var protected := inside_cover()
  var actual := maxi(1, ceili(amount * (covered_damage_multiplier if protected else 1.0)))
  player_hp = maxi(0, player_hp - actual)
  if player_hp == 0:
-  defeated = true
-  epoch += 1
-  active_action = ""
+  fail_mission("플레이어 전투 불능")
  _event("player_damage", {"damage": actual, "protected": protected, "hp": player_hp})
  _sync_state()
  state_changed.emit()
 
 func inside_cover() -> bool:
- return cover_time > 0.0 and map_id == "storage" and player.position.distance_to(safe_position) <= cover_radius
+ return cover_time > 0.0 and is_combat_area() and player.position.distance_to(safe_position) <= cover_radius
 
 func valid_actions() -> Array:
  var result := ["follow", "wait"]
  if npc_hp <= 0: return ["wait"]
  if defeated or finished or not active_action.is_empty(): return result
- if map_id == "storage" and locker.needs_assistance(): result.append("assist_panel")
+ if is_combat_area() and current_panel().needs_assistance() and (map_id != "main_entry" or npc_motion.mode != "wait"): result.append("assist_panel")
  if player_hp < max_hp and medkits > 0 and heal_cd <= 0: result.append("heal")
  if ammo < max_ammo and supply_packs > 0 and supply_cd <= 0: result.append("resupply")
- if map_id == "storage" and enemies_remaining() > 0:
+ if is_combat_area() and enemies_remaining() > 0:
   if cover_charges > 0 and cover_time <= 0: result.append("deploy_cover")
   if cover_time > 0 and not inside_cover() and guide_cd <= 0: result.append("guide_to_cover")
  return result
@@ -694,7 +739,7 @@ func request_player_order(action: String) -> Dictionary:
  elif action == "resupply" and supply_packs <= 0: reason = "탄약 보급품이 다 떨어졌어."
  elif action == "heal" and player_hp >= max_hp: reason = "지금은 다친 데가 없어 보여."
  elif action == "resupply" and ammo >= max_ammo: reason = "지금은 탄약이 충분해."
- elif action == "assist_panel" and not locker.needs_assistance(): reason = "먼저 한쪽 패널을 잡아 줘. 같이 유지해야 해."
+ elif action == "assist_panel" and not current_panel().needs_assistance(): reason = "먼저 한쪽 패널을 잡아 줘. 같이 유지해야 해."
  elif action not in ["follow", "wait"] and not active_action.is_empty(): reason = "지금 하던 지원을 마친 뒤에 할 수 있어."
  elif action not in valid_actions(): reason = "지금은 그 지원을 할 수 없어."
  if not reason.is_empty():
@@ -702,7 +747,7 @@ func request_player_order(action: String) -> Dictionary:
   return {"accepted": false, "status": "rejected", "text": reason}
  if action in ["follow", "wait"] and not active_action.is_empty():
   _event("support_rejected", {"action": active_action, "reason": "player_order", "request": action_metadata})
-  if active_action == "assist_panel": locker.cancel("player_order")
+  if active_action == "assist_panel": current_panel().cancel("player_order")
   active_action = ""
  var accepted := request_support(action, {"source": "player_order"})
  match action:
@@ -722,7 +767,7 @@ func emergency_support() -> String:
  if action.is_empty() or active_action == action or active_action in ["heal", "resupply"]: return ""
  if not active_action.is_empty():
   _event("support_rejected", {"action": active_action, "reason": "emergency_preempted", "request": action_metadata})
-  if active_action == "assist_panel": locker.cancel("emergency_preempted")
+  if active_action == "assist_panel": current_panel().cancel("emergency_preempted")
   active_action = ""
  if request_support(action, {"source": "common_emergency", "version": 2}):
   say_companion("잠깐만, 내가 갈게." if action == "heal" else "탄약 가져갈게. 잠깐만.", 100, action + "_started")
@@ -774,10 +819,10 @@ func _enemy_defeated() -> void:
 
 func current_guidance() -> String:
  if defeated: return "전투 불능입니다. 새 회차로 다시 시작하세요."
- if finished: return "임무를 완료했습니다."
+ if finished: return "연구동 외곽 구역 봉쇄 성공"
  if npc_hp <= 0: return "하린 다운 · 가까이에서 E로 치료 키트 1개를 사용해 소생하세요."
  if story.stage == "on_shift": return "근무 중 · 연구 구역의 전등 상태를 확인하세요."
- if map_id == "main_entry": return "관측 단말을 확인하세요 · 이후 내부 봉쇄 경로는 개발 중" if "anomaly_observed" not in story.events else "침식 내부 구역으로 이어지는 봉쇄 경로 조사 · 후속 구역 개발 중"
+ if map_id == "main_entry": return containment.guidance()
  if power_restored: return "침식 경보 · 연구실 출발 출입문에서 E로 연구동 진입" if "anomaly_alarm" in story.events else "전력 복구 · 장치 재가동을 확인하세요"
  if fuse_collected: return "연구실로 돌아가 전력 장치에 퓨즈를 장착하세요." if map_id == "storage" else "전력 장치에 퓨즈를 장착하세요."
  if map_id == "lab":
@@ -785,21 +830,21 @@ func current_guidance() -> String:
   return "오른쪽 통로에서 하린에게 손전등을 받으세요." if not flashlight_owned else "오른쪽 통로로 보관 구역에 가서 퓨즈를 찾으세요."
  if enemies_remaining() > 0: return "드론 %d기를 제압한 뒤 북동쪽 2인 패널 보관함에서 퓨즈를 찾으세요." % enemies_remaining()
  if not locker.opened:
-  if locker.sequence_elapsed >= 0: return "비프음 확인 중 · 보관함 잠금이 해제됩니다."
-  if locker.player_panel >= 0: return "E 유지 · 하린과 양쪽 패널을 %.1f / %.1f초 함께 작동" % [locker.progress, locker.hold_seconds]
+  if current_panel().sequence_elapsed >= 0: return "비프음 확인 중 · 보관함 잠금이 해제됩니다."
+  if locker.player_panel >= 0: return "E 유지 · 하린과 양쪽 패널을 %.1f / %.1f초 함께 작동" % [current_panel().progress, locker.hold_seconds]
   return "보관함 양쪽 패널 중 하나에서 E 유지 · 하린에게 반대 패널 지원 요청"
  return "열린 보관함의 퓨즈·보급을 챙기고 왼쪽 통로로 연구실에 돌아가세요."
 
 func game_state() -> Dictionary:
  return {"epoch": epoch, "map_id": map_id, "story": story.snapshot(), "objective": current_guidance(), "location": "연구동 진입실" if map_id == "main_entry" else ("전력이 복구된 보관 구역" if power_restored else "어두운 보관 구역") if map_id == "storage" else location_name,
  "fuse_collected": fuse_collected, "fuse_in_inventory": fuse_collected and not power_restored, "power_restored": power_restored, "escaped": finished, "defeated": defeated,
- "player_hp": player_hp, "max_hp": max_hp, "ammo": ammo, "max_ammo": max_ammo, "enemy_count": enemies_remaining() if map_id == "storage" else 0,
+ "player_hp": player_hp, "max_hp": max_hp, "ammo": ammo, "max_ammo": max_ammo, "enemy_count": enemies_remaining() if is_combat_area() else 0,
  "npc_hp": npc_hp, "npc_max_hp": npc_max_hp, "npc_ammo": npc_ammo, "npc_max_ammo": npc_initial_ammo, "npc_reserve": npc_reserve, "npc_reload_time": npc_reload_time, "npc_downed": npc_hp <= 0,
  "medkits": medkits, "supply_packs": supply_packs, "cover_charges": cover_charges, "cover_active": cover_time > 0.0, "inside_cover": inside_cover(),
  "active_action": active_action, "current_guidance": current_guidance(), "relationship": "서로 믿는 친한 동료",
  "player_position": [player.position.x, player.position.y], "npc_position": [npc.position.x, npc.position.y], "cover_position": [safe_position.x, safe_position.y],
  "recent_shared_events": recent_events.duplicate(), "completed_support": completed_support.duplicate(), "valid_actions": valid_actions(),
-  "flashlight_owned": flashlight_owned, "flashlight_dropped": flashlight_dropped, "flashlight_requested": flashlight_requested, "storage_lit": power_restored, "locker": locker.context(), "npc_movement_pattern": npc_motion.pattern, "companion_mode": npc_motion.mode,
+  "flashlight_owned": flashlight_owned, "flashlight_dropped": flashlight_dropped, "flashlight_requested": flashlight_requested, "storage_lit": power_restored, "locker": current_panel().context(), "containment_stage": containment.stage, "containment_supply_used": containment.supply_used, "npc_movement_pattern": npc_motion.pattern, "companion_mode": npc_motion.mode,
  "scenario_config": scenario_configuration()}
 
 func scenario_configuration() -> Dictionary:
@@ -810,27 +855,30 @@ func scenario_configuration() -> Dictionary:
 
  configuration["mechanics"] = {"version": 2, "npc_role": npc_role, "npc_fire_range": npc_fire_range, "panel_hold_seconds": locker.hold_seconds, "flashlight_range": flashlight_range, "flashlight_half_angle": flashlight_half_angle}
  configuration["companion_rules"] = {"version": 2, "reserve_ammo": npc_initial_reserve, "reload_seconds": npc_reload_seconds, "emergency_hp": 30, "emergency_ammo": 0, "motion": "stable_formation_astar20_collision12", "revive_cost": 1, "revive_hp": 35, "cache_npc_reserve": 20, "prompt_version": NPCPolicy.PROMPT_VERSION}
+ configuration["containment"] = containment.configuration()
  return configuration
 
 func _npc_fire() -> void:
- if not npc_combat_enabled or npc_hp <= 0 or defeated or finished or map_id != "storage" or npc_ammo <= 0 or npc_reload_time > 0 or npc_shoot_cd > 0.0 or not active_action.is_empty(): return
+ if not npc_combat_enabled or npc_hp <= 0 or defeated or finished or not is_combat_area() or npc_ammo <= 0 or npc_reload_time > 0 or npc_shoot_cd > 0.0 or not active_action.is_empty(): return
  var closest := combat_target()
  if not closest or npc.position.distance_to(closest.position) > npc_fire_range: return
+ if map_id == "main_entry" and not clear_line(npc.position, closest.position): return
  npc.set_meta("visual_aim", closest.position)
  npc_shoot_cd = npc_fire_interval
  npc_ammo -= 1
  var bullet := (load("res://scenes/Projectile.tscn") as PackedScene).instantiate() as MissionProjectile
  bullet.shooter = npc
+ bullet.hit_mask = 7 if map_id == "main_entry" else 3
  bullet.position = npc.position
  bullet.direction = npc.position.direction_to(closest.position)
  bullet.impacted.connect(func(collider):
-  if collider is MissionDrone: collider.take_damage(npc_bullet_damage))
+  if not finished and not defeated and collider is MissionDrone and collider in room_enemies(): collider.take_damage(npc_bullet_damage))
  get_node("Projectiles").add_child(bullet)
  _event("npc_shot", {"ammo": npc_ammo, "target": closest.name})
  state_changed.emit()
 
 func take_npc_damage(amount: int) -> void:
- if not npc_combat_enabled or npc_hp <= 0 or map_id != "storage" or defeated or finished: return
+ if not npc_combat_enabled or npc_hp <= 0 or not is_combat_area() or defeated or finished: return
  var protected := cover_time > 0.0 and npc.position.distance_to(safe_position) <= cover_radius
  var actual := maxi(1, ceili(amount * (covered_damage_multiplier if protected else 1.0)))
  npc_hp = maxi(0, npc_hp - actual)
@@ -839,11 +887,11 @@ func take_npc_damage(amount: int) -> void:
   active_action = ""
   epoch += 1
   say_companion("미안… 더는 못 움직이겠어.", 100)
-  locker.cancel("npc_downed")
+  current_panel().cancel("npc_downed")
   npc_reload_time = 0
   notice.emit("하린 다운 · 가까이에서 E로 치료 키트 1개를 사용해 소생")
   if medkits <= 0: fail_mission("하린을 소생할 치료 키트가 없습니다.")
-  for enemy in get_node("Enemies").get_children(): enemy.companion_alive = false
+  for enemy in room_enemies(): enemy.companion_alive = false
  _sync_state()
  state_changed.emit()
 
@@ -852,7 +900,8 @@ func fail_mission(reason: String) -> void:
  defeated = true
  epoch += 1
  active_action = ""
- locker.cancel("mission_failed")
+ current_panel().cancel("mission_failed")
+ clear_projectiles()
  notice.emit(reason + " 새 회차로 재도전하세요.")
  _event("mission_failed", {"reason": reason})
  _sync_state()
@@ -885,6 +934,7 @@ func _npc_reload(delta: float) -> void:
 func save_snapshot() -> Dictionary:
  var data := {"map_id": map_id, "player_position": [player.position.x, player.position.y], "npc_position": [npc.position.x, npc.position.y], "enemies": {}, "recent_events": recent_events.duplicate()}
  data["story"] = story.snapshot()
+ data["containment"] = containment.snapshot()
  data.merge({"flashlight_owned": flashlight_owned, "flashlight_dropped": flashlight_dropped, "flashlight_position": [$FlashlightPickup.position.x, $FlashlightPickup.position.y], "facing": [player.facing_direction.x, player.facing_direction.y], "locker": locker.snapshot()})
  data.merge({"npc_reserve": npc_reserve, "npc_reload_time": npc_reload_time, "companion_mode": npc_motion.mode, "wait_position": [npc_motion.wait_position.x, npc_motion.wait_position.y] if npc_motion.mode == "wait" else [npc.position.x, npc.position.y]})
  data["completed_support"] = completed_support.duplicate()
@@ -910,6 +960,7 @@ func restore_snapshot(data: Dictionary) -> void:
  npc_navigation.reset()
  _combat_target = null
  locker.restore(data.locker)
+ containment.restore(data.get("containment", containment.initial_snapshot()))
  player.position = Vector2(data.player_position[0], data.player_position[1])
  npc.position = Vector2(data.npc_position[0], data.npc_position[1])
  npc_reserve = int(data.get("npc_reserve", npc_initial_reserve))
@@ -928,9 +979,7 @@ func restore_snapshot(data: Dictionary) -> void:
   enemy.attack_wait = float(state.attack_wait)
   enemy.companion_alive = npc_combat_enabled and npc_hp > 0
   enemy.queue_redraw()
- for bullet in get_node("Projectiles").get_children():
-  bullet.set_physics_process(false)
-  bullet.queue_free()
+ clear_projectiles()
  _sync_state()
  _event("save_loaded", {})
  state_changed.emit()
@@ -952,9 +1001,9 @@ func _event(kind: String, details: Dictionary) -> void:
 
 func _draw() -> void:
  if Engine.is_editor_hint(): return
- if cover_time > 0.0 and map_id == "storage":
+ if cover_time > 0.0 and is_combat_area():
   draw_circle(safe_position, 90, Color(0.15, 0.8, 0.8, 0.16))
   draw_arc(safe_position, 90, 0, TAU, 48, Color("6fffe3"), 3)
   draw_rect(Rect2(safe_position - Vector2(12, 12), Vector2(24, 24)), Color("6fbfb7"))
- if guide_time > 0.0 and map_id == "storage":
+ if guide_time > 0.0 and is_combat_area():
   draw_line(player.position, safe_position, Color("ffdc8b"), 3)

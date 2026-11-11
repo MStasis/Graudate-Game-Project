@@ -40,17 +40,23 @@ const PROVIDERS := ["RuleBased", "LocalLLM", "Jev"]
 
 func setup(mission: DemoWorld, directory: String) -> void:
  world = mission
- var sources := ""
- for path in ["res://project.godot", "res://main.gd", "res://main.tscn", "res://world.gd", "res://scripts/npc_brain.gd", "res://scripts/npc_policy.gd", "res://scripts/local_ai_client.gd", "res://scripts/local_npc_settings.gd", "res://scripts/experiment_settings.gd", "res://scripts/mission_drone.gd", "res://scripts/mission_projectile.gd", "res://scripts/player.gd", "res://scripts/interactable.gd", "res://scenes/World.tscn", "res://scenes/Drone.tscn", "res://scenes/Player.tscn", "res://scenes/NPC.tscn", "res://resources/flashlight.gdshader", "res://resources/NPCSettings.tres", "res://resources/ExperimentSettings.tres"]:
-  sources += FileAccess.get_file_as_string(path)
- project_fingerprint = (sources + FileAccess.get_file_as_string("res://scripts/chat_input.gd") + FileAccess.get_file_as_string("res://resources/GameTheme.tres")).sha256_text()
- project_fingerprint = (project_fingerprint + FileAccess.get_file_as_string("res://scripts/hud_frame.gd") + FileAccess.get_sha256("res://assets/ui/harin_canva.png")).sha256_text()
- project_fingerprint = (project_fingerprint + FileAccess.get_sha256("res://native/windows_ime/windows_ime.dll")).sha256_text()
- for path in ["res://scripts/companion_motion.gd", "res://scripts/companion_navigation.gd", "res://scripts/harin_actor.gd", "res://scripts/temporary_actor_aim.gd", "res://scripts/harin_character.gd", "res://resources/HarinCharacter.tres", "res://scripts/cooperative_locker.gd", "res://scenes/CooperativeLocker.tscn", "res://scripts/rounded_obstacle.gd", "res://scripts/harin_dialogue.gd", "res://scripts/system_notifications.gd"]:
-  project_fingerprint = (project_fingerprint + FileAccess.get_file_as_string(path)).sha256_text()
+ if OS.has_feature("template"):
+  # 내보낸 게임에서는 원본 스크립트 대신 실제 배포된 데이터 파일을 식별한다.
+  var executable := OS.get_executable_path()
+  var pack := executable.get_basename() + ".pck"
+  project_fingerprint = FileAccess.get_sha256(pack if FileAccess.file_exists(pack) else executable)
+ else:
+  var sources := ""
+  for path in ["res://project.godot", "res://main.gd", "res://main.tscn", "res://world.gd", "res://scripts/npc_brain.gd", "res://scripts/npc_policy.gd", "res://scripts/local_ai_client.gd", "res://scripts/local_npc_settings.gd", "res://scripts/experiment_settings.gd", "res://scripts/mission_drone.gd", "res://scripts/mission_projectile.gd", "res://scripts/player.gd", "res://scripts/interactable.gd", "res://scenes/World.tscn", "res://scenes/Drone.tscn", "res://scenes/Player.tscn", "res://scenes/NPC.tscn", "res://resources/flashlight.gdshader", "res://resources/NPCSettings.tres", "res://resources/ExperimentSettings.tres"]:
+   sources += FileAccess.get_file_as_string(path)
+  project_fingerprint = (sources + FileAccess.get_file_as_string("res://scripts/chat_input.gd") + FileAccess.get_file_as_string("res://resources/GameTheme.tres")).sha256_text()
+  project_fingerprint = (project_fingerprint + FileAccess.get_file_as_string("res://scripts/hud_frame.gd") + FileAccess.get_sha256("res://assets/ui/harin_canva.png")).sha256_text()
+  project_fingerprint = (project_fingerprint + FileAccess.get_sha256("res://native/windows_ime/windows_ime.dll")).sha256_text()
+  for path in ["res://scripts/companion_motion.gd", "res://scripts/companion_navigation.gd", "res://scripts/harin_actor.gd", "res://scripts/temporary_actor_aim.gd", "res://scripts/harin_character.gd", "res://resources/HarinCharacter.tres", "res://scripts/cooperative_locker.gd", "res://scenes/CooperativeLocker.tscn", "res://scripts/rounded_obstacle.gd", "res://scripts/harin_dialogue.gd", "res://scripts/system_notifications.gd"]:
+   project_fingerprint = (project_fingerprint + FileAccess.get_file_as_string(path)).sha256_text()
+  for path in ["res://scripts/combat_interface.gd", "res://scripts/actor_status.gd", "res://scripts/mission_save_store.gd", "res://scripts/story_progress.gd", "res://scripts/message_journal.gd", "res://scripts/exploration_map.gd", "res://resources/harin_style_examples.json"]:
+   project_fingerprint = (project_fingerprint + FileAccess.get_file_as_string(path)).sha256_text()
  log_dir = directory
- for path in ["res://scripts/combat_interface.gd", "res://scripts/actor_status.gd", "res://scripts/mission_save_store.gd", "res://scripts/story_progress.gd", "res://scripts/message_journal.gd", "res://scripts/exploration_map.gd", "res://resources/harin_style_examples.json"]:
-  project_fingerprint = (project_fingerprint + FileAccess.get_file_as_string(path)).sha256_text()
  provider = settings.provider
  for client in [local_dialogue, local_decision]:
   client.log_dir = log_dir
@@ -81,6 +87,9 @@ func new_trial(mode: int = -1) -> void:
 
 func _process(delta: float) -> void:
  if not world: return
+ if world.finished or world.defeated:
+  if not pending.is_empty() or not queued_question.is_empty(): cancel_pending("mission_ended")
+  return
  if auto_enabled and not world.finished and not world.defeated:
   var urgent := world.emergency_support()
   if not urgent.is_empty():
@@ -103,13 +112,14 @@ func _process(delta: float) -> void:
  clock += delta
  if clock < settings.decision_interval or not world.active_action.is_empty(): return
  clock = 0.0
- if (world.map_id == "storage" and world.enemies_remaining() > 0) or world.player_hp <= 55 or world.ammo <= 4 or world.locker.needs_assistance():
+ if (world.is_combat_area() and world.enemies_remaining() > 0) or world.player_hp <= 55 or world.ammo <= 4 or world.current_panel().needs_assistance():
   request_decision()
 
 func request_decision() -> bool:
  return _request("decision", "")
 
 func request_dialogue(text: String) -> bool:
+ if world.finished or world.defeated: return false
  text = text.strip_edges().substr(0, 300)
  if text.is_empty(): return false
  var action := NPCPolicy.requested_action(text)
@@ -137,7 +147,7 @@ func request_dialogue(text: String) -> bool:
  return _request("dialogue", text)
 
 func _request(kind: String, question: String) -> bool:
- if not pending.is_empty(): return false
+ if not pending.is_empty() or world.finished or world.defeated: return false
  serial += 1
  var snapshot := world.game_state().duplicate(true)
  var allowed: Array = snapshot.valid_actions if kind == "decision" else NPCPolicy.INTENTS.keys()
@@ -239,6 +249,7 @@ func _resolve(selected: String, metadata: Dictionary) -> void:
  var job := pending.duplicate(true)
  var elapsed := (Time.get_ticks_usec() - int(job.started_usec)) / 1000.0
  var reason := ""
+ if world.finished or world.defeated: reason = "mission_ended"
  if world.epoch != int(job.epoch): reason = "stale_epoch"
  if job.kind == "dialogue" and reason.is_empty() and HarinDialogue.topic_for(job.question, history) in ["mission", "support"]:
   var before := HarinDialogue.facts(job.snapshot, job.question, HarinDialogue.topic_for(job.question, history))
@@ -310,6 +321,7 @@ func cancel_pending(reason: String) -> void:
  cancel_channel("decision", reason)
 
 func _world_event(event: Dictionary) -> void:
+ if event.event in ["mission_completed", "mission_failed"]: cancel_pending("mission_ended")
  _log({"event": "world_event", "details": event})
 
 func _log(record: Dictionary) -> void:

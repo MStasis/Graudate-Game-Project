@@ -5,12 +5,13 @@ var direction := Vector2.RIGHT
 var shooter: CollisionObject2D
 var lifetime := 1.4
 var speed := 700.0
+var hit_mask := 3
 
 func _physics_process(delta: float) -> void:
  lifetime -= delta
  if lifetime <= 0.0: queue_free(); return
  var next := global_position + direction * speed * delta
- var query := PhysicsRayQueryParameters2D.create(global_position, next, 3)
+ var query := PhysicsRayQueryParameters2D.create(global_position, next, hit_mask)
  query.hit_from_inside = true
  if is_instance_valid(shooter): query.exclude = [shooter.get_rid()]
  var hit := get_world_2d().direct_space_state.intersect_ray(query)

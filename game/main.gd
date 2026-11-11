@@ -21,6 +21,9 @@ var _last_submitted_question := ""
 var _radio_error := false
 var _lab_dialogue_open := true
 var _combat_chat_open := false
+var result_screen: Control
+var _ending_elapsed := -1.0
+const ENDING_SECONDS := 6.0
 const UI_TEAL := Color("74c6b6")
 const UI_AMBER := Color("d3a66e")
 const UI_DANGER := Color("dc8576")
@@ -32,12 +35,17 @@ func _ready() -> void:
  dialogue_panel.process_mode = Node.PROCESS_MODE_PAUSABLE
  combat_hud.process_mode = Node.PROCESS_MODE_PAUSABLE
  combat_hud.setup(self)
+ result_screen = preload("res://scenes/ui/DemoResult.tscn").instantiate()
+ add_child(result_screen)
+ result_screen.get_node("Center/Card/Margin/Content/Buttons/Restart").pressed.connect(reset_demo)
+ result_screen.get_node("Center/Card/Margin/Content/Buttons/Quit").pressed.connect(func(): get_tree().quit())
  pause_menu.store = save_store
  pause_menu.close_requested.connect(toggle_pause)
  pause_menu.save_selected.connect(save_slot)
  pause_menu.load_selected.connect(load_slot)
  evidence_mode = "--mission-evidence" in OS.get_cmdline_user_args()
- log_dir = ProjectSettings.globalize_path("res://../evidence/mission_v1").simplify_path()
+ var evidence_root := "user://evidence" if OS.has_feature("template") else "res://../evidence"
+ log_dir = ProjectSettings.globalize_path(evidence_root.path_join("mission_v1")).simplify_path()
  if "--chat-input-test" in OS.get_cmdline_user_args():
   brain.auto_enabled = false
   brain.run_kind = "chat_input_regression"
@@ -72,6 +80,8 @@ func _ready() -> void:
     client.settings.model = argument.trim_prefix("--local-model=")
  world.interacted.connect(interact)
  world.state_changed.connect(update_state)
+ world.game_event.connect(func(event):
+  if event.event == "mission_completed": _begin_ending())
  world.room_changing.connect(combat_hud.clear_speech)
  world.notice.connect(_show_status)
  combat_hud.npc_line_shown.connect(func(text): answer.text = text)
@@ -143,7 +153,7 @@ func update_state() -> void:
  if world.fuse_collected: step = 3
  if world.power_restored: step = 4
  %MissionStep.text = "%02d / 04  ·  목표" % step
- if world.story.tutorial_completed: %MissionStep.text = "튜토리얼 완료 · 본편 진입"
+ if world.story.tutorial_completed: %MissionStep.text = "외곽 봉쇄 · " + world.containment.guidance()
  if world.defeated: %MissionStep.text = "임무 중단"
  var provider_names := ["규칙 기반", "로컬 LLM", "Jev"]
  %ProviderBadge.text = "판단 방식 · " + provider_names[brain.provider]
@@ -165,11 +175,14 @@ func _companion_says(message: String, priority := 60, guard := "") -> void:
  combat_hud.speak("하린", message, priority, guard)
 
 func reset_demo(mode: int = -1) -> void:
+ _ending_elapsed = -1
+ result_screen.hide()
  if pause_menu.visible: toggle_pause()
  combat_hud.reset()
  _chat_idle = 0
  _chat_sent = false
  question.finish_editing()
+ question.text = ""
  _lab_dialogue_open = true
  _combat_chat_open = false
  brain.new_trial(mode)
@@ -186,7 +199,7 @@ func ask_npc() -> void:
  question.request_submit()
 
 func _send_question(message: String) -> void:
- if pause_menu.visible: return
+ if pause_menu.visible or world.finished or world.defeated: return
  combat_hud.speak("플레이어", message)
  _chat_idle = 0
  _chat_sent = true
@@ -218,7 +231,7 @@ func _update_radio_state(label_text: String, color: Color) -> void:
  %RadioState.modulate = color
 
 func _sync_input_mode() -> void:
- world.can_move = not question.has_focus() and not %DebugPanel.visible and not pause_menu.visible and not combat_hud.modal_open()
+ world.can_move = not world.finished and not world.defeated and not question.has_focus() and not %DebugPanel.visible and not pause_menu.visible and not combat_hud.modal_open()
  if question.has_focus():
   _chat_idle = 0
   dialogue_panel.modulate.a = 1
@@ -256,8 +269,8 @@ func _sync_dialogue_presentation() -> void:
  if world.map_id == "storage": goal = "퓨즈를 챙겨 연구실로 복귀"
  if world.fuse_collected: goal = "전력 장치에 퓨즈 장착"
  if world.power_restored: goal = "침식 경보 · 연구동으로 출발"
- if world.map_id == "main_entry": goal = "연구동 진입 · 관측 단말 확인"
- if world.finished: goal = "전력 복구 · 임무 완료"
+ if world.map_id == "main_entry": goal = world.containment.guidance()
+ if world.finished: goal = "연구동 외곽 구역 봉쇄 성공"
  if world.defeated: goal = "전투 불능 · 새 회차 필요"
  %LabObjectiveText.text = goal
  %LabObjective.tooltip_text = world.current_guidance()
@@ -266,7 +279,7 @@ func _sync_dialogue_presentation() -> void:
  _update_speaker_bubble()
 
 func open_dialogue() -> void:
- if pause_menu.visible or combat_hud.modal_open(): return
+ if pause_menu.visible or combat_hud.modal_open() or world.finished or world.defeated: return
  if is_noncombat():
   _lab_dialogue_open = true
   dialogue_panel.show()
@@ -287,6 +300,11 @@ func close_dialogue() -> void:
 
 func _process(delta: float) -> void:
  if not is_node_ready() or get_tree().paused: return
+ if _ending_elapsed >= 0:
+  _ending_elapsed += delta
+  if _ending_elapsed >= ENDING_SECONDS and not result_screen.visible:
+   result_screen.show()
+   result_screen.get_node("Center/Card/Margin/Content/Buttons/Restart").grab_focus()
  _update_world_view()
  _update_speaker_bubble()
  combat_hud.update_view(delta)
@@ -328,7 +346,7 @@ func prepare_question(text: String) -> void:
  open_dialogue()
 
 func toggle_settings() -> void:
- if pause_menu.visible: return
+ if pause_menu.visible or world.finished: return
  question.finish_editing()
  %DebugPanel.visible = not %DebugPanel.visible
  if not %DebugPanel.visible:
@@ -341,6 +359,7 @@ func _measured(record: Dictionary) -> void:
 
 func _input(event: InputEvent) -> void:
  if not is_node_ready() or not event is InputEventKey or not event.pressed or event.echo: return
+ if world.finished: return
  var code: int = event.keycode if event.keycode != 0 else event.physical_keycode
  if combat_hud.modal_open():
   if code == KEY_ESCAPE: combat_hud.close_modal()
@@ -354,6 +373,7 @@ func _input(event: InputEvent) -> void:
   get_viewport().set_input_as_handled()
 
 func _unhandled_key_input(event: InputEvent) -> void:
+ if world.finished: return
  if not event is InputEventKey or not event.pressed or event.echo: return
  var code: int = event.keycode if event.keycode != 0 else event.physical_keycode
  if code == KEY_F3:
@@ -377,6 +397,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
    else: open_dialogue()
    get_viewport().set_input_as_handled()
 func toggle_pause() -> void:
+ if world.finished: return
  if pause_menu.visible:
   pause_menu.hide()
   get_tree().paused = false
@@ -400,6 +421,7 @@ func save_slot(slot: int) -> bool:
  return true
 
 func load_slot(slot: int) -> bool:
+ if world.finished: return false
  var data := save_store.read_slot(slot)
  if data.is_empty() or not save_store.validate(data, world):
   pause_menu.show_result(save_store.last_error)
@@ -435,6 +457,20 @@ func load_slot(slot: int) -> bool:
 
 func _exit_tree() -> void:
  if get_tree(): get_tree().paused = false
+
+func _begin_ending() -> void:
+ brain.cancel_pending("demo_ending")
+ combat_hud.clear_speech()
+ combat_hud.close_modal()
+ question.finish_editing()
+ question.text = ""
+ dialogue_panel.hide()
+ _combat_chat_open = false
+ %DebugPanel.hide()
+ pause_menu.hide()
+ get_tree().paused = false
+ _ending_elapsed = 0
+ _sync_input_mode()
 
 func capture_screen(stem: String) -> void:
  await RenderingServer.frame_post_draw

@@ -37,6 +37,9 @@ func _world_event(event: Dictionary) -> void:
   "player_damage", "npc_damage": play(HIT)
   "enemy_defeated": play(DOWN)
   "trial_reset": last_ammo = world.ammo
+  "mission_completed":
+   for voice in voices: voice.stop()
+   play(COMPLETE)
   "interaction":
    var kind := str(event.get("kind", ""))
    if kind in ["storage_gate", "lab_gate"]: play(DOOR)

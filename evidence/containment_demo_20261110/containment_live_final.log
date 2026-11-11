@@ -1,0 +1,3 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+CONTAINMENT_LIVE_RESULT {"actual_model":"qwen3:4b","check_count":7,"checks":{"ending_cancels_actual_http_and_queue":true,"ending_real_request_pending":true,"ending_rejects_new_model_requests":true,"ending_result_with_server_present":true,"late_callback_never_displays_or_enters_memory":true,"new_game_cancels_http_and_memory":true,"new_game_real_request_pending":true},"completion_fixture":true,"created_utc":"2026-11-10T14:44:24","http_requests_started":2,"human_playtest":false,"late_callback_fixture":true,"passed":true}

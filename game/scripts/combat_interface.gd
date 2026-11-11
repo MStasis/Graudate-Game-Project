@@ -28,7 +28,7 @@ func setup(main: Control) -> void:
  recent_style.bg_color = Color(0.035, 0.055, 0.075, 0.94)
  for side in [SIDE_LEFT, SIDE_TOP, SIDE_RIGHT, SIDE_BOTTOM]: recent_style.set_content_margin(side, 6)
  $Recent.add_theme_stylebox_override("normal", recent_style)
- for target in [app.world.player, app.world.npc] + app.world.get_node("Enemies").get_children():
+ for target in [app.world.player, app.world.npc] + app.world.all_enemies():
   var hud := STATUS.instantiate() as ActorStatus
   hud.target = target
   hud.actor_kind = "player" if target == app.world.player else "npc" if target == app.world.npc else "enemy"
@@ -79,6 +79,7 @@ func modal_open() -> bool:
  return $HistoryPanel.visible or $FullMapPanel.visible
 
 func toggle_history() -> void:
+ if app.world.finished: return
  app.question.finish_editing()
  $FullMapPanel.hide()
  $HistoryPanel.visible = not $HistoryPanel.visible
@@ -86,6 +87,7 @@ func toggle_history() -> void:
  app._sync_input_mode()
 
 func toggle_map() -> void:
+ if app.world.finished: return
  app.question.finish_editing()
  $HistoryPanel.hide()
  $FullMapPanel.visible = not $FullMapPanel.visible
@@ -194,8 +196,8 @@ func speech_valid(entry: Dictionary) -> bool:
   "heal_started": return world.active_action == "heal"
   "resupply_started": return world.active_action == "resupply"
   "deploy_cover_started": return world.active_action == "deploy_cover"
-  "assist_panel_started": return world.active_action == "assist_panel" and world.locker.needs_assistance()
-  "panel": return world.active_action == "assist_panel" and world.locker.needs_assistance()
+  "assist_panel_started": return world.active_action == "assist_panel" and world.current_panel().needs_assistance()
+  "panel": return world.active_action == "assist_panel" and world.current_panel().needs_assistance()
   "clear": return world.map_id == "storage" and world.enemies_remaining() == 0 and not world.defeated
   "flashlight": return world.flashlight_dropped and not world.flashlight_owned
  return not world.defeated and not world.finished
@@ -223,7 +225,7 @@ func update_view(delta: float) -> void:
  minimap.visible = true
  $Objective.visible = combat
  $Objective.text = app.world.current_guidance()
- $HistoryButton.visible = true
+ $HistoryButton.visible = not app.world.finished
  var occupied: Array[Rect2] = []
  if combat:
   occupied.append(minimap.get_rect())

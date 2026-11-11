@@ -17,6 +17,9 @@ var companion: Node2D
 var companion_alive := false
 var show_world_health := true
 var attack_wait := 0.0
+var mission: Node2D
+var navigate_obstacles := false
+var navigation := CompanionNavigation.new()
 
 func reset_enemy() -> void:
  hp = max_hp
@@ -41,10 +44,13 @@ func _physics_process(delta: float) -> void:
  var victim: Node2D = target
  if companion_alive and is_instance_valid(companion) and position.distance_squared_to(companion.position) < position.distance_squared_to(target.position): victim = companion
  var distance := position.distance_to(victim.position)
- velocity = position.direction_to(victim.position) * move_speed if distance > 27.0 else Vector2.ZERO
+ var destination := navigation.waypoint(mission, victim.position, delta, self) if navigate_obstacles and mission else victim.position
+ velocity = position.direction_to(destination) * move_speed if distance > 27.0 else Vector2.ZERO
  move_and_slide()
  attack_wait -= delta
- if distance < 39.0 and attack_wait <= 0.0:
+ var clear := true
+ if navigate_obstacles and mission: clear = mission.clear_line(position, victim.position)
+ if distance < 39.0 and attack_wait <= 0.0 and clear:
   attack_wait = attack_interval
   if victim == companion: hit_companion.emit(contact_damage)
   else: hit_player.emit(contact_damage)

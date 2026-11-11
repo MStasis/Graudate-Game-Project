@@ -48,6 +48,8 @@ static func build(state: Dictionary, question: String, history: Array, persona: 
  var system := "너는 연구소 정비사 하린. 상대는 함께 일하던 보안 직원이야. 한국어 반말로 말해. '~해', '~야' 같은 편한 말투를 쓰고 '~요', '~습니다'는 쓰지 마. 진행 질문은 최신 사실 우선으로 핵심을 알려 줘. 잡담은 장난·능청·회피·짧은 반문(counterquestions)도 가능해. 문장 수나 격려·역질문 끝맺음은 강제하지 않아. 가상 예시는 말투 참고일 뿐 실제 사건·규정·취향·기억이 아니야. 실행 전 행동을 완료했다고 말하지 마. 마지막 현재 플레이어 말에만 반응해. JSON/행동 주석/서술 없이 하린의 발화만 써."
  var context := {"고정 역할·세계관": {"identity": CHARACTER.identity, "voice": CHARACTER.voice, "scene_role": persona.left(240)}, "현재 서사 단계": state.get("story", {}).get("stage", "blackout"), "최근 대화 (실제 문답)": recent_history(history, casual and not referring), "말투 참고 (가상·기억 아님)": style_examples(topic, question)}
  context["현재 장면"] = PHASES.get(str(context["현재 서사 단계"]), "현재 상태 참고") if not casual else AMBIENT.get(str(context["현재 서사 단계"]), "친숙한 동료와 근무 중 대화")
+ if state.get("story", {}).get("stage") in ["containment", "contained"]:
+  context["현재 장면"] = "연구동 외곽의 침식 확산을 일시적으로 차단함. 내부 후속 조사 필요." if state.get("escaped", false) else "연구동 외곽 임시 봉쇄 중. 튜토리얼 전력 복구는 끝났고 연구소 전체 이상현상은 미해결."
  if casual: context["현재 장면의 용도"] = "배경 사실만 지킨다. 잡담을 임무 매뉴얼이나 과거 목표로 돌리지 않는다."
  context["미확정 배경"] = "식사 여부, 고정 최애 음식, 퇴근 불가 규정, 통신 두절은 확인되지 않았다. 예시에서 실제 과거를 가져오지 않는다."
  if not casual:
@@ -105,12 +107,14 @@ static func facts(state: Dictionary, question: String, topic: String) -> Diction
    result["사용 방법"] = "지금 네가 가진 손전등은 마우스 조준 방향으로 자동으로 비춘다. 마우스만 움직이면 된다." if state.get("flashlight_owned", false) else "바닥에 놓인 뒤 가까이에서 E로 줍는다. 주운 다음에는 마우스 조준 방향으로 자동으로 비춘다."
   return result
  if NPCPolicy.has_word(question, ["패널", "보관함", "반대쪽"]):
+  if state.map_id == "main_entry":
+   return {"장치": "최종 외곽 봉쇄 패널 (튜토리얼 보관함과 별개)", "봉쇄 단계": state.get("containment_stage", "unobserved"), "남은 적": state.enemy_count, "현재 목표": state.current_guidance, "플레이어 패널 유지": state.locker.player_holding, "방법": "두 무리 드론 전멸 뒤 한쪽 E 유지, 하린은 반대 패널. 둘이 1초 유지 후 비프 확인. 대기 중이면 따라와, 다운이면 가까이 E로 키트 소생."}
   var result := {"보관함": "열림" if state.locker.opened else "잠김", "역할": {"player": "one selected panel", "Harin (you)": "the opposite panel"}, "실행 상태": state.get("active_action", ""), "플레이어 패널 유지": state.locker.player_holding}
   if NPCPolicy.asks_controls(question): result["방법"] = "너는 한쪽 패널 가까이에서 E를 계속 누른다. 나는 반대편 패널을 동시에 누른다. 둘이 누른 채 1초 유지하면 보관함이 열린다."
   return result
  var next := {"행동": "손전등 수령", "장소": "연구실 오른쪽 통로"}
  if state.get("story", {}).get("stage") == "on_shift": return {"현재": "평상시 근무, 아직 정전은 발생하지 않음", "다음 단계": {"행동": "연구 구역 전등 점검", "장소": "연구실"}}
- if state.map_id == "main_entry": next = {"행동": "침식 관측 단말 확인·이상현상 봉쇄 경로 조사", "장소": "연구동 진입실"}
+ if state.map_id == "main_entry": next = {"행동": state.current_guidance, "장소": "연구동 외곽", "봉쇄 단계": state.get("containment_stage", "unobserved"), "남은 적": state.enemy_count, "보급함 회수": state.get("containment_supply_used", false)}
  elif state.power_restored: next = {"행동": "경보 확인 후 연구동 출발", "장소": "연구실 출발 출입문"} if "anomaly_alarm" in state.get("story", {}).get("events", []) else {"행동": "재가동된 장치 상태 확인 (전력 복구 완료)", "장소": "연구실"}
  elif state.fuse_collected: next = {"행동": "퓨즈 장착", "장소": "연구실 전력 장치"}
  elif state.map_id == "storage": next = {"행동": "드론 제압 후 두 패널로 보관함 개방, 퓨즈 확보", "장소": "보관 구역 북동쪽 보관함"}
@@ -119,6 +123,10 @@ static func facts(state: Dictionary, question: String, topic: String) -> Diction
  var stable_story: Dictionary = state.get("story", {}).duplicate(true)
  stable_story.erase("elapsed") # 연출 시계의 매 프레임 변화는 실제 사실 변경/응답 취소 사유가 아니다.
  var result := {"현재 목표": "침식된 이상현상의 봉쇄 경로 조사" if "anomaly_alarm" in state.get("story", {}).get("events", []) else "전력 계통 확인과 복구", "서사": stable_story, "다음 단계": next, "퓨즈 확보": state.fuse_collected, "퓨즈 추가 확보 필요": not state.fuse_collected, "전력 복구": state.power_restored, "임무 완료": state.escaped}
+ if state.map_id == "main_entry" or state.get("escaped", false):
+  result["현재 목표"] = state.current_guidance
+  result["봉쇄 범위"] = "외곽 침식 확산의 일시 차단. 연구소 전체 해결 아님. 내부 후속 조사 필요."
+  result["경보 상태"] = "안정/해제" if state.escaped else "경보 중"
  if NPCPolicy.has_word(question, ["물건", "부품", "퓨즈", "챙겨"]) or ("보관" in question and "찾" in question):
   result["질문이 가리키는 물품"] = {"이름": "퓨즈", "원래 보관 장소": "보관 구역 북동쪽 보관함", "현재 위치": "연구실 전력 장치" if state.power_restored else "플레이어 보유" if state.fuse_collected else "보관 구역 보관함", "획득 완료": state.fuse_collected, "전력 장치에 장착 완료": state.power_restored, "추가 확보 필요": not state.fuse_collected}
  return result
@@ -126,6 +134,7 @@ static func facts(state: Dictionary, question: String, topic: String) -> Diction
 static func claims_valid(text: String, state: Dictionary) -> bool:
  var compact := text.replace(" ", "")
  var observed: Array = state.get("story", {}).get("events", [])
+ if NPCPolicy.has_word(compact, ["연구소전체가해결", "전부해결됐", "모든이상현상이사라", "모두해결됐"]): return false
  if "anomaly_alarm" not in observed and NPCPolicy.has_word(compact, ["경보가켜졌", "경고등이켜졌", "침식된장치가드러났"]): return false
  if int(state.get("enemy_count", 0)) == 0 and NPCPolicy.has_word(compact, ["드론먼저잡아", "드론을먼저잡아", "드론잡아야", "드론을제압해야"]): return false
  if not state.get("escaped", false) and NPCPolicy.has_word(compact, ["임무끝났", "임무완료했", "모두해결됐", "이상현상닫았"]): return false

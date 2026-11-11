@@ -1,0 +1,132 @@
+[
+  {
+    "Path": "game/main.gd",
+    "SHA256": "0EDE90C0E6B80FD47CA3E31B998D6A05633F5A3BB9587B8FACC0397B7190BDB0",
+    "CopyMatches": true
+  },
+  {
+    "Path": "game/scenes/World.tscn",
+    "SHA256": "C6AF1F37ECC4BFF209F7134DC2B217BACEAF2F7B697C7A9EC651FF0B9C2DAAF8",
+    "CopyMatches": true
+  },
+  {
+    "Path": "game/scripts/combat_interface.gd",
+    "SHA256": "EDAF3016BE4A72D2B9CC12F3E76F0FB4D007CCD22E9C139DB35E1776818C0D35",
+    "CopyMatches": true
+  },
+  {
+    "Path": "game/scripts/companion_navigation.gd",
+    "SHA256": "EFEC17EAD28B7B16421CE929BF4153892725E785BE559B64A8ECB902D14E7EC3",
+    "CopyMatches": true
+  },
+  {
+    "Path": "game/scripts/cooperative_locker.gd",
+    "SHA256": "536E97ECE6B702302AA74B6C436E780C371B3DFAC32AB9B14738E18AB2A36114",
+    "CopyMatches": true
+  },
+  {
+    "Path": "game/scripts/exploration_map.gd",
+    "SHA256": "CDA92C26F287CFE8F6D4BE33F34F12BDF5889FD7DA4B6911087DC366954A4610",
+    "CopyMatches": true
+  },
+  {
+    "Path": "game/scripts/harin_dialogue.gd",
+    "SHA256": "E1C3827C37BC591D3F6DF12CCD5676BA22D54EF0249F5A21D5243D4F5906190E",
+    "CopyMatches": true
+  },
+  {
+    "Path": "game/scripts/interactable.gd",
+    "SHA256": "32ABC86EE810F7542A6A5836EBA34EC1C886FFE67B16322BB2426078C05CF991",
+    "CopyMatches": true
+  },
+  {
+    "Path": "game/scripts/mission_audio.gd",
+    "SHA256": "C184EE39A776853961D0BD3F65327E5B472B45BDAA37F63789C7A6EC323B6159",
+    "CopyMatches": true
+  },
+  {
+    "Path": "game/scripts/mission_drone.gd",
+    "SHA256": "CC12010ECECD35721789CEF5D7086F540660D56EFEE0928C67AC1962457465CC",
+    "CopyMatches": true
+  },
+  {
+    "Path": "game/scripts/mission_fx.gd",
+    "SHA256": "2A590BEDD506BA647E38E3330BE52EB24540649F1D5686A26B05AACBEFA5D8E2",
+    "CopyMatches": true
+  },
+  {
+    "Path": "game/scripts/mission_projectile.gd",
+    "SHA256": "A0EDCF779363118188A5D471A7D907C0D0BCEDBA8B077F23899F95572EFC4EFC",
+    "CopyMatches": true
+  },
+  {
+    "Path": "game/scripts/mission_save_store.gd",
+    "SHA256": "1619D1621F8118B1C43500C8A50A9FE997D08F119352AAFF4D10B93BB1C032B0",
+    "CopyMatches": true
+  },
+  {
+    "Path": "game/scripts/npc_brain.gd",
+    "SHA256": "FFA84ADF88067E0B94D5A367AA7147E3A14F60AAE5160072D63F1708171C45AB",
+    "CopyMatches": true
+  },
+  {
+    "Path": "game/scripts/npc_policy.gd",
+    "SHA256": "55F93C961611C82A21ECB0B2FF2286C6AD9BF9E605AC9ED95BF2391FD12794FF",
+    "CopyMatches": true
+  },
+  {
+    "Path": "game/scripts/story_progress.gd",
+    "SHA256": "89D67FB760204457E4EA08C945BD51757CA613EE6DCFF6D5A7A5E0C624EB2D66",
+    "CopyMatches": true
+  },
+  {
+    "Path": "game/scripts/temporary_actor_aim.gd",
+    "SHA256": "5CB536010230BEF9BD004BED776BCE7F959B849CDC7A1C71F007AAEAE9181767",
+    "CopyMatches": true
+  },
+  {
+    "Path": "game/tests/interface_update_test.gd",
+    "SHA256": "05478A418460721BC67675EABAF615C32A908F0BD58C938AC741703E60981633",
+    "CopyMatches": true
+  },
+  {
+    "Path": "game/tests/story_ui_test.gd",
+    "SHA256": "DC51A646FF7CFD2D82851952CCEFA1CB3FB0CCBA0BC3C20A2074D4381235DD01",
+    "CopyMatches": true
+  },
+  {
+    "Path": "game/world.gd",
+    "SHA256": "A829C10C1ACB0B8B91AB933F176DEE7FDE39E44B953B8AD790FB8D2558B09CB3",
+    "CopyMatches": true
+  },
+  {
+    "Path": "scripts/verify_mission.ps1",
+    "SHA256": "330A9C75168E8836157A7FF8B433A89EE7B8C441A281AE81033AF8EC1261BB3B",
+    "CopyMatches": true
+  },
+  {
+    "Path": "game/scripts/containment_mission.gd",
+    "SHA256": "9EA6D3FED5BBE98D8C96AC234E7D7DC1CDEB02C492BBE7E16AF88C80322DD8FA",
+    "CopyMatches": true
+  },
+  {
+    "Path": "game/scenes/ContainmentMission.tscn",
+    "SHA256": "1A0F16A49AA082C1173B945DCB3A95D4234F869662D45F44BC3D6DD953C29954",
+    "CopyMatches": true
+  },
+  {
+    "Path": "game/scenes/ui/DemoResult.tscn",
+    "SHA256": "175301F97105D04D0BEB1B31AAE81072FF3024E7BC264839DFCFEE1DE400F9C0",
+    "CopyMatches": true
+  },
+  {
+    "Path": "game/tests/containment_test.gd",
+    "SHA256": "B94CC3FED5E0EE9748A9D6FBE710B58FD4BC0F6EB11DB1AD7419684601C13F89",
+    "CopyMatches": true
+  },
+  {
+    "Path": "game/tests/containment_live_test.gd",
+    "SHA256": "E3B0E7270F9157CD0961A662A2DA66255F637501F9FDA62843DB2E47991FFCC1",
+    "CopyMatches": true
+  }
+]

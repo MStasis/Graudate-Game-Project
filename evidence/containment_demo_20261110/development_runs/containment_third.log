@@ -1,0 +1,201 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: CONTAINMENT_FAILED first_wave_is_two
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] run (res://tests/containment_test.gd:137)
+       [2] operate_panel (res://tests/containment_test.gd:74)
+       [3] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED repeat_start_no_duplicate_or_skip
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] run (res://tests/containment_test.gd:142)
+       [2] operate_panel (res://tests/containment_test.gd:74)
+       [3] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED combat_exit_has_reason
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] run (res://tests/containment_test.gd:143)
+       [2] operate_panel (res://tests/containment_test.gd:74)
+       [3] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED research_drone_moves_and_paths
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] test_live_combat (res://tests/containment_test.gd:232)
+       [2] frames (res://tests/containment_test.gd:19)
+ERROR: CONTAINMENT_FAILED research_drone_actual_attack_while_typing
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] test_live_combat (res://tests/containment_test.gd:238)
+       [2] frames (res://tests/containment_test.gd:19)
+ERROR: CONTAINMENT_FAILED research_harin_real_shot_damage
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] test_live_combat (res://tests/containment_test.gd:254)
+       [2] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED research_harin_down
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] test_live_combat (res://tests/containment_test.gd:260)
+       [2] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED research_harin_revive
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] test_live_combat (res://tests/containment_test.gd:263)
+       [2] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED research_projectile_stops_on_furniture
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] test_live_combat (res://tests/containment_test.gd:279)
+       [2] frames (res://tests/containment_test.gd:19)
+ERROR: CONTAINMENT_FAILED research_drone_routes_around_device
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] test_live_combat (res://tests/containment_test.gd:281)
+       [2] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED projectile_hits_59
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] fire_at (res://tests/containment_test.gd:53)
+       [2] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED partial_enemy_hp_before_save
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] run (res://tests/containment_test.gd:149)
+       [2] fire_at (res://tests/containment_test.gd:53)
+       [3] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED mid_wave_load
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] run (res://tests/containment_test.gd:154)
+       [2] fire_at (res://tests/containment_test.gd:53)
+       [3] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED mid_wave_no_respawn
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] run (res://tests/containment_test.gd:158)
+       [2] fire_at (res://tests/containment_test.gd:53)
+       [3] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED second_wave_is_three
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] run (res://tests/containment_test.gd:160)
+       [2] fire_at (res://tests/containment_test.gd:53)
+       [3] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED second_wave_save_load
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] run (res://tests/containment_test.gd:163)
+       [2] fire_at (res://tests/containment_test.gd:53)
+       [3] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED all_waves_enable_panel
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] run (res://tests/containment_test.gd:165)
+       [2] fire_at (res://tests/containment_test.gd:53)
+       [3] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED cleared_context_no_old_fuse_or_drone_goal
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] run (res://tests/containment_test.gd:166)
+       [2] fire_at (res://tests/containment_test.gd:53)
+       [3] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED roundtrip_preserves_mission_and_supply
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] run (res://tests/containment_test.gd:170)
+       [2] fire_at (res://tests/containment_test.gd:53)
+       [3] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED wait_final_panel_explains_follow
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] run (res://tests/containment_test.gd:172)
+       [2] fire_at (res://tests/containment_test.gd:53)
+       [3] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED down_final_panel_explains_revive
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] run (res://tests/containment_test.gd:175)
+       [2] fire_at (res://tests/containment_test.gd:53)
+       [3] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED panel_real_navigation_containment_panel_a
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] operate_panel (res://tests/containment_test.gd:70)
+       [2] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED committed_final_panel_save_load
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] operate_panel (res://tests/containment_test.gd:72)
+       [2] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED panel_beeps_then_opens_containment_panel_a
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] operate_panel (res://tests/containment_test.gd:74)
+       [2] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED completed_only_after_final_beeps
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] run (res://tests/containment_test.gd:182)
+       [2] operate_panel (res://tests/containment_test.gd:74)
+       [3] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED no_attacks_or_requests_after_ending
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] run (res://tests/containment_test.gd:183)
+       [2] operate_panel (res://tests/containment_test.gd:74)
+       [3] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED completion_idempotent_and_damage_stops
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] run (res://tests/containment_test.gd:189)
+       [2] operate_panel (res://tests/containment_test.gd:74)
+       [3] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED ending_fixed_line_and_journal
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] run (res://tests/containment_test.gd:190)
+       [2] operate_panel (res://tests/containment_test.gd:74)
+       [3] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED ending_result_after_dialogue
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] run (res://tests/containment_test.gd:192)
+       [2] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED no_ammunition_softlock
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] test_failure_restart (res://tests/containment_test.gd:327)
+       [2] run (res://tests/containment_test.gd:204)
+       [3] frames (res://tests/containment_test.gd:19)
+CONTAINMENT_RESULT {"check_count":92,"checks":{"all_waves_enable_panel":false,"cleared_context_no_old_fuse_or_drone_goal":false,"combat_exit_has_reason":false,"committed_final_panel_save_load":false,"completed_only_after_final_beeps":false,"completion_idempotent_and_damage_stops":false,"down_final_panel_explains_revive":false,"ending_fixed_line_and_journal":false,"ending_no_false_whole_lab_resolution":true,"ending_result_after_dialogue":false,"failure_restart_button":true,"first_wave_is_two":false,"full_tutorial_to_main_entry":true,"inconsistent_phase_events_rejected":true,"lab_not_combat_area":true,"latest_context_has_containment_goal":true,"load_preserves_source_bytes":true,"mid_wave_load":false,"mid_wave_no_respawn":false,"mid_wave_save":true,"new_game_before_containment":true,"no_ammunition_softlock":false,"no_attacks_or_requests_after_ending":false,"no_device_or_panel_skip":true,"observation_idempotent":true,"old_v3_observed_terminal_migrates":true,"old_v3_original_preserved":true,"one_use_supply_refills_both_and_shared":true,"panel_beeps_then_opens_containment_panel_a":false,"panel_beeps_then_opens_panel_a":true,"panel_real_navigation_containment_panel_a":false,"panel_real_navigation_panel_a":true,"partial_enemy_hp_before_save":false,"pause_freezes_research_combat":true,"premature_panel_save_rejected":true,"projectile_fired_11":true,"projectile_fired_13":true,"projectile_fired_15":true,"projectile_fired_17":true,"projectile_fired_19":true,"projectile_fired_21":true,"projectile_fired_5":true,"projectile_fired_58":true,"projectile_fired_7":true,"projectile_fired_9":true,"projectile_hits_10":true,"projectile_hits_12":true,"projectile_hits_14":true,"projectile_hits_16":true,"projectile_hits_18":true,"projectile_hits_20":true,"projectile_hits_22":true,"projectile_hits_59":false,"projectile_hits_6":true,"projectile_hits_8":true,"ready_save_valid":true,"repeat_start_no_duplicate_or_skip":false,"research_drone_actual_attack_while_typing":false,"research_drone_moves_and_paths":false,"research_drone_routes_around_device":false,"research_harin_down":false,"research_harin_real_shot_damage":false,"research_harin_reload":true,"research_harin_revive":false,"research_player_death_uses_failure":true,"research_projectile_stops_on_furniture":false,"research_shared_heal_accepted":true,"research_shared_heal_completed":true,"result_background_remains_quiet":true,"result_fits_1280":true,"result_fits_960":true,"result_restart_resets_everything":true,"revive_resumes_final_panel":true,"roundtrip_preserves_mission_and_supply":false,"rule_order_releases_wait_without_server":true,"safe_separated_spawns":true,"second_wave_is_three":false,"second_wave_safe_spawns":true,"second_wave_save_load":false,"supply_does_not_duplicate":true,"supply_prevents_unprepared_start":true,"tutorial_clear_still_requires_panel":true,"tutorial_e_pickup":true,"tutorial_equipment_gate_preserved":true,"tutorial_flashlight_dropped":true,"tutorial_panel_separate_from_final":true,"unspawned_wave_alive_rejected":true,"wait_blocks_start_with_follow_hint":true,"wait_final_panel_explains_follow":false,"wave_cleared_23":true,"wave_cleared_65":true,"wave_cleared_69":true},"created_utc":"2026-11-10T14:19:59","gpu_rendered":false,"human_playtest":false,"live_model":false,"passed":false,"position_and_boundary_fixtures":true,"provider":"RuleBased"}

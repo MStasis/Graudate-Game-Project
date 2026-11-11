@@ -1,0 +1,71 @@
+{
+  "created_utc": "2026-11-10T14:47:41.2167081Z",
+  "headless": {
+    "total": 653,
+    "passed": true,
+    "containment": 114,
+    "existing": 539
+  },
+  "gpu": {
+    "total": 501,
+    "passed": true,
+    "containment": 119,
+    "existing": 382,
+    "native_png_visually_inspected": true
+  },
+  "ai": {
+    "story_transport": {
+      "checks": 15,
+      "passed": true
+    },
+    "model": "qwen3:4b",
+    "save_load_cancel": {
+      "checks": 7,
+      "passed": true
+    },
+    "full_localai_exit_code": 1,
+    "harin": {
+      "passed_count": 37,
+      "passed": false,
+      "failures": [
+        "latest_state_overrides_old_history",
+        "mission_answer_has_current_goal"
+      ],
+      "checks": 39
+    },
+    "ending_cancel": {
+      "checks": 7,
+      "passed": true
+    },
+    "tactical_integration": {
+      "checks": 5,
+      "passed": true
+    }
+  },
+  "final_targeted_exit_codes": {
+    "live_cancel": 0,
+    "headless": 0,
+    "gpu": 0,
+    "integration": 0,
+    "root_import": 0,
+    "diff_check": 0
+  },
+  "offline_rule_based_after_server_stopped": true,
+  "source_hash_manifest": "tested_source_hashes.json",
+  "source_files_compared": 26,
+  "source_hash_mismatches": 0,
+  "human_playtest": false,
+  "actual_ime": false,
+  "actual_listening": false,
+  "export_tested": false,
+  "two_pc_lan_tested": false,
+  "position_and_boundary_fixtures": true,
+  "known_gpu_exit_warnings": {
+    "existing_harin_objects": 8,
+    "containment_resources": 2,
+    "existing_harin_resources": 2,
+    "containment_objects": 4
+  },
+  "existing_saves_overwritten": false,
+  "commit_or_push": false
+}

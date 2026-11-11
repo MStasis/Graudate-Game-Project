@@ -51,7 +51,7 @@ func remember_position() -> void:
   if world.visibility_at(point) > 0.12: known[room][item.id] = item.duplicate(true)
  for id in known[room].keys():
   if not current.has(id): known[room].erase(id)
-  elif id in ["generator", "anomaly_console", "exit", "storage_gate", "lab_gate"]: known[room][id]["active"] = current[id].active
+  elif id in ["generator", "anomaly_console", "exit", "storage_gate", "lab_gate", "containment_device", "containment_panel_a", "containment_panel_b"]: known[room][id]["active"] = current[id].active
  queue_redraw()
 
 func mini_bounds() -> Rect2:

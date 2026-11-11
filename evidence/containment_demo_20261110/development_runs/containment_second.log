@@ -1,0 +1,368 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: CONTAINMENT_FAILED projectile_fired_17
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] fire_at (res://tests/containment_test.gd:51)
+       [2] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED projectile_hits_18
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] fire_at (res://tests/containment_test.gd:52)
+       [2] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED projectile_fired_19
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] fire_at (res://tests/containment_test.gd:51)
+       [2] clear_wave (res://tests/containment_test.gd:59)
+       [3] fire_at (res://tests/containment_test.gd:52)
+       [4] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED projectile_hits_20
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] fire_at (res://tests/containment_test.gd:52)
+       [2] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED projectile_fired_21
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] fire_at (res://tests/containment_test.gd:51)
+       [2] clear_wave (res://tests/containment_test.gd:59)
+       [3] fire_at (res://tests/containment_test.gd:52)
+       [4] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED projectile_hits_22
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] fire_at (res://tests/containment_test.gd:52)
+       [2] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED projectile_fired_23
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] fire_at (res://tests/containment_test.gd:51)
+       [2] clear_wave (res://tests/containment_test.gd:59)
+       [3] fire_at (res://tests/containment_test.gd:52)
+       [4] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED projectile_hits_24
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] fire_at (res://tests/containment_test.gd:52)
+       [2] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED wave_cleared_25
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] clear_wave (res://tests/containment_test.gd:60)
+       [2] fire_at (res://tests/containment_test.gd:52)
+       [3] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED panel_real_navigation_panel_a
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] operate_panel (res://tests/containment_test.gd:69)
+       [2] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED panel_beeps_then_opens_panel_a
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] operate_panel (res://tests/containment_test.gd:73)
+       [2] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED full_tutorial_to_main_entry
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] run (res://tests/containment_test.gd:112)
+       [2] operate_panel (res://tests/containment_test.gd:73)
+       [3] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED tutorial_panel_separate_from_final
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] run (res://tests/containment_test.gd:113)
+       [2] operate_panel (res://tests/containment_test.gd:73)
+       [3] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED observation_idempotent
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] run (res://tests/containment_test.gd:121)
+       [2] operate_panel (res://tests/containment_test.gd:73)
+       [3] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED latest_context_has_containment_goal
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] run (res://tests/containment_test.gd:122)
+       [2] operate_panel (res://tests/containment_test.gd:73)
+       [3] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED supply_prevents_unprepared_start
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] run (res://tests/containment_test.gd:124)
+       [2] operate_panel (res://tests/containment_test.gd:73)
+       [3] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED one_use_supply_refills_both_and_shared
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] run (res://tests/containment_test.gd:126)
+       [2] operate_panel (res://tests/containment_test.gd:73)
+       [3] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED supply_does_not_duplicate
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] run (res://tests/containment_test.gd:128)
+       [2] operate_panel (res://tests/containment_test.gd:73)
+       [3] until (res://tests/containment_test.gd:26)
+SCRIPT ERROR: Cannot call method 'store_string' on a null value.
+   at: test_legacy_and_validation (res://tests/containment_test.gd:296)
+   GDScript backtrace (most recent call first):
+       [0] test_legacy_and_validation (res://tests/containment_test.gd:296)
+       [1] run (res://tests/containment_test.gd:129)
+       [2] operate_panel (res://tests/containment_test.gd:73)
+       [3] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED wait_blocks_start_with_follow_hint
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] run (res://tests/containment_test.gd:132)
+       [2] operate_panel (res://tests/containment_test.gd:73)
+       [3] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED first_wave_is_two
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] run (res://tests/containment_test.gd:136)
+       [2] operate_panel (res://tests/containment_test.gd:73)
+       [3] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED repeat_start_no_duplicate_or_skip
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] run (res://tests/containment_test.gd:141)
+       [2] operate_panel (res://tests/containment_test.gd:73)
+       [3] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED combat_exit_has_reason
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] run (res://tests/containment_test.gd:142)
+       [2] operate_panel (res://tests/containment_test.gd:73)
+       [3] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED research_drone_moves_and_paths
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] test_live_combat (res://tests/containment_test.gd:231)
+       [2] frames (res://tests/containment_test.gd:19)
+ERROR: CONTAINMENT_FAILED research_drone_actual_attack_while_typing
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] test_live_combat (res://tests/containment_test.gd:237)
+       [2] frames (res://tests/containment_test.gd:19)
+ERROR: CONTAINMENT_FAILED research_harin_real_shot_damage
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] test_live_combat (res://tests/containment_test.gd:253)
+       [2] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED research_harin_down
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] test_live_combat (res://tests/containment_test.gd:259)
+       [2] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED research_harin_revive
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] test_live_combat (res://tests/containment_test.gd:262)
+       [2] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED research_projectile_stops_on_furniture
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] test_live_combat (res://tests/containment_test.gd:278)
+       [2] frames (res://tests/containment_test.gd:19)
+ERROR: CONTAINMENT_FAILED research_drone_routes_around_device
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] test_live_combat (res://tests/containment_test.gd:280)
+       [2] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED projectile_fired_55
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] fire_at (res://tests/containment_test.gd:51)
+       [2] run (res://tests/containment_test.gd:147)
+       [3] test_live_combat (res://tests/containment_test.gd:284)
+       [4] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED projectile_hits_56
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] fire_at (res://tests/containment_test.gd:52)
+       [2] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED partial_enemy_hp_before_save
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] run (res://tests/containment_test.gd:148)
+       [2] fire_at (res://tests/containment_test.gd:52)
+       [3] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED mid_wave_load
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] run (res://tests/containment_test.gd:153)
+       [2] fire_at (res://tests/containment_test.gd:52)
+       [3] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED mid_wave_no_respawn
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] run (res://tests/containment_test.gd:157)
+       [2] fire_at (res://tests/containment_test.gd:52)
+       [3] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED projectile_fired_62
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] fire_at (res://tests/containment_test.gd:51)
+       [2] clear_wave (res://tests/containment_test.gd:59)
+       [3] run (res://tests/containment_test.gd:158)
+       [4] fire_at (res://tests/containment_test.gd:52)
+       [5] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED projectile_hits_63
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] fire_at (res://tests/containment_test.gd:52)
+       [2] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED projectile_fired_64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] fire_at (res://tests/containment_test.gd:51)
+       [2] clear_wave (res://tests/containment_test.gd:59)
+       [3] fire_at (res://tests/containment_test.gd:52)
+       [4] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED projectile_hits_65
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] fire_at (res://tests/containment_test.gd:52)
+       [2] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED projectile_fired_66
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] fire_at (res://tests/containment_test.gd:51)
+       [2] clear_wave (res://tests/containment_test.gd:59)
+       [3] fire_at (res://tests/containment_test.gd:52)
+       [4] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED projectile_hits_67
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] fire_at (res://tests/containment_test.gd:52)
+       [2] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED projectile_fired_68
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] fire_at (res://tests/containment_test.gd:51)
+       [2] clear_wave (res://tests/containment_test.gd:59)
+       [3] fire_at (res://tests/containment_test.gd:52)
+       [4] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED projectile_hits_69
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] fire_at (res://tests/containment_test.gd:52)
+       [2] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED wave_cleared_70
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] clear_wave (res://tests/containment_test.gd:60)
+       [2] fire_at (res://tests/containment_test.gd:52)
+       [3] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED second_wave_is_three
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] run (res://tests/containment_test.gd:159)
+       [2] clear_wave (res://tests/containment_test.gd:60)
+       [3] fire_at (res://tests/containment_test.gd:52)
+       [4] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED second_wave_save_load
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] run (res://tests/containment_test.gd:162)
+       [2] clear_wave (res://tests/containment_test.gd:60)
+       [3] fire_at (res://tests/containment_test.gd:52)
+       [4] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED projectile_fired_74
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] fire_at (res://tests/containment_test.gd:51)
+       [2] clear_wave (res://tests/containment_test.gd:59)
+       [3] run (res://tests/containment_test.gd:163)
+       [4] clear_wave (res://tests/containment_test.gd:60)
+       [5] fire_at (res://tests/containment_test.gd:52)
+       [6] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED projectile_hits_75
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] fire_at (res://tests/containment_test.gd:52)
+       [2] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED projectile_fired_76
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] fire_at (res://tests/containment_test.gd:51)
+       [2] clear_wave (res://tests/containment_test.gd:59)
+       [3] fire_at (res://tests/containment_test.gd:52)
+       [4] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED projectile_hits_77
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] fire_at (res://tests/containment_test.gd:52)
+       [2] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED projectile_fired_78
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] fire_at (res://tests/containment_test.gd:51)
+       [2] clear_wave (res://tests/containment_test.gd:59)
+       [3] fire_at (res://tests/containment_test.gd:52)
+       [4] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED projectile_hits_79
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] fire_at (res://tests/containment_test.gd:52)
+       [2] until (res://tests/containment_test.gd:26)
+ERROR: CONTAINMENT_FAILED projectile_fired_80
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/containment_test.gd:16)
+       [1] fire_at (res://tests/containment_test.gd:51)
+       [2] clear_wave (res://tests/containment_test.gd:59)
+       [3] fire_at (res://tests/containment_test.gd:52)
+       [4] until (res://tests/containment_test.gd:26)

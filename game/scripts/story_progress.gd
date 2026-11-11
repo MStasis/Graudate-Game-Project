@@ -1,7 +1,7 @@
 class_name StoryProgress
 extends RefCounted
 ## 게임에서 발생한 사건만 기록한다. 스타일 표본의 가상 사건은 들어오지 않는다.
-const STAGES := ["on_shift", "blackout", "equipment", "fuse_search", "fuse_return", "power_restored", "anomaly_alarm", "main_entry"]
+const STAGES := ["on_shift", "blackout", "equipment", "fuse_search", "fuse_return", "power_restored", "anomaly_alarm", "main_entry", "containment", "contained"]
 var stage := "on_shift"
 var events: Array[String] = []
 var tutorial_completed := false

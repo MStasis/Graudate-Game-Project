@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" path="res://assets/flashlight.svg" id="14"]
 [ext_resource type="Texture2D" path="res://assets/supplies.svg" id="15"]
 [ext_resource type="Script" path="res://scripts/rounded_obstacle.gd" id="16"]
+[ext_resource type="PackedScene" path="res://scenes/ContainmentMission.tscn" id="17"]
 [sub_resource type="StyleBoxFlat" id="Bg"]
 bg_color = Color(0.035, 0.055, 0.08, 1)
 [sub_resource type="StyleBoxFlat" id="FloorStyle"]
@@ -90,7 +91,7 @@ visible = false
 [node name="MainDecor" type="Node2D" parent="."]
 visible = false
 [node name="Console" parent="MainDecor" instance=ExtResource("5")]
-position = Vector2(780, 270)
+position = Vector2(320, 155)
 interaction_id = "anomaly_console"
 display_name = " 침식 관측 단말 · E"
 base_color = Color(0.9, 0.3, 0.3, 1)
@@ -102,7 +103,7 @@ footprint = Vector2(54, 52)
 offset_left = 430.0
 offset_top = 160.0
 theme_override_font_sizes/font_size = 20
-text = "연구동 진입실 / 내부 봉쇄 경로 조사\n침식된 장비의 신호를 관측하세요"
+text = "연구동 외곽 / 임시 봉쇄 구역"
 mouse_filter = 2
 [node name="Console" type="Panel" parent="LabDecor"]
 offset_left = 380.0
@@ -277,6 +278,7 @@ position = Vector2(0, 6)
 script = ExtResource("16")
 footprint = Vector2(38, 30)
 corner_radius = 8.0
+[node name="Containment" parent="." instance=ExtResource("17")]
 [node name="Enemies" type="Node2D" parent="."]
 [node name="DroneA" parent="Enemies" instance=ExtResource("9")]
 position = Vector2(800, 215)

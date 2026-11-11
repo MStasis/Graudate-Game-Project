@@ -63,7 +63,8 @@ func _write_native_status(phase: String) -> void:
  if attached:
   record["ime_result_events"] = _native_bridge.call("get_capture_count")
   record["suppressed_duplicates"] = _native_bridge.call("get_suppressed_count")
- var directory := ProjectSettings.globalize_path("res://../evidence/native_ime_fix").simplify_path()
+ var evidence_root := "user://evidence" if OS.has_feature("template") else "res://../evidence"
+ var directory := ProjectSettings.globalize_path(evidence_root.path_join("native_ime_fix")).simplify_path()
  DirAccess.make_dir_recursive_absolute(directory)
  var file := FileAccess.open(directory.path_join("bridge_status_" + str(OS.get_process_id()) + ".json"), FileAccess.WRITE)
  if file: file.store_string(JSON.stringify(record, "  "))

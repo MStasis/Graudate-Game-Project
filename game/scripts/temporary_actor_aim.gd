@@ -13,9 +13,9 @@ func _process(_delta: float) -> void:
   if Input.is_physical_key_pressed(KEY_SPACE):
    var nearest := world.nearest_enemy_position()
    if nearest.is_finite(): target = nearest
- elif world.map_id == "storage":
+ elif world.is_combat_area():
   var distance := INF
-  for enemy in world.get_node("Enemies").get_children():
+  for enemy in world.room_enemies():
    if enemy.hp > 0 and enemy.visible and actor.position.distance_squared_to(enemy.position) < distance:
     target = enemy.position
     distance = actor.position.distance_squared_to(enemy.position)
