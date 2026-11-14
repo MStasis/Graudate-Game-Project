@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" path="res://scenes/Exit.tscn" id="6"]
 [ext_resource type="Texture2D" path="res://assets/temporary/kenney/sprites/tile_11.png" id="7"]
 [ext_resource type="Theme" path="res://resources/GameTheme.tres" id="8"]
-[ext_resource type="PackedScene" path="res://scenes/Drone.tscn" id="9"]
+[ext_resource type="PackedScene" path="res://scenes/RiftCrew.tscn" id="9"]
 [ext_resource type="Shader" path="res://resources/flashlight.gdshader" id="10"]
 [ext_resource type="Script" path="res://scripts/mission_fx.gd" id="11"]
 [ext_resource type="Script" path="res://scripts/mission_audio.gd" id="12"]
@@ -25,10 +25,6 @@ border_width_right = 6
 border_width_top = 6
 border_width_bottom = 6
 border_color = Color(0.25, 0.34, 0.39, 1)
-[sub_resource type="StyleBoxFlat" id="PropStyle"]
-bg_color = Color(0.15, 0.24, 0.28, 1)
-border_width_top = 4
-border_color = Color(0.28, 0.49, 0.51, 1)
 [sub_resource type="RectangleShape2D" id="Horizontal"]
 resource_local_to_scene = true
 size = Vector2(1136, 6)
@@ -41,6 +37,7 @@ shader = ExtResource("10")
 shader_parameter/canvas_size = Vector2(1200, 540)
 shader_parameter/sight_radius = 155.0
 [node name="World" type="Node2D" node_paths=PackedStringArray("player", "npc", "fuse", "generator", "exit_object")]
+y_sort_enabled = true
 script = ExtResource("1")
 player = NodePath("Player")
 npc = NodePath("NPC")
@@ -84,10 +81,15 @@ shape = SubResource("Vertical")
 position = Vector2(1168, 279)
 shape = SubResource("Vertical")
 [node name="LabDecor" type="Node2D" parent="."]
+y_sort_enabled = true
 [node name="MissionAudio" type="Node" parent="."]
 script = ExtResource("12")
 [node name="StorageDecor" type="Node2D" parent="."]
 visible = false
+y_sort_enabled = true
+[node name="QuartersDecor" type="Node2D" parent="."]
+visible = false
+y_sort_enabled = true
 [node name="MainDecor" type="Node2D" parent="."]
 visible = false
 [node name="Console" parent="MainDecor" instance=ExtResource("5")]
@@ -105,132 +107,18 @@ offset_top = 160.0
 theme_override_font_sizes/font_size = 20
 text = "연구동 외곽 / 임시 봉쇄 구역"
 mouse_filter = 2
-[node name="Console" type="Panel" parent="LabDecor"]
-offset_left = 380.0
-offset_top = 95.0
-offset_right = 580.0
-offset_bottom = 165.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("PropStyle")
-[node name="Label" type="Label" parent="LabDecor/Console"]
-offset_left = 10.0
-offset_top = 10.0
-theme = ExtResource("8")
-theme_override_font_sizes/font_size = 16
-text = "연구 콘솔"
-mouse_filter = 2
-[node name="Solid" type="StaticBody2D" parent="LabDecor/Console"]
-position = Vector2(100, 35)
-script = ExtResource("16")
-footprint = Vector2(192, 62)
-corner_radius = 14.0
-[node name="Shelf" type="Panel" parent="LabDecor"]
-offset_left = 70.0
-offset_top = 95.0
-offset_right = 240.0
-offset_bottom = 155.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("PropStyle")
-[node name="Label" type="Label" parent="LabDecor/Shelf"]
-offset_left = 10.0
-offset_top = 10.0
-theme = ExtResource("8")
-theme_override_font_sizes/font_size = 16
-text = "장비 보관함"
-mouse_filter = 2
-[node name="Solid" type="StaticBody2D" parent="LabDecor/Shelf"]
-position = Vector2(85, 30)
-script = ExtResource("16")
-footprint = Vector2(162, 52)
-corner_radius = 12.0
-[node name="Desk" type="Panel" parent="LabDecor"]
-offset_left = 680.0
-offset_top = 105.0
-offset_right = 830.0
-offset_bottom = 160.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("PropStyle")
-[node name="Label" type="Label" parent="LabDecor/Desk"]
-offset_left = 10.0
-offset_top = 10.0
-theme = ExtResource("8")
-theme_override_font_sizes/font_size = 16
-text = "분석 장치"
-mouse_filter = 2
-[node name="Solid" type="StaticBody2D" parent="LabDecor/Desk"]
-position = Vector2(75, 27.5)
-script = ExtResource("16")
-footprint = Vector2(142, 47)
-corner_radius = 12.0
-[node name="ShelfA" type="Panel" parent="StorageDecor"]
-offset_left = 820.0
-offset_top = 86.0
-offset_right = 1060.0
-offset_bottom = 156.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("PropStyle")
-[node name="Label" type="Label" parent="StorageDecor/ShelfA"]
-offset_left = 10.0
-offset_top = 10.0
-theme = ExtResource("8")
-theme_override_font_sizes/font_size = 16
-text = "부품 보관 구역"
-mouse_filter = 2
-[node name="Solid" type="StaticBody2D" parent="StorageDecor/ShelfA"]
-position = Vector2(120, 35)
-script = ExtResource("16")
-footprint = Vector2(232, 62)
-corner_radius = 14.0
-[node name="ShelfB" type="Panel" parent="StorageDecor"]
-offset_left = 410.0
-offset_top = 85.0
-offset_right = 570.0
-offset_bottom = 145.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("PropStyle")
-[node name="Label" type="Label" parent="StorageDecor/ShelfB"]
-offset_left = 10.0
-offset_top = 10.0
-theme = ExtResource("8")
-theme_override_font_sizes/font_size = 16
-text = "보관함"
-mouse_filter = 2
-[node name="Solid" type="StaticBody2D" parent="StorageDecor/ShelfB"]
-position = Vector2(80, 30)
-script = ExtResource("16")
-footprint = Vector2(152, 52)
-corner_radius = 12.0
-[node name="Pipe" type="Panel" parent="StorageDecor"]
-offset_left = 620.0
-offset_top = 90.0
-offset_right = 685.0
-offset_bottom = 250.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("PropStyle")
-[node name="Label" type="Label" parent="StorageDecor/Pipe"]
-offset_left = 10.0
-offset_top = 10.0
-theme = ExtResource("8")
-theme_override_font_sizes/font_size = 16
-text = "배관"
-mouse_filter = 2
-[node name="Solid" type="StaticBody2D" parent="StorageDecor/Pipe"]
-position = Vector2(32.5, 80)
-script = ExtResource("16")
-footprint = Vector2(57, 152)
-corner_radius = 14.0
 [node name="Player" parent="." instance=ExtResource("2")]
 z_index = 6
-position = Vector2(223, 350)
+position = Vector2(536, 774)
 
 [node name="NPC" parent="." instance=ExtResource("3")]
 z_index = 6
-position = Vector2(365, 245)
-description = "플레이어와 서로 믿는 친한 동료인 정비사 하린. 임무 안내와 치료, 보급, 보호 장비로 돕는다."
+position = Vector2(488, 726)
+description = "플레이어와 서로 믿는 친한 동료인 정비사 미카. 임무 안내와 치료, 보급, 보호 장비로 돕는다."
 [node name="Fuse" parent="." instance=ExtResource("4")]
 z_index = 7
 position = Vector2(960, 135)
-location_hint = "어두운 보관 구역 북동쪽 보관함"
+location_hint = "어두운 비품실 북쪽 중앙 보관함"
 [node name="Locker" parent="." instance=ExtResource("13")]
 position = Vector2(960, 135)
 z_index = 5
@@ -252,34 +140,30 @@ object_texture = ExtResource("15")
 base_color = Color(1, 1, 1, 1)
 [node name="Generator" parent="." instance=ExtResource("5")]
 position = Vector2(930, 245)
-[node name="Solid" type="StaticBody2D" parent="Generator"]
-position = Vector2(0, 10)
-script = ExtResource("16")
-footprint = Vector2(54, 52)
-corner_radius = 12.0
-
 [node name="Exit" parent="." instance=ExtResource("6")]
 position = Vector2(1110, 125)
 
 [node name="ToStorage" parent="." instance=ExtResource("6")]
 position = Vector2(1110, 415)
 interaction_id = "storage_gate"
-display_name = "보관 구역 →"
+display_name = "비품실 →"
 [node name="ToLab" parent="." instance=ExtResource("6")]
 position = Vector2(85, 415)
 interaction_id = "lab_gate"
 display_name = "← 연구실"
+[node name="ToQuarters" parent="." instance=ExtResource("6")]
+interaction_id = "quarters_gate"
+display_name = "정비병 개인실 · E"
+[node name="CorridorDoor" parent="." instance=ExtResource("6")]
+interaction_id = "corridor_gate"
+display_name = "함선 복도 · 잠김"
 [node name="SupplyCache" parent="." instance=ExtResource("4")]
 position = Vector2(220, 415)
 interaction_id = "cache"
 display_name = "비상 탄약함"
-[node name="Solid" type="StaticBody2D" parent="SupplyCache"]
-position = Vector2(0, 6)
-script = ExtResource("16")
-footprint = Vector2(38, 30)
-corner_radius = 8.0
 [node name="Containment" parent="." instance=ExtResource("17")]
 [node name="Enemies" type="Node2D" parent="."]
+y_sort_enabled = true
 [node name="DroneA" parent="Enemies" instance=ExtResource("9")]
 position = Vector2(800, 215)
 max_hp = 60
@@ -326,7 +210,7 @@ offset_left = 290.0
 offset_top = 9.0
 theme = ExtResource("8")
 theme_override_font_sizes/font_size = 17
-text = "오른쪽 통로로 보관 구역에 가서 퓨즈를 찾으세요."
+text = "왼쪽 통로로 비품실에 가서 퓨즈를 찾으세요."
 [node name="ControlsHint" type="Label" parent="."]
 z_index = 30
 offset_left = 18.0
@@ -342,3 +226,11 @@ offset_top = 240.0
 theme = ExtResource("8")
 theme_override_font_sizes/font_size = 32
 text = "임무 완료"
+[node name="RoomFade" type="CanvasLayer" parent="."]
+layer = 80
+[node name="Black" type="ColorRect" parent="RoomFade"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0, 0, 0, 0)

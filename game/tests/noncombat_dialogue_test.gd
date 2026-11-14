@@ -65,7 +65,7 @@ func run() -> void:
  var portrait: TextureRect = app.get_node("RadioPanel/LabPortrait")
  check("noncombat_starts_in_lab", app.is_noncombat() and app.dialogue_panel.noncombat_mode)
  check("large_dialogue_opens_without_forcing_focus", app.dialogue_panel.visible and not field.has_focus() and app.world.can_move)
- check("portrait_is_separate_alpha_asset", portrait.texture.resource_path.ends_with("harin_bust_v1.png") and portrait.texture.get_image().detect_alpha() != Image.ALPHA_NONE)
+ check("portrait_is_separate_alpha_asset", portrait.texture.resource_path.ends_with("MikaPortrait.tres") and portrait.texture.get_image().detect_alpha() != Image.ALPHA_NONE)
  check("single_shared_chat_input", count_chat_fields(app) == 1)
  check("shared_native_input_script", field.get_script().resource_path == "res://scripts/chat_input.gd")
  check("native_bridge_binary_unchanged", FileAccess.get_sha256("res://native/windows_ime/windows_ime.dll") == "72082b7d2f61f9b1f2435be8f70f2012ccb63d656dd73c3d12ba6777c66851a6")
@@ -161,10 +161,14 @@ func run() -> void:
  app.world.npc.position = Vector2(-500, 100)
  app._update_speaker_bubble()
  check("availability_hint_hidden_offscreen", not app.get_node("SpeakerBubble").visible)
- app.world.npc.position = Vector2(365, 245)
+ app.world.npc.position = app.world.player.position + Vector2(42, -70)
  app._update_speaker_bubble()
- var expected: Vector2 = app.combat_hud.screen_point(app.world.npc) + Vector2(-24, -76)
- check("bubble_follows_actual_npc", app.get_node("SpeakerBubble").visible and app.get_node("SpeakerBubble").position.is_equal_approx(expected))
+ var sprite: Sprite2D = app.world.npc.animation
+ var art_bounds: Rect2 = (app.get_global_transform_with_canvas().affine_inverse() * sprite.get_global_transform_with_canvas()) * sprite.get_rect()
+ var hint := app.get_node("SpeakerBubble") as Control
+ var hint_rect := Rect2(hint.position, hint.size)
+ check("bubble_follows_actual_npc", hint.visible and is_equal_approx(hint_rect.get_center().x, art_bounds.get_center().x))
+ check("bubble_clears_npc_sprite_at_game_zoom", hint_rect.end.y <= art_bounds.position.y - 7.9)
  field.text = ""
  field.finish_editing()
  app.answer.text = NPCPolicy.template_response("mission", app.world.game_state())

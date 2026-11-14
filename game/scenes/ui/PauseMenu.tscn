@@ -2,7 +2,7 @@
 [ext_resource type="Script" path="res://scripts/pause_menu.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/industrial_ui_frame.gd" id="2"]
 [ext_resource type="Script" path="res://scripts/pause_gear.gd" id="3"]
-[ext_resource type="Texture2D" path="res://assets/ui/harin_bust_v1.png" id="4"]
+[ext_resource type="Texture2D" path="res://resources/MikaPortrait.tres" id="4"]
 [node name="PauseMenu" type="Control"]
 visible = false
 z_index = 100
@@ -72,22 +72,14 @@ offset_right = 480.0
 offset_bottom = 228.0
 text = "불러오기"
 focus_mode = 0
-[node name="Reserved1" type="Button" parent="Window"]
+[node name="ReturnToTitle" type="Button" parent="Window"]
 offset_left = 62.0
 offset_top = 244.0
 offset_right = 480.0
 offset_bottom = 304.0
-text = "예비"
+text = "타이틀로 돌아가기"
 focus_mode = 0
-tooltip_text = "예비 버튼 · 아직 기능 없음"
-[node name="Reserved2" type="Button" parent="Window"]
-offset_left = 62.0
-offset_top = 320.0
-offset_right = 480.0
-offset_bottom = 380.0
-text = "예비"
-focus_mode = 0
-tooltip_text = "예비 버튼 · 아직 기능 없음"
+tooltip_text = "저장하지 않은 진행은 사라집니다."
 [node name="Ornament" type="Control" parent="Window"]
 offset_left = 520.0
 offset_top = 84.0

@@ -97,8 +97,13 @@ func run() -> void:
  world.npc.position = world.player.position
  hud.update_view(0)
  check("player_status_has_overlap_priority", not hud.statuses[0].get_rect().intersects(hud.statuses[1].get_rect()))
+ # Seed this check from two fixed floor cells so earlier GPU frames cannot
+ # pre-discover the second position while the room transition settles.
+ hud.minimap.explored.erase("storage")
+ world.player.position = Vector2(510, 315)
+ hud.minimap.remember_position()
  var initial_cells: Array = hud.minimap.explored.storage.duplicate()
- world.player.position = Vector2(1000, 150)
+ world.player.position = Vector2(1000, 330)
  hud.minimap.remember_position()
  check("minimap_remembers_previous_exploration", initial_cells.all(func(cell): return cell in hud.minimap.explored.storage) and hud.minimap.explored.storage.size() > initial_cells.size())
  world.apply_interaction("lab_gate")
@@ -129,7 +134,7 @@ func run() -> void:
  world.player.position = Vector2(610, 300)
  world.npc.position = Vector2(700, 270)
  app._update_world_view()
- hud.speak("하린", "이쪽이야. 탄약이 부족하면 알려 줘.")
+ hud.speak("미카", "이쪽이야. 탄약이 부족하면 알려 줘.")
  hud.update_view(0)
  check("onscreen_speech_has_no_edge_direction", hud.npc_bubble.visible and hud.npc_bubble.direction.is_empty())
  world.npc.position = Vector2(1600, 270)
@@ -145,11 +150,11 @@ func run() -> void:
  hud.update_view(0)
  check("edge_speech_returns_to_actor", hud.npc_bubble.direction.is_empty() and hud.npc_bubble.visible)
  var long_text := "긴 한국어 대사와 연속 발언. ".repeat(30)
- hud.speak("하린", long_text)
+ hud.speak("미카", long_text)
  check("full_long_speech_kept_in_history", long_text in hud.get_node("HistoryPanel/Content").text and hud.npc_bubble.full_text == long_text)
  hud.npc_bubble.tick(20)
  check("speech_expires_after_duration", not hud.npc_bubble.visible)
- hud.speak("하린", "동쪽으로 이동하자. 전투가 계속되고 있어.")
+ hud.speak("미카", "동쪽으로 이동하자. 전투가 계속되고 있어.")
  hud.update_view(0)
  await capture("02_combat")
  world.npc.position = Vector2(1600, 260)
@@ -172,9 +177,8 @@ func run() -> void:
  var old_ammo := world.ammo
  await click(Vector2(400, 300))
  check("pause_blocks_world_clicks", world.ammo == old_ammo)
- app.pause_menu.get_node("Window/Reserved1").pressed.emit()
- app.pause_menu.get_node("Window/Reserved2").pressed.emit()
- check("reserved_buttons_do_nothing", world.ammo == old_ammo and paused and app.pause_menu.visible)
+ var title_button := app.pause_menu.get_node("Window/ReturnToTitle") as Button
+ check("paused_world_offers_title_return", title_button.is_visible_in_tree() and not title_button.disabled and paused and world.ammo == old_ammo)
  app.pause_menu.show_slots(true)
  check("empty_save_slots_show_disabled_entries", app.pause_menu.get_node("Window/Slots/Slot1").disabled and "비어 있음" in app.pause_menu.get_node("Window/Slots/Slot1").text)
  app.pause_menu.get_node("Window/Slots/Back").pressed.emit()
@@ -207,7 +211,7 @@ func run() -> void:
  app.pause_menu.choose_slot(1)
  check("overwrite_confirmation_completes", app.pause_menu.overwrite_slot == 0 and "저장 완료" in app.pause_menu.get_node("Window/Message").text)
  app.pause_menu.show_slots(true)
- check("saved_slot_lists_room_and_date", not app.pause_menu.get_node("Window/Slots/Slot1").disabled and "보관 구역" in app.pause_menu.get_node("Window/Slots/Slot1").text)
+ check("saved_slot_lists_room_and_date", not app.pause_menu.get_node("Window/Slots/Slot1").disabled and "비품실" in app.pause_menu.get_node("Window/Slots/Slot1").text)
  await capture("05_load_slots")
  world.player_hp = 12
  world.ammo = 1
@@ -283,8 +287,9 @@ func run() -> void:
  enemy.position = world.npc.position + Vector2(20, 0)
  enemy.companion_alive = true
  enemy.attack_wait = 0
+ enemy.reset_animation()
  enemy.set_physics_process(true)
- await physics(2)
+ await physics(30)
  enemy.set_physics_process(false)
  check("drone_can_target_and_damage_companion", world.npc_hp == npc_hp_before - enemy.contact_damage and world.player_hp == hp_before)
  world.active_action = "heal"
@@ -322,7 +327,7 @@ func run() -> void:
  world.flashlight_owned = true # Fixture: 기존 회귀의 전투/입력 조건. 지급 흐름은 mission_mechanics_test에서 별도 검증.
  world.apply_interaction("storage_gate")
  await frames()
- hud.speak("하린", "작은 화면에서도 방향과 대사를 확인해.")
+ hud.speak("미카", "작은 화면에서도 방향과 대사를 확인해.")
  world.npc.position = Vector2(1700, -200)
  hud.update_view(0)
  check("small_canvas_composer_fits", Rect2(Vector2.ZERO, app.size).encloses(app.dialogue_panel.get_rect()) and Rect2(Vector2.ZERO, app.size).encloses(field.get_global_rect()))

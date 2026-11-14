@@ -35,7 +35,7 @@ func run() -> void:
  app.brain.set_process(false)
  var field: ChatInput = app.question
  check("research_controls_hidden_initially", not app.get_node("DebugPanel").visible)
- check("portrait_loaded", app.get_node("RadioPanel/PortraitFrame/Portrait").texture.get_size() == Vector2(200, 200))
+ check("portrait_loaded", app.get_node("RadioPanel/PortraitFrame/Portrait").texture is AtlasTexture)
  check("portrait_nearest_filter", app.get_node("RadioPanel/PortraitFrame/Portrait").texture_filter == CanvasItem.TEXTURE_FILTER_NEAREST)
  check("radio_above_darkness", app.get_node("RadioPanel").z_index > app.world.get_node("Darkness").z_index)
  check("objective_above_darkness", app.get_node("MissionBar").z_index > app.world.get_node("Darkness").z_index)
@@ -62,8 +62,8 @@ func run() -> void:
  check("support_stock_matches_real_state", "치료 01" in app.get_node("Header/SupportValue").text)
  app.world.flashlight_owned = true # Fixture: 기존 회귀의 전투/입력 조건. 지급 흐름은 mission_mechanics_test에서 별도 검증.
  app.world.apply_interaction("storage_gate")
- check("location_tracks_room", app.get_node("MissionBar/Location").text == "보관 구역")
- check("objective_tracks_combat", "드론 3기" in app.get_node("MissionBar/Objective").text)
+ check("location_tracks_room", app.get_node("MissionBar/Location").text == "비품실")
+ check("objective_tracks_combat", "침식된 선원 3명" in app.get_node("MissionBar/Objective").text)
  check("mission_step_tracks_room", app.get_node("MissionBar/MissionStep").text.begins_with("02"))
  app.open_dialogue()
  field.finish_editing()

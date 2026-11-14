@@ -70,6 +70,7 @@ Copy-Item -LiteralPath (Join-Path $projectRoot 'distribution/PLAY-KO.txt') -Dest
 Copy-Item -Path (Join-Path $projectRoot 'distribution/licenses/*') -Destination $licenses
 Copy-Item -Path (Join-Path $projectRoot 'game/assets/temporary/kenney/licenses/*') -Destination $licenses
 Copy-Item -LiteralPath (Join-Path $projectRoot 'game/assets/ui/ASSET_SOURCE.md'),(Join-Path $projectRoot 'game/assets/ui/HARIN_BUST_SOURCE.md') -Destination $licenses
+Copy-Item -LiteralPath (Join-Path $projectRoot 'game/assets/fleet_sprites/README.md') -Destination (Join-Path $licenses 'FLEET_SPRITES_SOURCE.md')
 $temporaryZip = Join-Path $runRoot 'ContainmentDemo-Windows-x64.zip'
 Compress-Archive -LiteralPath $bundle -DestinationPath $temporaryZip -CompressionLevel Optimal
 Copy-Item -LiteralPath $temporaryZip -Destination $zipPath

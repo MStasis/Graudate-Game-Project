@@ -20,7 +20,7 @@ func run() -> void:
  {"id": "combat_cover", "kind": "decision", "hp": 100, "ammo": 20, "expected": ["deploy_cover"]},
  {"id": "dual_panel", "kind": "decision", "hp": 100, "ammo": 20, "expected": ["assist_panel"]},
  {"id": "mission_question", "kind": "dialogue", "question": "지금 무엇을 해야 해?"},
- {"id": "friend_relationship", "kind": "dialogue", "question": "하린, 우린 어떤 사이야?"},
+ {"id": "friend_relationship", "kind": "dialogue", "question": "미카, 우린 어떤 사이야?"},
  {"id": "everyday_chat", "kind": "dialogue", "question": "오늘 좀 긴장돼. 너는 괜찮아?"}
  ]
  var mode := brain.provider

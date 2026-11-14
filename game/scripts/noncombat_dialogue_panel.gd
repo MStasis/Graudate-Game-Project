@@ -16,6 +16,7 @@ extends Panel
   if is_node_ready(): _apply_layout()
 @export var lab_theme: Theme = preload("res://resources/LabDialogueTheme.tres")
 @export var combat_theme: Theme = preload("res://resources/GameTheme.tres")
+var scripted := false
 
 func _ready() -> void:
  if get_parent() is Control: get_parent().resized.connect(_apply_layout)
@@ -23,6 +24,11 @@ func _ready() -> void:
 
 func set_noncombat(enabled: bool) -> void:
  noncombat_mode = enabled
+
+func set_scripted(enabled: bool) -> void:
+ if scripted == enabled: return
+ scripted = enabled
+ _apply_profile()
 
 func _apply_profile() -> void:
  var enabled := noncombat_mode
@@ -42,7 +48,11 @@ func _apply_profile() -> void:
  $Question.add_theme_font_size_override("font_size", 19 if enabled else 18)
  $SendButton.add_theme_font_size_override("font_size", 20 if enabled else 17)
  $SendButton.text = "전송" if enabled else "전송  ↵"
- $Question.placeholder_text = "하린에게 말하기…" if enabled else "하린에게 말하기…  Enter 전송 / Esc 이동"
+ $Question.placeholder_text = "미카에게 말하기…" if enabled else "미카에게 말하기…  Enter 전송 / Esc 이동"
+ $Question.visible = not scripted
+ if scripted:
+  for path in ["CloseDialogue", "SendButton", "RadioState", "KeyHint"]:
+   get_node(path).hide()
  _apply_layout()
 
 func place(path: NodePath, rect: Rect2) -> void:
@@ -64,7 +74,7 @@ func _apply_layout() -> void:
   place("CompanionName", Rect2(text_left, 17, size.x - text_left - 220, 38))
   place("RadioState", Rect2(size.x - 214, 22, 164, 28))
   place("CloseDialogue", Rect2(size.x - 40, 10, 30, 36))
-  place("Answer", Rect2(text_left, 60, size.x - text_left - 28, 76))
+  place("Answer", Rect2(text_left, 60, size.x - text_left - 28, 128 if scripted else 76))
   place("Question", Rect2(text_left, 144, size.x - text_left - 150, 50))
   place("SendButton", Rect2(size.x - 134, 142, 106, 54))
   place("Status", Rect2(text_left, 196, maxf(40, size.x - text_left - 312), 20))

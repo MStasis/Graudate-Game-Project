@@ -1,0 +1,152 @@
+{
+  "version": 1,
+  "character": "침식된 선원",
+  "id": "rift_crew",
+  "png": "rift_crew_sprite_atlas.png",
+  "atlas_px": [
+    2784,
+    384
+  ],
+  "cell_px": [
+    96,
+    96
+  ],
+  "ground_pivot_px": [
+    48,
+    86
+  ],
+  "index_base": 0,
+  "direction_rows": [
+    "down",
+    "left",
+    "right",
+    "up"
+  ],
+  "animations": {
+    "move": {
+      "origin_cell": [
+        0,
+        0
+      ],
+      "origin_px": [
+        0,
+        0
+      ],
+      "frames_per_direction": 6,
+      "frame_durations_ms": [
+        180,
+        100,
+        120,
+        170,
+        100,
+        160
+      ],
+      "loop": true
+    },
+    "attack": {
+      "origin_cell": [
+        6,
+        0
+      ],
+      "origin_px": [
+        576,
+        0
+      ],
+      "frames_per_direction": 8,
+      "frame_durations_ms": [
+        70,
+        120,
+        140,
+        100,
+        60,
+        90,
+        100,
+        120
+      ],
+      "loop": false,
+      "events": [
+        {
+          "name": "melee_impact",
+          "frame": 4,
+          "time_ms": 430,
+          "active_ms": 60
+        }
+      ]
+    },
+    "hit": {
+      "origin_cell": [
+        14,
+        0
+      ],
+      "origin_px": [
+        1344,
+        0
+      ],
+      "frames_per_direction": 4,
+      "frame_durations_ms": [
+        30,
+        30,
+        40,
+        30
+      ],
+      "loop": false,
+      "restart_on_hit": true,
+      "flash_duration_ms": 30
+    },
+    "death": {
+      "origin_cell": [
+        18,
+        0
+      ],
+      "origin_px": [
+        1728,
+        0
+      ],
+      "frames_per_direction": 11,
+      "frame_durations_ms": [
+        100,
+        90,
+        90,
+        80,
+        90,
+        90,
+        100,
+        100,
+        80,
+        80,
+        100
+      ],
+      "loop": false,
+      "events": [
+        {
+          "name": "fully_hidden",
+          "frame": 10,
+          "time_ms": 900
+        }
+      ]
+    }
+  },
+  "effects": {
+    "bullet_impact": {
+      "png": "rift_crew_bullet_impact.png",
+      "cell_px": [
+        32,
+        32
+      ],
+      "pivot_px": [
+        16,
+        16
+      ],
+      "frames": 4,
+      "frame_durations_ms": [
+        20,
+        20,
+        30,
+        30
+      ],
+      "loop": false,
+      "spawn": "per_confirmed_hit",
+      "anchor": "contact_point"
+    }
+  }
+}

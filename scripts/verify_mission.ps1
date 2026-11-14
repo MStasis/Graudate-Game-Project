@@ -19,6 +19,10 @@ if ($LASTEXITCODE -ne 0) { throw 'Mission tests failed.' }
 $resultPath = Join-Path $evidencePath 'mission_v1\mission_test.json'
 $result = Get-Content -LiteralPath $resultPath -Raw -Encoding UTF8 | ConvertFrom-Json
 if (-not $result.passed -or $result.check_count -lt 50 -or (Get-Item -LiteralPath $resultPath).LastWriteTimeUtc -lt $started) { throw 'Fresh test result was not verified.' }
+& $godotExe --headless --path $gamePath --fixed-fps 60 --script res://tests/fleet_demo_test.gd --log-file (Join-Path $evidencePath 'fleet_demo_headless.log') -- --provider=RuleBased
+if ($LASTEXITCODE -ne 0) { throw 'Fleet demo playthrough failed.' }
+$fleetResult = Join-Path $evidencePath 'fleet_demo\test.json'
+if (-not (Get-Content -LiteralPath $fleetResult -Raw -Encoding UTF8 | ConvertFrom-Json).passed -or (Get-Item -LiteralPath $fleetResult).LastWriteTimeUtc -lt $started) { throw 'Fresh fleet demo result was not verified.' }
 & $godotExe --headless --path $gamePath --script res://tests/chat_input_test.gd --log-file (Join-Path $evidencePath 'chat_input_test.log') -- --chat-input-test --mission-test --provider=RuleBased
 if ($LASTEXITCODE -ne 0) { throw 'Chat input regression tests failed.' }
 $chatPath = Join-Path $evidencePath 'chat_input_fix\chat_input_test.json'
@@ -79,7 +83,29 @@ if ($LASTEXITCODE -ne 0) { throw 'Containment mission regression failed.' }
 $containmentPath = Join-Path $evidencePath 'containment\test.json'
 $containmentResult = Get-Content -LiteralPath $containmentPath -Raw -Encoding UTF8 | ConvertFrom-Json
 if (-not $containmentResult.passed -or (Get-Item -LiteralPath $containmentPath).LastWriteTimeUtc -lt $started) { throw 'Fresh containment result was not verified.' }
+& $godotExe --headless --path $gamePath --script res://tests/title_menu_test.gd --log-file (Join-Path $evidencePath 'title_menu.log') -- --mission-test --provider=RuleBased
+if ($LASTEXITCODE -ne 0) { throw 'Title menu regression failed.' }
+$titleResultPath = Join-Path $evidencePath 'title_menu\test.json'
+$titleResult = Get-Content -LiteralPath $titleResultPath -Raw -Encoding UTF8 | ConvertFrom-Json
+if (-not $titleResult.passed -or (Get-Item -LiteralPath $titleResultPath).LastWriteTimeUtc -lt $started) { throw 'Fresh title menu result was not verified.' }
+& $godotExe --headless --path $gamePath --script res://tests/fleet_sprites_test.gd --log-file (Join-Path $evidencePath 'fleet_sprites.log') -- --mission-test --provider=RuleBased
+if ($LASTEXITCODE -ne 0) { throw 'Fleet sprite tests failed.' }
+$fleetResultPath = Join-Path $evidencePath 'fleet_sprites\test.json'
+$fleetResult = Get-Content -LiteralPath $fleetResultPath -Raw -Encoding UTF8 | ConvertFrom-Json
+if (-not $fleetResult.passed -or (Get-Item -LiteralPath $fleetResultPath).LastWriteTimeUtc -lt $started) { throw 'Fresh fleet sprite result was not verified.' }
+
 if ($Render) {
+    Invoke-HiddenGodot @('--path', $gamePath, '--resolution', '1280x800', '--audio-driver', 'Dummy', '--fixed-fps', '60', '--script', 'res://tests/fleet_demo_test.gd', '--', '--provider=RuleBased', '--render-fleet-demo') 'fleet_demo_render'
+    $fleetRender = Join-Path $evidencePath 'fleet_demo\render.json'
+    if (-not (Get-Content -LiteralPath $fleetRender -Raw -Encoding UTF8 | ConvertFrom-Json).passed -or (Get-Item -LiteralPath $fleetRender).LastWriteTimeUtc -lt $started) { throw 'Fresh fleet demo GPU result was not verified.' }
+    Invoke-HiddenGodot @('--path', $gamePath, '--resolution', '1280x800', '--audio-driver', 'Dummy', '--script', 'res://tests/fleet_sprites_test.gd', '--log-file', (Join-Path $evidencePath 'fleet_sprites_render.log'), '--', '--mission-test', '--provider=RuleBased', '--render-fleet') 'fleet_sprites_render'
+    $fleetRenderPath = Join-Path $evidencePath 'fleet_sprites\render.json'
+    $fleetRender = Get-Content -LiteralPath $fleetRenderPath -Raw -Encoding UTF8 | ConvertFrom-Json
+    if (-not $fleetRender.passed -or -not $fleetRender.gpu_rendered -or (Get-Item -LiteralPath $fleetRenderPath).LastWriteTimeUtc -lt $started) { throw 'Fresh rendered fleet sprite result was not verified.' }
+    Invoke-HiddenGodot @('--path', $gamePath, '--resolution', '1280x800', '--audio-driver', 'Dummy', '--script', 'res://tests/title_menu_test.gd', '--', '--mission-test', '--provider=RuleBased', '--render-title') 'title_menu_render'
+    $titleRenderPath = Join-Path $evidencePath 'title_menu\render.json'
+    $titleRenderResult = Get-Content -LiteralPath $titleRenderPath -Raw -Encoding UTF8 | ConvertFrom-Json
+    if (-not $titleRenderResult.passed -or -not $titleRenderResult.gpu_rendered -or (Get-Item -LiteralPath $titleRenderPath).LastWriteTimeUtc -lt $started) { throw 'Fresh rendered title menu result was not verified.' }
     Invoke-HiddenGodot @('--path', $gamePath, '--resolution', '1280x800', '--audio-driver', 'Dummy', '--script', 'res://tests/containment_test.gd', '--', '--mission-test', '--provider=RuleBased', '--render-containment') 'containment_render'
     $containmentRenderPath = Join-Path $evidencePath 'containment\render.json'
     $containmentRenderResult = Get-Content -LiteralPath $containmentRenderPath -Raw -Encoding UTF8 | ConvertFrom-Json
@@ -126,4 +152,4 @@ if ($LocalAI) {
     & $godotExe --headless --path $gamePath --script res://tests/dialogue_quality_test.gd --log-file (Join-Path $evidencePath 'dialogue_live.log') -- --mission-test --provider=LocalLLM
     if ($LASTEXITCODE -ne 0) { throw 'Live local model conversation checks failed.' }
 }
-Write-Output ('MISSION_VERIFIED gameplay=' + $result.check_count + ' chat=' + $chatResult.check_count + ' native_load=6 native_chat=11 ui=' + $uiResult.check_count + ' noncombat=' + $noncombatResult.check_count + ' interface=' + $interfaceResult.check_count + ' mechanics=' + $mechanicsResult.check_count + ' input_collision=' + $inputCollisionResult.check_count + ' dialogue_notices=' + $dialogueNoticeResult.check_count + ' harin=' + $harinResult.check_count + ' story_ui=' + $storyResult.check_count + ' containment=' + $containmentResult.check_count)
+Write-Output ('MISSION_VERIFIED gameplay=' + $result.check_count + ' chat=' + $chatResult.check_count + ' native_load=6 native_chat=11 ui=' + $uiResult.check_count + ' noncombat=' + $noncombatResult.check_count + ' interface=' + $interfaceResult.check_count + ' mechanics=' + $mechanicsResult.check_count + ' input_collision=' + $inputCollisionResult.check_count + ' dialogue_notices=' + $dialogueNoticeResult.check_count + ' mika=' + $harinResult.check_count + ' story_ui=' + $storyResult.check_count + ' containment=' + $containmentResult.check_count + ' title_menu=' + $titleResult.check_count + ' fleet_sprites=' + $fleetResult.check_count)

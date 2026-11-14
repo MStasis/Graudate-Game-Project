@@ -6,6 +6,7 @@ var shooter: CollisionObject2D
 var lifetime := 1.4
 var speed := 700.0
 var hit_mask := 3
+var contact_point := Vector2.ZERO
 
 func _physics_process(delta: float) -> void:
  lifetime -= delta
@@ -16,6 +17,7 @@ func _physics_process(delta: float) -> void:
  if is_instance_valid(shooter): query.exclude = [shooter.get_rid()]
  var hit := get_world_2d().direct_space_state.intersect_ray(query)
  if not hit.is_empty():
+  contact_point = hit.position
   impacted.emit(hit.collider)
   queue_free()
  else: global_position = next

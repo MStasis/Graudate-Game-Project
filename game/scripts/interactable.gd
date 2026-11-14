@@ -4,7 +4,7 @@ extends Area2D
 ## 이름·설명은 화면과 AI 문맥에서 함께 사용합니다. Interaction Id는 게임 규칙의 식별자입니다.
 
 @export_group("상호작용")
-@export_enum("npc", "fuse", "generator", "exit", "storage_gate", "lab_gate", "cache", "flashlight", "panel_a", "panel_b", "locker_supply", "anomaly_console", "containment_device", "containment_supply", "containment_panel_a", "containment_panel_b") var interaction_id: String = "fuse"
+@export_enum("npc", "fuse", "generator", "exit", "storage_gate", "lab_gate", "cache", "flashlight", "panel_a", "panel_b", "locker_supply", "anomaly_console", "containment_device", "containment_supply", "containment_panel_a", "containment_panel_b", "quarters_gate", "corridor_gate") var interaction_id: String = "fuse"
 @export var display_name: String = "퓨즈":
 	set(value):
 		display_name = value
@@ -34,6 +34,20 @@ func _ready() -> void:
 func set_active(value: bool) -> void:
 	activated = value
 	_sync_visual()
+
+func set_fleet_art(id: String) -> void:
+	var art := FleetRoom.build_sprite(id)
+	var sprite := $Sprite2D as Sprite2D
+	object_texture = art.texture
+	sprite.centered = false
+	sprite.position = Vector2.ZERO
+	sprite.scale = Vector2.ONE
+	sprite.offset = art.offset
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	art.free()
+	var solid := get_node_or_null("Solid") as RoundedObstacle
+	if solid:
+		solid.fit_rect(FleetRoom.prop_footprint(id))
 
 func _sync_visual() -> void:
 	var sprite := get_node_or_null("Sprite2D") as Sprite2D

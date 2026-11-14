@@ -70,9 +70,13 @@ alignment = 1
 theme_override_constants/separation = 20
 [node name="Restart" type="Button" parent="Center/Card/Margin/Content/Buttons"]
 layout_mode = 2
-custom_minimum_size = Vector2(210, 52)
+custom_minimum_size = Vector2(154, 52)
 text = "다시 시작"
+[node name="ReturnToTitle" type="Button" parent="Center/Card/Margin/Content/Buttons"]
+layout_mode = 2
+custom_minimum_size = Vector2(154, 52)
+text = "타이틀로 돌아가기"
 [node name="Quit" type="Button" parent="Center/Card/Margin/Content/Buttons"]
 layout_mode = 2
-custom_minimum_size = Vector2(210, 52)
+custom_minimum_size = Vector2(154, 52)
 text = "종료"

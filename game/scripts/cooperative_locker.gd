@@ -15,6 +15,7 @@ var sequence_elapsed := -1.0
 var beep_index := 0
 var attempt_started := 0
 var hold_started := false
+var use_external_cabinet := false
 const BEEPS := [0.0, 0.12, 0.36, 0.48, 0.72, 0.84]
 
 func bind(mission: Node2D) -> void:
@@ -49,11 +50,11 @@ func needs_assistance() -> bool:
  return player_panel >= 0 and not opened and sequence_elapsed < 0
 
 func begin(index: int) -> String:
- if purpose == "containment" and world.containment.stage != "panel_ready": return "먼저 두 무리 드론을 제압하세요."
+ if purpose == "containment" and world.containment.stage != "panel_ready": return "먼저 두 무리의 침식된 선원을 제압하세요."
  if opened: return "보관함이 열렸습니다. 퓨즈와 보급을 챙기세요."
  if sequence_elapsed >= 0: return "잠금 해제 확인 중입니다."
- if world.enemies_remaining() > 0: return "주변 드론을 먼저 제압하세요."
- if world.npc_hp <= 0: return "먼저 하린 가까이에서 E로 치료 키트를 사용해 소생하세요."
+ if world.enemies_remaining() > 0: return "주변 선원을 먼저 제압하세요."
+ if world.npc_hp <= 0: return "먼저 미카 가까이에서 E로 치료 키트를 사용해 소생하세요."
  if world.player.position.distance_to(panel_position(index)) > use_radius: return "패널에 더 가까이 다가가세요."
  if player_panel != index:
   cancel("panel_changed")
@@ -62,7 +63,7 @@ func begin(index: int) -> String:
   world.epoch += 1
   world._event("panel_requested", {"player_panel": index, "npc_panel": 1 - index})
  update_visuals()
- return "E를 계속 누르세요. 하린이 반대 패널에 도착한 뒤 둘이 %.1f초 유지합니다." % hold_seconds
+ return "E를 계속 누르세요. 미카가 반대 패널에 도착한 뒤 둘이 %.1f초 유지합니다." % hold_seconds
 
 func cancel(reason: String) -> void:
  if player_panel >= 0 and sequence_elapsed < 0:
@@ -138,12 +139,13 @@ func update_visuals() -> void:
  $PanelB.set_active(opened or progress > 0 or player_panel == 1)
  $Progress.visible = player_panel >= 0 or (sequence_elapsed >= 0 and not opened)
  $Progress.value = progress / maxf(0.01, hold_seconds) * 100
- $State.text = "보관함 열림 · 물품 회수" if opened else "잠금 해제 중…" if sequence_elapsed >= 0 else "두 패널 유지 %.1f / %.1f초" % [progress, hold_seconds] if progress > 0 else "E 유지 · 하린은 반대 패널로 이동 중" if player_panel >= 0 else "2인 보관함 · 패널 E 유지"
+ $State.text = "보관함 열림 · 물품 회수" if opened else "잠금 해제 중…" if sequence_elapsed >= 0 else "두 패널 유지 %.1f / %.1f초" % [progress, hold_seconds] if progress > 0 else "E 유지 · 미카는 반대 패널로 이동 중" if player_panel >= 0 else "2인 보관함 · 패널 E 유지"
  if purpose == "containment":
-  $State.text = "외곽 봉쇄 완료" if opened else "봉쇄 확인 중…" if sequence_elapsed >= 0 else "두 패널 유지 %.1f / %.1f초" % [progress, hold_seconds] if progress > 0 else "E 유지 · 하린은 반대 패널로 이동 중" if player_panel >= 0 else "최종 봉쇄 · 두 무리 제압 후 E 유지"
+  $State.text = "외곽 봉쇄 완료" if opened else "봉쇄 확인 중…" if sequence_elapsed >= 0 else "두 패널 유지 %.1f / %.1f초" % [progress, hold_seconds] if progress > 0 else "E 유지 · 미카는 반대 패널로 이동 중" if player_panel >= 0 else "최종 봉쇄 · 두 무리 제압 후 E 유지"
  queue_redraw()
 
 func _draw() -> void:
+ if use_external_cabinet: return
  draw_rect(Rect2(-72, -35, 144, 65), Color("14222a"))
  draw_rect(Rect2(-72, -35, 144, 65), Color("78c8b8") if opened else Color("bd9460"), false, 3)
  draw_line(Vector2(0, -33), Vector2(0, 28), Color("57818a"), 3)

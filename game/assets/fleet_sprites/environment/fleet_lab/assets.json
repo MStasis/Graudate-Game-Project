@@ -1,0 +1,649 @@
+{
+  "floor_grid_px": [
+    48,
+    48
+  ],
+  "sprites": {
+    "flashlight": {
+      "png": "sprites/props/flashlight.png",
+      "size_px": [
+        38,
+        25
+      ],
+      "pivot_px": [
+        19,
+        25
+      ],
+      "mount": "floor"
+    },
+    "breaker": {
+      "png": "sprites/props/breaker.png",
+      "size_px": [
+        41,
+        62
+      ],
+      "pivot_px": [
+        20,
+        62
+      ],
+      "mount": "wall"
+    },
+    "stage_door": {
+      "png": "sprites/props/stage_door.png",
+      "size_px": [
+        122,
+        118
+      ],
+      "pivot_px": [
+        61,
+        118
+      ],
+      "mount": "wall"
+    },
+    "craft_bench": {
+      "png": "sprites/props/craft_bench.png",
+      "size_px": [
+        125,
+        108
+      ],
+      "pivot_px": [
+        62,
+        108
+      ],
+      "collision_rect_px": [4, 73, 117, 34],
+      "mount": "floor"
+    },
+    "main_screen": {
+      "png": "sprites/props/main_screen.png",
+      "size_px": [
+        135,
+        86
+      ],
+      "pivot_px": [
+        67,
+        86
+      ],
+      "mount": "wall"
+    },
+    "warning_light": {
+      "png": "sprites/props/warning_light.png",
+      "size_px": [
+        54,
+        36
+      ],
+      "pivot_px": [
+        27,
+        36
+      ],
+      "mount": "wall"
+    },
+    "ammo_box": {
+      "png": "sprites/props/ammo_box.png",
+      "size_px": [
+        70,
+        35
+      ],
+      "pivot_px": [
+        35,
+        35
+      ],
+      "collision_rect_px": [2, 13, 66, 21],
+      "mount": "floor"
+    },
+    "storage_crate": {
+      "png": "sprites/props/storage_crate.png",
+      "size_px": [
+        80,
+        54
+      ],
+      "pivot_px": [
+        40,
+        54
+      ],
+      "collision_rect_px": [2, 23, 76, 30],
+      "mount": "floor"
+    },
+    "sliding_cabinet": {
+      "png": "sprites/props/sliding_cabinet.png",
+      "size_px": [
+        116,
+        116
+      ],
+      "pivot_px": [
+        58,
+        116
+      ],
+      "collision_rect_px": [3, 83, 110, 32],
+      "mount": "floor"
+    },
+    "touch_panel": {
+      "png": "sprites/props/touch_panel.png",
+      "size_px": [
+        44,
+        32
+      ],
+      "pivot_px": [
+        22,
+        32
+      ],
+      "collision_rect_px": [1, 20, 42, 12],
+      "mount": "wall"
+    },
+    "crew_bed": {
+      "png": "sprites/props/crew_bed.png",
+      "size_px": [
+        98,
+        98
+      ],
+      "pivot_px": [
+        49,
+        98
+      ],
+      "collision_rect_px": [5, 43, 88, 54],
+      "mount": "floor"
+    },
+    "stool": {
+      "png": "sprites/props/stool.png",
+      "size_px": [
+        33,
+        40
+      ],
+      "pivot_px": [
+        16,
+        40
+      ],
+      "collision_rect_px": [2, 22, 29, 18],
+      "mount": "floor"
+    },
+    "research_core": {
+      "png": "sprites/props/research_core.png",
+      "size_px": [
+        97,
+        143
+      ],
+      "pivot_px": [
+        48,
+        143
+      ],
+      "collision_rect_px": [2, 107, 93, 35],
+      "mount": "floor"
+    },
+    "eroded_core": {
+      "png": "sprites/props/eroded_core.png",
+      "size_px": [
+        97,
+        143
+      ],
+      "pivot_px": [
+        48,
+        143
+      ],
+      "collision_rect_px": [2, 108, 93, 34],
+      "mount": "floor"
+    },
+    "eroded_breaker": {
+      "png": "sprites/props/eroded_breaker.png",
+      "size_px": [
+        40,
+        62
+      ],
+      "pivot_px": [
+        20,
+        62
+      ],
+      "mount": "wall"
+    },
+    "storage_shelf": {
+      "png": "sprites/props/storage_shelf.png",
+      "size_px": [
+        109,
+        118
+      ],
+      "pivot_px": [
+        54,
+        118
+      ],
+      "collision_rect_px": [2, 83, 105, 34],
+      "mount": "floor"
+    },
+    "conduit_sample": {
+      "png": "sprites/props/conduit_sample.png",
+      "size_px": [
+        47,
+        17
+      ],
+      "pivot_px": [
+        23,
+        17
+      ],
+      "mount": "floor"
+    },
+    "erosion_decal": {
+      "png": "sprites/props/erosion_decal.png",
+      "size_px": [
+        103,
+        80
+      ],
+      "pivot_px": [
+        51,
+        80
+      ],
+      "mount": "floor"
+    },
+    "floor_panel": {
+      "png": "sprites/tiles/floor_panel.png",
+      "size_px": [
+        48,
+        48
+      ],
+      "pivot_px": [
+        24,
+        48
+      ],
+      "role": "floor"
+    },
+    "floor_vent": {
+      "png": "sprites/tiles/floor_vent.png",
+      "size_px": [
+        48,
+        48
+      ],
+      "pivot_px": [
+        24,
+        48
+      ],
+      "role": "floor"
+    },
+    "wall_panel": {
+      "png": "sprites/tiles/wall_panel.png",
+      "size_px": [
+        48,
+        96
+      ],
+      "pivot_px": [
+        24,
+        96
+      ],
+      "role": "wall"
+    },
+    "wall_rib": {
+      "png": "sprites/tiles/wall_rib.png",
+      "size_px": [
+        48,
+        96
+      ],
+      "pivot_px": [
+        24,
+        96
+      ],
+      "role": "wall"
+    },
+    "floor_eroded": {
+      "png": "sprites/tiles/floor_eroded.png",
+      "size_px": [
+        48,
+        48
+      ],
+      "pivot_px": [
+        24,
+        48
+      ],
+      "role": "floor"
+    },
+    "floor_ruptured": {
+      "png": "sprites/tiles/floor_ruptured.png",
+      "size_px": [
+        48,
+        48
+      ],
+      "pivot_px": [
+        24,
+        48
+      ],
+      "role": "floor"
+    },
+    "wall_eroded": {
+      "png": "sprites/tiles/wall_eroded.png",
+      "size_px": [
+        48,
+        96
+      ],
+      "pivot_px": [
+        24,
+        96
+      ],
+      "role": "wall"
+    },
+    "wall_ruptured": {
+      "png": "sprites/tiles/wall_ruptured.png",
+      "size_px": [
+        48,
+        96
+      ],
+      "pivot_px": [
+        24,
+        96
+      ],
+      "role": "wall"
+    },
+    "floor_lane_ns": {
+      "png": "sprites/tiles/floor_lane_ns.png",
+      "size_px": [
+        48,
+        48
+      ],
+      "pivot_px": [
+        24,
+        48
+      ],
+      "role": "floor"
+    },
+    "floor_lane_ew": {
+      "png": "sprites/tiles/floor_lane_ew.png",
+      "size_px": [
+        48,
+        48
+      ],
+      "pivot_px": [
+        24,
+        48
+      ],
+      "role": "floor"
+    },
+    "floor_caution": {
+      "png": "sprites/tiles/floor_caution.png",
+      "size_px": [
+        48,
+        48
+      ],
+      "pivot_px": [
+        24,
+        48
+      ],
+      "role": "floor"
+    },
+    "wall_edge_horizontal": {
+      "png": "sprites/tiles/wall_edge_horizontal.png",
+      "size_px": [
+        48,
+        20
+      ],
+      "pivot_px": [
+        24,
+        20
+      ],
+      "role": "boundary"
+    },
+    "wall_edge_vertical": {
+      "png": "sprites/tiles/wall_edge_vertical.png",
+      "size_px": [
+        20,
+        48
+      ],
+      "pivot_px": [
+        10,
+        48
+      ],
+      "role": "boundary"
+    },
+    "pipe_h": {
+      "png": "sprites/pipes/pipe_h.png",
+      "size_px": [
+        48,
+        48
+      ],
+      "pivot_px": [
+        24,
+        48
+      ],
+      "ports": [
+        "west",
+        "east"
+      ]
+    },
+    "pipe_v": {
+      "png": "sprites/pipes/pipe_v.png",
+      "size_px": [
+        48,
+        48
+      ],
+      "pivot_px": [
+        24,
+        48
+      ],
+      "ports": [
+        "north",
+        "south"
+      ]
+    },
+    "pipe_u": {
+      "png": "sprites/pipes/pipe_u.png",
+      "size_px": [
+        48,
+        48
+      ],
+      "pivot_px": [
+        24,
+        48
+      ],
+      "ports": [
+        "north_left",
+        "north_right"
+      ]
+    },
+    "pipe_ne": {
+      "png": "sprites/pipes/pipe_ne.png",
+      "size_px": [
+        48,
+        48
+      ],
+      "pivot_px": [
+        24,
+        48
+      ],
+      "ports": [
+        "north",
+        "east"
+      ]
+    },
+    "pipe_nw": {
+      "png": "sprites/pipes/pipe_nw.png",
+      "size_px": [
+        48,
+        48
+      ],
+      "pivot_px": [
+        24,
+        48
+      ],
+      "ports": [
+        "north",
+        "west"
+      ]
+    },
+    "pipe_se": {
+      "png": "sprites/pipes/pipe_se.png",
+      "size_px": [
+        48,
+        48
+      ],
+      "pivot_px": [
+        24,
+        48
+      ],
+      "ports": [
+        "south",
+        "east"
+      ]
+    },
+    "pipe_sw": {
+      "png": "sprites/pipes/pipe_sw.png",
+      "size_px": [
+        48,
+        48
+      ],
+      "pivot_px": [
+        24,
+        48
+      ],
+      "ports": [
+        "south",
+        "west"
+      ]
+    },
+    "stage_door_west": {
+      "png": "sprites/props/stage_door_west.png",
+      "size_px": [
+        28,
+        104
+      ],
+      "pivot_px": [
+        14,
+        52
+      ],
+      "mount": "wall",
+      "exit_edge": "w"
+    },
+    "stage_door_east": {
+      "png": "sprites/props/stage_door_east.png",
+      "size_px": [
+        28,
+        104
+      ],
+      "pivot_px": [
+        14,
+        52
+      ],
+      "mount": "wall",
+      "exit_edge": "e"
+    },
+    "stage_door_south": {
+      "png": "sprites/props/stage_door_south.png",
+      "size_px": [
+        96,
+        16
+      ],
+      "pivot_px": [
+        48,
+        8
+      ],
+      "mount": "floor",
+      "exit_edge": "s"
+    }
+  },
+  "animations": {
+    "sliding_cabinet": {
+      "png": "animations/sliding_cabinet.png",
+      "frame_px": [
+        116,
+        116
+      ],
+      "frames": 5,
+      "duration_ms": [
+        65,
+        65,
+        65,
+        75,
+        120
+      ],
+      "loop": false,
+      "pivot_px": [
+        58,
+        116
+      ],
+      "close_order": [
+        4,
+        3,
+        2,
+        1,
+        0
+      ]
+    },
+    "warning_light": {
+      "png": "animations/warning_light.png",
+      "frame_px": [
+        54,
+        36
+      ],
+      "frames": 4,
+      "duration_ms": [
+        400,
+        80,
+        240,
+        80
+      ],
+      "loop": true,
+      "pivot_px": [
+        27,
+        36
+      ]
+    },
+    "stage_door": {
+      "png": "animations/stage_door.png",
+      "frame_px": [
+        122,
+        118
+      ],
+      "frames": 6,
+      "duration_ms": [
+        60,
+        55,
+        55,
+        55,
+        55,
+        60
+      ],
+      "loop": false,
+      "pivot_px": [
+        61,
+        118
+      ],
+      "open_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "close_order": [
+        5,
+        4,
+        3,
+        2,
+        1,
+        0
+      ],
+      "closed_frame": 0,
+      "open_frame": 5
+    }
+  },
+  "stage_transition": {
+    "by_edge": {
+      "n": {
+        "door_sprite": "stage_door",
+        "door_animation": "stage_door"
+      },
+      "w": {
+        "door_sprite": "stage_door_west",
+        "door_animation": null
+      },
+      "e": {
+        "door_sprite": "stage_door_east",
+        "door_animation": null
+      },
+      "s": {
+        "door_sprite": "stage_door_south",
+        "door_animation": null
+      }
+    },
+    "activation": "interact",
+    "fade_out_start_ms": 160,
+    "static_exit_fade_out_start_ms": 0,
+    "fade_out_ms": 180,
+    "fade_in_ms": 180,
+    "swap_at": "fully_black_and_departure_open",
+    "arrival_door_initial_state": "open",
+    "arrival_close_at": "fade_in_finished"
+  }
+}

@@ -19,7 +19,7 @@ func run() -> void:
  var previous_epoch: int = app.world.epoch
  checks["load_during_real_inference"] = app.load_slot(1)
  checks["load_closes_old_stream_and_changes_epoch"] = app.brain.pending.is_empty() and not app.brain.local_dialogue.busy and not app.brain.local_decision.busy and app.world.epoch > previous_epoch
- var new_question := "보관 구역에서 찾아야 할 물건이 뭐야?"
+ var new_question := "비품실에서 찾아야 할 물건이 뭐야?"
  app._send_question(new_question)
  var elapsed := 0.0
  while not app.brain.pending.is_empty() and elapsed < 85.0:

@@ -11,6 +11,10 @@ extends StaticBody2D
   corner_radius = value
   if is_node_ready(): _rebuild()
 
+func fit_rect(rect: Rect2) -> void:
+ position = rect.get_center()
+ footprint = rect.size
+
 func _ready() -> void:
  collision_mask = 0
  visibility_changed.connect(_sync_collision)
@@ -28,7 +32,8 @@ func _rebuild() -> void:
   collider.name = "Footprint"
   add_child(collider)
  var half := footprint * 0.5
- var radius := minf(corner_radius, minf(half.x, half.y))
+ # Keep adjacent corner endpoints distinct on narrow objects such as touch panels.
+ var radius := minf(corner_radius, minf(half.x, half.y) - 0.25)
  var centers := [Vector2(half.x - radius, half.y - radius), Vector2(-half.x + radius, half.y - radius), Vector2(-half.x + radius, -half.y + radius), Vector2(half.x - radius, -half.y + radius)]
  var points := PackedVector2Array()
  for corner in range(4):

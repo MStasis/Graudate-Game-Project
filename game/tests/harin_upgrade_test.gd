@@ -39,21 +39,21 @@ func run() -> void:
 
 func test_context() -> void:
  var state := world.game_state()
- var casual := HarinDialogue.build(state, "밥 먹었어?", [], "첫 문장. 두 번째 역할 설명.", "")
+ var casual := MikaDialogue.build(state, "밥 먹었어?", [], "첫 문장. 두 번째 역할 설명.", "")
  check("no_answer_template_in_casual", not "대화 방향" in casual.prompt and not "대답의 의미 기준" in casual.prompt)
  check("whole_persona_preserved", "두 번째 역할 설명" in casual.prompt)
- var preference := HarinDialogue.build(state, "뭐 먹고 싶어?", [], "", "")
+ var preference := MikaDialogue.build(state, "뭐 먹고 싶어?", [], "", "")
  check("editable_character_has_food_and_meal_background", "미확정" in preference.prompt and not "ate_before_departure" in casual.prompt)
  var turns := [{"question": "패널은 어떻게 눌러?", "answer": "너는 한쪽, 나는 반대쪽이야."}]
- var followup := HarinDialogue.build(state, "그럼 반대쪽은 네가 맡아?", turns, "", "")
+ var followup := MikaDialogue.build(state, "그럼 반대쪽은 네가 맡아?", turns, "", "")
  check("mission_followup_inherits_history_and_roles", "너는 한쪽" in followup.prompt and "역할" in followup.prompt)
  state.flashlight_owned = true
- var current := HarinDialogue.build(state, "손전등 어디 있어?", [{"question": "손전등 어디 있어?", "answer": "바닥에 있어."}], "", "")
+ var current := MikaDialogue.build(state, "손전등 어디 있어?", [{"question": "손전등 어디 있어?", "answer": "바닥에 있어."}], "", "")
  check("old_memory_separate_from_current_facts", "바닥에 있어" in current.prompt and "네가 소지 중" in current.prompt and "최신 사실" in current.system)
  var large := []
  for index in range(40): large.append({"question": "임무?".repeat(80), "answer": "답변".repeat(300)})
- var bounded := HarinDialogue.recent_history(large, false)
- check("history_has_bounded_char_budget", JSON.stringify(bounded).length() < 1600 and bounded.size() <= HarinDialogue.HISTORY_LIMIT)
+ var bounded := MikaDialogue.recent_history(large, false)
+ check("history_has_bounded_char_budget", JSON.stringify(bounded).length() < 1600 and bounded.size() <= MikaDialogue.HISTORY_LIMIT)
  check("food_rules_answer_first", not "출발 전에 먹었어" in NPCPolicy.template_response("everyday", state, "밥 먹었어?"))
  check("preference_rules_answer_self", not "김치볶음밥" in NPCPolicy.template_response("everyday", state, "뭐 먹고 싶어?"))
 
@@ -132,23 +132,23 @@ func test_execution_and_requests() -> void:
 func test_speech_priority() -> void:
  var hud: CombatInterface = app.combat_hud
  hud.clear_speech()
- hud.speak("하린", "질문에 대한 답변", 60)
- hud.speak("하린", "자동 잡담", 10)
+ hud.speak("미카", "질문에 대한 답변", 60)
+ hud.speak("미카", "자동 잡담", 10)
  check("automatic_line_cannot_replace_answer", hud.npc_bubble.full_text == "질문에 대한 답변" and hud.speech_queue.size() == 1)
- hud.speak("하린", "긴급 경고", 100)
+ hud.speak("미카", "긴급 경고", 100)
  check("urgent_line_preempts_answer", hud.npc_bubble.full_text == "긴급 경고")
  world.epoch += 1
  hud.npc_bubble.remaining = 0
  hud.update_view(0)
  check("queued_old_map_speech_discarded", hud.speech_queue.is_empty() and hud.npc_bubble.full_text != "자동 잡담")
  hud.clear_speech()
- hud.speak("하린", "내가 갈게.", 100, "heal_started")
- hud.speak("하린", "치료 완료.", 30, "heal_done")
+ hud.speak("미카", "내가 갈게.", 100, "heal_started")
+ hud.speak("미카", "치료 완료.", 30, "heal_done")
  check("completion_replaces_its_own_approach_line", hud.npc_bubble.full_text == "치료 완료." and hud.speech_priority == 30)
  hud.clear_speech()
- hud.speak("하린", "긴급 경고", 100)
- app.brain.dialogue_grounding = {"question": "손전등 어디 있어?", "topic": "mission", "facts": HarinDialogue.facts(world.game_state(), "손전등 어디 있어?", "mission")}
- hud.speak("하린", "손전등은 내 손에 있어.", 60, "answer")
+ hud.speak("미카", "긴급 경고", 100)
+ app.brain.dialogue_grounding = {"question": "손전등 어디 있어?", "topic": "mission", "facts": MikaDialogue.facts(world.game_state(), "손전등 어디 있어?", "mission")}
+ hud.speak("미카", "손전등은 내 손에 있어.", 60, "answer")
  world.flashlight_owned = true
  hud.npc_bubble.remaining = 0
  hud.update_view(0)
@@ -158,19 +158,21 @@ func test_navigation() -> void:
  world.reset_world()
  world.flashlight_owned = true
  world.apply_interaction("storage_gate")
- world.npc.position = Vector2(570, 190)
+ world.npc.position = Vector2(280, 204)
  world.npc_motion.reset()
  world.npc_navigation.reset()
  await physics_frame
- var goal := Vector2(740, 190)
+ var goal := Vector2(488, 204)
  var deviated := false
  var inside := false
- var pipe := Rect2(Vector2(624, 94), Vector2(57, 152))
+ var art: AnimatedSprite2D = world.fleet_rooms.storage.cabinets[0]
+ var cabinet := FleetRoom.prop_footprint("sliding_cabinet")
+ cabinet.position += art.global_position
  for index in range(300):
   await physics_frame
   world.npc_motion.move_to(world, goal, 1.0 / 60, 8, true)
-  deviated = deviated or world.npc.position.y > 260 or world.npc.position.y < 78
-  inside = inside or pipe.grow(10).has_point(world.npc.position)
+  deviated = deviated or world.npc.position.y >= cabinet.end.y + 10 or world.npc.position.y <= cabinet.position.y - 10
+  inside = inside or cabinet.grow(10).has_point(world.npc.position)
   if world.npc.position.distance_to(goal) < 22: break
  check("npc_is_collision_body_with_interaction_area", world.npc is CharacterBody2D and world.npc.get_node("Interaction") is Area2D and world.npc.collision_mask == 5)
  check("navigation_routes_around_pipe", deviated and not inside and world.npc.position.distance_to(goal) < 24)
@@ -179,25 +181,25 @@ func test_navigation() -> void:
  world.npc_motion.reset()
  for index in range(45):
   await physics_frame
-  world.npc_motion.move_to(world, Vector2(650, 170), 1.0 / 60, 8, true)
- check("blocked_destination_never_enters_furniture", not pipe.grow(10).has_point(world.npc.position) and world.npc.position != start)
+  world.npc_motion.move_to(world, cabinet.get_center(), 1.0 / 60, 8, true)
+ check("blocked_destination_never_enters_furniture", not cabinet.grow(10).has_point(world.npc.position) and world.npc.position != start)
  world._change_map("lab", Vector2(300, 350))
  world.npc_navigation.plan(world, Vector2(650, 190))
  check("map_change_rebuilds_navigation", world.npc_navigation.map_key == "lab")
  var barrier := RoundedObstacle.new()
- barrier.position = Vector2(800, 279)
- barrier.footprint = Vector2(40, 430)
+ barrier.position = Vector2(800, world.room_rect.get_center().y)
+ barrier.footprint = Vector2(40, world.room_rect.size.y)
  world.add_child(barrier)
  await physics_frame
- world.npc.position = Vector2(740, 300)
+ world.npc.position = Vector2(740, 470)
  world.npc_navigation.reset()
- world.npc_navigation.plan(world, Vector2(930, 300))
- check("unreachable_goal_reported_without_teleport", not world.npc_navigation.reachable and world.npc.position == Vector2(740, 300))
+ world.npc_navigation.plan(world, Vector2(930, 470))
+ check("unreachable_goal_reported_without_teleport", not world.npc_navigation.reachable and world.npc.position == Vector2(740, 470))
  barrier.position.x = 400
  world.npc_motion.reset()
  for index in range(100):
   await physics_frame
-  world.npc_motion.move_to(world, Vector2(930, 300), 1.0 / 60, 8, true)
+  world.npc_motion.move_to(world, Vector2(930, 470), 1.0 / 60, 8, true)
  check("terrain_change_is_replanned_after_block", world.npc.position.x > 830 and world.npc_navigation.reachable)
  barrier.queue_free()
  world.npc_motion.order("wait", world.npc.position)
@@ -268,7 +270,7 @@ func test_resources_and_progression() -> void:
  app.reset_demo(0)
  app.brain.auto_enabled = false
  check("retry_restores_companion_and_resources", not world.defeated and world.npc_hp == world.npc_max_hp and world.npc_reserve == world.npc_initial_reserve and world.medkits == world.initial_medkits)
- check("unsupported_completed_claim_is_rejected", not HarinDialogue.claims_valid("치료했어. 탄약도 채워줬어.", world.game_state()))
+ check("unsupported_completed_claim_is_rejected", not MikaDialogue.claims_valid("치료했어. 탄약도 채워줬어.", world.game_state()))
  var job := fake_job("dialogue", 950)
  app.brain.provider = 1
  app.brain.pending = job
@@ -331,6 +333,8 @@ func test_visuals() -> void:
  var seen := {}
  for pose in ["idle", "move", "aim", "support", "wait", "reload", "down"]:
   world.npc.show_pose(pose, world.npc.position + Vector2(80, -10))
+  world.npc.velocity = Vector2.RIGHT * world.npc_move_speed if pose == "move" else Vector2.ZERO
+  world.npc.animation.tick_actor(0.15, world.npc.velocity, Vector2.RIGHT, pose == "aim")
   check("visible_pose_" + pose, pose == world.npc.pose and world.npc.get_node("NameLabel").text.contains("·"))
   if rendered:
    await process_frame
@@ -338,7 +342,7 @@ func test_visuals() -> void:
    var picture := root.get_texture().get_image()
    picture.save_png(directory.path_join("pose_" + pose + ".png"))
    var point: Vector2 = app.combat_hud.screen_point(world.npc)
-   var crop := picture.get_region(Rect2i(Vector2i(point) - Vector2i(40, 40), Vector2i(80, 80)))
+   var crop := picture.get_region(Rect2i(Vector2i(point) - Vector2i(42, 108), Vector2i(84, 146)))
    seen[pose] = crop.get_data().hex_encode().sha256_text()
  if rendered: check("gpu_support_and_down_are_visually_distinct", seen.support != seen.aim and seen.down != seen.idle and seen.wait != seen.idle and seen.move != seen.idle and seen.aim != seen.idle)
 

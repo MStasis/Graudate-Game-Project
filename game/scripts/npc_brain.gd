@@ -50,11 +50,11 @@ func setup(mission: DemoWorld, directory: String) -> void:
   for path in ["res://project.godot", "res://main.gd", "res://main.tscn", "res://world.gd", "res://scripts/npc_brain.gd", "res://scripts/npc_policy.gd", "res://scripts/local_ai_client.gd", "res://scripts/local_npc_settings.gd", "res://scripts/experiment_settings.gd", "res://scripts/mission_drone.gd", "res://scripts/mission_projectile.gd", "res://scripts/player.gd", "res://scripts/interactable.gd", "res://scenes/World.tscn", "res://scenes/Drone.tscn", "res://scenes/Player.tscn", "res://scenes/NPC.tscn", "res://resources/flashlight.gdshader", "res://resources/NPCSettings.tres", "res://resources/ExperimentSettings.tres"]:
    sources += FileAccess.get_file_as_string(path)
   project_fingerprint = (sources + FileAccess.get_file_as_string("res://scripts/chat_input.gd") + FileAccess.get_file_as_string("res://resources/GameTheme.tres")).sha256_text()
-  project_fingerprint = (project_fingerprint + FileAccess.get_file_as_string("res://scripts/hud_frame.gd") + FileAccess.get_sha256("res://assets/ui/harin_canva.png")).sha256_text()
+  project_fingerprint = (project_fingerprint + FileAccess.get_file_as_string("res://scripts/hud_frame.gd") + FileAccess.get_sha256("res://assets/fleet_sprites/characters/mika/mika_clavis_final_atlas.png")).sha256_text()
   project_fingerprint = (project_fingerprint + FileAccess.get_sha256("res://native/windows_ime/windows_ime.dll")).sha256_text()
-  for path in ["res://scripts/companion_motion.gd", "res://scripts/companion_navigation.gd", "res://scripts/harin_actor.gd", "res://scripts/temporary_actor_aim.gd", "res://scripts/harin_character.gd", "res://resources/HarinCharacter.tres", "res://scripts/cooperative_locker.gd", "res://scenes/CooperativeLocker.tscn", "res://scripts/rounded_obstacle.gd", "res://scripts/harin_dialogue.gd", "res://scripts/system_notifications.gd"]:
+  for path in ["res://scripts/companion_motion.gd", "res://scripts/companion_navigation.gd", "res://scripts/mika_actor.gd", "res://scripts/temporary_actor_aim.gd", "res://scripts/mika_character.gd", "res://resources/MikaCharacter.tres", "res://scripts/cooperative_locker.gd", "res://scenes/CooperativeLocker.tscn", "res://scripts/rounded_obstacle.gd", "res://scripts/mika_dialogue.gd", "res://scripts/system_notifications.gd"]:
    project_fingerprint = (project_fingerprint + FileAccess.get_file_as_string(path)).sha256_text()
-  for path in ["res://scripts/combat_interface.gd", "res://scripts/actor_status.gd", "res://scripts/mission_save_store.gd", "res://scripts/story_progress.gd", "res://scripts/message_journal.gd", "res://scripts/exploration_map.gd", "res://resources/harin_style_examples.json"]:
+  for path in ["res://scripts/combat_interface.gd", "res://scripts/actor_status.gd", "res://scripts/mission_save_store.gd", "res://scripts/story_progress.gd", "res://scripts/message_journal.gd", "res://scripts/exploration_map.gd", "res://resources/mika_style_examples.json"]:
    project_fingerprint = (project_fingerprint + FileAccess.get_file_as_string(path)).sha256_text()
  log_dir = directory
  provider = settings.provider
@@ -131,7 +131,7 @@ func request_dialogue(text: String) -> bool:
   serial += 1
   history.append({"question": text, "answer": receipt.text})
   dialogue_grounding = {"action": action, "action_accepted": receipt.accepted, "status": receipt.status, "epoch": world.epoch}
-  if history.size() > HarinDialogue.HISTORY_LIMIT: history.pop_front()
+  if history.size() > MikaDialogue.HISTORY_LIMIT: history.pop_front()
   dialogue_ready.emit(receipt.text)
   var record := {"event": "response", "kind": "dialogue", "request_id": serial, "question": text, "selected": action, "accepted": true, "action_accepted": receipt.accepted, "action_status": receipt.status, "actual_model": "common_executor", "dialogue_method": "executor_receipt", "prompt_version": NPCPolicy.PROMPT_VERSION, "elapsed_ms": 0.0, "frames_pending": 0, "max_frame_ms": 0.0, "rejected_reason": ""}
   _log(record)
@@ -155,7 +155,7 @@ func _request(kind: String, question: String) -> bool:
  frame_count = 0
  max_frame_ms = 0.0
  if provider == 0:
-  var result := NPCPolicy.rule_action(NPCPolicy.model_state(snapshot)) if kind == "decision" else HarinDialogue.topic_for(question, history)
+  var result := NPCPolicy.rule_action(NPCPolicy.model_state(snapshot)) if kind == "decision" else MikaDialogue.topic_for(question, history)
   _resolve(result, {"actual_model": "rules_v1", "dialogue_method": "intent_template"})
  elif provider == 1:
   var system := ""
@@ -169,7 +169,7 @@ func _request(kind: String, question: String) -> bool:
    prompt = JSON.stringify({"game": NPCPolicy.model_state(snapshot), "actions": choices})
    schema = {"type": "object", "properties": {"action": {"type": "string", "enum": allowed}}, "required": ["action"], "additionalProperties": false}
   else:
-   var dialogue := HarinDialogue.build(snapshot, question, history, world.npc.description, local_dialogue.settings.system_prompt)
+   var dialogue := MikaDialogue.build(snapshot, question, history, world.npc.description, local_dialogue.settings.system_prompt)
    system = dialogue.system
    prompt = dialogue.prompt
    schema = dialogue.schema
@@ -213,12 +213,12 @@ func _local_completed(record: Dictionary) -> void:
  else:
   # 대화는 모델이 생성한 최종 발화 그대로 받는다. 전술 후보만 JSON 스키마로 제한한다.
   selected = selected.strip_edges()
-  var issue := HarinDialogue.response_issue(selected, world.game_state(), pending.question)
+  var issue := MikaDialogue.response_issue(selected, world.game_state(), pending.question)
   if not issue.is_empty() and int(pending.get("retry", 0)) < 1 and world.epoch == int(pending.epoch):
    # 같은 모델에 한 번만 재생성 요청. 실패 원문은 세션/이벤트 양쪽에 남기며 템플릿으로 대체하지 않는다.
    _log({"event": "dialogue_validation_failed", "request_id": pending.request_id, "attempt": 0, "reason": issue, "raw_response": record.response})
    dialogue_pending["retry"] = 1
-   var retry := HarinDialogue.build(world.game_state(), pending.question, history, world.npc.description, local_dialogue.settings.system_prompt)
+   var retry := MikaDialogue.build(world.game_state(), pending.question, history, world.npc.description, local_dialogue.settings.system_prompt)
    var retry_state := world.game_state().duplicate(true)
    retry_state.merge({"_channel": "dialogue", "_request_id": pending.request_id, "_attempt": 1})
    var repair := "현재 사실과 맞지 않는 주장만 고쳐서 자연스럽게 다시 답해. 반문과 장난은 가능해."
@@ -251,9 +251,9 @@ func _resolve(selected: String, metadata: Dictionary) -> void:
  var reason := ""
  if world.finished or world.defeated: reason = "mission_ended"
  if world.epoch != int(job.epoch): reason = "stale_epoch"
- if job.kind == "dialogue" and reason.is_empty() and HarinDialogue.topic_for(job.question, history) in ["mission", "support"]:
-  var before := HarinDialogue.facts(job.snapshot, job.question, HarinDialogue.topic_for(job.question, history))
-  var after := HarinDialogue.facts(world.game_state(), job.question, HarinDialogue.topic_for(job.question, history))
+ if job.kind == "dialogue" and reason.is_empty() and MikaDialogue.topic_for(job.question, history) in ["mission", "support"]:
+  var before := MikaDialogue.facts(job.snapshot, job.question, MikaDialogue.topic_for(job.question, history))
+  var after := MikaDialogue.facts(world.game_state(), job.question, MikaDialogue.topic_for(job.question, history))
   if before != after: reason = "stale_facts"
  var allowed_age := settings.max_decision_age
  # 정지된 패널 과제는 8초까지 허용하되 실행 직전 유지/위치 조건을 다시 검사한다.
@@ -267,12 +267,12 @@ func _resolve(selected: String, metadata: Dictionary) -> void:
  elif reason.is_empty():
   var text := selected if provider == 1 else NPCPolicy.template_response(selected, job.snapshot, job.question)
   if text.strip_edges().is_empty(): reason = "empty_dialogue"
-  elif provider == 1 and not HarinDialogue.response_issue(text, world.game_state(), job.question).is_empty(): reason = HarinDialogue.response_issue(text, world.game_state(), job.question)
+  elif provider == 1 and not MikaDialogue.response_issue(text, world.game_state(), job.question).is_empty(): reason = MikaDialogue.response_issue(text, world.game_state(), job.question)
   else:
    accepted = true
    history.append({"question": job.question, "answer": text})
-   dialogue_grounding = {"question": job.question, "topic": HarinDialogue.topic_for(job.question, history), "facts": HarinDialogue.facts(world.game_state(), job.question, HarinDialogue.topic_for(job.question, history)), "epoch": world.epoch}
-   if history.size() > HarinDialogue.HISTORY_LIMIT: history.pop_front()
+   dialogue_grounding = {"question": job.question, "topic": MikaDialogue.topic_for(job.question, history), "facts": MikaDialogue.facts(world.game_state(), job.question, MikaDialogue.topic_for(job.question, history)), "epoch": world.epoch}
+   if history.size() > MikaDialogue.HISTORY_LIMIT: history.pop_front()
    dialogue_ready.emit(text)
  pending = {}
  var record := {"event": "response", "request_id": job.request_id, "kind": job.kind, "question": job.question, "snapshot": job.snapshot, "snapshot_hash": job.snapshot_hash, "allowed": job.allowed, "selected": selected, "accepted": accepted, "rejected_reason": reason, "elapsed_ms": elapsed, "frames_pending": frame_count, "max_frame_ms": max_frame_ms}
@@ -286,7 +286,7 @@ func _resolve(selected: String, metadata: Dictionary) -> void:
  _log(record)
  measured.emit(record)
  if not reason.is_empty() and job.kind == "dialogue":
-  dialogue_error.emit("상황이 바뀌어 이전 답변을 버렸습니다. 다시 질문하세요." if reason in ["stale_epoch", "stale_facts"] else "하린의 답변을 확인하지 못했습니다. 다시 질문하세요.")
+  dialogue_error.emit("상황이 바뀌어 이전 답변을 버렸습니다. 다시 질문하세요." if reason in ["stale_epoch", "stale_facts"] else "미카의 답변을 확인하지 못했습니다. 다시 질문하세요.")
  clock = 0.0
 
 func _failed(message: String) -> void:

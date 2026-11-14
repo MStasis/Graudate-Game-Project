@@ -1,0 +1,24 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/mission_drone.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/sprite_timeline.gd" id="2"]
+[ext_resource type="Texture2D" path="res://assets/fleet_sprites/characters/rift_crew/rift_crew_sprite_atlas.png" id="3"]
+
+[sub_resource type="CircleShape2D" id="Body"]
+radius = 19.0
+
+[node name="RiftCrew" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 5
+motion_mode = 1
+script = ExtResource("1")
+show_placeholder_body = false
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+script = ExtResource("2")
+atlas = ExtResource("3")
+metadata_path = "res://assets/fleet_sprites/characters/rift_crew/rift_crew_animations.json"
+initial_clip = "move"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("Body")

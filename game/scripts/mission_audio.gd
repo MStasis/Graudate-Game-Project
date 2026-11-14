@@ -12,6 +12,7 @@ var last_ammo := 0
 var voices: Array[AudioStreamPlayer] = []
 var next_voice := 0
 var played_events := 0
+var _warning_left := 0.0
 
 func _ready() -> void:
  world = get_parent() as DemoWorld
@@ -31,8 +32,15 @@ func _state_changed() -> void:
 func _world_event(event: Dictionary) -> void:
  match str(event.get("event", "")):
   "locker_beep": play(PANEL_BEEP)
-  "anomaly_alarm": play(PANEL_BEEP)
-  "locker_opened", "power_restored": play(DOOR)
+  "anomaly_alarm":
+   play(PANEL_BEEP)
+   _warning_left = 1.15
+  "fleet_radio": play(PANEL_BEEP)
+  "fleet_levers_pulled":
+   for voice in voices:
+    if voice.stream == PANEL_BEEP: voice.stop()
+   play(COMPLETE)
+  "locker_opened", "power_restored", "fleet_door_open": play(DOOR)
   "npc_shot": play(NPC_SHOT)
   "player_damage", "npc_damage": play(HIT)
   "enemy_defeated": play(DOWN)
@@ -45,6 +53,14 @@ func _world_event(event: Dictionary) -> void:
    if kind in ["storage_gate", "lab_gate"]: play(DOOR)
    elif kind == "exit" and world.finished: play(COMPLETE)
 
+func _process(delta: float) -> void:
+ if not world.use_fleet_demo or world.defeated or world.finished or not world.fleet_demo.alarm_active(): return
+ if world.map_id not in ["power_room", "corridor", "research_lab_b"]: return
+ _warning_left -= delta
+ if _warning_left <= 0.0:
+  play(PANEL_BEEP)
+  _warning_left = 1.15
+
 func play(stream: AudioStream) -> void:
  if voices.is_empty(): return
  var voice := voices[next_voice]
@@ -52,7 +68,7 @@ func play(stream: AudioStream) -> void:
  voice.volume_db = -12 if stream == PANEL_BEEP else -20
  voice.stream = stream
  # 헤드리스 검사는 이벤트와 리소스만 확인하고 오디오 장치를 사용하지 않는다.
- if DisplayServer.get_name() != "headless": voice.play()
+ if DisplayServer.get_name() != "headless" and AudioServer.get_driver_name() != "Dummy": voice.play()
  played_events += 1
 
 func _exit_tree() -> void:

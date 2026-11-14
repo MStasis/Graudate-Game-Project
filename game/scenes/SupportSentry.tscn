@@ -1,0 +1,10 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/support_sentry.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/fleet_sprites/devices/sentry/sentry_drone_turret_atlas.png" id="2"]
+
+[node name="SupportSentry" type="Sprite2D"]
+script = ExtResource("1")
+atlas = ExtResource("2")
+metadata_path = "res://assets/fleet_sprites/devices/sentry/sentry_drone_turret_animations.json"
+initial_clip = "drone_hover"

@@ -24,6 +24,17 @@ New-Item -ItemType Directory -Path $evidencePath -Force | Out-Null
 if (-not (Test-Path -LiteralPath $godotExe)) { throw 'Godot runtime is missing. Read README.md.' }
 $env:APPDATA = Join-Path $projectRoot 'runtime\appdata'
 New-Item -ItemType Directory -Path $env:APPDATA -Force | Out-Null
+if (-not $Editor) {
+    # Running a source project does not import new textures or register new script classes.
+    $importLog = Join-Path $projectRoot 'runtime\godot_import.log'
+    $importArgs = @('--headless', '--editor', '--path', ('"' + $gamePath + '"'), '--import', '--quit', '--log-file', ('"' + $importLog + '"'))
+    Write-Host 'Preparing Godot project resources...'
+    $import = Start-Process -FilePath $godotExe -ArgumentList $importArgs -WorkingDirectory $projectRoot -WindowStyle Hidden -Wait -PassThru
+    if ($import.ExitCode -ne 0 -or -not (Test-Path -LiteralPath $importLog) -or
+        (Select-String -LiteralPath $importLog -Pattern 'SCRIPT ERROR|Parse Error|Compile Error|Failed to import' -Quiet)) {
+        throw ('Godot project import failed. See ' + $importLog)
+    }
+}
 try {
     $serverReady = $false
     try {

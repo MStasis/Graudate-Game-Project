@@ -16,9 +16,9 @@ func show_state(hp: int, maximum: int, ammo: int = -1, capacity: int = 0) -> voi
  $Ammo.visible = ammo >= 0
  $Ammo.text = "%02d / %02d" % [ammo, capacity] if ammo >= 0 else ""
  $Value.modulate = Color("e78979") if hp <= maximum * 0.35 else Color.WHITE
- tooltip_text = ("플레이어" if actor_kind == "player" else "하린" if actor_kind == "npc" else "드론") + " · 체력 %d/%d" % [hp, maximum]
+ tooltip_text = ("플레이어" if actor_kind == "player" else "미카" if actor_kind == "npc" else "침식된 선원") + " · 체력 %d/%d" % [hp, maximum]
  if ammo >= 0:
-  if actor_kind == "npc" and target is HarinActor:
+  if actor_kind == "npc" and target is MikaActor:
    var world := target.get_parent() as DemoWorld
    tooltip_text += " · 펄스 권총 · 장전 %d/%d · 예비탄 %d · %s" % [ammo, capacity, world.npc_reserve, target.get_node("NameLabel").text]
   else: tooltip_text += " · 펄스 권총 · 보유 %d / 최대 %d (탄창 구분 없음)" % [ammo, capacity]

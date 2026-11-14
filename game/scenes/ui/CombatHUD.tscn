@@ -64,7 +64,7 @@ scroll_active = false
 [node name="Pending" type="Label" parent="."]
 visible = false
 mouse_filter = 2
-text = "하린 응답 중…"
+text = "미카 응답 중…"
 theme_override_font_sizes/font_size = 13
 [node name="FullMapPanel" type="Panel" parent="."]
 visible = false

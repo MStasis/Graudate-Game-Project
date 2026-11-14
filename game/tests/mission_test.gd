@@ -59,7 +59,7 @@ func run() -> void:
  await frames(12)
  check("supply_capped_and_consumed_once", world.ammo == 20 and world.supply_packs == 1)
  check("supply_not_wasted_when_full", not world.request_support("resupply"))
- world.npc.position = world.safe_position - Vector2(90, 0)
+ world.npc.position = world.safe_position - Vector2(60, 0)
  check("cover_order_accepted", world.request_support("deploy_cover"))
  await frames(45)
  check("cover_installed_with_charge", world.cover_time > 0 and world.cover_charges == 0)
@@ -122,7 +122,8 @@ func run() -> void:
  await frames(4)
  check("close_range_projectile_hits", victim.hp < close_hp)
  for enemy in world.get_node("Enemies").get_children():
-  while enemy.hp > 0:
+  for shot in range(4):
+   if enemy.hp <= 0: break
    for other in world.get_node("Enemies").get_children(): other.active = false
    world.player.position = enemy.position - Vector2(100, 0)
    world.shoot_cd = 0.0
@@ -157,7 +158,7 @@ func run() -> void:
  edited.get_node("Player").position = Vector2(205, 340)
  edited.get_node("Player").move_speed = 255.0
  edited.sight_radius = 180.0
- edited.get_node("NPC").display_name = "검증용 하린"
+ edited.get_node("NPC").display_name = "검증용 미카"
  var saved := PackedScene.new()
  check("scene_pack", saved.pack(edited) == OK)
  check("scene_save", ResourceSaver.save(saved, "user://mission_roundtrip.tscn") == OK)
@@ -166,7 +167,7 @@ func run() -> void:
  root.add_child(restored)
  await process_frame
  check("saved_spawn_and_speed", restored.player.position == Vector2(205, 340) and restored.player.move_speed == 255.0)
- check("saved_light_and_npc", restored.sight_radius == 180.0 and restored.npc.display_name == "검증용 하린")
+ check("saved_light_and_npc", restored.sight_radius == 180.0 and restored.npc.display_name == "검증용 미카")
  restored.player.position += Vector2(80, 0)
  restored.reset_world()
  check("restart_uses_saved_spawn", restored.player.position == Vector2(205, 340))

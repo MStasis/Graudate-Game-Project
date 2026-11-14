@@ -9,6 +9,7 @@ uniform float cone_half_angle = 0.558505;
 uniform vec4 obstacles[32];
 uniform int obstacle_count = 0;
 uniform bool ambient_enabled = false;
+uniform bool fleet_lighting = false;
 bool occluded(vec2 point) {
  for (int i = 0; i < obstacle_count; i++) {
   vec4 r = obstacles[i];
@@ -44,5 +45,11 @@ void fragment() {
  float darkness = 1.0 - light;
  if (ambient_enabled) { darkness = distance_to_player < 550.0 ? 0.0 : 0.995; }
  if (occluded(UV * canvas_size)) { darkness = 1.0; }
+ if (fleet_lighting) {
+  // Emergency lighting leaves the deck and doors legible. A shallow shadow
+  // preserves the feet-based layering without blacking out tall sprite art.
+  float shadow = occluded(UV * canvas_size) ? 0.10 : 0.0;
+  darkness = ambient_enabled ? shadow : mix(0.68, 0.21, light) + shadow;
+ }
  COLOR = vec4(0.008, 0.012, 0.022, darkness * 0.995);
 }

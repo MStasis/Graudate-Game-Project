@@ -38,7 +38,7 @@ func run() -> void:
  world.set_physics_process(false)
  for enemy in world.get_node("Enemies").get_children(): enemy.set_physics_process(false)
  app.brain.measured.connect(func(record): measurements.append(record.duplicate(true)))
- var text := await ask("greeting", "안녕 하린! 오늘은 좀 어때?")
+ var text := await ask("greeting", "안녕 미카! 오늘은 좀 어때?")
  check("greeting_stays_in_conversation", no_manual(text) and not NPCPolicy.has_word(text, ["허리", "아프", "치료"]))
  text = await ask("food", "밥 먹었어?")
  check("food_does_not_return_to_objective", no_manual(text))

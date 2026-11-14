@@ -1,0 +1,8 @@
+[gd_resource type="AtlasTexture" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/fleet_sprites/characters/mika/mika_clavis_final_atlas.png" id="1"]
+
+[resource]
+atlas = ExtResource("1")
+region = Rect2(17, 6, 62, 80)
+filter_clip = true

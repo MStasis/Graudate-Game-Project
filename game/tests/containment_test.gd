@@ -41,9 +41,13 @@ func freeze_enemies() -> void:
  for enemy in world.all_enemies(): enemy.set_physics_process(false)
 
 func aim_origin(enemy: MissionDrone) -> Vector2:
- for offset in [Vector2(-100, 0), Vector2(100, 0), Vector2(0, 100), Vector2(0, -100)]:
+ for offset in [Vector2(-100, 0), Vector2(100, 0), Vector2(0, 100), Vector2(0, -100), Vector2(-65, 65), Vector2(65, 65)]:
   var point: Vector2 = enemy.position + offset
-  if world.room_rect.grow(-25).has_point(point) and world.clear_line(point, enemy.position): return point
+  var art := world.player.animation
+  var direction := SpriteTimeline.cardinal(-offset)
+  var muzzle := point + SpriteTimeline.pixel(art.data.animations.shoot.muzzle_px_by_direction[direction]) + art.offset
+  var blocked := world.obstruction_rects().any(func(rect): return rect.grow(14).has_point(point) or rect.grow(4).has_point(muzzle))
+  if not blocked and world.room_rect.grow(-25).has_point(point) and world.room_rect.has_point(muzzle) and world.clear_line(point, muzzle) and world.clear_line(muzzle, enemy.position): return point
  return enemy.position - Vector2(50, 0)
 
 func fire_at(enemy: MissionDrone) -> void:
@@ -122,7 +126,7 @@ func run() -> void:
  var event_count := events.filter(func(event): return event.event == "story_event").size()
  for index in range(3): world.apply_interaction("anomaly_console")
  check("observation_idempotent", mission.stage == "ready" and events.filter(func(event): return event.event == "story_event").size() == event_count)
- check("latest_context_has_containment_goal", "봉쇄 장치" in JSON.stringify(HarinDialogue.facts(world.game_state(), "지금 뭘 해야 해?", "mission")))
+ check("latest_context_has_containment_goal", "봉쇄 장치" in JSON.stringify(MikaDialogue.facts(world.game_state(), "지금 뭘 해야 해?", "mission")))
  world.apply_interaction("containment_device")
  check("supply_prevents_unprepared_start", mission.stage == "ready")
  world.apply_interaction("containment_supply")
@@ -166,7 +170,7 @@ func run() -> void:
  check("second_wave_save_load", app.save_slot(1) and app.load_slot(1) and mission.stage == "wave_two" and mission.remaining() == 3)
  await clear_wave()
  check("all_waves_enable_panel", mission.stage == "panel_ready" and mission.remaining() == 0)
- check("cleared_context_no_old_fuse_or_drone_goal", "패널" in NPCPolicy.template_response("mission", world.game_state(), "지금 뭘 해야 해?") and not HarinDialogue.claims_valid("퓨즈를 찾아야 해", world.game_state()))
+ check("cleared_context_no_old_fuse_or_drone_goal", "패널" in NPCPolicy.template_response("mission", world.game_state(), "지금 뭘 해야 해?") and not MikaDialogue.claims_valid("퓨즈를 찾아야 해", world.game_state()))
  var used := mission.snapshot()
  world.apply_interaction("lab_gate")
  world.apply_interaction("exit")
@@ -199,7 +203,7 @@ func run() -> void:
  var ending_body: Label = app.combat_hud.npc_bubble.get_node("Body")
  check("ending_line_fits_bubble", ending_body.get_line_count() <= ending_body.max_lines_visible)
  await capture("03_ending_dialogue")
- check("ending_no_false_whole_lab_resolution", not HarinDialogue.claims_valid("연구소 전체가 해결됐어", world.game_state()))
+ check("ending_no_false_whole_lab_resolution", not MikaDialogue.claims_valid("연구소 전체가 해결됐어", world.game_state()))
  check("ending_result_after_dialogue", await until(func(): return app.result_screen.visible, 7))
  for resolution in [Vector2i(1280, 800), Vector2i(960, 600)]:
   root.size = resolution
@@ -245,7 +249,7 @@ func test_live_combat() -> void:
  drone.attack_wait = 0
  var hp := world.player_hp
  app.open_dialogue()
- await frames(5)
+ await frames(30)
  check("research_drone_actual_attack_while_typing", world.player_hp < hp and app.question.has_focus())
  app.close_dialogue()
  app.toggle_pause()
@@ -277,17 +281,19 @@ func test_live_combat() -> void:
  world.npc.position = world.player.position + Vector2(35, 0)
  check("research_shared_heal_accepted", world.request_support("heal"))
  check("research_shared_heal_completed", await until(func(): return world.player_hp > 50, 2))
- # 가구 뒤 탄환/근접 공격 차단과 드론의 가구 우회.
+ # 가구 뒤 탄환/근접 공격 차단과 선원의 가구 우회.
  world.active_action = ""
  world.npc_combat_enabled = false
  world.clear_projectiles()
- world.player.position = Vector2(460, 310)
- drone.position = Vector2(680, 310)
+ world.player.position = Vector2(570, 385)
+ drone.position = Vector2(570, 190)
  var blocked_hp := drone.hp
  world.shoot_cd = 0
  world.shoot(drone.position)
  await frames(30)
  check("research_projectile_stops_on_furniture", drone.hp == blocked_hp and not world.clear_line(world.player.position, drone.position))
+ world.player.position = Vector2(460, 282)
+ drone.position = Vector2(680, 282)
  drone.set_physics_process(true)
  check("research_drone_routes_around_device", await until(func(): return drone.position.x < 525, 6))
  drone.set_physics_process(false)
@@ -300,9 +306,12 @@ func test_legacy_and_validation() -> void:
  var data := envelope()
  check("ready_save_valid", app.save_store.validate(data, world))
  var old := envelope()
- var config := world.scenario_configuration().duplicate(true)
+ var config := world.scenario_configuration(true)
  config.erase("containment")
  old.scenario = JSON.stringify(config).sha256_text()
+ old.world.flashlight_position = [390, 270]
+ for enemy in config.enemies:
+  old.world.enemies[str(enemy.name)].position = [enemy.spawn.x, enemy.spawn.y]
  old.world.erase("containment")
  old.world.story.stage = "main_entry"
  old.world.story.events.erase("containment_briefed")

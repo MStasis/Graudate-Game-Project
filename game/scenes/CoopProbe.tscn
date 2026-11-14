@@ -80,4 +80,4 @@ offset_right = 1240.0
 offset_bottom = 780.0
 theme = ExtResource("2")
 theme_override_font_sizes/font_size = 18
-text = "WASD 이동 · 마우스 왼쪽 조준 사격 · Space 표적 조준 사격 · Esc 연결 종료\n2인 통신·이동·피해 검증용입니다. 메인 임무와 하린의 협동 연결은 다음 단계입니다."
+text = "WASD 이동 · 마우스 왼쪽 조준 사격 · Space 표적 조준 사격 · Esc 연결 종료\n2인 통신·이동·피해 검증용입니다. 메인 임무와 미카의 협동 연결은 다음 단계입니다."

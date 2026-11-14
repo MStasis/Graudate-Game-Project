@@ -111,7 +111,7 @@ func test_chat() -> void:
 func test_aim() -> void:
  # 시야 픽셀 표본을 대화/알림 UI가 가리지 않도록 이 검사만의 준비 상태를 만든다.
  app.combat_hud.clear_speech()
- world.player.position = Vector2(430, 280)
+ world.player.position = Vector2(410, 318)
  world.player.facing_direction = Vector2.DOWN
  await aim_at(world.player.position + Vector2(300, 0))
  check("mouse_aim_overrides_movement_facing", world.flashlight_direction().dot(Vector2.RIGHT) > 0.999 and world.player.facing_direction == Vector2.DOWN)
@@ -156,34 +156,44 @@ func move_player(direction: Vector2, count: int) -> Dictionary:
 
 func test_obstacles() -> void:
  world.player.set_physics_process(false)
- var lab_paths := ["LabDecor/Console/Solid", "LabDecor/Shelf/Solid", "LabDecor/Desk/Solid", "Generator/Solid"]
- var storage_paths := ["StorageDecor/ShelfA/Solid", "StorageDecor/ShelfB/Solid", "StorageDecor/Pipe/Solid", "Locker/Solid", "Locker/PanelA/Solid", "Locker/PanelB/Solid", "SupplyCache/Solid"]
- for room in ["lab", "storage"]:
+ for room in ["lab", "storage", "quarters"]:
   world._change_map(room, Vector2(300, 350))
   await frames()
-  for path in lab_paths if room == "lab" else storage_paths:
-   var obstacle: StaticBody2D = world.get_node(path)
+  var obstacles: Array = world.fleet_rooms[room].find_children("*", "StaticBody2D", true, false)
+  var tested := 0
+  for obstacle: RoundedObstacle in obstacles:
    var half: Vector2 = obstacle.footprint * 0.5
-   world.player.global_position = obstacle.global_position + Vector2(0, half.y + 22)
+   var start: Vector2 = obstacle.global_position + Vector2(0, half.y + 22)
+   if not world.room_rect.grow(-14).has_point(start) or world.obstruction_rects().any(func(rect): return rect.grow(13).has_point(start)): continue
+   world.player.position = start
    await frames()
-   var movement := await move_player(Vector2.UP, 34)
-   check("solid_" + str(path).replace("/", "_"), movement.touched and world.player.global_position.y >= obstacle.global_position.y + half.y - 3)
-  var hidden_paths: Array = storage_paths if room == "lab" else lab_paths
-  check("inactive_room_has_no_collision_" + room, hidden_paths.all(func(path): return world.get_node(path).collision_layer == 0))
+   var movement := await move_player(Vector2.UP, 16)
+   tested += 1
+   check("solid_%s_%d" % [room, tested], movement.touched and world.player.position.y >= obstacle.global_position.y + half.y - 3)
+  check("fixture_reaches_multiple_objects_" + room, tested >= 3)
+  for hidden in world.fleet_rooms:
+   if hidden == room: continue
+   var hidden_obstacles: Array = world.fleet_rooms[hidden].find_children("*", "StaticBody2D", true, false)
+   check("inactive_room_%s_has_no_collision_in_%s" % [hidden, room], hidden_obstacles.all(func(item): return item.collision_layer == 0))
  world._change_map("lab", Vector2(300, 350))
  await frames()
- world.player.position = Vector2(354, 157)
+ check("research_core_collision_matches_visible_base", Rect2(248, 344, 93, 35) in world.obstruction_rects())
+ world.player.position = Vector2(210, 405)
+ var cross := await move_player(Vector2.RIGHT, 52)
+ check("empty_floor_in_front_of_core_is_walkable", not cross.touched and world.player.position.x > 345)
+ world.player.position = Vector2(204, 395)
  var start := world.player.position
- var slide := await move_player(Vector2(1, -0.25), 120)
- check("rounded_corner_allows_continuous_slide", slide.touched and world.player.position.x > 610 and world.player.position.x - start.x > 250)
+ var slide := await move_player(Vector2(1, -0.2), 100)
+ check("rounded_corner_allows_continuous_slide", slide.touched and world.player.position.x - start.x > 200)
  check("sliding_has_no_position_jump", slide.largest_step < 4.5)
  await capture("lab_solid_props")
  world._change_map("storage", Vector2(300, 350))
  await frames()
- var hidden_generator: Node2D = world.generator.get_node("Solid")
- world.player.position = hidden_generator.global_position + Vector2(0, 70)
- var through_hidden := await move_player(Vector2.UP, 32)
- check("hidden_lab_generator_does_not_block_storage", not through_hidden.touched and world.player.position.y < hidden_generator.global_position.y)
+ check("coop_panel_collision_matches_visible_base", world.locker.get_node("PanelA/Solid").position == Vector2(0, -6) and world.locker.get_node("PanelA/Solid").footprint == Vector2(42, 12))
+ var hidden_obstacle := Vector2(285, 342)
+ world.player.position = hidden_obstacle + Vector2(0, 45)
+ var through_hidden := await move_player(Vector2.UP, 22)
+ check("hidden_lab_core_does_not_block_storage", not through_hidden.touched and world.player.position.y < hidden_obstacle.y)
  var panel: Node2D = world.locker.get_node("PanelA/Solid")
  world.player.global_position = panel.global_position + Vector2(0, 50)
  await move_player(Vector2.UP, 24)

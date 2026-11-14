@@ -18,6 +18,7 @@ extends CharacterBody2D
 
 var movement_enabled := true
 var facing_direction := Vector2.RIGHT
+@onready var animation := $Sprite2D as ArmedSprite
 
 func _ready() -> void:
 	_sync_visual()
@@ -26,14 +27,22 @@ func _sync_visual() -> void:
 	var sprite := get_node_or_null("Sprite2D") as Sprite2D
 	if sprite:
 		sprite.self_modulate = body_color
-		sprite.texture = character_texture
+		if not sprite is ArmedSprite: sprite.texture = character_texture
 
 func _physics_process(_delta: float) -> void:
 	if Engine.is_editor_hint(): return
-	if not movement_enabled:
-		velocity = Vector2.ZERO
-		return
-	velocity = Input.get_vector("move_left", "move_right", "move_up", "move_down") * move_speed
-	if velocity.length_squared() > 1: facing_direction = velocity.normalized()
-	move_and_slide()
+	velocity = move_input()
+	if movement_enabled:
+		if velocity.length_squared() > 1: facing_direction = velocity.normalized()
+		move_and_slide()
+	if not animation: return
+	var mission := get_parent() as DemoWorld
+	var aim := facing_direction
+	if mission and mission.is_combat_area() and not (mission.use_fleet_demo and mission.fleet_demo.fixed_aim):
+		aim = mission.mouse_aim_position() - position
+	animation.tick_actor(_delta, velocity, aim, mission != null and mission.is_combat_area())
+
+func move_input() -> Vector2:
+	if not movement_enabled: return Vector2.ZERO
+	return Input.get_vector("move_left", "move_right", "move_up", "move_down") * move_speed
 

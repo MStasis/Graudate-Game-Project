@@ -1,0 +1,1201 @@
+{
+  "room": "research_lab",
+  "grid_size": [
+    22,
+    14
+  ],
+  "tile_px": [
+    48,
+    48
+  ],
+  "floor_origin_px": [
+    32,
+    126
+  ],
+  "north_wall_origin_px": [
+    32,
+    30
+  ],
+  "spawn_cell": [
+    10,
+    13
+  ],
+  "floor_tiles": [
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_lane_ns",
+      "floor_lane_ns",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_eroded"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_vent",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_lane_ns",
+      "floor_lane_ns",
+      "floor_panel",
+      "floor_vent",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_ruptured",
+      "floor_ruptured",
+      "floor_ruptured",
+      "floor_ruptured",
+      "floor_eroded"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_lane_ns",
+      "floor_lane_ns",
+      "floor_panel",
+      "floor_panel",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_ruptured",
+      "floor_ruptured",
+      "floor_ruptured",
+      "floor_ruptured",
+      "floor_ruptured",
+      "floor_eroded"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_lane_ns",
+      "floor_lane_ns",
+      "floor_panel",
+      "floor_panel",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_ruptured",
+      "floor_ruptured",
+      "floor_ruptured",
+      "floor_ruptured",
+      "floor_ruptured",
+      "floor_ruptured"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_lane_ns",
+      "floor_lane_ns",
+      "floor_panel",
+      "floor_panel",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_ruptured",
+      "floor_ruptured",
+      "floor_ruptured",
+      "floor_ruptured",
+      "floor_ruptured",
+      "floor_eroded"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_vent",
+      "floor_panel",
+      "floor_lane_ns",
+      "floor_lane_ns",
+      "floor_panel",
+      "floor_panel",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_ruptured",
+      "floor_ruptured",
+      "floor_ruptured",
+      "floor_ruptured",
+      "floor_eroded"
+    ],
+    [
+      "floor_panel",
+      "floor_vent",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_lane_ns",
+      "floor_lane_ns",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_eroded"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_lane_ns",
+      "floor_lane_ns",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_panel"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_vent",
+      "floor_panel",
+      "floor_panel",
+      "floor_lane_ns",
+      "floor_lane_ns",
+      "floor_panel",
+      "floor_panel",
+      "floor_caution",
+      "floor_caution",
+      "floor_caution",
+      "floor_caution",
+      "floor_caution",
+      "floor_caution",
+      "floor_caution",
+      "floor_caution"
+    ],
+    [
+      "floor_lane_ew",
+      "floor_lane_ew",
+      "floor_lane_ew",
+      "floor_lane_ew",
+      "floor_lane_ew",
+      "floor_lane_ew",
+      "floor_lane_ew",
+      "floor_lane_ew",
+      "floor_lane_ew",
+      "floor_lane_ew",
+      "floor_lane_ns",
+      "floor_lane_ns",
+      "floor_lane_ew",
+      "floor_lane_ew",
+      "floor_lane_ew",
+      "floor_lane_ew",
+      "floor_lane_ew",
+      "floor_lane_ew",
+      "floor_lane_ew",
+      "floor_lane_ew",
+      "floor_lane_ew",
+      "floor_lane_ew"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_lane_ns",
+      "floor_lane_ns",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_lane_ns",
+      "floor_lane_ns",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_vent",
+      "floor_panel",
+      "floor_panel",
+      "floor_vent",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_lane_ns",
+      "floor_lane_ns",
+      "floor_panel",
+      "floor_vent",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_vent",
+      "floor_panel"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_lane_ns",
+      "floor_lane_ns",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel"
+    ]
+  ],
+  "north_wall_tiles": [
+    "wall_rib",
+    "wall_panel",
+    "wall_rib",
+    "wall_rib",
+    "wall_panel",
+    "wall_rib",
+    "wall_rib",
+    "wall_panel",
+    "wall_rib",
+    "wall_rib",
+    "wall_panel",
+    "wall_rib",
+    "wall_rib",
+    "wall_panel",
+    "wall_rib",
+    "wall_eroded",
+    "wall_eroded",
+    "wall_ruptured",
+    "wall_ruptured",
+    "wall_eroded",
+    "wall_ruptured",
+    "wall_eroded"
+  ],
+  "markings": [
+    {
+      "tile_rect": [
+        3.0,
+        2.0,
+        4.5,
+        4.3
+      ],
+      "ink": "#567e86"
+    },
+    {
+      "tile_rect": [
+        14.1,
+        0.8,
+        7.5,
+        7.2
+      ],
+      "ink": "#99793e"
+    }
+  ],
+  "sprite_instances": [
+    {
+      "sprite": "stage_door_west",
+      "pivot_world_px": [
+        22,
+        606
+      ],
+      "top_left_px": [
+        8,
+        554
+      ],
+      "layer": "wall",
+      "interaction": "stage_transition",
+      "approach_cell": [
+        1,
+        9
+      ],
+      "exit_edge": "w"
+    },
+    {
+      "sprite": "stage_door_east",
+      "pivot_world_px": [
+        1098,
+        606
+      ],
+      "top_left_px": [
+        1084,
+        554
+      ],
+      "layer": "wall",
+      "interaction": "stage_transition",
+      "approach_cell": [
+        20,
+        9
+      ],
+      "exit_edge": "e"
+    },
+    {
+      "sprite": "stage_door_south",
+      "pivot_world_px": [
+        560,
+        802
+      ],
+      "top_left_px": [
+        512,
+        794
+      ],
+      "layer": "wall",
+      "interaction": "stage_transition",
+      "approach_cell": [
+        10,
+        12
+      ],
+      "exit_edge": "s"
+    },
+    {
+      "sprite": "stage_door",
+      "pivot_world_px": [
+        559,
+        135
+      ],
+      "top_left_px": [
+        498,
+        17
+      ],
+      "layer": "wall",
+      "interaction": "next_stage",
+      "approach_cell": [
+        10,
+        1
+      ],
+      "exit_edge": "n"
+    },
+    {
+      "sprite": "pipe_se",
+      "pivot_world_px": [
+        56,
+        78
+      ],
+      "top_left_px": [
+        32,
+        30
+      ],
+      "layer": "conduit"
+    },
+    {
+      "sprite": "pipe_h",
+      "pivot_world_px": [
+        104,
+        78
+      ],
+      "top_left_px": [
+        80,
+        30
+      ],
+      "layer": "conduit"
+    },
+    {
+      "sprite": "pipe_h",
+      "pivot_world_px": [
+        152,
+        78
+      ],
+      "top_left_px": [
+        128,
+        30
+      ],
+      "layer": "conduit"
+    },
+    {
+      "sprite": "pipe_h",
+      "pivot_world_px": [
+        200,
+        78
+      ],
+      "top_left_px": [
+        176,
+        30
+      ],
+      "layer": "conduit"
+    },
+    {
+      "sprite": "pipe_h",
+      "pivot_world_px": [
+        248,
+        78
+      ],
+      "top_left_px": [
+        224,
+        30
+      ],
+      "layer": "conduit"
+    },
+    {
+      "sprite": "pipe_h",
+      "pivot_world_px": [
+        296,
+        78
+      ],
+      "top_left_px": [
+        272,
+        30
+      ],
+      "layer": "conduit"
+    },
+    {
+      "sprite": "pipe_h",
+      "pivot_world_px": [
+        344,
+        78
+      ],
+      "top_left_px": [
+        320,
+        30
+      ],
+      "layer": "conduit"
+    },
+    {
+      "sprite": "pipe_h",
+      "pivot_world_px": [
+        392,
+        78
+      ],
+      "top_left_px": [
+        368,
+        30
+      ],
+      "layer": "conduit"
+    },
+    {
+      "sprite": "pipe_sw",
+      "pivot_world_px": [
+        440,
+        78
+      ],
+      "top_left_px": [
+        416,
+        30
+      ],
+      "layer": "conduit"
+    },
+    {
+      "sprite": "pipe_v",
+      "pivot_world_px": [
+        56,
+        126
+      ],
+      "top_left_px": [
+        32,
+        78
+      ],
+      "layer": "conduit"
+    },
+    {
+      "sprite": "pipe_v",
+      "pivot_world_px": [
+        440,
+        126
+      ],
+      "top_left_px": [
+        416,
+        78
+      ],
+      "layer": "conduit"
+    },
+    {
+      "sprite": "pipe_h",
+      "pivot_world_px": [
+        680,
+        78
+      ],
+      "top_left_px": [
+        656,
+        30
+      ],
+      "layer": "conduit"
+    },
+    {
+      "sprite": "pipe_h",
+      "pivot_world_px": [
+        728,
+        78
+      ],
+      "top_left_px": [
+        704,
+        30
+      ],
+      "layer": "conduit"
+    },
+    {
+      "sprite": "pipe_h",
+      "pivot_world_px": [
+        776,
+        78
+      ],
+      "top_left_px": [
+        752,
+        30
+      ],
+      "layer": "conduit"
+    },
+    {
+      "sprite": "pipe_sw",
+      "pivot_world_px": [
+        824,
+        78
+      ],
+      "top_left_px": [
+        800,
+        30
+      ],
+      "layer": "conduit"
+    },
+    {
+      "sprite": "breaker",
+      "pivot_world_px": [
+        111,
+        133
+      ],
+      "top_left_px": [
+        91,
+        71
+      ],
+      "layer": "wall",
+      "interaction": "restore_power",
+      "approach_cell": [
+        1,
+        1
+      ]
+    },
+    {
+      "sprite": "main_screen",
+      "pivot_world_px": [
+        306,
+        131
+      ],
+      "top_left_px": [
+        239,
+        45
+      ],
+      "layer": "wall",
+      "interaction": "status_display",
+      "approach_cell": [
+        5,
+        1
+      ]
+    },
+    {
+      "sprite": "touch_panel",
+      "pivot_world_px": [
+        651,
+        120
+      ],
+      "top_left_px": [
+        629,
+        88
+      ],
+      "layer": "wall",
+      "interaction": "stage_door_control",
+      "approach_cell": [
+        12,
+        1
+      ]
+    },
+    {
+      "sprite": "eroded_breaker",
+      "pivot_world_px": [
+        925,
+        133
+      ],
+      "top_left_px": [
+        905,
+        71
+      ],
+      "layer": "wall",
+      "interaction": "anomaly_breaker",
+      "approach_cell": [
+        18,
+        0
+      ]
+    },
+    {
+      "sprite": "warning_light",
+      "pivot_world_px": [
+        812,
+        114
+      ],
+      "top_left_px": [
+        785,
+        78
+      ],
+      "layer": "wall",
+      "animation_frame": 2
+    },
+    {
+      "sprite": "warning_light",
+      "pivot_world_px": [
+        169,
+        113
+      ],
+      "top_left_px": [
+        142,
+        77
+      ],
+      "layer": "wall",
+      "animation_frame": 1
+    },
+    {
+      "sprite": "erosion_decal",
+      "pivot_world_px": [
+        877,
+        397
+      ],
+      "top_left_px": [
+        826,
+        317
+      ],
+      "layer": "decal"
+    },
+    {
+      "sprite": "erosion_decal",
+      "pivot_world_px": [
+        1016,
+        282
+      ],
+      "top_left_px": [
+        965,
+        202
+      ],
+      "layer": "decal"
+    },
+    {
+      "sprite": "research_core",
+      "pivot_world_px": [
+        294,
+        380
+      ],
+      "top_left_px": [
+        246,
+        237
+      ],
+      "layer": "object",
+      "blocked_tiles": [
+        [
+          4,
+          4
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          6,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          6,
+          5
+        ]
+      ],
+      "interaction": "inspect_core",
+      "approach_cell": [
+        5,
+        6
+      ]
+    },
+    {
+      "sprite": "eroded_core",
+      "pivot_world_px": [
+        894,
+        400
+      ],
+      "top_left_px": [
+        846,
+        257
+      ],
+      "layer": "object",
+      "blocked_tiles": [
+        [
+          17,
+          4
+        ],
+        [
+          18,
+          4
+        ],
+        [
+          17,
+          5
+        ],
+        [
+          18,
+          5
+        ]
+      ],
+      "interaction": "contain_anomaly",
+      "approach_cell": [
+        17,
+        6
+      ]
+    },
+    {
+      "sprite": "storage_crate",
+      "pivot_world_px": [
+        130,
+        503
+      ],
+      "top_left_px": [
+        90,
+        449
+      ],
+      "layer": "object",
+      "blocked_tiles": [
+        [
+          1,
+          7
+        ],
+        [
+          2,
+          7
+        ]
+      ],
+      "interaction": "open_storage",
+      "approach_cell": [
+        2,
+        8
+      ]
+    },
+    {
+      "sprite": "sliding_cabinet",
+      "pivot_world_px": [
+        222,
+        719
+      ],
+      "top_left_px": [
+        164,
+        603
+      ],
+      "layer": "object",
+      "blocked_tiles": [
+        [
+          3,
+          11
+        ],
+        [
+          4,
+          11
+        ],
+        [
+          3,
+          12
+        ],
+        [
+          4,
+          12
+        ]
+      ],
+      "interaction": "slide_cabinet",
+      "approach_cell": [
+        5,
+        12
+      ],
+      "animation_frame": 0
+    },
+    {
+      "sprite": "ammo_box",
+      "pivot_world_px": [
+        980,
+        685
+      ],
+      "top_left_px": [
+        945,
+        650
+      ],
+      "layer": "object",
+      "blocked_tiles": [
+        [
+          19,
+          11
+        ],
+        [
+          20,
+          11
+        ]
+      ],
+      "interaction": "take_ammo",
+      "approach_cell": [
+        19,
+        12
+      ]
+    },
+    {
+      "sprite": "touch_panel",
+      "pivot_world_px": [
+        67,
+        562
+      ],
+      "top_left_px": [
+        45,
+        530
+      ],
+      "layer": "conduit",
+      "interaction": "supply_room_access",
+      "approach_cell": [
+        1,
+        9
+      ]
+    },
+    {
+      "sprite": "touch_panel",
+      "pivot_world_px": [
+        1051,
+        562
+      ],
+      "top_left_px": [
+        1029,
+        530
+      ],
+      "layer": "conduit",
+      "interaction": "quarters_access",
+      "approach_cell": [
+        20,
+        9
+      ]
+    }
+  ],
+  "exits": [
+    {
+      "edge": "w",
+      "edge_tiles": [
+        9,
+        10
+      ],
+      "trigger_cell": [
+        0,
+        9
+      ],
+      "activation": "interact",
+      "approach_cells": [
+        [
+          1,
+          9
+        ],
+        [
+          1,
+          10
+        ]
+      ],
+      "arrival_cell": [
+        1,
+        9
+      ],
+      "target_room": "supply_room",
+      "target_spawn_cell": [
+        13,
+        7
+      ],
+      "target_exit_edge": "e",
+      "door_sprite": "stage_door_west",
+      "door_animation": null,
+      "door_top_left_px": [
+        8,
+        554
+      ]
+    },
+    {
+      "edge": "e",
+      "edge_tiles": [
+        9,
+        10
+      ],
+      "trigger_cell": [
+        21,
+        9
+      ],
+      "activation": "interact",
+      "approach_cells": [
+        [
+          20,
+          9
+        ],
+        [
+          20,
+          10
+        ]
+      ],
+      "arrival_cell": [
+        20,
+        9
+      ],
+      "target_room": "gunsmith_quarters",
+      "target_spawn_cell": [
+        1,
+        7
+      ],
+      "target_exit_edge": "w",
+      "door_sprite": "stage_door_east",
+      "door_animation": null,
+      "door_top_left_px": [
+        1084,
+        554
+      ]
+    },
+    {
+      "edge": "s",
+      "edge_tiles": [
+        10,
+        11
+      ],
+      "trigger_cell": [
+        10,
+        13
+      ],
+      "activation": "interact",
+      "approach_cells": [
+        [
+          10,
+          12
+        ],
+        [
+          11,
+          12
+        ]
+      ],
+      "arrival_cell": [
+        10,
+        12
+      ],
+      "target_room": "ship_corridor",
+      "target_spawn_cell": null,
+      "target_exit_edge": null,
+      "door_sprite": "stage_door_south",
+      "door_animation": null,
+      "door_top_left_px": [
+        512,
+        794
+      ]
+    },
+    {
+      "edge": "n",
+      "edge_tiles": [
+        10,
+        11
+      ],
+      "trigger_cell": [
+        10,
+        0
+      ],
+      "activation": "interact",
+      "approach_cells": [
+        [
+          10,
+          1
+        ],
+        [
+          11,
+          1
+        ]
+      ],
+      "arrival_cell": [
+        10,
+        1
+      ],
+      "target_room": "next_stage",
+      "target_spawn_cell": null,
+      "target_exit_edge": null,
+      "door_sprite": "stage_door",
+      "door_animation": "stage_door",
+      "door_top_left_px": [
+        498,
+        17
+      ]
+    }
+  ],
+  "blocked_tiles": [
+    [
+      1,
+      7
+    ],
+    [
+      2,
+      7
+    ],
+    [
+      3,
+      11
+    ],
+    [
+      3,
+      12
+    ],
+    [
+      4,
+      4
+    ],
+    [
+      4,
+      5
+    ],
+    [
+      4,
+      11
+    ],
+    [
+      4,
+      12
+    ],
+    [
+      5,
+      4
+    ],
+    [
+      5,
+      5
+    ],
+    [
+      6,
+      4
+    ],
+    [
+      6,
+      5
+    ],
+    [
+      17,
+      4
+    ],
+    [
+      17,
+      5
+    ],
+    [
+      18,
+      4
+    ],
+    [
+      18,
+      5
+    ],
+    [
+      19,
+      11
+    ],
+    [
+      20,
+      11
+    ]
+  ]
+}

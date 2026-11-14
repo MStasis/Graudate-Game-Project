@@ -80,6 +80,7 @@ func modal_open() -> bool:
 
 func toggle_history() -> void:
  if app.world.finished: return
+ if app.world.use_fleet_demo and app.world.fleet_demo.locks_movement() and not $HistoryPanel.visible: return
  app.question.finish_editing()
  $FullMapPanel.hide()
  $HistoryPanel.visible = not $HistoryPanel.visible
@@ -88,6 +89,7 @@ func toggle_history() -> void:
 
 func toggle_map() -> void:
  if app.world.finished: return
+ if app.world.use_fleet_demo and app.world.fleet_demo.locks_movement() and not $FullMapPanel.visible: return
  app.question.finish_editing()
  $HistoryPanel.hide()
  $FullMapPanel.visible = not $FullMapPanel.visible
@@ -154,10 +156,10 @@ func clear_speech() -> void:
   bubble.hide()
 
 func speak(who: String, message: String, priority := 60, guard := "") -> bool:
- if who not in ["하린", "플레이어"]:
+ if who not in ["미카", "플레이어"]:
   notify(message)
   return false
- if who == "하린":
+ if who == "미카":
   var now := Time.get_ticks_msec()
   if last_said.size() > 64:
    for old in last_said.keys():
@@ -177,7 +179,7 @@ func speak(who: String, message: String, priority := 60, guard := "") -> bool:
  transcript.append(who + ": " + message)
  if transcript.size() > 30: transcript.pop_front()
  record(who, "dialogue", message)
- if who == "하린": npc_line_shown.emit(message)
+ if who == "미카": npc_line_shown.emit(message)
  return true
 
 func speech_valid(entry: Dictionary) -> bool:
@@ -191,7 +193,7 @@ func speech_valid(entry: Dictionary) -> bool:
     if grounding.action in ["follow", "wait"]: return world.npc_motion.mode == grounding.action
     return world.active_action == grounding.action
    if grounding.get("topic", "unknown") in ["mission", "support"]:
-    return grounding.get("facts") == HarinDialogue.facts(world.game_state(), grounding.get("question", ""), grounding.topic)
+    return grounding.get("facts") == MikaDialogue.facts(world.game_state(), grounding.get("question", ""), grounding.topic)
    return not world.defeated and not world.finished
   "heal_started": return world.active_action == "heal"
   "resupply_started": return world.active_action == "resupply"
@@ -218,7 +220,7 @@ func update_view(delta: float) -> void:
   if speech_valid(next):
    speech_priority = 0
    # 표시한 적 없는 큐 항목이므로 중복 억제 대상이 아니다.
-   speak("하린", next.text, next.priority, next.guard)
+   speak("미카", next.text, next.priority, next.guard)
   else: app.brain._log({"event": "speech_discarded", "reason": "stale_display_context", "text": next.text})
  minimap.remember_position()
  var combat: bool = not app.is_noncombat()
@@ -260,6 +262,9 @@ func update_view(delta: float) -> void:
   var bubble: SpeechBubble = pair[0]
   bubble.tick(delta)
   if bubble.remaining <= 0: continue
+  if app.world.use_fleet_demo and app.world.fleet_demo.locks_movement():
+   bubble.hide()
+   continue
   # 비전투에서는 큰 본문과 NPC 말풍선을 중복 표시하지 않는다.
   if not combat and bubble == npc_bubble and app.dialogue_panel.visible and bubble.full_text == app.answer.text:
    bubble.hide()

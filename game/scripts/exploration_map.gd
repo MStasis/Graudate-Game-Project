@@ -2,7 +2,10 @@ class_name ExplorationMap
 extends Control
 const COLUMNS := 32
 const ROWS := 12
-const ROOM_NAMES := {"lab": "연구실", "storage": "보관 구역", "main_entry": "연구동 진입실"}
+const ROOM_NAMES := {
+ "lab": "연구실", "storage": "비품실", "quarters": "정비병 개인실", "main_entry": "연구동 진입실",
+ "corridor": "통창 복도", "mika_quarters": "미카의 방", "supply_room": "비품실", "power_room": "전기실", "research_lab_b": "연구실 B동",
+}
 var world: DemoWorld
 var explored := {}
 var known := {}
@@ -51,7 +54,7 @@ func remember_position() -> void:
   if world.visibility_at(point) > 0.12: known[room][item.id] = item.duplicate(true)
  for id in known[room].keys():
   if not current.has(id): known[room].erase(id)
-  elif id in ["generator", "anomaly_console", "exit", "storage_gate", "lab_gate", "containment_device", "containment_panel_a", "containment_panel_b"]: known[room][id]["active"] = current[id].active
+  elif world.use_fleet_demo or id in ["generator", "anomaly_console", "exit", "storage_gate", "lab_gate", "containment_device", "containment_panel_a", "containment_panel_b"]: known[room][id]["active"] = current[id].active
  queue_redraw()
 
 func mini_bounds() -> Rect2:
@@ -72,7 +75,7 @@ func project(point: Vector2, bounds: Rect2, area: Rect2) -> Vector2:
  return area.position + (point - bounds.position) / bounds.size * area.size
 
 func visible_companion(room: String) -> Vector2:
- if room == world.map_id and world.visibility_at(world.npc.position) > 0.12: return world.npc.position
+ if room == world.map_id and world.npc.visible and world.visibility_at(world.npc.position) > 0.12: return world.npc.position
  return Vector2.INF
 
 func icon(point: Vector2, kind: String, active := false) -> void:
@@ -130,7 +133,7 @@ func _draw() -> void:
   return
  draw_string(font, Vector2(12, 22), "발견 지도 · 위치 미확인 목표는 좌표를 표시하지 않음", HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color("d0e3dd"))
  var found := []
- for room in ["lab", "storage", "main_entry"]:
+ for room in ROOM_NAMES:
   if rooms.has(room): found.append(room)
  var height := minf(180, (size.y - 100) / maxf(1, found.size()))
  var centers := {}
@@ -155,5 +158,5 @@ func _draw() -> void:
   for item in known.get(room, {}).values():
    var destination: String = item.get("destination", "")
    if centers.has(destination): draw_line(centers[room], centers[destination], Color("87bfe4") if item.active else Color("7e8990"), 2)
- draw_string(font, Vector2(12, size.y - 48), "● 플레이어(노랑) / 하린(청록·현재 시야)   □ 문   ◆ 목표   + 물자   ■ 장치", HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("d0e3dd"))
+ draw_string(font, Vector2(12, size.y - 48), "● 플레이어(노랑) / 미카(청록·현재 시야)   □ 문   ◆ 목표   + 물자   ■ 장치", HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("d0e3dd"))
  draw_string(font, Vector2(12, size.y - 22), world.current_guidance().left(68), HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("e3b86d"))

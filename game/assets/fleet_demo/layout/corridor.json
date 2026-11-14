@@ -1,0 +1,553 @@
+{
+  "name": "corridor",
+  "title": "통창 복도",
+  "grid": [
+    26,
+    5
+  ],
+  "tile_px": 48,
+  "floor_origin_px": [
+    24,
+    112
+  ],
+  "floor": [
+    [
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "floor_eroded"
+    ],
+    [
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor"
+    ],
+    [
+      "floor_vent",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "floor_vent",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "floor_vent",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "floor_eroded",
+      "corridor_floor"
+    ],
+    [
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "floor_eroded",
+      "floor_eroded"
+    ],
+    [
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor",
+      "corridor_floor"
+    ]
+  ],
+  "north_wall": [
+    "wall_rib",
+    "corridor_wall",
+    "corridor_wall",
+    "corridor_wall",
+    "wall_rib",
+    "corridor_wall",
+    "corridor_wall",
+    "corridor_wall",
+    "wall_rib",
+    "corridor_wall",
+    "corridor_wall",
+    "corridor_wall",
+    "wall_rib",
+    "corridor_wall",
+    "corridor_wall",
+    "corridor_wall",
+    "wall_rib",
+    "corridor_wall",
+    "corridor_wall",
+    "corridor_wall",
+    "wall_rib",
+    "corridor_wall",
+    "corridor_wall",
+    "corridor_wall",
+    "wall_rib",
+    "corridor_wall"
+  ],
+  "edge_sprites": [
+    [
+      "corridor_wall_edge_horizontal",
+      24,
+      352
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      72,
+      352
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      120,
+      352
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      168,
+      352
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      216,
+      352
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      264,
+      352
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      312,
+      352
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      360,
+      352
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      408,
+      352
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      456,
+      352
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      504,
+      352
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      552,
+      352
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      600,
+      352
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      648,
+      352
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      696,
+      352
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      744,
+      352
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      792,
+      352
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      840,
+      352
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      888,
+      352
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      936,
+      352
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      984,
+      352
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      1032,
+      352
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      1080,
+      352
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      1128,
+      352
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      1176,
+      352
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      1224,
+      352
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      6,
+      112
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      1270,
+      112
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      6,
+      160
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      6,
+      208
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      6,
+      256
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      1270,
+      256
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      6,
+      304
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      1270,
+      304
+    ]
+  ],
+  "props": [
+    {
+      "sprite": "stage_door",
+      "id": "to_mika",
+      "xy_px": [
+        203,
+        16
+      ],
+      "layer": "wall"
+    },
+    {
+      "sprite": "stage_door",
+      "id": "to_supply",
+      "xy_px": [
+        683,
+        16
+      ],
+      "layer": "wall"
+    },
+    {
+      "sprite": "stage_door",
+      "id": "to_power",
+      "xy_px": [
+        1067,
+        16
+      ],
+      "layer": "wall"
+    },
+    {
+      "sprite": "stage_door_east",
+      "id": "to_lab",
+      "xy_px": [
+        1266,
+        156
+      ],
+      "layer": "wall"
+    },
+    {
+      "sprite": "warning_light",
+      "id": "alarm_1",
+      "xy_px": [
+        328,
+        61
+      ],
+      "layer": "wall",
+      "ground": [
+        355,
+        97
+      ],
+      "light": "emergency"
+    },
+    {
+      "sprite": "warning_light",
+      "id": "alarm_2",
+      "xy_px": [
+        806,
+        61
+      ],
+      "layer": "wall",
+      "ground": [
+        833,
+        97
+      ],
+      "light": "emergency"
+    },
+    {
+      "sprite": "warning_light",
+      "id": "alarm_3",
+      "xy_px": [
+        1192,
+        61
+      ],
+      "layer": "wall",
+      "ground": [
+        1219,
+        97
+      ],
+      "light": "emergency"
+    },
+    {
+      "sprite": "erosion_decal",
+      "id": "leak_at_lab_entrance",
+      "xy_px": [
+        1163,
+        142
+      ],
+      "layer": "decal",
+      "ground": [
+        1214,
+        222
+      ]
+    },
+    {
+      "sprite": "corridor_panorama_stars",
+      "id": "panorama_1",
+      "xy_px": [
+        120,
+        368
+      ],
+      "layer": "foreground"
+    },
+    {
+      "sprite": "corridor_panorama_stars",
+      "id": "panorama_2",
+      "xy_px": [
+        360,
+        368
+      ],
+      "layer": "foreground"
+    },
+    {
+      "sprite": "corridor_panorama_window",
+      "id": "panorama_3",
+      "xy_px": [
+        600,
+        368
+      ],
+      "layer": "foreground"
+    },
+    {
+      "sprite": "corridor_panorama_stars",
+      "id": "panorama_4",
+      "xy_px": [
+        840,
+        368
+      ],
+      "layer": "foreground"
+    }
+  ],
+  "doors": [
+    {
+      "id": "to_mika",
+      "edge": "north",
+      "start": 4,
+      "width_tiles": 2,
+      "target_room": "mika_quarters",
+      "target_door": "to_corridor",
+      "point_px": [
+        264,
+        136
+      ],
+      "arrival_px": [
+        264,
+        166
+      ]
+    },
+    {
+      "id": "to_supply",
+      "edge": "north",
+      "start": 14,
+      "width_tiles": 2,
+      "target_room": "supply_room",
+      "target_door": "to_corridor",
+      "point_px": [
+        744,
+        136
+      ],
+      "arrival_px": [
+        744,
+        166
+      ]
+    },
+    {
+      "id": "to_power",
+      "edge": "north",
+      "start": 22,
+      "width_tiles": 2,
+      "target_room": "power_room",
+      "target_door": "to_corridor",
+      "point_px": [
+        1128,
+        136
+      ],
+      "arrival_px": [
+        1128,
+        166
+      ]
+    },
+    {
+      "id": "to_lab",
+      "edge": "east",
+      "start": 1,
+      "width_tiles": 2,
+      "target_room": "research_lab_b",
+      "target_door": "to_corridor",
+      "point_px": [
+        1246,
+        208
+      ],
+      "arrival_px": [
+        1218,
+        208
+      ]
+    }
+  ],
+  "markings": [],
+  "spawn_px": null,
+  "waves": []
+}

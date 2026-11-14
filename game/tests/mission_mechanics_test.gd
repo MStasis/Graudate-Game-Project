@@ -60,8 +60,8 @@ func run() -> void:
  world.game_event.connect(func(event): events.append(event.duplicate(true)))
  check("starts_without_flashlight", not world.flashlight_owned and world.map_id == "lab")
  world.apply_interaction("storage_gate")
- check("dark_room_requires_pickup", world.map_id == "lab" and world.flashlight_requested)
- world.player.position = world.get_node("ToStorage").position - Vector2(65, 0)
+ check("dark_room_requires_pickup", world.map_id == "lab" and not world.flashlight_owned and (world.flashlight_requested or world.flashlight_dropped))
+ world.player.position = world.get_node("ToStorage").position + Vector2(65, 0)
  check("harin_approaches_and_drops_real_pickup", await wait_for(func(): return world.flashlight_dropped, 6))
  check("ground_pickup_is_visible", world.get_node("FlashlightPickup").is_visible_in_tree() and not world.flashlight_owned)
  await capture("01_flashlight_drop")
@@ -74,7 +74,7 @@ func run() -> void:
  check("storage_entry_after_pickup", world.map_id == "storage" and world.get_node("Darkness").visible)
  check("storage_chat_hidden_until_enter", not app.is_noncombat() and not app.dialogue_panel.visible)
  check("storage_never_shows_portrait", not app.get_node("RadioPanel/LabPortrait").is_visible_in_tree())
- world.player.position = Vector2(420, 330)
+ world.player.position = Vector2(375, 330)
  world.player.facing_direction = Vector2.RIGHT
  await aim(world.player.position + Vector2(300, 0))
  world.update_visibility()
@@ -83,7 +83,7 @@ func run() -> void:
  check("beam_extends_beyond_circle", world.visibility_at(forward) > 0.2 and world.visibility_at(world.player.position - Vector2(240, 0)) < 0.01)
  check("beam_fades_with_distance", world.visibility_at(forward) > world.visibility_at(far_point) and world.visibility_at(far_point) > 0)
  check("beam_is_sector_not_full_circle", world.visibility_at(world.player.position + Vector2(0, 240)) < 0.01)
- world.player.position = Vector2(420, 190)
+ world.player.position = Vector2(420, 288)
  await aim(world.player.position + Vector2(0, 300))
  Input.action_press("move_down")
  await frames(6)
@@ -101,9 +101,12 @@ func run() -> void:
  world.player.facing_direction = Vector2.RIGHT
  world.npc_combat_enabled = false
  for enemy in world.get_node("Enemies").get_children(): enemy.set_physics_process(false)
- for enemy in world.get_node("Enemies").get_children():
-  while enemy.hp > 0:
-   world.player.position = enemy.position - Vector2(100, 0)
+ for index in world.room_enemies().size():
+  var enemy: MissionDrone = world.room_enemies()[index]
+  enemy.position = world.fleet_rooms.storage.cell([6 + index * 2, 4])
+  for shot in range(4):
+   if enemy.hp <= 0: break
+   world.player.position = enemy.position + Vector2(0, 100)
    world.ammo = 20
    world.shoot_cd = 0
    world.shoot(enemy.position)
@@ -169,7 +172,7 @@ func run() -> void:
  check("lab_restores_full_dialogue_profile", app.is_noncombat() and app.dialogue_panel.noncombat_mode)
  world.apply_interaction("generator")
  world.apply_interaction("storage_gate")
- check("power_restore_removes_blackout_permanently", world.power_restored and world.get_node("Darkness").material.get_shader_parameter("ambient_enabled") == true and world.visibility_at(Vector2(50, 70)) == 1.0)
+ check("power_restore_removes_blackout_permanently", world.power_restored and world.get_node("Darkness").material.get_shader_parameter("ambient_enabled") == true and world.visibility_at(world.player.position) == 1.0)
  app.combat_hud.minimap.remember_position()
  check("powered_map_keeps_discovery", app.combat_hud.minimap.explored.storage.size() > 0 and world.visibility_at(world.player.position) == 1.0)
  await capture("04_power_restored_storage")
@@ -209,7 +212,7 @@ func run() -> void:
  quit(0 if result.passed else 1)
 
 func test_motion() -> void:
- world.player.position = Vector2(520, 330)
+ world.player.position = Vector2(450, 300)
  world.npc.position = Vector2(420, 280)
  world.player.facing_direction = Vector2.RIGHT
  var targets := []
@@ -221,8 +224,9 @@ func test_motion() -> void:
  var rear: Vector2 = world.npc_motion.formation_target(world, 0.016)
  check("ranged_profile_stays_behind", rear.x < world.player.position.x - 60)
  world.npc.position = rear
+ world.npc.velocity = Vector2.ZERO
  var target: MissionDrone = world.get_node("Enemies/DroneA")
- target.position = world.player.position + Vector2(120, 0)
+ target.position = world.player.position + Vector2(72, 64)
  target.hp = target.max_hp
  target.visible = true
  target.collision_layer = 2
