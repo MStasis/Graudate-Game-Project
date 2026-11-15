@@ -1,0 +1,777 @@
+{
+  "room": "gunsmith_quarters",
+  "grid_size": [
+    16,
+    11
+  ],
+  "tile_px": [
+    48,
+    48
+  ],
+  "floor_origin_px": [
+    32,
+    126
+  ],
+  "north_wall_origin_px": [
+    32,
+    30
+  ],
+  "spawn_cell": [
+    0,
+    7
+  ],
+  "floor_tiles": [
+    [
+      "floor_panel",
+      "floor_vent",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_vent",
+      "floor_panel"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_vent",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_lane_ns",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_lane_ns",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_lane_ns",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_vent",
+      "floor_panel",
+      "floor_lane_ns",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel"
+    ],
+    [
+      "floor_lane_ew",
+      "floor_lane_ew",
+      "floor_lane_ew",
+      "floor_lane_ew",
+      "floor_lane_ew",
+      "floor_lane_ew",
+      "floor_lane_ew",
+      "floor_lane_ew",
+      "floor_lane_ew",
+      "floor_lane_ew",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_vent",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_vent"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_vent",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel"
+    ]
+  ],
+  "north_wall_tiles": [
+    "wall_rib",
+    "wall_panel",
+    "wall_rib",
+    "wall_rib",
+    "wall_panel",
+    "wall_rib",
+    "wall_rib",
+    "wall_panel",
+    "wall_rib",
+    "wall_rib",
+    "wall_panel",
+    "wall_rib",
+    "wall_rib",
+    "wall_panel",
+    "wall_rib",
+    "wall_rib"
+  ],
+  "markings": [
+    {
+      "tile_rect": [
+        1.2,
+        1.7,
+        6.0,
+        4.3
+      ],
+      "ink": "#607e83"
+    },
+    {
+      "tile_rect": [
+        10.1,
+        2.65,
+        5.1,
+        6.75
+      ],
+      "ink": "#526f75"
+    }
+  ],
+  "sprite_instances": [
+    {
+      "sprite": "stage_door_west",
+      "pivot_world_px": [
+        22,
+        510
+      ],
+      "top_left_px": [
+        8,
+        458
+      ],
+      "layer": "wall",
+      "interaction": "stage_transition",
+      "approach_cell": [
+        1,
+        7
+      ],
+      "exit_edge": "w"
+    },
+    {
+      "sprite": "pipe_se",
+      "pivot_world_px": [
+        56,
+        78
+      ],
+      "top_left_px": [
+        32,
+        30
+      ],
+      "layer": "conduit"
+    },
+    {
+      "sprite": "pipe_h",
+      "pivot_world_px": [
+        104,
+        78
+      ],
+      "top_left_px": [
+        80,
+        30
+      ],
+      "layer": "conduit"
+    },
+    {
+      "sprite": "pipe_h",
+      "pivot_world_px": [
+        152,
+        78
+      ],
+      "top_left_px": [
+        128,
+        30
+      ],
+      "layer": "conduit"
+    },
+    {
+      "sprite": "pipe_h",
+      "pivot_world_px": [
+        200,
+        78
+      ],
+      "top_left_px": [
+        176,
+        30
+      ],
+      "layer": "conduit"
+    },
+    {
+      "sprite": "pipe_h",
+      "pivot_world_px": [
+        248,
+        78
+      ],
+      "top_left_px": [
+        224,
+        30
+      ],
+      "layer": "conduit"
+    },
+    {
+      "sprite": "pipe_h",
+      "pivot_world_px": [
+        296,
+        78
+      ],
+      "top_left_px": [
+        272,
+        30
+      ],
+      "layer": "conduit"
+    },
+    {
+      "sprite": "pipe_h",
+      "pivot_world_px": [
+        344,
+        78
+      ],
+      "top_left_px": [
+        320,
+        30
+      ],
+      "layer": "conduit"
+    },
+    {
+      "sprite": "pipe_sw",
+      "pivot_world_px": [
+        392,
+        78
+      ],
+      "top_left_px": [
+        368,
+        30
+      ],
+      "layer": "conduit"
+    },
+    {
+      "sprite": "main_screen",
+      "pivot_world_px": [
+        351,
+        136
+      ],
+      "top_left_px": [
+        284,
+        50
+      ],
+      "layer": "wall",
+      "interaction": "maintenance_logs",
+      "approach_cell": [
+        6,
+        0
+      ]
+    },
+    {
+      "sprite": "breaker",
+      "pivot_world_px": [
+        90,
+        132
+      ],
+      "top_left_px": [
+        70,
+        70
+      ],
+      "layer": "wall",
+      "interaction": "quarters_power",
+      "approach_cell": [
+        1,
+        0
+      ]
+    },
+    {
+      "sprite": "craft_bench",
+      "pivot_world_px": [
+        207,
+        268
+      ],
+      "top_left_px": [
+        145,
+        160
+      ],
+      "layer": "object",
+      "blocked_tiles": [
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          4,
+          2
+        ]
+      ],
+      "interaction": "craft_weapon",
+      "approach_cell": [
+        3,
+        3
+      ]
+    },
+    {
+      "sprite": "stool",
+      "pivot_world_px": [
+        296,
+        347
+      ],
+      "top_left_px": [
+        280,
+        307
+      ],
+      "layer": "object",
+      "blocked_tiles": [
+        [
+          5,
+          4
+        ]
+      ],
+      "interaction": "seat",
+      "approach_cell": [
+        5,
+        5
+      ]
+    },
+    {
+      "sprite": "sliding_cabinet",
+      "pivot_world_px": [
+        673,
+        220
+      ],
+      "top_left_px": [
+        615,
+        104
+      ],
+      "layer": "object",
+      "blocked_tiles": [
+        [
+          12,
+          1
+        ],
+        [
+          13,
+          1
+        ],
+        [
+          14,
+          1
+        ]
+      ],
+      "interaction": "slide_cabinet",
+      "approach_cell": [
+        13,
+        2
+      ],
+      "animation_frame": 0
+    },
+    {
+      "sprite": "crew_bed",
+      "pivot_world_px": [
+        630,
+        452
+      ],
+      "top_left_px": [
+        581,
+        354
+      ],
+      "layer": "object",
+      "blocked_tiles": [
+        [
+          11,
+          4
+        ],
+        [
+          12,
+          4
+        ],
+        [
+          13,
+          4
+        ],
+        [
+          11,
+          5
+        ],
+        [
+          12,
+          5
+        ],
+        [
+          13,
+          5
+        ],
+        [
+          11,
+          6
+        ],
+        [
+          12,
+          6
+        ],
+        [
+          13,
+          6
+        ]
+      ],
+      "interaction": "inspect_bunk",
+      "approach_cell": [
+        12,
+        7
+      ]
+    },
+    {
+      "sprite": "storage_crate",
+      "pivot_world_px": [
+        675,
+        570
+      ],
+      "top_left_px": [
+        635,
+        516
+      ],
+      "layer": "object",
+      "blocked_tiles": [
+        [
+          12,
+          8
+        ],
+        [
+          13,
+          8
+        ],
+        [
+          14,
+          8
+        ]
+      ],
+      "interaction": "open_personal_storage",
+      "approach_cell": [
+        13,
+        9
+      ]
+    },
+    {
+      "sprite": "ammo_box",
+      "pivot_world_px": [
+        258,
+        577
+      ],
+      "top_left_px": [
+        223,
+        542
+      ],
+      "layer": "object",
+      "blocked_tiles": [
+        [
+          4,
+          9
+        ],
+        [
+          5,
+          9
+        ]
+      ],
+      "interaction": "take_ammo",
+      "approach_cell": [
+        4,
+        10
+      ]
+    },
+    {
+      "sprite": "touch_panel",
+      "pivot_world_px": [
+        66,
+        467
+      ],
+      "top_left_px": [
+        44,
+        435
+      ],
+      "layer": "conduit",
+      "interaction": "lab_access",
+      "approach_cell": [
+        1,
+        7
+      ]
+    },
+    {
+      "sprite": "flashlight",
+      "pivot_world_px": [
+        193,
+        209
+      ],
+      "top_left_px": [
+        174,
+        184
+      ],
+      "layer": "surface"
+    },
+    {
+      "sprite": "pipe_u",
+      "pivot_world_px": [
+        752,
+        158
+      ],
+      "top_left_px": [
+        728,
+        110
+      ],
+      "layer": "wall"
+    }
+  ],
+  "exits": [
+    {
+      "edge": "w",
+      "edge_tiles": [
+        7,
+        8
+      ],
+      "trigger_cell": [
+        0,
+        7
+      ],
+      "activation": "interact",
+      "approach_cells": [
+        [
+          1,
+          7
+        ],
+        [
+          1,
+          8
+        ]
+      ],
+      "arrival_cell": [
+        1,
+        7
+      ],
+      "target_room": "research_lab",
+      "target_spawn_cell": [
+        20,
+        9
+      ],
+      "target_exit_edge": "e",
+      "door_sprite": "stage_door_west",
+      "door_animation": null,
+      "door_top_left_px": [
+        8,
+        458
+      ]
+    }
+  ],
+  "blocked_tiles": [
+    [
+      2,
+      2
+    ],
+    [
+      3,
+      2
+    ],
+    [
+      4,
+      2
+    ],
+    [
+      4,
+      9
+    ],
+    [
+      5,
+      4
+    ],
+    [
+      5,
+      9
+    ],
+    [
+      11,
+      4
+    ],
+    [
+      11,
+      5
+    ],
+    [
+      11,
+      6
+    ],
+    [
+      12,
+      1
+    ],
+    [
+      12,
+      4
+    ],
+    [
+      12,
+      5
+    ],
+    [
+      12,
+      6
+    ],
+    [
+      12,
+      8
+    ],
+    [
+      13,
+      1
+    ],
+    [
+      13,
+      4
+    ],
+    [
+      13,
+      5
+    ],
+    [
+      13,
+      6
+    ],
+    [
+      13,
+      8
+    ],
+    [
+      14,
+      1
+    ],
+    [
+      14,
+      8
+    ]
+  ]
+}

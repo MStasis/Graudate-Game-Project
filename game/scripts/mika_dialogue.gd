@@ -6,22 +6,22 @@ const HISTORY_CHAR_BUDGET := 850
 const AMBIENT := {"on_shift": "평상시 연구실 근무. 아직 정전·경보·전투는 발생하지 않음.", "blackout": "정전 직후. 아직 전력은 복구되지 않았고 침식 경보는 관측 전.", "equipment": "정전 중. 플레이어는 손전등 보유. 침식 경보는 아직 관측 전.", "fuse_search": "정전된 비품실. 침식 경보는 아직 관측 전.", "fuse_return": "비품실 전투와 퓨즈 회수가 끝났지만 아직 정전 중.", "power_restored": "전력 복구와 장치 재가동 직후. 아직 경보는 관측하지 않음.", "anomaly_alarm": "전력 복구 후 실제 침식 경보가 발생함. 전체 문제는 미해결.", "main_entry": "연구동 진입실에 도착. 비품실 전투는 끝났음. 경보는 실제 발생했고 전체 임무는 미완료."}
 const PHASES := {"on_shift": "평상시 연구소 근무. 아직 정전 전.", "blackout": "갑자기 정전 발생. 미카가 보안 직원인 플레이어를 불러 장비를 챙기는 중.", "equipment": "플레이어가 손전등을 받음. 퓨즈 확보를 위해 비품실로 출발.", "fuse_search": "비품실에서 선원을 제압하고 두 패널 보관함의 퓨즈를 확보하는 중.", "fuse_return": "퓨즈 확보 완료. 연구실 전력 장치에 장착할 차례.", "power_restored": "퓨즈 장착으로 전력은 복구됨. 장치가 재가동되는 순간. 전체 문제 해결 아님.", "anomaly_alarm": "전력 복구 뒤 침식된 장치가 드러나고 경고등이 켜짐. 출발 문으로 연구동에 갈 차례.", "main_entry": "전력을 복구하고 연구동 진입실에 도착. 관측 단말에서 침식 신호를 확인해야 함. 이상현상 봉쇄는 아직 완료하지 못함."}
 
-static func topic_for(question: String, history: Array) -> String:
- var topic := NPCPolicy.rule_intent(question)
+static func topic_for(question: String, history: Array, fleet := false) -> String:
+ var topic := NPCPolicy.rule_intent(question, fleet)
  if NPCPolicy.has_word(question, ["불 들어", "경보", "이상현상", "정전"]): return "mission"
  if topic == "unknown" and NPCPolicy.has_word(question, ["그럼", "반대쪽", "그거", "아까", "다음엔", "지금은"]):
   for index in range(history.size() - 1, -1, -1):
-   var previous := NPCPolicy.rule_intent(str(history[index].get("question", "")))
+   var previous := NPCPolicy.rule_intent(str(history[index].get("question", "")), fleet)
    if previous in ["mission", "support"]: return previous
  return topic
 
-static func recent_history(history: Array, casual: bool) -> Array:
+static func recent_history(history: Array, casual: bool, fleet := false) -> Array:
  var result := []
  var remaining := HISTORY_CHAR_BUDGET
  for index in range(history.size() - 1, -1, -1):
   var turn: Dictionary = history[index]
   # 새 잡담에는 먼 임무 매뉴얼을 빼되, 지시어가 있는 후속 질문은 build에서 전체 최근 문답을 사용한다.
-  if casual and NPCPolicy.rule_intent(str(turn.get("question", ""))) not in ["everyday", "relationship", "unknown"]: continue
+  if casual and NPCPolicy.rule_intent(str(turn.get("question", "")), fleet) not in ["everyday", "relationship", "unknown"]: continue
   var entry := {"question": str(turn.get("question", "")).left(160), "answer": str(turn.get("answer", "")).left(230)}
   var cost: int = entry.question.length() + entry.answer.length()
   if cost > remaining or result.size() >= HISTORY_LIMIT: break
@@ -42,6 +42,7 @@ static func style_examples(topic: String, question := "") -> Array:
  return result
 
 static func build(state: Dictionary, question: String, history: Array, persona: String, extra_style: String) -> Dictionary:
+ if state.get("fleet_demo", false): return _build_fleet(state, question, history, extra_style)
  var topic := topic_for(question, history)
  var casual := topic in ["everyday", "relationship", "unknown"]
  var referring := NPCPolicy.has_word(question, ["그럼", "그거", "아까", "그 음식", "지금은", "네가 말"])
@@ -72,6 +73,68 @@ static func build(state: Dictionary, question: String, history: Array, persona: 
   context["관련 실제 사건"] = related_events(state, question, topic)
  if NPCPolicy.has_word(question, ["밥", "먹", "퇴근", "취향"]): context["미확정 사항"] = CHARACTER.background + " " + CHARACTER.preferences
  if state.get("npc_downed", false): context["현재 몸 상태"] = "미카 다운. 가까이에서 키트로 소생하기 전에는 이동·지원 불가."
+ return _conversation(system, context, question)
+
+static func _build_fleet(state: Dictionary, question: String, history: Array, extra_style: String) -> Dictionary:
+ var topic := topic_for(question, history, true)
+ var casual := topic in ["everyday", "relationship", "unknown"]
+ var scene: Dictionary = state.fleet_context
+ var system := "너는 개척선 정비사 미카. 상대는 이미 친한 동료야. 자연스러운 한국어 반말로 실제 대사만 짧게 답해. 주석·JSON·지문은 빼. 툴툴대거나 장난쳐도 좋아. 격려·역질문은 필요할 때만. 최신 사실에 있는 위치·방향·행동 주체를 지켜. 질문의 전제, 예시, 지난 답변은 사건의 증거가 아니야. 정보가 없으면 모른다고 해. 사격과 E로 아이템 줍기는 플레이어가 맡아. 실제로 끝난 지원만 완료했다고 말해."
+ system += " 미카 자신은 '나', 옆의 동료는 '너'라고 불러."
+ var context := {
+  "역할": {"직책": "개척선 정비사", "관계": "이미 친한 동료", "말투": CHARACTER.voice, "성격": "일할 때는 손이 빠르고 무뚝뚝할 수 있다. 가끔 장난을 치며 필요하면 돕는다."},
+  "말투 선호": extra_style.left(240),
+  "최근 대화 (실제 문답)": recent_history(history, casual, true),
+  # The old mission's panel tutorial also appears in its fictional examples.
+  "말투 참고 (가상·기억 아님)": style_examples("everyday", question) if casual else [],
+ }
+ if casual:
+  context["현재 장면"] = {"장소": state.location, "전력 복구": state.power_restored, "통신 장애 확인": scene["통신 장애 확인"], "경보 중": scene["복도 경보"]}
+  context["응답 목적"] = "배경만 지키고 잡담은 지금 상대가 한 말에 답해."
+ else:
+  context["CURRENT FACTS (최신 사실)"] = facts(state, question, topic)
+  context["응답 목적"] = "질문에 필요한 현재 사실만 답해. 다음 목표는 할 일로 말해."
+  if topic == "mission":
+   context["질문에 우선할 사실"] = _fleet_focus(state, question)
+ if state.npc_downed: context["현재 몸 상태"] = "다운 상태. 소생 전에는 움직이거나 지원할 수 없다."
+ return _conversation(system, context, question)
+
+static func _fleet_focus(state: Dictionary, question: String) -> String:
+ var scene: Dictionary = state.fleet_context
+ var compact := question.replace(" ", "")
+ if NPCPolicy.has_word(compact, ["통신", "무전"]):
+  if scene["통신 장애 확인"]: return "마지막으로 확인했을 땐 통신이 먹통이었다. 그 뒤엔 재확인한 적 없다. 통신 질문에는 원인을 추측하거나 적·전력 이야기를 덧붙이지 않는다."
+  return "함선 통신망을 확인한 적 없다. 이 질문에는 아직 확인하지 않았다는 답만 한다."
+ if NPCPolicy.has_word(compact, ["퓨즈", "캐비닛"]):
+  if scene["퓨즈 장착"]: return "정상 퓨즈는 전기실 주 퓨즈함에 이미 장착됐다."
+  if state.fuse_in_inventory: return "정상 퓨즈는 동료가 이미 주워 가지고 있다. 퓨즈를 다시 줍거나 뽑을 필요는 없다."
+  if "앞 바닥" in scene["퓨즈 위치"]: return "정상 퓨즈는 비품실 왼쪽 캐비닛 앞 바닥에 있다. 동료가 가까이 가서 E로 줍는다."
+  return "정상 퓨즈의 현재 위치는 '%s'다. 말하는 미카는 퓨즈를 주워 주는 사람이 아니다. 동료가 직접 E로 줍는다." % scene["퓨즈 위치"]
+ if NPCPolicy.has_word(compact, ["저적", "적들은", "저녀석", "저놈", "선원"]):
+  return "복도에서 머리 없는 침식된 선원을 확인했다. 침식의 원인, 감염 경로, 연구원들의 행방은 모른다." if scene["복도 적 발견"] else "이 시점까지 적을 보지 않았다. 질문에 나온 적의 존재나 정체를 사실로 받아들이지 않는다."
+ if NPCPolicy.has_word(compact, ["레버", "코어", "격벽", "당기"]):
+  if scene["격벽 설치"]: return "두 레버를 당겨 임시 격벽을 설치했다."
+  if not scene["격벽 계획 공유"]: return "아직 두 코어와 격벽 계획을 공유한 적 없다. 작동 시점이나 방법은 확인 전이다."
+  if scene["레버 조작 가능"]: return "신호가 끝났고 레버 사용 안내가 열렸다. 플레이어는 위쪽 레버에서 E를 새로 한 번 누른다."
+  return "전투는 끝났지만 아직 신호를 주지 않았다. 동료에게 위쪽 레버 앞에서 기다리라고 말한다." if scene["B동 전투 종료"] else "현재 한 차수만 끝낸다고 레버가 해제되는 건 아니다. B동 전투를 모두 끝내고 내 신호를 기다린다. 지금은 레버를 조작할 수 없다."
+ if scene["진행 단계"] == "TO_POWER": return "복도 오른쪽 전기실로 간다. 그곳에서 플레이어가 E로 미카에게 퓨즈를 건네면 미카가 교체하고 전력을 켠다."
+ if scene["진행 단계"] == "REPAIR" and state.fuse_in_inventory: return "미카 옆에서 E를 눌러 퓨즈를 건네면 미카가 교체하고 전력을 켠다."
+ if scene["진행 단계"] == "FIND_FUSE" and state.map_id == "mika_quarters":
+  return "정상 퓨즈를 비품실에서 찾는다. 오른쪽은 미카 방에서 비품실로 이어지는 문의 방향이다."
+ return "현재 목표는 '%s'다." % scene["현재 목표"]
+
+static func grounding_facts(state: Dictionary, question: String, topic: String) -> Dictionary:
+ var current := facts(state, question, topic)
+ if not state.get("fleet_demo", false) or topic != "mission": return current
+ var scene: Dictionary = current["진행 상황"]
+ var compact := question.replace(" ", "")
+ if NPCPolicy.has_word(compact, ["통신", "무전"]):
+  return {"통신 장애 확인": scene["통신 장애 확인"]}
+ if NPCPolicy.has_word(compact, ["퓨즈", "캐비닛"]) and not NPCPolicy.has_word(compact, ["다음", "지금뭘", "전력", "불"]):
+  return {"퓨즈 위치": scene["퓨즈 위치"], "오른쪽 캐비닛 확인": scene["오른쪽 캐비닛 확인"], "정상 퓨즈 보유": current["정상 퓨즈 보유"]}
+ return current
+
+static func _conversation(system: String, context: Dictionary, question: String) -> Dictionary:
  context["PLAYER QUESTION"] = question
  var messages := [{"role": "system", "content": system + "\n다음 예시 대화는 가상의 말투 연습일 뿐 실제 사건이 아니다."}]
  for example in context["말투 참고 (가상·기억 아님)"]:
@@ -93,13 +156,27 @@ static func related_events(state: Dictionary, question: String, topic: String) -
  return events.filter(func(event): return NPCPolicy.has_word(str(event), words)).slice(-3)
 
 static func facts(state: Dictionary, question: String, topic: String) -> Dictionary:
+ if state.get("fleet_demo", false):
+  var scene: Dictionary = state.fleet_context
+  if topic == "support":
+   return {"미카 직접 사격": false, "치료 키트": state.medkits, "탄약 보급품": state.supply_packs,
+    "플레이어 체력": state.player_hp, "플레이어 탄약": state.ammo, "현재 지원": state.active_action,
+    "완료된 지원": state.completed_support, "동행 상태": state.companion_mode, "미카 다운": state.npc_downed,
+    "고정 작업": "정상 코어" if scene["격벽 계획 공유"] and state.map_id == "research_lab_b" else "",
+    "예비 탄창": state.get("magazines", 0),
+    "지원 방법": "치료 키트·보급·치료 장비는 실제 지원 행동이 끝나야 완료된다. 미카의 탄약 보급은 예비 탄창 두 개를 준다. 설치형 치료 장비는 범위 안에서 초당 최대 5를 회복한다."}
+  var fleet := {"현재 장소": state.location, "다음 단계": scene["현재 목표"], "남은 적": state.enemy_count,
+   "정상 퓨즈 보유": state.fuse_in_inventory, "전력 복구": state.power_restored, "진행 상황": scene}
+  if scene["통신 장애 확인"]: fleet["마지막 통신 확인"] = "미카 방에서 통신 먹통을 보고함. 이후 재확인 기록 없음. 장애 원인과 복구 여부 미확인."
+  if scene["복도 적 발견"]: fleet["확인한 적"] = "복도에서 머리 없는 침식된 선원을 봄. 침식 원인은 모름."
+  if scene["현재 전투 차수"] > 0: fleet["B동에서 확인한 적"] = "복도에서 본 종류와 같은 침식된 선원들."
+  if scene["격벽 계획 공유"]:
+   fleet["격벽 조작"] = "플레이어는 위쪽 침식 코어, 미카는 아래쪽 정상 코어 담당. 미카가 ‘당겨!’라고 한 뒤 안내가 뜨면 위쪽 레버 앞에서 새 E 입력으로 함께 당긴다."
+  return fleet
  if topic == "support":
   if NPCPolicy.has_word(question, ["따라", "대기", "기다"]):
    return {"Mika_current_mode": state.get("companion_mode", "follow"), "active_support": state.active_action, "wait_release": "player follow command or map/trial change", "can_act": not state.get("npc_downed", false)}
   return {"치료 키트": state.medkits, "탄약 보급품": state.supply_packs, "플레이어 체력": state.player_hp, "플레이어 탄약": state.ammo, "미카 탄약": state.get("npc_ammo", 0), "미카 예비탄": state.get("npc_reserve", 0), "현재 지원": state.active_action, "완료된 지원 횟수": state.get("completed_support", {}), "동행 상태": state.get("companion_mode", "follow"), "지원": "실제 치료/보급은 가까이 접근한 뒤 공통 실행기로 완료한다. 대화만으로 지급하지 않는다. 예비탄이 있으면 미카는 자동 장전하고 없으면 공용 보급품을 소비한다."}
- if state.get("fleet_demo", false):
-  return {"현재 장소": state.location, "다음 단계": state.current_guidance, "남은 적": state.enemy_count,
-   "정상 퓨즈 보유": state.fuse_in_inventory, "전력 복구": state.power_restored, "상세 진행": state.fleet_context}
  if "손전등" in question:
   var possession := "지금 내 손 안에 있다. 내가 소지 중이다."
   if state.get("flashlight_owned", false): possession = "지금 네 손 안에 있다. 네가 소지 중이다."
@@ -137,6 +214,7 @@ static func facts(state: Dictionary, question: String, topic: String) -> Diction
 static func claims_valid(text: String, state: Dictionary) -> bool:
  var compact := text.replace(" ", "")
  var observed: Array = state.get("story", {}).get("events", [])
+ var fleet: bool = state.get("fleet_demo", false)
  if NPCPolicy.has_word(compact, ["연구소전체가해결", "전부해결됐", "모든이상현상이사라", "모두해결됐"]): return false
  if "anomaly_alarm" not in observed and NPCPolicy.has_word(compact, ["경보가켜졌", "경고등이켜졌", "침식된장치가드러났"]): return false
  if int(state.get("enemy_count", 0)) == 0 and NPCPolicy.has_word(compact, ["선원먼저잡아", "선원을먼저잡아", "선원잡아야", "선원을제압해야"]): return false
@@ -146,15 +224,51 @@ static func claims_valid(text: String, state: Dictionary) -> bool:
  if NPCPolicy.has_word(compact, ["치료했어", "치료해줬", "치료끝났", "회복시켰"]) and int(completed.get("heal", 0)) == 0: return false
  if NPCPolicy.has_word(compact, ["보급했어", "탄약줬어", "탄약건넸", "탄약채워줬"]) and int(completed.get("resupply", 0)) == 0: return false
  if NPCPolicy.has_word(compact, ["퓨즈챙겼어", "퓨즈찾았어", "퓨즈얻었어"]) and not state.fuse_collected: return false
+ if fleet: return _fleet_issue(text, state).is_empty()
  if NPCPolicy.has_word(compact, ["보관함열었어", "보관함열렸어"]) and not state.locker.opened: return false
  if NPCPolicy.has_word(compact, ["네가주웠", "네가챙겼잖"]) and "손전등" in compact and not state.flashlight_owned: return false
  if "손전등" in compact and state.flashlight_owned and NPCPolicy.has_word(compact, ["내손에있", "내가갖고있", "내가가지고있", "바닥에있"]): return false
  return true
 
+static func _fleet_issue(text: String, state: Dictionary) -> String:
+ var compact := text.to_lower().replace(" ", "")
+ var scene: Dictionary = state.fleet_context
+ if NPCPolicy.has_word(compact, ["외곽관측단말", "침식관측단말", "봉쇄패널", "북쪽중앙보관함", "1초유지", "패널을1초", "비품실선원", "비품실의선원"]): return "fleet_wrong_scenario"
+ if NPCPolicy.has_word(compact, ["내가쐈", "내가쏴", "내가발사", "내가사격했", "내가사격할", "내가재장전", "내가총으로", "내가적을잡았", "내가선원을제압했", "같이쏴", "쏴줄게"]): return "fleet_mika_does_not_shoot"
+ if int(state.get("completed_support", {}).get("deploy_cover", 0)) == 0 and NPCPolicy.has_word(compact, ["치료장비설치했", "치료장비를설치했", "보호장비설치했", "터렛설치했", "터렛을설치했"]): return "fleet_support_not_completed"
+ if NPCPolicy.has_word(compact, ["전력이나가서통신", "정전때문에통신", "침식때문에통신", "통신은침식때문", "통신선이끊어져서", "통신복구됐", "통신이복구됐", "통신도복구됐", "통신이돌아왔", "통신도돌아왔", "통신은정상이", "통신은돼", "통신이돼", "통신돼.", "통신돼!", "통신된다", "통신잘돼"]): return "fleet_comms_unverified"
+ if not scene["통신 장애 확인"] and NPCPolicy.has_word(compact, ["통신이먹통", "통신은먹통", "통신도먹통", "통신이끊겼", "통신은끊겼", "통신장애가났"]): return "fleet_comms_not_reported"
+ if not scene["복도 적 발견"] and NPCPolicy.has_word(compact, ["침식된선원", "머리없는선원", "아까본적", "봤던선원", "복도에서봤"]): return "fleet_enemy_not_observed"
+ if not state.power_restored and NPCPolicy.has_word(compact, ["전력이복구됐", "전력은복구됐", "전력복구했", "불은돌아왔", "불이돌아왔"]): return "fleet_power_not_restored"
+ if not scene["퓨즈 장착"] and NPCPolicy.has_word(compact, ["퓨즈끼웠", "퓨즈는끼웠", "퓨즈를끼웠", "퓨즈를교체했", "퓨즈교체했"]): return "fleet_fuse_not_installed"
+ if NPCPolicy.has_word(compact, ["비품실오른쪽퓨즈", "퓨즈는오른쪽", "오른쪽캐비닛에퓨즈", "오른쪽캐비닛에서퓨즈", "내가퓨즈주워", "내가주워줄", "내가퓨즈를주웠", "내가퓨즈주웠"]): return "fleet_wrong_fuse_location_or_actor"
+ if "앞바닥" in compact and NPCPolicy.has_word(compact, ["놓아줄게", "놔줄게", "가져다줄게"]): return "fleet_wrong_fuse_location_or_actor"
+ if state.fuse_in_inventory and NPCPolicy.has_word(compact, ["직접뽑아서", "퓨즈를다시주워", "퓨즈는아직바닥", "퓨즈는바닥에"]): return "fleet_fuse_already_held"
+ if str(scene["퓨즈 위치"]).contains("미확인") and NPCPolicy.has_word(compact, ["왼쪽캐비닛", "캐비닛앞바닥", "퓨즈가떨어졌어"]): return "fleet_fuse_not_observed"
+ if not scene["격벽 계획 공유"] and NPCPolicy.has_word(compact, ["침식코어", "정상코어", "레버는위쪽", "레버를함께", "레버를동시"]): return "fleet_plan_not_shared"
+ if not scene["B동 전투 종료"] and NPCPolicy.has_word(compact, ["세무리를다잡았", "웨이브는다끝났", "선원은다정리됐", "선원은전부처리했"]): return "fleet_waves_not_finished"
+ if not scene["레버 조작 가능"] and NPCPolicy.has_word(compact, ["지금당겨", "당겨도돼", "지금눌러", "지금레버를당겨", "신호는이미줬", "내가신호했어", "당겨!'했", "당겨!라고했", "당겨!라고말했"]): return "fleet_lever_not_ready"
+ if scene["진행 단계"] == "WAVES" and scene["현재 전투 차수"] < 3 and NPCPolicy.has_word(compact, ["당겨", "레버", "신호"]):
+  var current_wave := "%d차" % scene["현재 전투 차수"]
+  if NPCPolicy.has_word(compact, [current_wave + "제압끝나면", current_wave + "만끝나면", current_wave + "끝나면"]): return "fleet_lever_not_ready"
+ if not scene["격벽 설치"] and NPCPolicy.has_word(compact, ["격벽은설치됐", "격벽설치했", "격벽을설치했", "두레버를당겼", "두레버는당겼", "b동은격리됐"]): return "fleet_barrier_not_installed"
+ return ""
+
 static func response_issue(text: String, state: Dictionary, question: String) -> String:
  var spoken := text.replace(" ", "")
  if NPCPolicy.has_word(spoken, ["주문했", "시켜먹었", "같이먹었", "먹었잖", "스파게티시켰"]): return "invented_food_event"
  if "퇴근" in question and NPCPolicy.has_word(question, ["정말", "금지", "규정"]) and NPCPolicy.has_word(spoken, ["퇴근은안돼", "퇴근금지", "퇴근못해", "퇴근을못해"]) and not NPCPolicy.has_word(spoken, ["지금은", "농담", "장난", "?"]): return "unsupported_world_rule"
+ if state.get("fleet_demo", false):
+  var fleet_issue := _fleet_issue(text, state)
+  if not fleet_issue.is_empty(): return fleet_issue
+  var fleet_query := question.replace(" ", "")
+  if NPCPolicy.has_word(fleet_query, ["통신은돼", "통신돼", "통신상태", "통신은되", "통신이돼"]):
+   var comms: Dictionary = state.fleet_context
+   if not comms["통신 장애 확인"] and not NPCPolicy.has_word(spoken, ["확인못", "확인안", "안확인", "모르", "몰라", "확인하지"]): return "fleet_comms_not_reported"
+   if NPCPolicy.has_word(spoken, ["선원이뭐했는지", "선원때문", "침식때문"]): return "fleet_comms_unverified"
+  if state.fleet_context["진행 단계"] == "TO_POWER" and NPCPolicy.has_word(spoken, ["캐비닛봐", "캐비닛확인", "캐비닛찾"]): return "fleet_fuse_already_held"
+  if state.fleet_context["격벽 계획 공유"] and not state.fleet_context["레버 조작 가능"] and NPCPolicy.has_word(fleet_query, ["레버는언제", "레버언제", "언제당겨"]):
+   if not NPCPolicy.has_word(spoken, ["신호", "'당겨!'", "‘당겨!’"]): return "fleet_lever_signal_missing"
  if not claims_valid(text, state): return "unverified_action_claim"
  if text.begins_with("#") or "(" in text or "（" in text: return "non_spoken_annotation"
  var compact := text.replace(" ", "")
@@ -166,5 +280,5 @@ static func response_issue(text: String, state: Dictionary, question: String) ->
  if NPCPolicy.has_word(question, ["패널", "반대쪽"]) and state.active_action != "assist_panel" and NPCPolicy.has_word(compact, ["지금은왼쪽패널을누르고있", "지금누르고있", "내가누르고있어"]): return "unstarted_panel_action"
  if NPCPolicy.has_word(question, ["기다", "대기", "따라"]) and not NPCPolicy.has_word(question, ["탄약", "치료"]) and NPCPolicy.has_word(text, ["예비탄", "치료했", "보급했"]): return "unrequested_support_claim"
  if state.get("companion_mode", "follow") == "wait" and NPCPolicy.has_word(question, ["기다", "대기"]) and NPCPolicy.has_word(text, ["따라가", "따라갈", "따라오면"]): return "wrong_wait_behavior"
- if "손전등" in question and not state.flashlight_owned and not state.flashlight_dropped and NPCPolicy.has_word(compact, ["네가소지", "네손에있", "너한테있"]): return "wrong_current_owner"
+ if not state.get("fleet_demo", false) and "손전등" in question and not state.flashlight_owned and not state.flashlight_dropped and NPCPolicy.has_word(compact, ["네가소지", "네손에있", "너한테있"]): return "wrong_current_owner"
  return ""

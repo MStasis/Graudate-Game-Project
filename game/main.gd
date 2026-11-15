@@ -16,6 +16,8 @@ var world_starts_fleet_demo := false
 var _fleet_speaker := ""
 var _fleet_line := ""
 var _fleet_reaction := false
+var _interaction_id := ""
+var _interaction_elapsed := 0.0
 var _chat_idle := 0.0
 var _chat_sent := false
 var _camera_zoom := 1.0
@@ -286,6 +288,7 @@ func _sync_dialogue_presentation() -> void:
  for path in ["Header", "Frame", "MissionBar", "NoticeStrip", "Footer"]:
   get_node(path).visible = false
  $Footer.visible = not lab
+ $Footer/ControlHints.text = "WASD 이동    E 상호작용    클릭 / Space 사격    R 재장전    Enter 채팅    Esc 메뉴" if world.use_fleet_demo else "WASD 이동    E 상호작용    클릭 / Space 사격    Enter 채팅    Esc 메뉴    F3 실험 설정"
  %LabObjective.visible = lab
  %LabModeBadge.visible = lab
  dialogue_panel.visible = scripted or (not (world.use_fleet_demo and world.fleet_demo.locks_movement()) and (_lab_dialogue_open if lab else _combat_chat_open))
@@ -343,7 +346,11 @@ func _process(delta: float) -> void:
  _update_speaker_bubble()
  combat_hud.update_view(delta)
  $FleetCues.visible = world.use_fleet_demo
- if world.use_fleet_demo: _update_fleet_cues()
+ var door_arrow_bounds := Rect2()
+ if world.use_fleet_demo:
+  _update_fleet_cues(delta)
+  door_arrow_bounds = world.fleet_demo.update_objective_arrow(delta, not combat_hud.modal_open())
+ combat_hud.keep_door_arrow_clear(door_arrow_bounds)
  dialogue_panel.modulate.a = 1
 
 func play_rect() -> Rect2:
@@ -405,15 +412,23 @@ func _measured(record: Dictionary) -> void:
  metric_label.text = "%s · %s\n모델 %s / %.1f ms / 실행 수락 %s\n거절 사유: %s\n이 값은 단일 요청 측정이며 논문 비교 결과가 아닙니다." % [record.provider, record.kind, record.get("actual_model", ""), record.elapsed_ms, record.accepted, record.rejected_reason]
 
 func _input(event: InputEvent) -> void:
- if not is_node_ready() or not event is InputEventKey or not event.pressed or event.echo: return
+ if not is_node_ready(): return
+ if event is InputEventMouseButton:
+  if event.button_index == MOUSE_BUTTON_LEFT and event.pressed and _can_advance_fleet_dialogue():
+   get_viewport().set_input_as_handled()
+   world.fleet_demo.advance_dialogue()
+  return
+ if not event is InputEventKey or not event.pressed or event.echo: return
  if world.transition_active():
   get_viewport().set_input_as_handled()
   return
  if world.finished: return
  var code: int = event.keycode if event.keycode != 0 else event.physical_keycode
  if world.use_fleet_demo and not pause_menu.visible and world.fleet_demo.locks_movement():
-  if code in [KEY_ENTER, KEY_KP_ENTER] and world.fleet_demo.voice_active:
+  if code == KEY_SPACE and _can_advance_fleet_dialogue():
+   get_viewport().set_input_as_handled()
    world.fleet_demo.advance_dialogue()
+   return
   elif code == KEY_ESCAPE:
    toggle_pause()
   elif event.is_action_pressed("interact") and world.fleet_demo.allows_interact():
@@ -430,6 +445,9 @@ func _input(event: InputEvent) -> void:
   if code == KEY_M: combat_hud.toggle_map()
   else: combat_hud.toggle_history()
   get_viewport().set_input_as_handled()
+
+func _can_advance_fleet_dialogue() -> bool:
+ return world.use_fleet_demo and world.fleet_demo.voice_active and not world.transition_active() and not world.finished and not world.defeated and not get_tree().paused
 
 func _unhandled_key_input(event: InputEvent) -> void:
  if world.finished: return
@@ -547,18 +565,17 @@ func _begin_ending() -> void:
  _ending_elapsed = ENDING_SECONDS if world.use_fleet_demo else 0.0
  _sync_input_mode()
 
-func _update_fleet_cues() -> void:
+func _update_fleet_cues(delta: float) -> void:
  var cues := $FleetCues
  var demo := world.fleet_demo
- var item := demo.nearest_interaction() if not world.finished and not world.defeated and not dialogue_panel.visible and not combat_hud.modal_open() else {}
- if item.get("id", "") == "eroded_stop" and not demo.allows_interact(): item = {}
+ var can_show := not world.defeated and not world.finished and not dialogue_panel.visible and not combat_hud.modal_open() and not world.transition_active()
+ var item := demo.nearest_interaction() if can_show else {}
  var text: String = demo.hint
- if not item.is_empty():
-  text += ("\n" if not text.is_empty() else "") + "[E]  " + str(item.name)
  cues.get_node("Subtitle/Text").text = text
- var shown := not text.is_empty() and not dialogue_panel.visible and not combat_hud.modal_open() and not world.transition_active() and not world.finished
+ var shown := not text.is_empty() and can_show
  cues.get_node("Subtitle").visible = shown
- if shown or not world.npc.visible: %TalkPrompt.hide()
+ _show_interaction_prompt(item, delta)
+ if shown or not item.is_empty() or not world.npc.visible: %TalkPrompt.hide()
  elif is_noncombat() and not dialogue_panel.visible and not demo.locks_movement(): %TalkPrompt.show()
  for pair in [["PlayerReaction", world.player], ["MikaReaction", world.npc]]:
   var marker := cues.get_node(pair[0]) as Label
@@ -569,6 +586,26 @@ func _update_fleet_cues() -> void:
    var point := combat_hud.screen_point(actor)
    var art_top := point.y + art.get_rect().position.y * _camera_zoom
    marker.position = Vector2(point.x - marker.size.x * 0.5, art_top - marker.size.y - 4)
+
+func _show_interaction_prompt(item: Dictionary, delta: float) -> void:
+ var prompt := $FleetCues/Interaction as PanelContainer
+ prompt.visible = not item.is_empty()
+ var id: String = item.get("id", "")
+ _interaction_elapsed = _interaction_elapsed + delta if id == _interaction_id else 0.0
+ _interaction_id = id
+ if not prompt.visible: return
+ var label := prompt.get_node("Row/Action") as Label
+ label.text = str(item.name) + "  "
+ var key := prompt.get_node("Row/Key/Sprite") as Sprite2D
+ key.frame = [0, 0, 0, 1, 2, 3][int(fposmod(_interaction_elapsed, 0.96) / 0.16)]
+ var world_to_ui := get_global_transform_with_canvas().affine_inverse() * world.get_global_transform_with_canvas()
+ var anchor: Vector2 = world_to_ui * item.anchor
+ var size_needed := prompt.get_combined_minimum_size()
+ prompt.size = size_needed
+ var screen := play_rect().grow(-8)
+ var x := anchor.x + 25.0
+ if x + size_needed.x > screen.end.x: x = anchor.x - size_needed.x - 25.0
+ prompt.position = Vector2(x, anchor.y - size_needed.y * 0.5).clamp(screen.position, (screen.end - size_needed).max(screen.position))
 
 func capture_screen(stem: String) -> void:
  await RenderingServer.frame_post_draw

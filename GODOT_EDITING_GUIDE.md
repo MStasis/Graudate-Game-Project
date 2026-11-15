@@ -35,14 +35,14 @@ F6은 World 씬만 실행하므로 대화 UI와 NPCBrain이 포함되지 않는�
 | 체력·탄약·지원 자원·회복량 | 같은 World | 공통 전투 조건의 각 값 |
 | 보호 지점·반경·피해 비율 | 같은 World | Safe Position / Cover Radius / Covered Damage Multiplier |
 | 맵 경계·바닥 크기 | 같은 World | Room Rect. 문·소품도 새 경계 안에 배치 |
-| 하린 체력·탄약·사격 규칙 | World | 동료 공통 전투 규칙의 Npc Max Hp / Npc Initial Ammo / Npc Bullet Damage / Npc Fire Interval |
+| 미카 체력·탄약·사격 규칙 | World | 동료 공통 전투 규칙의 Npc Max Hp / Npc Initial Ammo / Npc Bullet Damage / Npc Fire Interval |
 | 캐릭터 아래 체력·탄약 | scenes/ui/ActorStatus.tscn | Health / Value / Weapon / Ammo. 실제 수치는 combat_interface.gd에서 연결 |
 | 미니맵·전투 목표·말풍선·기록 | scenes/ui/CombatHUD.tscn | Minimap / Objective / NPCSpeech / PlayerSpeech / HistoryPanel |
 | ESC 메뉴·예비 버튼·세로 장식 | scenes/ui/PauseMenu.tscn | Window 아래 각 Control. Save/Load 외 예비 버튼에는 기능 없음 |
 | 톱니바퀴 1회전 | PauseMenu / Window / Gear | pause_gear.gd의 0.7초 Tween |
 | 비전투 임무 표시 | main.tscn / LabObjective | LabObjectiveText |
 | 대화 UI | main.tscn / RadioPanel | Answer / Question / SendButton 등의 위치·크기·글자 |
-| 비전투 하린 초상화 | RadioPanel / LabPortrait | Texture. 픽셀 그림은 Texture Filter의 Nearest 유지 |
+| 비전투 미카 초상화 | RadioPanel / LabPortrait | Texture. 픽셀 그림은 Texture Filter의 Nearest 유지 |
 | 비전투 대화창 높이·초상화 폭 | RadioPanel | Dialogue Height / Portrait Width. Noncombat Mode로 편집 미리보기 전환 |
 | 비전투 금속 패널·입력·버튼 장식 | RadioPanel / LabChrome, Question / FieldChrome, SendButton / ButtonChrome | Frame Kind / Fill Top / Fill Bottom / Rim Color / Accent Color |
 | 비전투 글꼴·입력창 여백·색 | resources / LabDialogueTheme.tres | Theme의 각 스타일·색상·글꼴 |
@@ -76,7 +76,7 @@ Generator와 Exit는 전력 복구 시 Activated Color가 적용된다.
 - 실행을 멈춘 뒤 **Local** 트리에서 저장한다. Remote에서 바꾼 값은 대개 다음 실행에 남지 않는다.
 - 내부 노드 이름·Unique Name·World의 Player/NPC/Fuse/Generator/Exit 참조는 유지한다.
 - LabDecor와 StorageDecor는 현재 두 구역을 표현하는 별도 그룹이다. 실제 방을 새로 추가하는 기능은 코드 수정이 필요하다.
-- 현재 하린은 열린 공간에서 단순 추적한다. 충돌하는 가구·복잡한 통로를 추가하면 NPC 경로 탐색도 보완해야 한다.
+- 현재 미카는 열린 공간에서 단순 추적한다. 충돌하는 가구·복잡한 통로를 추가하면 NPC 경로 탐색도 보완해야 한다.
 - main.tscn의 World는 WorldCanvas 아래에 있다. 표시 배율만 비전투 1.35/전투 1.0으로 조정하며 물리 좌표·속도·충돌 크기는 그대로다.
 - 대화·전투·메뉴는 Control 기반이며 1280×800 기준, 960×600 논리 캔버스와 실제 창 렌더링을 검사했다. 임의의 초광폭 비율은 별도 확인이 필요하다.
 - 저장 형식·검증·파일 교체는 mission_save_store.gd, 복원할 실제 값은 world.gd의 save_snapshot/restore_snapshot에서 관리한다. 규칙 변경 시 기존 슬롯의 scenario 해시가 달라져 로드를 거절할 수 있다.

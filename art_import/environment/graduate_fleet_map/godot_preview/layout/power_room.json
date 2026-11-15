@@ -1,0 +1,315 @@
+{
+  "name": "power_room",
+  "title": "전기실",
+  "grid": [
+    5,
+    6
+  ],
+  "tile_px": 48,
+  "floor_origin_px": [
+    24,
+    112
+  ],
+  "floor": [
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel"
+    ]
+  ],
+  "north_wall": [
+    "wall_rib",
+    "corridor_wall",
+    "wall_rib",
+    "corridor_wall",
+    "wall_rib"
+  ],
+  "edge_sprites": [
+    [
+      "corridor_wall_edge_horizontal",
+      24,
+      400
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      168,
+      400
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      216,
+      400
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      6,
+      112
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      262,
+      112
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      6,
+      160
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      262,
+      160
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      6,
+      208
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      262,
+      208
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      6,
+      256
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      262,
+      256
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      6,
+      304
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      262,
+      304
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      6,
+      352
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      262,
+      352
+    ]
+  ],
+  "props": [
+    {
+      "sprite": "fuse_breaker_closed",
+      "id": "main_fuse_breaker",
+      "xy_px": [
+        75,
+        97
+      ],
+      "layer": "objects",
+      "ground": [
+        144,
+        161
+      ],
+      "solid": [
+        43,
+        30
+      ],
+      "interaction": "replace_fuse",
+      "approach": [
+        144,
+        180
+      ]
+    },
+    {
+      "sprite": "breaker_box_east",
+      "id": "breaker_west_upper",
+      "xy_px": [
+        32,
+        147
+      ],
+      "layer": "objects",
+      "ground": [
+        55,
+        211
+      ],
+      "solid": [
+        36,
+        28
+      ],
+      "interaction": "breaker_bank",
+      "approach": [
+        83,
+        206
+      ]
+    },
+    {
+      "sprite": "breaker_box_west",
+      "id": "breaker_east_upper",
+      "xy_px": [
+        211,
+        147
+      ],
+      "layer": "objects",
+      "ground": [
+        234,
+        211
+      ],
+      "solid": [
+        36,
+        28
+      ],
+      "interaction": "breaker_bank",
+      "approach": [
+        206,
+        206
+      ]
+    },
+    {
+      "sprite": "breaker_box_east",
+      "id": "breaker_west_lower",
+      "xy_px": [
+        32,
+        238
+      ],
+      "layer": "objects",
+      "ground": [
+        55,
+        302
+      ],
+      "solid": [
+        36,
+        28
+      ],
+      "interaction": "breaker_bank",
+      "approach": [
+        83,
+        297
+      ]
+    },
+    {
+      "sprite": "breaker_box_west",
+      "id": "breaker_east_lower",
+      "xy_px": [
+        211,
+        238
+      ],
+      "layer": "objects",
+      "ground": [
+        234,
+        302
+      ],
+      "solid": [
+        36,
+        28
+      ],
+      "interaction": "breaker_bank",
+      "approach": [
+        206,
+        297
+      ]
+    },
+    {
+      "sprite": "touch_terminal_north",
+      "id": "power_terminal",
+      "xy_px": [
+        56,
+        287
+      ],
+      "layer": "objects",
+      "ground": [
+        81,
+        347
+      ],
+      "solid": [
+        36,
+        26
+      ],
+      "interaction": "power_terminal",
+      "approach": [
+        115,
+        344
+      ]
+    },
+    {
+      "sprite": "stage_door_south",
+      "id": "to_corridor",
+      "xy_px": [
+        72,
+        396
+      ],
+      "layer": "wall"
+    }
+  ],
+  "doors": [
+    {
+      "id": "to_corridor",
+      "edge": "south",
+      "start": 1,
+      "width_tiles": 2,
+      "target_room": "corridor",
+      "target_door": "to_power",
+      "point_px": [
+        120,
+        376
+      ],
+      "arrival_px": [
+        120,
+        346
+      ]
+    }
+  ],
+  "markings": [
+    {
+      "kind": "power_bay",
+      "rect_tiles": [
+        1.82,
+        0.24,
+        1.37,
+        1.23
+      ]
+    }
+  ],
+  "spawn_px": null,
+  "waves": []
+}

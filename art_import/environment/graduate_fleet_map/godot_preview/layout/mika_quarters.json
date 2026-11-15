@@ -1,0 +1,414 @@
+{
+  "name": "mika_quarters",
+  "title": "미카의 방",
+  "grid": [
+    10,
+    8
+  ],
+  "tile_px": 48,
+  "floor_origin_px": [
+    24,
+    112
+  ],
+  "floor": [
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel"
+    ]
+  ],
+  "north_wall": [
+    "wall_rib",
+    "corridor_wall",
+    "corridor_wall",
+    "corridor_wall",
+    "wall_rib",
+    "corridor_wall",
+    "corridor_wall",
+    "corridor_wall",
+    "wall_rib",
+    "corridor_wall"
+  ],
+  "edge_sprites": [
+    [
+      "corridor_wall_edge_horizontal",
+      24,
+      496
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      72,
+      496
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      120,
+      496
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      168,
+      496
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      312,
+      496
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      360,
+      496
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      408,
+      496
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      456,
+      496
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      6,
+      112
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      502,
+      112
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      6,
+      160
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      502,
+      160
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      6,
+      208
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      502,
+      208
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      6,
+      256
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      6,
+      304
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      6,
+      352
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      502,
+      352
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      6,
+      400
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      502,
+      400
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      6,
+      448
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      502,
+      448
+    ]
+  ],
+  "props": [
+    {
+      "sprite": "crew_bed",
+      "id": "bunk",
+      "xy_px": [
+        45,
+        117
+      ],
+      "layer": "objects",
+      "ground": [
+        94,
+        215
+      ],
+      "solid": [
+        65,
+        55
+      ]
+    },
+    {
+      "sprite": "sliding_cabinet",
+      "id": "personal_cabinet",
+      "xy_px": [
+        172,
+        63
+      ],
+      "layer": "objects",
+      "ground": [
+        230,
+        179
+      ],
+      "solid": [
+        96,
+        49
+      ],
+      "interaction": "cabinet",
+      "approach": [
+        230,
+        209
+      ]
+    },
+    {
+      "sprite": "craft_bench",
+      "id": "craft_table",
+      "xy_px": [
+        351,
+        73
+      ],
+      "layer": "objects",
+      "ground": [
+        413,
+        181
+      ],
+      "solid": [
+        106,
+        59
+      ],
+      "interaction": "craft_table",
+      "approach": [
+        381,
+        226
+      ]
+    },
+    {
+      "sprite": "stool",
+      "id": "seat",
+      "xy_px": [
+        400,
+        203
+      ],
+      "layer": "objects",
+      "ground": [
+        416,
+        243
+      ],
+      "solid": [
+        26,
+        26
+      ]
+    },
+    {
+      "sprite": "flashlight",
+      "id": "bedside_flashlight",
+      "xy_px": [
+        35,
+        206
+      ],
+      "layer": "trim",
+      "ground": [
+        54,
+        231
+      ]
+    },
+    {
+      "sprite": "touch_terminal_south",
+      "id": "personal_terminal",
+      "xy_px": [
+        114,
+        257
+      ],
+      "layer": "objects",
+      "ground": [
+        139,
+        317
+      ],
+      "solid": [
+        36,
+        29
+      ],
+      "interaction": "personal_terminal"
+    },
+    {
+      "sprite": "stage_door_east",
+      "id": "to_supply",
+      "xy_px": [
+        498,
+        252
+      ],
+      "layer": "wall"
+    },
+    {
+      "sprite": "stage_door_south",
+      "id": "to_corridor",
+      "xy_px": [
+        216,
+        492
+      ],
+      "layer": "wall"
+    }
+  ],
+  "doors": [
+    {
+      "id": "to_supply",
+      "edge": "east",
+      "start": 3,
+      "width_tiles": 2,
+      "target_room": "supply_room",
+      "target_door": "to_mika",
+      "point_px": [
+        478,
+        304
+      ],
+      "arrival_px": [
+        450,
+        304
+      ]
+    },
+    {
+      "id": "to_corridor",
+      "edge": "south",
+      "start": 4,
+      "width_tiles": 2,
+      "target_room": "corridor",
+      "target_door": "to_mika",
+      "point_px": [
+        264,
+        472
+      ],
+      "arrival_px": [
+        264,
+        442
+      ]
+    }
+  ],
+  "markings": [
+    {
+      "kind": "work_bay",
+      "rect_tiles": [
+        6.05,
+        0.72,
+        3.5,
+        2.73
+      ]
+    }
+  ],
+  "spawn_px": [
+    274,
+    386
+  ],
+  "waves": []
+}

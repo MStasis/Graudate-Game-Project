@@ -8,18 +8,23 @@ func _ready() -> void:
  mouse_filter = Control.MOUSE_FILTER_IGNORE
  z_index = 2 if actor_kind == "npc" else 1
 
-func show_state(hp: int, maximum: int, ammo: int = -1, capacity: int = 0) -> void:
+func show_state(hp: int, maximum: int, ammo: int = -1, capacity: int = 0, magazines := -1, reloading := false) -> void:
  $Health.max_value = maximum
  $Health.value = hp
  $Value.text = "%d / %d" % [hp, maximum]
  $Weapon.visible = ammo >= 0
  $Ammo.visible = ammo >= 0
  $Ammo.text = "%02d / %02d" % [ammo, capacity] if ammo >= 0 else ""
+ $Magazine.visible = magazines >= 0
+ $Reserve.visible = magazines >= 0
+ $Reserve.text = str(magazines) if magazines >= 0 else ""
+ $Ammo.modulate = Color("edb45e") if reloading else Color.WHITE
  $Value.modulate = Color("e78979") if hp <= maximum * 0.35 else Color.WHITE
  tooltip_text = ("플레이어" if actor_kind == "player" else "미카" if actor_kind == "npc" else "침식된 선원") + " · 체력 %d/%d" % [hp, maximum]
  if ammo >= 0:
   if actor_kind == "npc" and target is MikaActor:
    var world := target.get_parent() as DemoWorld
    tooltip_text += " · 펄스 권총 · 장전 %d/%d · 예비탄 %d · %s" % [ammo, capacity, world.npc_reserve, target.get_node("NameLabel").text]
+  elif magazines >= 0: tooltip_text += " · 펄스 권총 · 장전 %d/%d · 예비 탄창 %d · R 재장전" % [ammo, capacity, magazines]
   else: tooltip_text += " · 펄스 권총 · 보유 %d / 최대 %d (탄창 구분 없음)" % [ammo, capacity]
  size = Vector2(120, 52 if ammo >= 0 else 24)

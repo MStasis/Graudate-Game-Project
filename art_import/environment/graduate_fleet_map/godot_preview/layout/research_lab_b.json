@@ -1,0 +1,1039 @@
+{
+  "name": "research_lab_b",
+  "title": "연구실 B동",
+  "grid": [
+    20,
+    16
+  ],
+  "tile_px": 48,
+  "floor_origin_px": [
+    24,
+    112
+  ],
+  "floor": [
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_ruptured",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_ruptured",
+      "floor_eroded"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_eroded",
+      "floor_panel",
+      "floor_eroded",
+      "floor_ruptured",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_eroded"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_ruptured",
+      "floor_eroded",
+      "floor_ruptured",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_ruptured"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_eroded",
+      "floor_panel",
+      "floor_ruptured",
+      "floor_eroded",
+      "floor_ruptured",
+      "floor_ruptured",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_ruptured"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_eroded",
+      "floor_panel",
+      "floor_ruptured",
+      "floor_eroded",
+      "floor_ruptured",
+      "floor_eroded",
+      "floor_ruptured",
+      "floor_eroded"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_ruptured",
+      "floor_eroded",
+      "floor_eroded"
+    ],
+    [
+      "floor_vent",
+      "floor_panel",
+      "floor_panel",
+      "floor_vent",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_eroded",
+      "floor_panel",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_panel"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_vent",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_panel",
+      "floor_panel",
+      "floor_eroded",
+      "floor_panel",
+      "floor_eroded"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_eroded",
+      "floor_panel",
+      "floor_eroded",
+      "floor_panel",
+      "floor_eroded",
+      "floor_panel",
+      "floor_eroded",
+      "floor_panel",
+      "floor_eroded",
+      "floor_panel"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_vent",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_vent",
+      "floor_panel"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_eroded",
+      "floor_panel",
+      "floor_eroded",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_eroded"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_panel",
+      "floor_eroded"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_eroded",
+      "floor_panel",
+      "floor_ruptured",
+      "floor_eroded",
+      "floor_ruptured",
+      "floor_eroded",
+      "floor_ruptured",
+      "floor_ruptured"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_ruptured",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_ruptured",
+      "floor_eroded"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_eroded",
+      "floor_panel",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_eroded",
+      "floor_ruptured",
+      "floor_eroded",
+      "floor_ruptured",
+      "floor_eroded",
+      "floor_ruptured",
+      "floor_eroded"
+    ],
+    [
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_panel",
+      "floor_eroded",
+      "floor_panel",
+      "floor_eroded",
+      "floor_ruptured",
+      "floor_ruptured",
+      "floor_ruptured",
+      "floor_ruptured",
+      "floor_ruptured",
+      "floor_ruptured",
+      "floor_ruptured",
+      "floor_eroded"
+    ]
+  ],
+  "north_wall": [
+    "wall_rib",
+    "corridor_wall",
+    "corridor_wall",
+    "corridor_wall",
+    "wall_rib",
+    "corridor_wall",
+    "corridor_wall",
+    "corridor_wall",
+    "wall_rib",
+    "corridor_wall",
+    "wall_eroded",
+    "wall_eroded",
+    "wall_eroded",
+    "wall_eroded",
+    "wall_eroded",
+    "wall_ruptured",
+    "wall_eroded",
+    "wall_eroded",
+    "wall_eroded",
+    "wall_ruptured"
+  ],
+  "edge_sprites": [
+    [
+      "corridor_wall_edge_horizontal",
+      24,
+      880
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      72,
+      880
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      120,
+      880
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      168,
+      880
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      216,
+      880
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      264,
+      880
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      312,
+      880
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      360,
+      880
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      408,
+      880
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      456,
+      880
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      504,
+      880
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      552,
+      880
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      600,
+      880
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      648,
+      880
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      696,
+      880
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      744,
+      880
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      792,
+      880
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      840,
+      880
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      888,
+      880
+    ],
+    [
+      "corridor_wall_edge_horizontal",
+      936,
+      880
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      6,
+      112
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      982,
+      112
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      6,
+      160
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      982,
+      160
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      6,
+      208
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      982,
+      208
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      6,
+      256
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      982,
+      256
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      6,
+      304
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      982,
+      304
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      6,
+      352
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      982,
+      352
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      6,
+      400
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      982,
+      400
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      6,
+      448
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      982,
+      448
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      6,
+      496
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      982,
+      496
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      982,
+      544
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      982,
+      592
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      6,
+      640
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      982,
+      640
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      6,
+      688
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      982,
+      688
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      6,
+      736
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      982,
+      736
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      6,
+      784
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      982,
+      784
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      6,
+      832
+    ],
+    [
+      "corridor_wall_edge_vertical",
+      982,
+      832
+    ]
+  ],
+  "props": [
+    {
+      "sprite": "stage_door_west",
+      "id": "to_corridor",
+      "xy_px": [
+        2,
+        540
+      ],
+      "layer": "wall"
+    },
+    {
+      "sprite": "main_screen",
+      "id": "main_screen",
+      "xy_px": [
+        108,
+        28
+      ],
+      "layer": "wall",
+      "ground": [
+        175,
+        114
+      ],
+      "interaction": "main_screen",
+      "approach": [
+        175,
+        150
+      ]
+    },
+    {
+      "sprite": "storage_shelf",
+      "id": "supply_cabinet",
+      "xy_px": [
+        155,
+        173
+      ],
+      "layer": "objects",
+      "ground": [
+        209,
+        291
+      ],
+      "solid": [
+        91,
+        54
+      ],
+      "interaction": "resupply",
+      "approach": [
+        209,
+        320
+      ]
+    },
+    {
+      "sprite": "warning_light",
+      "id": "alarm_lab",
+      "xy_px": [
+        304,
+        51
+      ],
+      "layer": "wall",
+      "ground": [
+        331,
+        87
+      ],
+      "light": "emergency"
+    },
+    {
+      "sprite": "warning_light",
+      "id": "alarm_erosion",
+      "xy_px": [
+        727,
+        51
+      ],
+      "layer": "wall",
+      "ground": [
+        754,
+        87
+      ],
+      "light": "emergency"
+    },
+    {
+      "sprite": "storage_crate_east",
+      "id": "normal_sector_crate",
+      "xy_px": [
+        113,
+        623
+      ],
+      "layer": "objects",
+      "ground": [
+        142,
+        691
+      ],
+      "solid": [
+        46,
+        39
+      ],
+      "interaction": "lab_supply"
+    },
+    {
+      "sprite": "research_core",
+      "id": "normal_core",
+      "xy_px": [
+        132,
+        678
+      ],
+      "layer": "objects",
+      "ground": [
+        180,
+        821
+      ],
+      "solid": [
+        77,
+        57
+      ],
+      "interaction": "normal_core"
+    },
+    {
+      "sprite": "breaker",
+      "id": "normal_stop",
+      "xy_px": [
+        272,
+        743
+      ],
+      "layer": "objects",
+      "ground": [
+        292,
+        805
+      ],
+      "solid": [
+        33,
+        26
+      ],
+      "interaction": "normal_stop",
+      "approach": [
+        292,
+        826
+      ]
+    },
+    {
+      "sprite": "touch_terminal_south",
+      "id": "facility_console",
+      "xy_px": [
+        330,
+        655
+      ],
+      "layer": "objects",
+      "ground": [
+        355,
+        715
+      ],
+      "solid": [
+        37,
+        29
+      ],
+      "interaction": "facility_console",
+      "approach": [
+        365,
+        741
+      ]
+    },
+    {
+      "sprite": "eroded_core",
+      "id": "eroded_core",
+      "xy_px": [
+        718,
+        317
+      ],
+      "layer": "objects",
+      "ground": [
+        766,
+        460
+      ],
+      "solid": [
+        77,
+        60
+      ],
+      "interaction": "eroded_core",
+      "approach": [
+        766,
+        500
+      ]
+    },
+    {
+      "sprite": "eroded_breaker",
+      "id": "eroded_stop",
+      "xy_px": [
+        663,
+        520
+      ],
+      "layer": "objects",
+      "ground": [
+        683,
+        582
+      ],
+      "solid": [
+        33,
+        27
+      ],
+      "interaction": "eroded_stop",
+      "approach": [
+        683,
+        609
+      ]
+    },
+    {
+      "sprite": "erosion_decal",
+      "id": "erosion_1",
+      "xy_px": [
+        875,
+        205
+      ],
+      "layer": "decal",
+      "ground": [
+        926,
+        285
+      ]
+    },
+    {
+      "sprite": "erosion_decal",
+      "id": "erosion_2",
+      "xy_px": [
+        621,
+        279
+      ],
+      "layer": "decal",
+      "ground": [
+        672,
+        359
+      ]
+    },
+    {
+      "sprite": "erosion_decal",
+      "id": "erosion_3",
+      "xy_px": [
+        835,
+        458
+      ],
+      "layer": "decal",
+      "ground": [
+        886,
+        538
+      ]
+    },
+    {
+      "sprite": "erosion_decal",
+      "id": "erosion_4",
+      "xy_px": [
+        717,
+        654
+      ],
+      "layer": "decal",
+      "ground": [
+        768,
+        734
+      ]
+    },
+    {
+      "sprite": "erosion_decal",
+      "id": "erosion_5",
+      "xy_px": [
+        874,
+        725
+      ],
+      "layer": "decal",
+      "ground": [
+        925,
+        805
+      ]
+    },
+    {
+      "sprite": "erosion_decal",
+      "id": "erosion_6",
+      "xy_px": [
+        431,
+        694
+      ],
+      "layer": "decal",
+      "ground": [
+        482,
+        774
+      ]
+    },
+    {
+      "sprite": "erosion_decal",
+      "id": "erosion_7",
+      "xy_px": [
+        837,
+        622
+      ],
+      "layer": "decal",
+      "ground": [
+        888,
+        702
+      ]
+    }
+  ],
+  "doors": [
+    {
+      "id": "to_corridor",
+      "edge": "west",
+      "start": 9,
+      "width_tiles": 2,
+      "target_room": "corridor",
+      "target_door": "to_lab",
+      "point_px": [
+        50,
+        592
+      ],
+      "arrival_px": [
+        78,
+        592
+      ]
+    }
+  ],
+  "markings": [
+    {
+      "kind": "normal_core_bay",
+      "rect_tiles": [
+        1.65,
+        11.55,
+        5.05,
+        3.84
+      ]
+    },
+    {
+      "kind": "containment",
+      "rect_tiles": [
+        12.5,
+        3.75,
+        5.52,
+        5.45
+      ]
+    }
+  ],
+  "spawn_px": null,
+  "waves": [
+    {
+      "number": 1,
+      "spawn_cells": [
+        [
+          13,
+          4
+        ],
+        [
+          18,
+          6
+        ],
+        [
+          16,
+          3
+        ]
+      ]
+    },
+    {
+      "number": 2,
+      "spawn_cells": [
+        [
+          12,
+          11
+        ],
+        [
+          18,
+          11
+        ],
+        [
+          17,
+          5
+        ],
+        [
+          10,
+          9
+        ]
+      ]
+    },
+    {
+      "number": 3,
+      "spawn_cells": [
+        [
+          12,
+          4
+        ],
+        [
+          18,
+          7
+        ],
+        [
+          16,
+          12
+        ],
+        [
+          11,
+          11
+        ],
+        [
+          18,
+          14
+        ]
+      ]
+    }
+  ]
+}

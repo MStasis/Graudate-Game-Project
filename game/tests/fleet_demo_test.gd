@@ -45,18 +45,34 @@ func until(predicate: Callable, limit := 600) -> bool:
 func finish_lines() -> void:
 	for i in 24:
 		if not demo.voice_active: return
-		tap(KEY_ENTER)
+		var remaining := demo._dialogue.size()
+		tap(KEY_SPACE)
 		await frames(2)
+		if remaining == 0: return
+
+func click(point: Vector2) -> void:
+	var event := InputEventMouseButton.new()
+	event.button_index = MOUSE_BUTTON_LEFT
+	event.position = point
+	event.global_position = point
+	event.pressed = true
+	root.push_input(event, true)
+	event = event.duplicate()
+	event.pressed = false
+	root.push_input(event, true)
 
 func capture(stem: String) -> void:
 	if not render: return
 	await RenderingServer.frame_post_draw
 	var image := root.get_texture().get_image()
-	check(stem + "_png", not image.is_invisible() and image.save_png(evidence.path_join(stem + ".png")) == OK)
+	var center := Vector2i(Vector2(image.get_size()) * 0.5)
+	var has_art := image.get_pixel(0, 0) != image.get_pixelv(center)
+	check(stem + "_png", has_art and image.save_png(evidence.path_join(stem + ".png")) == OK)
 
-func move(point: Vector2, radius := 12.0, budget := 420) -> bool:
+func move(point: Vector2, radius := 12.0, budget := 420, stop_for_dialogue := false) -> bool:
 	var previous := []
 	for index in budget:
+		if stop_for_dialogue and demo.voice_active: break
 		var offset := point - world.player.position
 		if offset.length() <= radius: break
 		var desired := []
@@ -71,7 +87,7 @@ func move(point: Vector2, radius := 12.0, budget := 420) -> bool:
 		if world.defeated: break
 	for action in previous: Input.action_release(action)
 	await frames(2)
-	var reached := world.player.position.distance_to(point) <= radius + 5
+	var reached := (stop_for_dialogue and demo.voice_active) or world.player.position.distance_to(point) <= radius + 5
 	if not reached: print("MOVE BLOCKED ", world.map_id, " from ", world.player.position, " to ", point, " · step ", demo.step, " · ", app._fleet_line)
 	return reached
 
@@ -92,15 +108,7 @@ func enter_door(id: String, destinations: Array[String], waypoints: Array = []) 
 	return check(origin + "_" + id + "_entry", arrived)
 
 func click_enemy(enemy: MissionDrone) -> void:
-	var click := InputEventMouseButton.new()
-	click.button_index = MOUSE_BUTTON_LEFT
-	click.position = enemy.get_global_transform_with_canvas().origin
-	click.global_position = click.position
-	click.pressed = true
-	root.push_input(click, true)
-	click = click.duplicate()
-	click.pressed = false
-	root.push_input(click, true)
+	click(world.get_global_transform_with_canvas() * enemy.aim_position())
 
 func fight(phase: int, frames_limit: int) -> bool:
 	for index in frames_limit:
@@ -156,14 +164,30 @@ func play() -> void:
 	await capture("01_radio")
 	app.combat_hud.toggle_history()
 	check("scripted_dialogue_cannot_open_history", not app.combat_hud.modal_open())
-	await finish_lines()
+	await frames(400)
+	check("radio_waits_for_input", app._fleet_line == Fleet.Lines.RADIO[0][1] and not world.can_move and not demo._door_arrow.visible)
+	key(KEY_SPACE, true, true)
+	check("held_space_does_not_advance", app._fleet_line == Fleet.Lines.RADIO[0][1])
+	tap(KEY_SPACE)
+	check("space_advances_one_line", app._fleet_line == Fleet.Lines.RADIO[1][1] and not world.can_move)
+	var ammo_at_radio := world.ammo
+	click(Vector2(350, 400))
+	await frames(2)
+	check("click_ends_radio_without_firing", not demo.voice_active and world.ammo == ammo_at_radio)
 	check("move_hint", demo.hint == Fleet.WALK_HINT and world.can_move)
+	check("first_door_has_animated_arrow", demo.objective_door() == "to_mika" and demo._door_arrow.visible and is_equal_approx(demo._door_arrow.position.x, 264))
+	check("recent_text_does_not_cover_first_door_arrow", not app.combat_hud.get_node("Recent").visible)
+	var arrow_frame := demo._door_arrow.frame
+	await frames(9)
+	check("door_arrow_advances_through_sheet", demo._door_arrow.frame != arrow_frame)
 	await capture("02_dark_corridor")
 	check("move_subtitle_has_no_chat_overlap", app.get_node("FleetCues/Subtitle").visible and not app.get_node("%TalkPrompt").visible)
 	if not await enter_door("to_mika", ["mika_quarters"]): return
 	check("movement_hint_removes_on_entry", demo.hint.is_empty() and app.dialogue_panel.visible)
 	await finish_lines()
+	check("objective_moves_to_supply_door", demo.objective_door() == "to_supply" and demo._door_arrow.visible)
 	if not await enter_door("to_supply", ["supply_room"]): return
+	check("no_arrow_when_goal_is_in_current_room", demo.objective_door().is_empty() and not demo._door_arrow.visible)
 	var supply = demo.room()
 	if not await move(supply.approach("crate_side"), 17): return
 	tap(KEY_E)
@@ -176,6 +200,10 @@ func play() -> void:
 	tap(KEY_E)
 	check("fuse_is_not_auto_collected", not world.fuse_collected and demo.cabinets.get("cabinet_fuse", false))
 	if not await until(func(): return count_event("fleet_fuse_landed") == 1, 100): return
+	check("fuse_uses_breaker_sprite", world.fuse.object_texture == preload("res://resources/FuseWorkingTexture.tres"))
+	if not await move(world.fuse.position, 28): return
+	check("fuse_prompt_is_anchored", app.get_node("FleetCues/Interaction").visible and not app.get_node("FleetCues/Subtitle").visible
+		and demo.nearest_interaction().anchor == world.fuse.position)
 	await capture("03_cabinet_fuse_landed")
 	if not await move(Vector2(201, 221)): return
 	if not await move(Vector2(205, 159)): return
@@ -191,15 +219,24 @@ func play() -> void:
 	if not await move(world.fuse.position, 18): return
 	tap(KEY_E)
 	check("pickup_by_e", world.fuse_collected and world.game_state().fuse_in_inventory and count_event("fleet_fuse_landed") == 1)
+	check("fuse_pickup_line", app._fleet_line == "찾았구나! 바로 전기실로 가자.")
 	await finish_lines()
+	check("fuse_changes_objective_to_corridor_door", demo.objective_door() == "to_corridor" and demo._door_arrow.visible)
 	if not await enter_door("to_corridor", ["corridor"]): return
 	check("hall_crew_waits_during_dialogue", demo.voice_active and world.enemies_remaining() == 1 and not demo.unit_pool[0].active)
 	await finish_lines()
+	check("ambush_has_no_door_arrow", not demo._door_arrow.visible)
 	check("shoot_hint_and_enemy_activated", demo.hint == Fleet.AMBUSH_HINT and demo.unit_pool[0].active)
 	await capture("04_shoot_hint")
+	var crew := demo.unit_pool[0]
+	var torso := crew.aim_position()
+	var query := PhysicsRayQueryParameters2D.create(world.to_global(torso - Vector2(30, 0)), world.to_global(torso + Vector2(30, 0)), 8)
+	query.collide_with_areas = true
+	check("enemy_torso_is_projectile_target", world.get_world_2d().direct_space_state.intersect_ray(query).get("collider") == crew.projectile_body)
 	if not check("left_click_kills_corridor_crew", await fight(Fleet.Step.AMBUSH, 540)): return
 	check("shoot_hint_clears_on_defeat", demo.hint.is_empty() and count_event("fleet_corridor_encounter") == 1)
 	await finish_lines()
+	check("post_ambush_arrow_points_to_power", demo.objective_door() == "to_power" and demo._door_arrow.visible)
 	if not await enter_door("to_power", ["power_room"]): return
 	await finish_lines()
 	if not await move(Vector2(144, 221)): return
@@ -208,27 +245,36 @@ func play() -> void:
 	check("breaker_footprint_and_depth", world.player.position.y < demo.room().ground("main_fuse_breaker").y)
 	await capture("05a_breaker_behind")
 	if not await move(Vector2(194, 188), 9): return
-	if not await move(demo.room().approach("main_fuse_breaker"), 26): return
+	check("breaker_waits_for_handoff", count_event("fleet_breaker_open") == 0 and world.game_state().fuse_in_inventory)
+	if not await move(world.npc.position, 35): return
+	if not check("mika_has_fuse_handoff_prompt", demo.nearest_interaction().get("id", "") == "give_fuse"):
+		print("HANDOFF ", world.player.position.distance_to(world.npc.position), " · ", world.can_move, " · ", demo.step, " · ", world.npc_hp, " · ", demo.fuse_handed)
+		return
 	tap(KEY_E)
+	check("mika_receives_fuse_by_interaction", count_event("fleet_fuse_handed") == 1 and not world.game_state().fuse_in_inventory)
 	if not check("breaker_opens_after_one_press", await until(func(): return count_event("fleet_breaker_open") == 1, 450)): return
 	if not check("empty_slot_then_inventory_consumption", await until(func(): return count_event("fleet_fuse_inserted") == 1, 220) and count_event("fleet_fuse_removed") == 1 and not world.game_state().fuse_in_inventory and not world.power_restored): return
 	await capture("05_inserted_at_breaker")
-	if not await until(func(): return demo.voice_active, 150): return
-	await finish_lines()
 	if not check("terminal_power_then_alarm", await until(func(): return demo.alarm_active(), 620) and count_event("fleet_terminal_operated") == 1 and count_event("power_restored") == 1): return
 	await capture("06_power_reaction")
+	if not await until(func(): return demo.voice_active, 150): return
+	await finish_lines()
 	await until(func(): return world.can_move, 165)
 	if not await enter_door("to_corridor", ["corridor"]): return
 	await finish_lines()
 	check("alarm_loop_and_mika_follow", demo.alarm_active() and world.npc.visible and world.player.position.distance_to(world.npc.position) < 100 and count_event("fleet_corridor_encounter") == 1)
+	check("alarm_arrow_points_to_lab", demo.objective_door() == "to_lab" and demo._door_arrow.visible)
 	await capture("07_alarm_corridor")
 	var audio := world.get_node("MissionAudio")
 	var warning_count: int = audio.played_events
 	var lights := demo.room()._warning_sprites as Array[AnimatedSprite2D]
 	var frame := lights[0].frame
 	check("corridor_light_animates", await until(func(): return lights[0].frame != frame, 52))
-	await frames(80)
-	check("corridor_warning_repeats", audio.played_events > warning_count)
+	check("corridor_warning_repeats", await until(func(): return audio.played_events > warning_count, 155))
+	check("corridor_uses_siren_asset", audio.voices.any(func(voice): return voice.stream == audio.FLEET_SIREN))
+	if not await move(Fleet.Room.pixel(demo.room().doors.to_lab.point_px), 29): return
+	check("lab_door_uses_animated_e_prompt", app.get_node("FleetCues/Interaction").visible and demo.nearest_interaction().name == "연구실 B동 들어가기")
+	await capture("07b_lab_door_prompt")
 	if not await enter_door("to_lab", ["research_lab_b"]): return
 	await finish_lines()
 	check("upper_core_closeup", await until(func(): return demo.camera_weight > 0.99, 120) and not world.can_move)
@@ -241,14 +287,32 @@ func play() -> void:
 	if not await enter_door("to_lab", ["research_lab_b"]): return
 	check("lab_reentry_preserves_briefing", not demo.voice_active and demo.step == Fleet.Step.CORES and count_event("fleet_wave_started") == 0)
 	var lab = demo.room()
+	if not await move(lab.approach("lab_ammo_stock"), 23): return
+	await capture("09a_ammo_prompt")
+	var magazines_before := world.magazines
+	var rounds_before := world.ammo
+	tap(KEY_E)
+	check("lab_ammo_crate_gives_two_magazines", demo.lab_ammo_used and world.magazines == magazines_before + 2 and world.ammo == rounds_before)
+	await frames(38)
+	check("lab_ammo_crate_opens_and_stays_open", lab._animations.lab_ammo_stock.frame == 4 and not lab._animations.lab_ammo_stock.is_playing())
+	await capture("09b_ammo_crate")
+	tap(KEY_E)
+	check("lab_ammo_crate_is_one_use", count_event("fleet_ammo_collected") == 1 and world.magazines == magazines_before + 2)
+	tap(KEY_R)
+	check("reload_waits_and_preserves_magazine_during_animation", world.reload_time > 0.0 and world.ammo == rounds_before and world.magazines == magazines_before + 2)
+	var reload_saved := app.save_slot(3)
+	var timer := world.reload_time
+	var reload_restored := app.load_slot(3)
+	check("reload_save_roundtrip", reload_saved and reload_restored and is_equal_approx(world.reload_time, timer) and world.magazines == magazines_before + 2 and demo.lab_ammo_used)
+	if not check("reload_finishes_and_consumes_one", await until(func(): return world.reload_time == 0.0, 90) and world.ammo == world.max_ammo and world.magazines == magazines_before + 1): return
 	if not await move(Vector2(245, 625)): return
 	if not await move(lab.approach("normal_sector_crate"), 22): return
 	tap(KEY_E)
-	check("lab_cache_fills_ammo", world.ammo == world.max_ammo and demo.lab_supply_used)
+	check("lab_cache_supplies_two_more_magazines", world.magazines == magazines_before + 3 and demo.lab_supply_used)
 	if not await move(Vector2(237, 670)): return
 	if not await move(Vector2(294, 592)): return
 	if not await move(Vector2(603, 560)): return
-	if not await move(Vector2(729, 510), 24): return
+	if not await move(Vector2(729, 510), 24, 420, true): return
 	check("core_proximity_line", has_line(Fleet.Lines.CORE[0][1]))
 	await finish_lines()
 	if not await move(Vector2(747, 536)): return
@@ -263,13 +327,19 @@ func play() -> void:
 	check("three_marker_waves", waves_match_markers() and waves.map(func(event): return event.wave) == [1, 2, 3] and waves.map(func(event): return event.count) == [3, 4, 5])
 	check("last_enemy_line", has_line(Fleet.Lines.WAVES_CLEAR[0][1]))
 	await finish_lines()
-	if not check("countdown_starts_in_range", await until(func(): return demo.voice_active and app._fleet_line == Fleet.Lines.COUNTDOWN[0][1], 480)): return
+	if not await move(lab.approach("eroded_stop") + Vector2(14, 27), 17, 210, true): return
+	if not check("countdown_starts_in_range", await until(func(): return demo.voice_active and app._fleet_line == Fleet.Lines.COUNTDOWN[0][1], 480)):
+		print("LEVER ", world.player.position, " / ", world.npc.position, " / ", lab.approach("normal_stop"), " / ", world.npc_hp, " / ", app._fleet_line, " / ", demo.step, " / ", world.active_action, " / ", demo.voice_active, " / ", demo.locks_movement(), " / ", demo._near_lever(), " / ", demo._mika_at_lever())
+		return
 	var position := world.player.position
 	Input.action_press("move_down")
 	key(KEY_E)
 	await frames(12)
 	check("early_e_and_movement_blocked", count_event("fleet_levers_pulled") == 0 and world.player.position == position)
-	if not check("signal_arms_lever", await until(func(): return demo.allows_interact(), 690)): return
+	for i in 3: tap(KEY_SPACE)
+	check("pull_signal_stays_until_advance", app._fleet_line == Fleet.Lines.COUNTDOWN[-1][1] and not demo.allows_interact())
+	tap(KEY_SPACE)
+	if not check("signal_arms_lever", demo.allows_interact()): return
 	key(KEY_E, true, true)
 	await frames(5)
 	check("held_or_echoed_e_cannot_pull", count_event("fleet_levers_pulled") == 0 and world.player.position == position)
@@ -283,7 +353,7 @@ func play() -> void:
 		and world.player.position.distance_to(Fleet.Room.pixel(demo.room().doors.to_lab.arrival_px)) < 2): return
 	await capture("12_ending")
 	for i in 4:
-		tap(KEY_ENTER)
+		tap(KEY_SPACE)
 		await frames(2)
 	check("last_line_renders_before_result", app.answer.text == Fleet.Lines.ENDING[-1][1] and not app.result_screen.visible)
 	await capture("12b_last_line")
@@ -294,3 +364,56 @@ func play() -> void:
 	app._return_to_title()
 	await frames(4)
 	check("result_returns_to_title", current_scene.get_node("Menu").visible and not current_scene.has_node("Main"))
+	await test_healer()
+
+func test_healer() -> void:
+	current_scene.get_node("%NewGame").pressed.emit()
+	await frames(5)
+	app = current_scene.get_node_or_null("Main") as Mission
+	if not check("healer_fixture_starts", app != null): return
+	world = app.world
+	demo = world.fleet_demo
+	app.brain.auto_enabled = false
+	demo.clear_cues()
+	world.get_node("RoomFade/Black").color.a = 0.0
+	demo.step = Fleet.Step.AMBUSH
+	demo.unit_pool[0].reset_enemy()
+	world._sync_state()
+	world.set_physics_process(false)
+	world.player_hp = 50
+	world.npc.position = world.safe_position
+	world.player.position = world.safe_position + Vector2(50, 20)
+	check("healer_player_order_and_decision_metadata", NPCPolicy.requested_action("치료 장비 설치해 줘", true) == "deploy_cover"
+		and "초당 최대 5" in NPCPolicy.action_description("deploy_cover", world.game_state()))
+	if not check("healer_uses_normal_support_order", world.request_support("deploy_cover")): return
+	world._physics_process(1.0 / 60.0)
+	check("healer_starts_deploying", world.healer.visible and not world.sentry.visible and world.cover_charges == 0 and world.healer._device.animation == "deploy")
+	world._tick_support_device(0.60)
+	check("healer_waits_until_deployed", world.player_hp == 50 and not world.healer._range.visible)
+	world._tick_support_device(0.045)
+	world._tick_support_device(1.0)
+	check("healer_restores_five_per_second", world.player_hp == 55 and world.healer._range.visible and world.healer._sparks.visible and world.healer._device.animation == "heal")
+	await frames(2)
+	await capture("14_healing_station")
+	world.ammo = 1
+	world.magazines = 1
+	world.shoot_cd = 0.0
+	var target := demo.unit_pool[0].aim_position()
+	check("last_round_starts_automatic_reload", world.shoot(target) and world.ammo == 0 and world.reload_time > 0.0)
+	check("cannot_shoot_during_reload", not world.shoot(target))
+	world._tick_player_reload(world.RELOAD_SECONDS)
+	check("auto_reload_consumes_one_magazine", world.ammo == world.max_ammo and world.magazines == 0 and world.reload_time == 0)
+	world.take_damage(8)
+	check("healer_does_not_reduce_damage", world.player_hp == 47)
+	world.player.position = world.safe_position + Vector2(0, 75)
+	world._tick_support_device(1.0)
+	check("outside_ellipse_does_not_heal", world.player_hp == 47 and not world.inside_cover() and not world.healer._sparks.visible)
+	var save := world.save_snapshot()
+	world.restore_snapshot(save)
+	check("save_restores_active_device_timer", is_equal_approx(world.cover_time, float(save.cover_time)))
+	world.player.position = world.safe_position + Vector2(50, 20)
+	world.player_hp = world.max_hp - 2
+	world._tick_support_device(1.0)
+	check("healer_resume_caps_health", world.player_hp == world.max_hp and world.healer.visible)
+	world._tick_support_device(world.cover_time)
+	check("healer_expires", not world.healer.visible and world.cover_time == 0.0)

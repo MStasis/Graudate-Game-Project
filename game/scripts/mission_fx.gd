@@ -3,6 +3,7 @@ func _process(_delta: float) -> void:
  queue_redraw()
 func _draw() -> void:
  var world = get_parent()
+ if world.use_fleet_demo: return
  if world.cover_time > 0.0 and world.is_combat_area():
   draw_circle(world.safe_position, world.cover_radius, Color(0.15, 0.8, 0.8, 0.18))
   draw_arc(world.safe_position, world.cover_radius, 0, TAU, 48, Color("6fffe3"), 3)

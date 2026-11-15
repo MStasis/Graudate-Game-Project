@@ -23,6 +23,11 @@ if (-not $result.passed -or $result.check_count -lt 50 -or (Get-Item -LiteralPat
 if ($LASTEXITCODE -ne 0) { throw 'Fleet demo playthrough failed.' }
 $fleetResult = Join-Path $evidencePath 'fleet_demo\test.json'
 if (-not (Get-Content -LiteralPath $fleetResult -Raw -Encoding UTF8 | ConvertFrom-Json).passed -or (Get-Item -LiteralPath $fleetResult).LastWriteTimeUtc -lt $started) { throw 'Fresh fleet demo result was not verified.' }
+& $godotExe --headless --path $gamePath --script res://tests/fleet_dialogue_test.gd --log-file (Join-Path $evidencePath 'fleet_dialogue_test.log') -- --mission-test --provider=RuleBased
+if ($LASTEXITCODE -ne 0) { throw 'Fleet dialogue fixture checks failed.' }
+$fleetDialoguePath = Join-Path $evidencePath 'fleet_dialogue\test.json'
+$fleetDialogueResult = Get-Content -LiteralPath $fleetDialoguePath -Raw -Encoding UTF8 | ConvertFrom-Json
+if (-not $fleetDialogueResult.passed -or $fleetDialogueResult.actual_inference -or (Get-Item -LiteralPath $fleetDialoguePath).LastWriteTimeUtc -lt $started) { throw 'Fresh Fleet dialogue fixture result was not verified.' }
 & $godotExe --headless --path $gamePath --script res://tests/chat_input_test.gd --log-file (Join-Path $evidencePath 'chat_input_test.log') -- --chat-input-test --mission-test --provider=RuleBased
 if ($LASTEXITCODE -ne 0) { throw 'Chat input regression tests failed.' }
 $chatPath = Join-Path $evidencePath 'chat_input_fix\chat_input_test.json'
@@ -137,6 +142,8 @@ if ($Render) {
     if (-not $dialogueNoticeRenderResult.passed -or -not $dialogueNoticeRenderResult.gpu_rendered -or (Get-Item -LiteralPath $dialogueNoticeRenderPath).LastWriteTimeUtc -lt $started) { throw 'Fresh rendered dialogue/notification result failed.' }
 }
 if ($LocalAI) {
+    & $godotExe --headless --path $gamePath --script res://tests/fleet_dialogue_test.gd --log-file (Join-Path $evidencePath 'fleet_dialogue_live.log') -- --fleet-dialogue-live --provider=LocalLLM
+    if ($LASTEXITCODE -ne 0) { throw 'Live Fleet dialogue transport/provenance regression failed.' }
     & $godotExe --headless --path $gamePath --script res://tests/containment_live_test.gd --log-file (Join-Path $evidencePath 'containment_live.log') -- --mission-test --provider=LocalLLM
     if ($LASTEXITCODE -ne 0) { throw 'Live containment cancellation regression failed.' }
     & $godotExe --headless --path $gamePath --script res://tests/story_dialogue_live_test.gd --log-file (Join-Path $evidencePath 'story_dialogue_live.log') -- --mission-test --provider=LocalLLM

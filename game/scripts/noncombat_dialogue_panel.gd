@@ -50,8 +50,9 @@ func _apply_profile() -> void:
  $SendButton.text = "전송" if enabled else "전송  ↵"
  $Question.placeholder_text = "미카에게 말하기…" if enabled else "미카에게 말하기…  Enter 전송 / Esc 이동"
  $Question.visible = not scripted
+ $KeyHint.text = "Space / 좌클릭  ·  다음" if scripted else "Enter 전송 · Esc 닫기"
  if scripted:
-  for path in ["CloseDialogue", "SendButton", "RadioState", "KeyHint"]:
+  for path in ["CloseDialogue", "SendButton", "RadioState"]:
    get_node(path).hide()
  _apply_layout()
 

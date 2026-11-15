@@ -207,6 +207,12 @@ func _validate_fleet_save(data: Dictionary, world: DemoWorld, shared_config: Dic
  for key in ["finished", "defeated", "cache_used", "power_restored", "fuse_collected"]:
   if not state.get(key) is bool: return fail("임무 정보가 손상되었습니다.")
  if state.finished or state.defeated: return fail("복원할 수 없는 임무 상태입니다.")
+ if not whole(state.get("magazines", world.FLEET_START_MAGAZINES), 0, 64):
+  return fail("예비 탄창 수가 올바르지 않습니다.")
+ if not number(state.get("reload_time", 0.0), 0, world.RELOAD_SECONDS):
+  return fail("재장전 시간이 올바르지 않습니다.")
+ if state.get("reload_time", 0.0) > 0 and (state.get("magazines", 0) < 1 or state.get("ammo", world.max_ammo) >= world.max_ammo):
+  return fail("재장전 상태가 올바르지 않습니다.")
  var bounds := world.bounds_for(map)
  for key in ["player_position", "npc_position", "wait_position"]:
   if not point(state.get(key), bounds): return fail("캐릭터 위치가 올바르지 않습니다.")

@@ -1,0 +1,220 @@
+{
+  "version": 1,
+  "asset": "support_sentry",
+  "png": "sentry_drone_turret_atlas.png",
+  "atlas_px": [
+    1280,
+    3072
+  ],
+  "cell_px": [
+    128,
+    128
+  ],
+  "ground_pivot_px": [
+    64,
+    108
+  ],
+  "direction_rows": [
+    "down",
+    "left",
+    "right",
+    "up"
+  ],
+  "index_base": 0,
+  "animations": {
+    "drone_hover": {
+      "first_row": 0,
+      "frame_count": 8,
+      "frame_durations_ms": [
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100
+      ],
+      "loop": true
+    },
+    "drone_scan": {
+      "first_row": 4,
+      "frame_count": 10,
+      "frame_durations_ms": [
+        80,
+        90,
+        70,
+        70,
+        70,
+        70,
+        80,
+        90,
+        110,
+        110
+      ],
+      "loop": false,
+      "events": [
+        {
+          "name": "scan_pulse",
+          "frame": 2,
+          "time_ms": 170
+        }
+      ]
+    },
+    "deploy": {
+      "first_row": 8,
+      "frame_count": 9,
+      "frame_durations_ms": [
+        90,
+        70,
+        70,
+        80,
+        80,
+        90,
+        100,
+        110,
+        150
+      ],
+      "loop": false,
+      "events": [
+        {
+          "name": "feet_contact",
+          "frame": 6,
+          "time_ms": 480
+        },
+        {
+          "name": "deployed",
+          "frame": 8,
+          "time_ms": 690
+        }
+      ]
+    },
+    "rapid_fire": {
+      "first_row": 12,
+      "frame_count": 4,
+      "frame_durations_ms": [
+        20,
+        30,
+        30,
+        40
+      ],
+      "loop": true,
+      "events": [
+        {
+          "name": "fire",
+          "frame": 1,
+          "time_ms": 20,
+          "muzzle_px_by_direction": {
+            "down": [
+              64,
+              79
+            ],
+            "left": [
+              30,
+              62
+            ],
+            "right": [
+              98,
+              62
+            ],
+            "up": [
+              64,
+              26
+            ]
+          }
+        }
+      ]
+    },
+    "rail_extend": {
+      "first_row": 16,
+      "frame_count": 5,
+      "frame_durations_ms": [
+        60,
+        70,
+        80,
+        80,
+        90
+      ],
+      "loop": false,
+      "events": [
+        {
+          "name": "rail_extended",
+          "frame": 4,
+          "time_ms": 290
+        }
+      ]
+    },
+    "rail_fire": {
+      "first_row": 20,
+      "frame_count": 9,
+      "frame_durations_ms": [
+        70,
+        100,
+        110,
+        130,
+        40,
+        60,
+        90,
+        110,
+        150
+      ],
+      "loop": false,
+      "events": [
+        {
+          "name": "fire",
+          "frame": 4,
+          "time_ms": 410,
+          "muzzle_px_by_direction": {
+            "down": [
+              64,
+              89
+            ],
+            "left": [
+              16,
+              62
+            ],
+            "right": [
+              112,
+              62
+            ],
+            "up": [
+              64,
+              16
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "states": {
+    "drone_idle": {
+      "clip": "drone_hover"
+    },
+    "turret_rapid_ready": {
+      "clip": "rapid_fire",
+      "frame": 0
+    },
+    "turret_rail_ready": {
+      "clip": "rail_fire",
+      "frame": 0
+    }
+  },
+  "transitions": {
+    "deploy": {
+      "clip": "deploy",
+      "from": "drone_idle",
+      "to": "turret_rapid_ready"
+    },
+    "extend_rail": {
+      "clip": "rail_extend",
+      "from": "turret_rapid_ready",
+      "to": "turret_rail_ready"
+    },
+    "retract_rail": {
+      "clip": "rail_extend",
+      "playback": "reverse",
+      "from": "turret_rail_ready",
+      "to": "turret_rapid_ready"
+    }
+  }
+}

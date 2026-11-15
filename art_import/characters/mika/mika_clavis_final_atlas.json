@@ -1,0 +1,329 @@
+{
+  "version": 1,
+  "character": "Mika Clavis",
+  "sheet_px": [
+    1152,
+    1536
+  ],
+  "cell_px": [
+    96,
+    96
+  ],
+  "ground_pivot_px": [
+    48,
+    86
+  ],
+  "direction_rows": [
+    "down",
+    "left",
+    "right",
+    "up"
+  ],
+  "index_base": 0,
+  "animations": {
+    "idle": {
+      "mode": "loop",
+      "frame_durations_ms": [
+        450,
+        240,
+        100,
+        510
+      ],
+      "origin_cell": [
+        0,
+        0
+      ],
+      "origin_px": [
+        0,
+        0
+      ],
+      "frames_per_direction": 4
+    },
+    "move": {
+      "mode": "loop",
+      "frame_durations_ms": [
+        120,
+        120,
+        120,
+        120,
+        120,
+        120
+      ],
+      "origin_cell": [
+        6,
+        0
+      ],
+      "origin_px": [
+        576,
+        0
+      ],
+      "frames_per_direction": 6
+    },
+    "shoot": {
+      "mode": "once",
+      "frame_durations_ms": [
+        50,
+        40,
+        60,
+        70,
+        80
+      ],
+      "frame_names": [
+        "aim",
+        "fire",
+        "recoil",
+        "settle",
+        "low_ready"
+      ],
+      "events": [
+        {
+          "name": "fire",
+          "frame": 1,
+          "time_ms": 50
+        }
+      ],
+      "muzzle_px_by_direction": {
+        "down": [
+          48,
+          71
+        ],
+        "left": [
+          19,
+          46
+        ],
+        "right": [
+          76,
+          46
+        ],
+        "up": [
+          48,
+          41
+        ]
+      },
+      "origin_cell": [
+        0,
+        4
+      ],
+      "origin_px": [
+        0,
+        384
+      ],
+      "frames_per_direction": 5
+    },
+    "hit": {
+      "mode": "once",
+      "frame_durations_ms": [
+        50,
+        70,
+        100,
+        120,
+        160
+      ],
+      "frame_names": [
+        "impact_flash",
+        "recoil_tinted",
+        "recoil",
+        "recovery",
+        "idle"
+      ],
+      "invulnerability_ms": 500,
+      "trigger": "damage_accepted",
+      "origin_cell": [
+        6,
+        4
+      ],
+      "origin_px": [
+        576,
+        384
+      ],
+      "frames_per_direction": 5
+    },
+    "move_aim": {
+      "origin_cell": [
+        0,
+        8
+      ],
+      "origin_px": [
+        0,
+        768
+      ],
+      "frames_per_direction": 6
+    },
+    "move_fire": {
+      "origin_cell": [
+        6,
+        8
+      ],
+      "origin_px": [
+        576,
+        768
+      ],
+      "frames_per_direction": 6
+    },
+    "move_recoil": {
+      "origin_cell": [
+        0,
+        12
+      ],
+      "origin_px": [
+        0,
+        1152
+      ],
+      "frames_per_direction": 6
+    }
+  },
+  "moving_fire": {
+    "gait_ms_by_direction": {
+      "down": [
+        120,
+        120,
+        120,
+        120,
+        120,
+        120
+      ],
+      "left": [
+        120,
+        120,
+        120,
+        120,
+        120,
+        120
+      ],
+      "right": [
+        120,
+        120,
+        120,
+        120,
+        120,
+        120
+      ],
+      "up": [
+        120,
+        120,
+        120,
+        120,
+        120,
+        120
+      ]
+    },
+    "fire_pose_ms": 40,
+    "recoil_pose_ms": 60,
+    "muzzle_px_by_direction_and_column": {
+      "down": [
+        [
+          48,
+          71
+        ],
+        [
+          48,
+          71
+        ],
+        [
+          48,
+          71
+        ],
+        [
+          48,
+          71
+        ],
+        [
+          48,
+          71
+        ],
+        [
+          48,
+          71
+        ]
+      ],
+      "left": [
+        [
+          18,
+          46
+        ],
+        [
+          18,
+          45
+        ],
+        [
+          18,
+          46
+        ],
+        [
+          18,
+          46
+        ],
+        [
+          18,
+          45
+        ],
+        [
+          18,
+          46
+        ]
+      ],
+      "right": [
+        [
+          77,
+          46
+        ],
+        [
+          77,
+          45
+        ],
+        [
+          77,
+          46
+        ],
+        [
+          77,
+          46
+        ],
+        [
+          77,
+          45
+        ],
+        [
+          77,
+          46
+        ]
+      ],
+      "up": [
+        [
+          48,
+          42
+        ],
+        [
+          48,
+          41
+        ],
+        [
+          48,
+          42
+        ],
+        [
+          48,
+          42
+        ],
+        [
+          48,
+          41
+        ],
+        [
+          48,
+          42
+        ]
+      ]
+    },
+    "animation_names": {
+      "aim": "move_aim",
+      "fire": "move_fire",
+      "recoil": "move_recoil"
+    },
+    "direction_rule": "same_as_movement",
+    "movement_clock": "continuous_across_aim_fire_recoil",
+    "muzzle_flash_hidden_directions": [
+      "up"
+    ]
+  }
+}

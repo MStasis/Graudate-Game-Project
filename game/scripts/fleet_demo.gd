@@ -4,6 +4,8 @@ extends Node2D
 const Room := preload("res://scripts/fleet_demo_room.gd")
 const Lines := preload("res://scripts/fleet_demo_lines.gd")
 const Crew := preload("res://scenes/RiftCrew.tscn")
+const OBJECTIVE_ARROW := preload("res://assets/fleet_demo/art/door_objective_arrow.png")
+const BROKEN_FUSE := preload("res://resources/FuseBrokenTexture.tres")
 const MAPS := {
 	"corridor": preload("res://assets/fleet_demo/rooms/corridor.tscn"),
 	"mika_quarters": preload("res://assets/fleet_demo/rooms/mika_quarters.tscn"),
@@ -17,10 +19,13 @@ const NAMES := {
 }
 const START := Vector2(77, 238)
 const AMBUSH_SPAWN := Vector2(1190, 235)
+const BREAKER_FUSE_SOCKET := Vector2(-2, -28)
 const WAVE_PAUSE := 1.25
 const INTERACT_RADIUS := 49.0
+const HANDOFF_RADIUS := 72.0
 # Clear of both side banks, and offset from the player's interaction point.
 const REPAIR_POSITION := Vector2(173, 203)
+const HANDOFF_POSITION := Vector2(135, 267)
 const AMBUSH_HINT := "좌클릭을 눌러 적을 공격하세요"
 const WALK_HINT := "WASD로 이동하세요"
 const CABINETS := ["cabinet_fuse", "cabinet_reserve", "personal_cabinet"]
@@ -28,7 +33,7 @@ const PROPS := {
 	"mika_quarters": {"personal_cabinet": "개인 캐비닛"},
 	"supply_room": {"cabinet_fuse": "왼쪽 캐비닛", "cabinet_reserve": "오른쪽 캐비닛", "crate_side": "상자 조사", "ammo_stock": "보급 탄약함"},
 	"power_room": {"main_fuse_breaker": "주 퓨즈함", "power_terminal": "전력 단말"},
-	"research_lab_b": {"eroded_stop": "침식 코어 레버", "normal_sector_crate": "봉쇄 보급함", "supply_cabinet": "봉쇄 보급함"},
+	"research_lab_b": {"eroded_stop": "침식 코어 레버", "normal_sector_crate": "봉쇄 보급함", "supply_cabinet": "봉쇄 보급함", "lab_ammo_stock": "탄약함"},
 }
 
 enum Step { FIND_MIKA, FIND_FUSE, FUSE_HELD, AMBUSH, TO_POWER, REPAIR, ALARM, TO_LAB, CORES, WAVES, LEVER, ARMED, ENDING }
@@ -44,6 +49,8 @@ var cabinets := {}
 var inserted := false
 var core_seen := false
 var lab_supply_used := false
+var lab_ammo_used := false
+var fuse_handed := false
 var wave := 0
 var wave_wait := -1.0
 var camera_weight := 0.0
@@ -56,11 +63,11 @@ var hint := ""
 var opening_pending := false
 var _sequence: Tween
 var _fuse_toss: Tween
-var _voice_left := 0.0
-var _advance_allowed := false
 var _dialogue: Array
 var _after_dialogue: Callable
 var _enemies_root: Node2D
+var _door_arrow := Sprite2D.new()
+var _arrow_time := 0.0
 
 func bind(mission: DemoWorld) -> void:
 	world = mission
@@ -73,6 +80,14 @@ func bind(mission: DemoWorld) -> void:
 		add_child(room)
 		room.setup(id)
 		rooms[id] = room
+	_door_arrow.name = "ObjectiveDoorArrow"
+	_door_arrow.texture = OBJECTIVE_ARROW
+	_door_arrow.hframes = 8
+	_door_arrow.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_door_arrow.scale = Vector2.ONE * 1.5
+	_door_arrow.z_index = 22
+	_door_arrow.hide()
+	add_child(_door_arrow)
 	_enemies_root = Node2D.new()
 	_enemies_root.y_sort_enabled = true
 	_enemies_root.z_index = 6
@@ -111,6 +126,8 @@ func reset() -> void:
 	inserted = false
 	core_seen = false
 	lab_supply_used = false
+	lab_ammo_used = false
+	fuse_handed = false
 	wave = 0
 	wave_wait = -1
 	opening_pending = true
@@ -131,12 +148,14 @@ func clear_cues() -> void:
 	world.fuse.get_node("Sprite2D").rotation = 0.0
 	_after_dialogue = Callable()
 	_dialogue.clear()
-	_voice_left = 0.0
 	voice_active = false
+	_door_arrow.hide()
+	_arrow_time = 0.0
 	npc_task = ""
 	fixed_aim = false
 	camera_weight = 0.0
 	opening_pending = false
+	fuse_handed = inserted
 	line_changed.emit("", "")
 	showing_reaction.emit(false)
 
@@ -154,6 +173,9 @@ func _restore_props() -> void:
 		var room = rooms.mika_quarters if id == "personal_cabinet" else rooms.supply_room
 		room.play(id, "open", true, cabinets.get(id, false))
 	rooms.power_room.play("main_fuse_breaker", "open_broken", true)
+	if inserted: rooms.power_room.play("main_fuse_breaker", "close_working", true, true)
+	rooms.supply_room.set_ammo_crate_open("ammo_stock", world.cache_used)
+	rooms.research_lab_b.set_ammo_crate_open("lab_ammo_stock", lab_ammo_used)
 	rooms.research_lab_b.set_levers(step == Step.ENDING)
 	world.fuse.position = rooms.supply_room.approach("cabinet_fuse") + Vector2(16, 19)
 
@@ -200,7 +222,7 @@ func snapshot() -> Dictionary:
 		if enemy.hp > 0:
 			enemies[str(enemy.name)] = {"hp": enemy.hp, "position": [enemy.position.x, enemy.position.y], "attack_wait": enemy.attack_wait}
 	return {"step": step, "opened": cabinets.keys(), "inserted": inserted, "core_seen": core_seen,
-		"lab_supply_used": lab_supply_used, "wave": wave, "wave_wait": wave_wait, "enemies": enemies}
+		"lab_supply_used": lab_supply_used, "lab_ammo_used": lab_ammo_used, "wave": wave, "wave_wait": wave_wait, "enemies": enemies}
 
 func restore(state: Dictionary) -> void:
 	clear_cues()
@@ -209,8 +231,10 @@ func restore(state: Dictionary) -> void:
 	cabinets.clear()
 	for id in state.opened: cabinets[id] = true
 	inserted = state.inserted
+	fuse_handed = inserted
 	core_seen = state.core_seen
 	lab_supply_used = state.lab_supply_used
+	lab_ammo_used = state.get("lab_ammo_used", false)
 	wave = int(state.wave)
 	wave_wait = float(state.wave_wait)
 	hint = WALK_HINT if step == Step.FIND_MIKA else AMBUSH_HINT if step == Step.AMBUSH else ""
@@ -236,6 +260,7 @@ func validate(state: Dictionary, store: MissionSaveStore) -> bool:
 		unique[id] = true
 	for key in ["inserted", "core_seen", "lab_supply_used"]:
 		if not data.get(key) is bool: return false
+	if not data.get("lab_ammo_used", false) is bool: return false
 	if not store.number(data.get("wave_wait"), -1, WAVE_PAUSE) or not data.get("enemies") is Dictionary: return false
 	var phase := int(data.step)
 	var group := int(data.wave)
@@ -292,9 +317,6 @@ func tick(delta: float) -> void:
 	if opening_pending:
 		opening_pending = false
 		_opening()
-	if voice_active:
-		_voice_left -= delta
-		if _voice_left <= 0: _next_line()
 	if locks_movement() or world.transition_active(): return
 	match step:
 		Step.CORES:
@@ -330,16 +352,15 @@ func _new_sequence() -> Tween:
 	_sequence = create_tween().set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
 	return _sequence
 
-func _say(lines: Array, after := Callable(), advance := true) -> void:
+func _say(lines: Array, after := Callable()) -> void:
 	_dialogue = lines.duplicate()
 	_after_dialogue = after
-	_advance_allowed = advance
 	voice_active = true
 	_next_line()
 	_updated()
 
 func advance_dialogue() -> void:
-	if voice_active and _advance_allowed and _voice_left > 0.0: _next_line()
+	if voice_active: _next_line()
 
 func _next_line() -> void:
 	if _dialogue.is_empty():
@@ -352,8 +373,6 @@ func _next_line() -> void:
 		return
 	var line: Array = _dialogue.pop_front()
 	show_mika_portrait = line[0] == "미카" and world.npc.visible
-	_voice_left = clampf(1.15 + str(line[1]).length() * 0.060, 1.7, 5.8)
-	if not _advance_allowed: _voice_left = 1.2 if line[1] == "당겨!" else 2.0
 	line_changed.emit(line[0], line[1])
 
 func on_enter(from: String) -> void:
@@ -407,6 +426,7 @@ func _show_cores() -> void:
 func npc_target() -> Vector2:
 	if npc_task == "breaker": return REPAIR_POSITION
 	if npc_task == "power": return room().approach("power_terminal")
+	if _can_handoff(): return HANDOFF_POSITION
 	if world.map_id == "research_lab_b" and step >= Step.CORES: return room().approach("normal_stop")
 	return Vector2.INF
 
@@ -426,13 +446,13 @@ func _replace_fuse() -> void:
 	cue.tween_interval(0.70)
 	cue.tween_callback(func():
 		power.play("main_fuse_breaker", "open_empty", true, true)
-		var slot: Vector2 = power.ground("main_fuse_breaker") + Vector2(5, -31)
-		_show_fuse_motion(slot, slot + Vector2(-36, 69), Color("d3936a"))
+		var slot: Vector2 = power.ground("main_fuse_breaker") + BREAKER_FUSE_SOCKET
+		_show_fuse_motion(slot, slot + Vector2(-36, 69), BROKEN_FUSE)
 		world._event("fleet_fuse_removed", {}))
 	cue.tween_interval(0.66)
 	cue.tween_callback(func():
-		var slot: Vector2 = power.ground("main_fuse_breaker") + Vector2(5, -31)
-		_show_fuse_motion(world.npc.position + Vector2(-8, -38), slot, Color("f2e3a5")))
+		var slot: Vector2 = power.ground("main_fuse_breaker") + BREAKER_FUSE_SOCKET
+		_show_fuse_motion(world.npc.position + Vector2(-8, -38), slot, world.fuse.object_texture))
 	cue.tween_interval(0.30)
 	cue.tween_callback(func():
 		power.play("main_fuse_breaker", "open_working", true, true)
@@ -444,16 +464,15 @@ func _replace_fuse() -> void:
 	cue.tween_interval(0.47)
 	cue.finished.connect(func():
 		_sequence = null
-		_say(Lines.BREAKER_FIXED, func():
-			fixed_aim = false
-			npc_task = "power"
-			world.npc_motion.arrived = false))
+		fixed_aim = false
+		npc_task = "power"
+		world.npc_motion.arrived = false)
 
-func _show_fuse_motion(from: Vector2, to: Vector2, tint: Color) -> void:
-	var part := world.fuse.get_node("Sprite2D").duplicate() as Sprite2D
+func _show_fuse_motion(from: Vector2, to: Vector2, texture: Texture2D) -> void:
+	var part := Sprite2D.new()
+	part.texture = texture
+	part.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	part.position = from
-	part.scale = Vector2.ONE * 0.26
-	part.self_modulate = tint
 	part.z_index = 10
 	room().add_child(part)
 	var motion := part.create_tween()
@@ -488,7 +507,7 @@ func _restore_power() -> void:
 		_sequence = null
 		fixed_aim = false
 		showing_reaction.emit(false)
-		_updated())
+		_say(Lines.BREAKER_FIXED))
 
 func _start_ambush() -> void:
 	step = Step.AMBUSH
@@ -550,7 +569,7 @@ func _countdown() -> void:
 	fixed_aim = true
 	_say(Lines.COUNTDOWN, func():
 		step = Step.ARMED
-		world._event("fleet_pull_signal", {}), false)
+		world._event("fleet_pull_signal", {}))
 
 func _pull() -> void:
 	step = Step.ENDING
@@ -590,23 +609,51 @@ func landmarks() -> Array:
 func nearest_interaction() -> Dictionary:
 	if not world.can_move and not allows_interact(): return {}
 	if allows_interact():
-		return {"id": "eroded_stop", "name": "침식 코어 레버 당기기"} if _near_lever() else {}
+		return _prompt("eroded_stop", "침식 코어 레버 당기기", room().ground("eroded_stop")) if _near_lever() else {}
+	var mika_distance := world.player.position.distance_to(world.npc.position) if world.npc.visible else INF
+	var near_mika := mika_distance <= 54
+	if near_mika and world.npc_hp <= 0: return _prompt("npc", "미카 소생", world.npc.position + Vector2(0, -42))
+	if mika_distance <= HANDOFF_RADIUS and _can_handoff(): return _prompt("give_fuse", "미카에게 퓨즈 건네기", world.npc.position + Vector2(0, -42))
+	if world.fuse.visible and not _fuse_toss and world.player.position.distance_to(world.fuse.position) <= 31:
+		return _prompt("fuse", "정상 퓨즈 줍기", world.fuse.position)
 	var nearest := {}
 	var limit := INTERACT_RADIUS
 	for item in landmarks():
-		if item.id == "fuse" or (step == Step.AMBUSH and item.kind == "door"): continue
+		if item.id == "fuse": continue
 		var distance := world.player.position.distance_to(Room.pixel(item.position))
-		if item.kind == "door" and distance <= 32.0: return item
 		if distance > limit: continue
-		nearest = item
+		if item.kind == "door":
+			if not item.active: continue
+			var door_art := room().get_node("Walls/" + item.id) as Sprite2D
+			var bounds := door_art.get_rect()
+			var center := door_art.position + bounds.get_center()
+			var label := "복도로 나가기" if item.destination == "corridor" else str(item.name) + " 들어가기"
+			var door_prompt := _prompt(item.id, label, center)
+			if distance <= 32.0: return door_prompt
+			nearest = door_prompt
+		else:
+			var action := _prop_prompt(item.id, item.name)
+			if action.is_empty(): continue
+			nearest = _prompt(item.id, action, room().ground(item.id) + Vector2(0, -20))
 		limit = distance
-	# A landed fuse and a downed companion take priority over the surrounding fixtures.
-	if world.fuse.visible and not _fuse_toss and world.player.position.distance_to(world.fuse.position) <= 31:
-		return {"id": "fuse", "name": "정상 퓨즈 줍기"}
-	if world.npc.visible and world.player.position.distance_to(world.npc.position) <= 42:
-		if world.npc_hp <= 0: return {"id": "npc", "name": "미카 소생"}
-		if nearest.is_empty(): return {"id": "npc", "name": "미카와 대화"}
+	if nearest.is_empty() and near_mika and not world.is_combat_area():
+		return _prompt("npc", "미카와 대화", world.npc.position + Vector2(0, -42))
 	return nearest
+
+func _prompt(id: String, label: String, anchor: Vector2) -> Dictionary:
+	return {"id": id, "name": label, "anchor": anchor}
+
+func _prop_prompt(id: String, label: String) -> String:
+	match id:
+		"main_fuse_breaker", "power_terminal", "eroded_stop": return ""
+		"ammo_stock": return "" if world.cache_used else label + " 열기"
+		"lab_ammo_stock": return "" if lab_ammo_used else label + " 열기"
+		"normal_sector_crate", "supply_cabinet": return "" if lab_supply_used else label + " 열기"
+	if id in CABINETS: return "" if cabinets.get(id, false) else label + " 열기"
+	return label
+
+func _can_handoff() -> bool:
+	return world.map_id == "power_room" and step == Step.REPAIR and world.fuse_collected and not fuse_handed and world.npc_hp > 0
 
 func _door_error(door: Dictionary) -> String:
 	if step == Step.AMBUSH: return "복도의 침식된 선원을 먼저 제압하세요."
@@ -652,9 +699,12 @@ func interact(id: String, animate: bool) -> String:
 			world.story_event("fuse_return", "fuse_collected")
 			world._remember("비품실 왼쪽 캐비닛에서 바닥에 떨어진 정상 퓨즈를 주웠다.")
 			_say(Lines.FUSE)
-		"main_fuse_breaker":
-			if step != Step.REPAIR: return "정상 퓨즈 교체가 끝났습니다."
-			if world.npc_hp <= 0: return "미카를 먼저 소생시키세요."
+		"give_fuse":
+			if not _can_handoff() or world.player.position.distance_to(world.npc.position) > HANDOFF_RADIUS: return ""
+			fuse_handed = true
+			fixed_aim = false
+			_show_fuse_motion(world.player.position + Vector2(0, -38), world.npc.position + Vector2(0, -38), world.fuse.object_texture)
+			world._event("fleet_fuse_handed", {})
 			world.active_action = ""
 			world.npc_navigation.reset()
 			npc_task = "breaker"
@@ -662,20 +712,28 @@ func interact(id: String, animate: bool) -> String:
 			_updated()
 		"power_terminal":
 			return "전력이 복구되었습니다." if world.power_restored else "주 퓨즈함의 정상 퓨즈부터 교체하세요."
-		"ammo_stock":
-			if world.cache_used: return "이미 탄약함을 사용했습니다."
-			if world.ammo >= world.max_ammo: return "탄약이 충분합니다."
-			world.ammo = mini(world.max_ammo, world.ammo + world.resupply_amount)
-			world.cache_used = true
+		"ammo_stock", "lab_ammo_stock":
+			if not active_room.props.has(id): return ""
+			if id == "ammo_stock":
+				if world.cache_used: return ""
+				world.cache_used = true
+			else:
+				if lab_ammo_used: return ""
+				lab_ammo_used = true
+			active_room.set_ammo_crate_open(id, true, false)
+			var amount := world.add_magazine_supply()
+			world._event("fleet_ammo_collected", {"crate": id, "magazines": amount})
 			_updated()
-			return "탄약 회수"
+			return "예비 탄창 +%d" % amount
 		"normal_sector_crate", "supply_cabinet":
-			if lab_supply_used: return "이미 봉쇄 보급함을 사용했습니다."
-			if world.ammo == world.max_ammo and world.player_hp == world.max_hp and world.supply_packs == world.initial_supply_packs: return "보급이 충분합니다."
+			if not active_room.props.has(id) or lab_supply_used: return ""
 			lab_supply_used = true
-			var message := world.containment.replenish()
+			world.add_magazine_supply()
+			world.medkits = world.initial_medkits
+			world.supply_packs = world.initial_supply_packs
+			world.cover_charges = world.initial_cover_charges
 			_updated()
-			return message
+			return "봉쇄 보급함 회수 · 예비 탄창 +%d" % world.MAGAZINES_PER_SUPPLY
 		"eroded_stop":
 			if not allows_interact(): return "세 차례의 선원을 제압하고 미카의 신호를 기다리세요."
 			if _near_lever() and _mika_at_lever(): _pull()
@@ -697,6 +755,38 @@ func _drop_fuse() -> void:
 		sprite.rotation = 0.0
 		world._event("fleet_fuse_landed", {}))
 
+func objective_door() -> String:
+	var destination := ""
+	match step:
+		Step.FIND_MIKA: destination = "mika_quarters"
+		Step.FIND_FUSE: destination = "supply_room"
+		Step.FUSE_HELD:
+			destination = "corridor" if world.map_id == "supply_room" else "supply_room"
+		Step.TO_POWER, Step.REPAIR: destination = "power_room"
+		Step.ALARM: destination = "corridor"
+		Step.TO_LAB, Step.CORES: destination = "research_lab_b"
+	if destination.is_empty() or destination == world.map_id: return ""
+	var via_corridor := ""
+	for door: Dictionary in room().doors.values():
+		if not _door_error(door).is_empty(): continue
+		if door.target_room == destination: return door.id
+		if door.target_room == "corridor": via_corridor = door.id
+	return via_corridor
+
+func update_objective_arrow(delta: float, visible_for_player: bool) -> Rect2:
+	_door_arrow.hide()
+	if not visible_for_player or locks_movement() or world.transition_active() or world.defeated or world.finished: return Rect2()
+	var door := objective_door()
+	if door.is_empty(): return Rect2()
+	var art := room().get_node("Walls/" + door) as Sprite2D
+	var bounds := art.get_rect()
+	_arrow_time = fposmod(_arrow_time + delta, 0.96)
+	_door_arrow.frame = int(_arrow_time / 0.12)
+	_door_arrow.position = art.position + Vector2(bounds.get_center().x, bounds.position.y - 5.0)
+	_door_arrow.position.y -= 3.0 * sin(_arrow_time / 0.96 * TAU)
+	_door_arrow.show()
+	return _door_arrow.get_global_transform_with_canvas() * _door_arrow.get_rect()
+
 func guidance() -> String:
 	match step:
 		Step.FIND_MIKA: return "복도 왼쪽 첫 번째 문에서 미카 만나기"
@@ -705,8 +795,8 @@ func guidance() -> String:
 		Step.AMBUSH: return "복도의 침식된 선원 제압"
 		Step.TO_POWER: return "복도 오른쪽의 전기실로 이동"
 		Step.REPAIR:
-			if world.map_id != "power_room": return "복도 오른쪽 전기실의 주 퓨즈함으로 이동"
-			return "방 끝의 주 퓨즈함에서 E" if npc_task.is_empty() and _sequence == null and not inserted else "미카의 전력 복구 작업"
+			if world.map_id != "power_room": return "복도 오른쪽 전기실로 이동"
+			return "미카에게 정상 퓨즈 건네기" if not fuse_handed else "미카의 전력 복구 작업"
 		Step.ALARM: return "복도로 나가 경보 확인"
 		Step.TO_LAB: return "복도 오른쪽 끝의 연구실 B동으로 이동"
 		Step.CORES: return "위쪽 침식 코어의 레버로 이동 · 필요하면 아래쪽에서 보급" if world.map_id == "research_lab_b" else "복도 오른쪽 끝에서 연구실 B동으로 복귀"
@@ -717,9 +807,49 @@ func guidance() -> String:
 	return ""
 
 func context() -> Dictionary:
-	var fuse_location := "비품실 왼쪽 캐비닛"
+	var fuse_location := "미확인"
+	if step >= Step.FIND_FUSE:
+		fuse_location = "비품실에서 찾아야 함. 정확한 위치 미확인"
 	if inserted: fuse_location = "전기실의 주 퓨즈함"
+	elif fuse_handed: fuse_location = "미카가 교체 중"
 	elif world.fuse_collected: fuse_location = "플레이어 보유"
-	elif cabinets.get("cabinet_fuse", false): fuse_location = "비품실 왼쪽 캐비닛 앞 바닥"
-	return {"퓨즈 위치": fuse_location, "현재 전투 차수": wave, "레버 조작 가능": allows_interact(),
-		"복도 경보": alarm_active(), "미카 역할": "아래쪽 정상 코어 장치 조작" if step >= Step.CORES else "동행과 전력 복구"}
+	elif cabinets.get("cabinet_fuse", false):
+		fuse_location = "비품실 왼쪽 캐비닛 앞 바닥" if _fuse_toss == null else "비품실 왼쪽 캐비닛에서 떨어지는 중"
+	# The line is already known once shown, even during the locked conversation.
+	var comms_reported := step >= Step.FIND_FUSE or (
+		world.map_id == "mika_quarters" and voice_active and Lines.QUARTERS[1] not in _dialogue)
+	var plan_known := "containment_briefed" in world.story.events
+	var lever_ready := allows_interact() and not world.finished and not world.defeated and _near_lever() and _mika_at_lever()
+	var goal := world.current_guidance()
+	if step == Step.FIND_FUSE:
+		if "앞 바닥" in fuse_location: goal = "비품실 왼쪽 캐비닛 앞 바닥에 떨어진 정상 퓨즈 줍기"
+		elif world.map_id == "supply_room": goal = "현재 비품실에서 정상 퓨즈 찾기"
+		elif world.map_id == "corridor": goal = "통창 복도의 가운데 문으로 비품실에 들어가 정상 퓨즈 찾기"
+	elif step == Step.FUSE_HELD and world.map_id != "supply_room":
+		goal = "비품실로 돌아가 아래쪽 문으로 나오기"
+	elif step == Step.WAVES and wave_wait >= 0.0:
+		goal = "현재 무리 제압 완료. 다음 공격에 대비"
+	if world.defeated or world.npc_hp <= 0: goal = world.current_guidance()
+	return {
+		"진행 단계": Step.keys()[step],
+		"현재 목표": goal,
+		"정전 확인": "blackout" in world.story.events,
+		"통신 장애 확인": comms_reported,
+		"퓨즈 위치": fuse_location,
+		"퓨즈 장착": inserted,
+		"오른쪽 캐비닛 확인": cabinets.get("cabinet_reserve", false),
+		"복도 적 발견": step >= Step.AMBUSH,
+		"복도 적 제압": step >= Step.TO_POWER,
+		"경보 발생 확인": "anomaly_alarm" in world.story.events,
+		"복도 경보": alarm_active(),
+		"B동 진입": world.story.tutorial_completed,
+		"격벽 계획 공유": plan_known,
+		"침식 코어 근접 확인": core_seen,
+		"현재 전투 차수": wave,
+		"웨이브 사이 대기": step == Step.WAVES and wave_wait >= 0.0,
+		"B동 전투 종료": step >= Step.LEVER,
+		"레버 신호 완료": step >= Step.ARMED,
+		"레버 조작 가능": lever_ready,
+		"격벽 설치": step == Step.ENDING,
+		"미카 역할": "B동 아래쪽 정상 코어 장치 담당" if plan_known else "함선 정비사",
+	}

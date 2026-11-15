@@ -25,6 +25,7 @@ var _room_visible := false
 var _death_hidden := false
 var _melee_until_ms := 0.0
 @onready var animation := get_node_or_null("Sprite2D") as SpriteTimeline
+@onready var projectile_body := get_node_or_null("ProjectileBody") as Area2D
 
 func _ready() -> void:
  if animation: animation.event_reached.connect(_on_animation_event)
@@ -33,7 +34,7 @@ func reset_enemy() -> void:
  hp = max_hp
  attack_wait = 0.8
  visible = true
- collision_layer = 2
+ _set_targetable(true)
  reset_animation()
 
 func reset_animation() -> void:
@@ -48,7 +49,14 @@ func sync_presence(in_room: bool, can_attack: bool) -> void:
  var dying := animation and animation.clip == "death" and animation.playing and not _death_hidden
  visible = in_room and (hp > 0 or dying)
  active = in_room and hp > 0 and can_attack
- collision_layer = 2 if in_room and hp > 0 else 0
+ _set_targetable(in_room and hp > 0)
+
+func _set_targetable(enabled: bool) -> void:
+ collision_layer = 2 if enabled else 0
+ if projectile_body: projectile_body.collision_layer = 8 if enabled else 0
+
+func aim_position() -> Vector2:
+ return position + projectile_body.position if projectile_body and projectile_body.collision_layer != 0 else position
 
 func take_damage(amount: int, contact := Vector2.INF) -> void:
  if hp <= 0: return
@@ -68,7 +76,7 @@ func take_damage(amount: int, contact := Vector2.INF) -> void:
  if hp == 0:
   active = false
   if not animation: visible = false
-  collision_layer = 0
+  _set_targetable(false)
   defeated.emit()
 
 func _physics_process(delta: float) -> void:

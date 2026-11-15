@@ -9,6 +9,10 @@ signal game_event(event: Dictionary)
 signal room_changing
 const SENTRY := preload("res://scenes/SupportSentry.tscn")
 const FleetDemo := preload("res://scripts/fleet_demo.gd")
+const MikaHealer := preload("res://scripts/mika_healer.gd")
+const FLEET_START_MAGAZINES := 2
+const MAGAZINES_PER_SUPPLY := 2
+const RELOAD_SECONDS := 0.95
 var use_fleet_demo := false
 var fleet_demo: FleetDemo
 @export_group("맵 설명")
@@ -60,6 +64,8 @@ var defeated := false
 var map_id := "lab"
 var player_hp := 100
 var ammo := 6
+var magazines := 0
+var reload_time := 0.0
 var medkits := 2
 var supply_packs := 2
 var cover_charges := 1
@@ -109,6 +115,8 @@ var _base_cover: Vector2
 var _legacy_enemy_spawns: Dictionary
 var _main_return := Vector2(85, 415)
 var sentry: SupportSentry
+var healer: MikaHealer
+var _healing_credit := 0.0
 
 func bounds_for(room: String) -> Rect2:
  if fleet_demo and fleet_demo.rooms.has(room): return fleet_demo.rooms[room].bounds
@@ -256,6 +264,7 @@ func complete_demo() -> void:
  active_action = ""
  cover_time = 0
  sentry.stop_support()
+ _stop_healer()
  guide_time = 0
  player.velocity = Vector2.ZERO
  npc.velocity = Vector2.ZERO
@@ -289,6 +298,9 @@ func _ready() -> void:
  sentry.z_index = 7
  add_child(sentry)
  sentry.fired.connect(_sentry_fire)
+ healer = MikaHealer.new()
+ healer.name = "MikaHealer"
+ add_child(healer)
  _spawn_position = player.position
  _npc_spawn = npc.position
  player.animation.fired.connect(_actor_fired.bind(player))
@@ -391,7 +403,7 @@ func _sentry_fire(origin: Vector2, target: Vector2, damage: int) -> void:
   _event("sentry_shot", {"damage": damage, "origin": [origin.x, origin.y]})
 
 func _tick_sentry() -> void:
- if cover_time <= 0.0 or not is_combat_area():
+ if use_fleet_demo or cover_time <= 0.0 or not is_combat_area():
   if sentry.visible: sentry.stop_support()
   return
  if not sentry.visible:
@@ -419,7 +431,9 @@ func reset_world() -> void:
  finished = false
  defeated = false
  player_hp = max_hp
- ammo = initial_ammo
+ ammo = max_ammo if use_fleet_demo else initial_ammo
+ magazines = FLEET_START_MAGAZINES if use_fleet_demo else 0
+ reload_time = 0.0
  medkits = initial_medkits
  supply_packs = initial_supply_packs
  cover_charges = initial_cover_charges
@@ -427,6 +441,7 @@ func reset_world() -> void:
  active_action = ""
  action_metadata = {}
  cover_time = 0.0
+ _stop_healer()
  sentry.stop_support()
  guide_time = 0.0
  heal_cd = 0.0
@@ -484,7 +499,7 @@ func _sync_state() -> void:
  npc.show()
  fuse.get_node("NameLabel").show()
  fuse.get_node("Sprite2D").rotation = 0.0
- fuse.get_node("Sprite2D").scale = Vector2.ONE
+ fuse.get_node("Sprite2D").scale = Vector2.ONE * 1.5
  ($Darkness.material as ShaderMaterial).set_shader_parameter("fleet_lighting", false)
  var dark := map_id == "storage"
  get_node("LabDecor").visible = map_id == "lab"
@@ -536,7 +551,7 @@ func _sync_fleet_state() -> void:
  for enemy in $Enemies.get_children(): enemy.sync_presence(false, false)
  fleet_demo.sync()
  fuse.get_node("NameLabel").hide()
- fuse.get_node("Sprite2D").scale = Vector2.ONE * 0.49
+ fuse.get_node("Sprite2D").scale = Vector2.ONE * 1.25
  player.movement_enabled = can_move and not finished and not defeated
  npc.modulate = Color("888888") if npc_hp <= 0 else Color.WHITE
  $Darkness.show()
@@ -573,13 +588,12 @@ func _unhandled_input(event: InputEvent) -> void:
    get_viewport().set_input_as_handled()
   return
  if not can_move: return
+ if use_fleet_demo and event.is_action_pressed("reload") and not event.is_echo():
+  request_reload()
+  get_viewport().set_input_as_handled()
+  return
  if event.is_action_pressed("attack") and not event.is_echo():
   var target_point: Vector2 = get_global_transform_with_canvas().affine_inverse() * event.position if event is InputEventMouseButton else nearest_enemy_position()
-  if event is InputEventMouseButton and is_combat_area():
-   for enemy: MissionDrone in room_enemies():
-    if enemy.hp > 0 and enemy.visible and enemy.animation.contains_ink(to_global(target_point)) and visibility_at(enemy.position) > 0.12:
-     target_point = enemy.position
-     break
   shoot(target_point)
   get_viewport().set_input_as_handled()
  if not event.is_action_pressed("interact") or event.is_echo(): return
@@ -816,6 +830,7 @@ func _change_map(destination: String, spawn: Vector2) -> void:
  active_action = ""
  cover_time = 0.0
  sentry.stop_support()
+ _stop_healer()
  guide_time = 0.0
  clear_projectiles()
  _sync_state()
@@ -837,8 +852,7 @@ func _physics_process(delta: float) -> void:
  heal_cd = maxf(0.0, heal_cd - delta)
  supply_cd = maxf(0.0, supply_cd - delta)
  guide_cd = maxf(0.0, guide_cd - delta)
- cover_time = maxf(0.0, cover_time - delta)
- _tick_sentry()
+ _tick_support_device(delta)
  guide_time = maxf(0.0, guide_time - delta)
  if finished or defeated: return
  if use_fleet_demo:
@@ -846,6 +860,7 @@ func _physics_process(delta: float) -> void:
   if fleet_demo.locks_movement() and not fleet_demo.npc_task in ["breaker", "power"]:
    npc.velocity = Vector2.ZERO
    return
+  _tick_player_reload(delta)
  if map_id == "lab" and not flashlight_owned and not flashlight_dropped and player.position.distance_to($ToStorage.position) < 150:
   request_flashlight()
  if not use_fleet_demo:
@@ -854,8 +869,9 @@ func _physics_process(delta: float) -> void:
   if npc_combat_enabled and npc_hp > 0: _npc_fire()
   if npc_hp > 0: _npc_reload(delta)
  var spare_available := not containment.supply_used if map_id == "main_entry" else not cache_used or (locker.opened and not locker.supply_taken)
- if use_fleet_demo: spare_available = map_id == "research_lab_b" and not fleet_demo.lab_supply_used
- if is_combat_area() and enemies_remaining() > 0 and ammo <= 0 and (use_fleet_demo or npc_ammo + npc_reserve <= 0) and supply_packs <= 0 and not spare_available and cover_time <= 0.0:
+ if use_fleet_demo: spare_available = map_id == "research_lab_b" and (not fleet_demo.lab_supply_used or not fleet_demo.lab_ammo_used)
+ var reserve_available := magazines > 0 or reload_time > 0.0 if use_fleet_demo else npc_ammo + npc_reserve > 0 or cover_time > 0.0
+ if is_combat_area() and enemies_remaining() > 0 and ammo <= 0 and not reserve_available and supply_packs <= 0 and not spare_available:
   fail_mission("전투에 필요한 탄약과 보급을 모두 소진했습니다.")
   return
  if npc_hp <= 0:
@@ -966,18 +982,42 @@ func nearest_enemy_position() -> Vector2:
    var distance: float = player.position.distance_to(enemy.position)
    if distance < best and visibility_at(enemy.position) > 0.12:
     best = distance
-    nearest = enemy.position
+    nearest = enemy.aim_position()
  return nearest
 
 func shoot(target: Vector2) -> bool:
  if not target.is_finite(): return false
- if not is_combat_area() or finished or defeated or shoot_cd > 0.0 or ammo <= 0: return false
+ if not is_combat_area() or finished or defeated or shoot_cd > 0.0 or ammo <= 0 or reload_time > 0.0: return false
  if player.position.is_equal_approx(target): return false
  if not player.animation.request_shot(to_global(target), player.move_input()): return false
  shoot_cd = 0.28
  ammo -= 1
+ if use_fleet_demo and ammo == 0: request_reload()
  state_changed.emit()
  return true
+
+func request_reload() -> bool:
+ if not use_fleet_demo or finished or defeated or reload_time > 0.0 or ammo >= max_ammo or magazines <= 0: return false
+ reload_time = RELOAD_SECONDS
+ _event("player_reload_started", {"seconds": RELOAD_SECONDS})
+ state_changed.emit()
+ return true
+
+func _tick_player_reload(delta: float) -> void:
+ if reload_time <= 0.0:
+  if ammo <= 0 and is_combat_area(): request_reload()
+  return
+ reload_time = maxf(0.0, reload_time - delta)
+ if reload_time > 0.0: return
+ magazines -= 1
+ ammo = max_ammo
+ _event("player_reload_completed", {"ammo": ammo, "magazines": magazines})
+ state_changed.emit()
+
+func add_magazine_supply() -> int:
+ magazines += MAGAZINES_PER_SUPPLY
+ if ammo <= 0: request_reload()
+ return MAGAZINES_PER_SUPPLY
 
 func _actor_fired(origin: Vector2, target: Vector2, shooter: CollisionObject2D) -> void:
  _fire_projectile(origin, target, shooter, bullet_damage if shooter == player else npc_bullet_damage)
@@ -987,13 +1027,18 @@ func _fire_projectile(origin: Vector2, target: Vector2, shooter: CollisionObject
  if shooter == npc and npc_hp <= 0: return
  var base := shooter.global_position if shooter else origin
  var hit_mask := 7 if shooter else 6
+ if shooter == player: hit_mask |= 8
  if origin.distance_squared_to(base) > 0.01:
   # Resolve close targets and obstructions between the actor and its visible muzzle.
   var near_target := base.distance_squared_to(target) <= base.distance_squared_to(origin)
   var end := target if near_target else origin
   if not base.is_equal_approx(end):
-   var query := PhysicsRayQueryParameters2D.create(base, end, hit_mask, [shooter.get_rid()] if shooter else [])
+   var near_mask := hit_mask if near_target else hit_mask & ~8
+   var excluded: Array[RID] = []
+   if shooter: excluded.append(shooter.get_rid())
+   var query := PhysicsRayQueryParameters2D.create(base, end, near_mask, excluded)
    query.hit_from_inside = true
+   query.collide_with_areas = true
    var hit := get_world_2d().direct_space_state.intersect_ray(query)
    if not hit.is_empty():
     _hit_enemy(hit.collider, hit.position, damage)
@@ -1008,13 +1053,14 @@ func _fire_projectile(origin: Vector2, target: Vector2, shooter: CollisionObject
  $Projectiles.add_child(bullet)
 
 func _hit_enemy(collider: Object, contact: Vector2, damage: int) -> void:
+ if collider is Area2D: collider = collider.get_parent()
  if not finished and not defeated and collider is MissionDrone and collider in room_enemies():
   collider.take_damage(damage, contact)
 
 func take_damage(amount: int) -> void:
  if not is_combat_area() or defeated or finished: return
  player.animation.play_hit()
- var protected := inside_cover()
+ var protected := not use_fleet_demo and inside_cover()
  var actual := maxi(1, ceili(amount * (covered_damage_multiplier if protected else 1.0)))
  player_hp = maxi(0, player_hp - actual)
  if player_hp == 0:
@@ -1024,7 +1070,42 @@ func take_damage(amount: int) -> void:
  state_changed.emit()
 
 func inside_cover() -> bool:
- return cover_time > 0.0 and is_combat_area() and player.position.distance_to(safe_position) <= cover_radius
+ return cover_time > 0.0 and is_combat_area() and _player_in_support_radius()
+
+func _player_in_support_radius() -> bool:
+ var offset := player.position - safe_position
+ if use_fleet_demo: offset.y /= MikaHealer.RANGE_ASPECT
+ return offset.length_squared() <= cover_radius * cover_radius
+
+func _tick_support_device(delta: float) -> void:
+ var active_delta := minf(delta, cover_time)
+ cover_time = maxf(0.0, cover_time - delta)
+ if not use_fleet_demo or finished or defeated or not is_combat_area():
+  _stop_healer()
+  _tick_sentry()
+  return
+ if active_delta <= 0.0:
+  _stop_healer()
+  return
+ if not healer.visible:
+  healer.begin(safe_position, cover_radius, cover_duration - cover_time - active_delta)
+ var ready_delta := healer.tick(active_delta)
+ var healing := ready_delta > 0.0 and player_hp < max_hp and _player_in_support_radius()
+ if healing:
+  _healing_credit += ready_delta * MikaHealer.HP_PER_SECOND
+  var gain := mini(floori(_healing_credit + 0.000001), max_hp - player_hp)
+  if gain > 0:
+   _healing_credit = maxf(0.0, _healing_credit - gain)
+   player_hp += gain
+   state_changed.emit()
+ else:
+  _healing_credit = 0.0
+ healer.set_patient(player.position if healing and cover_time > 0.0 else Vector2.INF)
+ if cover_time <= 0.0: _stop_healer()
+
+func _stop_healer() -> void:
+ _healing_credit = 0.0
+ healer.stop()
 
 func valid_actions() -> Array:
  if use_fleet_demo and (fleet_demo.locks_movement() or not npc.visible): return []
@@ -1033,10 +1114,10 @@ func valid_actions() -> Array:
  if defeated or finished or not active_action.is_empty(): return result
  if is_combat_area() and current_panel().needs_assistance() and (map_id != "main_entry" or npc_motion.mode != "wait"): result.append("assist_panel")
  if player_hp < max_hp and medkits > 0 and heal_cd <= 0: result.append("heal")
- if ammo < max_ammo and supply_packs > 0 and supply_cd <= 0: result.append("resupply")
+ if (magazines == 0 if use_fleet_demo else ammo < max_ammo) and supply_packs > 0 and supply_cd <= 0: result.append("resupply")
  if is_combat_area() and enemies_remaining() > 0:
   if cover_charges > 0 and cover_time <= 0: result.append("deploy_cover")
-  if cover_time > 0 and not inside_cover() and guide_cd <= 0: result.append("guide_to_cover")
+  if cover_time > 0 and not inside_cover() and guide_cd <= 0 and (not use_fleet_demo or player_hp < max_hp): result.append("guide_to_cover")
  return result
 
 func request_support(action: String, metadata: Dictionary = {}) -> bool:
@@ -1063,7 +1144,7 @@ func request_support(action: String, metadata: Dictionary = {}) -> bool:
   var offset := safe_position - player.position
   var direction := ("오른쪽" if offset.x > 0 else "왼쪽") if absf(offset.x) > absf(offset.y) else ("아래쪽" if offset.y > 0 else "위쪽")
   var text := direction + "이야! 이리로 와!"
-  notice.emit("보호 장비 · " + direction + " 원 안으로 이동")
+  notice.emit(("치료 장비 · " if use_fleet_demo else "보호 장비 · ") + direction + " 범위 안으로 이동")
   say_companion(text)
   _event("support_completed", {"action": action, "callout": text, "target": [safe_position.x, safe_position.y], "request": metadata})
   return true
@@ -1083,7 +1164,7 @@ func request_player_order(action: String) -> Dictionary:
  elif action == "heal" and medkits <= 0: reason = "치료 키트가 다 떨어졌어."
  elif action == "resupply" and supply_packs <= 0: reason = "탄약 보급품이 다 떨어졌어."
  elif action == "heal" and player_hp >= max_hp: reason = "지금은 다친 데가 없어 보여."
- elif action == "resupply" and ammo >= max_ammo: reason = "지금은 탄약이 충분해."
+ elif action == "resupply" and (magazines > 0 if use_fleet_demo else ammo >= max_ammo): reason = "지금은 탄약이 충분해."
  elif action == "assist_panel" and not current_panel().needs_assistance(): reason = "먼저 한쪽 패널을 잡아 줘. 같이 유지해야 해."
  elif action not in ["follow", "wait"] and not active_action.is_empty(): reason = "지금 하던 지원을 마친 뒤에 할 수 있어."
  elif action not in valid_actions(): reason = "지금은 그 지원을 할 수 없어."
@@ -1101,14 +1182,14 @@ func request_player_order(action: String) -> Dictionary:
   "follow": text = "응, 네 뒤로 붙을게."
   "wait": text = "여기서 경계할게. 다시 따라오라고 하면 움직일게."
   "assist_panel": text = "반대편으로 갈게. 한쪽을 계속 잡아 줘."
-  "deploy_cover": text = "보호 장비 설치하러 갈게."
+  "deploy_cover": text = "치료 장비 설치하러 갈게." if use_fleet_demo else "보호 장비 설치하러 갈게."
  return {"accepted": accepted, "status": "started" if accepted else "rejected", "text": text if accepted else "지금은 그 지원을 할 수 없어."}
 
 func emergency_support() -> String:
  if npc_hp <= 0 or finished or defeated: return ""
  var action := ""
  if player_hp <= 30 and medkits > 0 and heal_cd <= 0: action = "heal"
- elif ammo == 0 and supply_packs > 0 and supply_cd <= 0: action = "resupply"
+ elif ammo == 0 and magazines == 0 and supply_packs > 0 and supply_cd <= 0: action = "resupply"
  if action.is_empty() or active_action == action or active_action in ["heal", "resupply"]: return ""
  if not active_action.is_empty():
   _event("support_rejected", {"action": active_action, "reason": "emergency_preempted", "request": action_metadata})
@@ -1137,21 +1218,30 @@ func _finish_support() -> void:
    text = "됐어. 움직일 수 있겠어?"
    notice.emit("치료 완료 · 체력 +%d" % effect)
   "resupply":
-   effect = mini(resupply_amount, max_ammo - ammo)
-   ammo += effect
+   if use_fleet_demo:
+    effect = add_magazine_supply()
+    notice.emit("보급 완료 · 예비 탄창 +%d" % effect)
+   else:
+    effect = mini(resupply_amount, max_ammo - ammo)
+    ammo += effect
+    notice.emit("보급 완료 · 탄약 +%d" % effect)
    supply_packs -= 1
    supply_cd = 8.0
    text = "탄약 여기 있어. 챙겨!"
-   notice.emit("보급 완료 · 탄약 +%d" % effect)
   "deploy_cover":
    cover_charges -= 1
    cover_time = cover_duration
-   sentry.position = safe_position
-   sentry.begin()
+   if use_fleet_demo:
+    _healing_credit = 0.0
+    healer.begin(safe_position, cover_radius)
+    notice.emit("치료 장비 설치 · 범위 안에서 초당 최대 5 회복")
+   else:
+    sentry.position = safe_position
+    sentry.begin()
+    notice.emit("보호 장비 설치 · 원 안에서 피해 %d%% 감소" % roundi((1.0 - covered_damage_multiplier) * 100.0))
    text = "이쪽이야. 내 옆으로 와!"
-   notice.emit("보호 장비 설치 · 원 안에서 피해 50% 감소")
  say_companion(text, 30, action + "_done")
- _remember({"heal": "미카가 플레이어를 치료하고 키트를 사용했다", "resupply": "미카가 플레이어에게 탄약을 보급했다", "deploy_cover": "미카가 보호 장비를 설치했다"}.get(action, text))
+ _remember({"heal": "미카가 플레이어를 치료하고 키트를 사용했다", "resupply": "미카가 플레이어에게 탄약을 보급했다", "deploy_cover": "미카가 치료 장비를 설치했다" if use_fleet_demo else "미카가 보호 장비를 설치했다"}.get(action, text))
  _event("support_completed", {"action": action, "effect": effect, "request": action_metadata})
  completed_support[action] = int(completed_support.get(action, 0)) + 1
  state_changed.emit()
@@ -1186,8 +1276,8 @@ func current_guidance() -> String:
 
 func game_state() -> Dictionary:
  return {"epoch": epoch, "map_id": map_id, "story": story.snapshot(), "objective": current_guidance(), "location": room_name(),
- "fuse_collected": fuse_collected, "fuse_in_inventory": fuse_collected and not (fleet_demo.inserted if use_fleet_demo else power_restored), "power_restored": power_restored, "escaped": finished, "defeated": defeated, "fleet_demo": use_fleet_demo,
- "player_hp": player_hp, "max_hp": max_hp, "ammo": ammo, "max_ammo": max_ammo, "enemy_count": enemies_remaining() if is_combat_area() else 0,
+ "fuse_collected": fuse_collected, "fuse_in_inventory": fuse_collected and not (fleet_demo.fuse_handed if use_fleet_demo else power_restored), "power_restored": power_restored, "escaped": finished, "defeated": defeated, "fleet_demo": use_fleet_demo,
+ "player_hp": player_hp, "max_hp": max_hp, "ammo": ammo, "max_ammo": max_ammo, "magazines": magazines, "reloading": reload_time > 0.0, "enemy_count": enemies_remaining() if is_combat_area() else 0,
  "npc_hp": npc_hp, "npc_max_hp": npc_max_hp, "npc_ammo": npc_ammo, "npc_max_ammo": npc_initial_ammo, "npc_reserve": npc_reserve, "npc_reload_time": npc_reload_time, "npc_downed": npc_hp <= 0,
  "medkits": medkits, "supply_packs": supply_packs, "cover_charges": cover_charges, "cover_active": cover_time > 0.0, "inside_cover": inside_cover(),
  "active_action": active_action, "current_guidance": current_guidance(), "relationship": "서로 믿는 친한 동료",
@@ -1220,8 +1310,9 @@ func _npc_fire() -> void:
  var closest := combat_target()
  if not closest or npc.position.distance_to(closest.position) > npc_fire_range: return
  if not clear_line(npc.position, closest.position): return
- npc.set_meta("visual_aim", closest.position)
- if not npc.animation.request_shot(closest.global_position, npc.velocity): return
+ var aim := closest.position
+ npc.set_meta("visual_aim", aim)
+ if not npc.animation.request_shot(to_global(aim), npc.velocity): return
  npc_shoot_cd = npc_fire_interval
  npc_ammo -= 1
  _event("npc_shot", {"ammo": npc_ammo, "target": closest.name})
@@ -1230,7 +1321,7 @@ func _npc_fire() -> void:
 func take_npc_damage(amount: int) -> void:
  if not npc_combat_enabled or npc_hp <= 0 or not is_combat_area() or defeated or finished: return
  npc.animation.play_hit()
- var protected := cover_time > 0.0 and npc.position.distance_to(safe_position) <= cover_radius
+ var protected := not use_fleet_demo and cover_time > 0.0 and npc.position.distance_to(safe_position) <= cover_radius
  var actual := maxi(1, ceili(amount * (covered_damage_multiplier if protected else 1.0)))
  npc_hp = maxi(0, npc_hp - actual)
  _event("npc_damage", {"damage": actual, "hp": npc_hp})
@@ -1255,6 +1346,7 @@ func fail_mission(reason: String) -> void:
  current_panel().cancel("mission_failed")
  clear_projectiles()
  sentry.stop_support()
+ _stop_healer()
  notice.emit(reason + " 새 회차로 재도전하세요.")
  _event("mission_failed", {"reason": reason})
  _sync_state()
@@ -1288,7 +1380,10 @@ func save_snapshot() -> Dictionary:
  var data := {"map_id": map_id, "player_position": [player.position.x, player.position.y], "npc_position": [npc.position.x, npc.position.y], "enemies": {}, "recent_events": recent_events.duplicate()}
  data["story"] = story.snapshot()
  data["containment"] = containment.snapshot()
- if use_fleet_demo: data["fleet_demo"] = fleet_demo.snapshot()
+ if use_fleet_demo:
+  data["fleet_demo"] = fleet_demo.snapshot()
+  data["magazines"] = magazines
+  data["reload_time"] = reload_time
  data.merge({"flashlight_owned": flashlight_owned, "flashlight_dropped": flashlight_dropped, "flashlight_position": [$FlashlightPickup.position.x, $FlashlightPickup.position.y], "facing": [player.facing_direction.x, player.facing_direction.y], "locker": locker.snapshot()})
  data.merge({"npc_reserve": npc_reserve, "npc_reload_time": npc_reload_time, "companion_mode": npc_motion.mode, "wait_position": [npc_motion.wait_position.x, npc_motion.wait_position.y] if npc_motion.mode == "wait" else [npc.position.x, npc.position.y]})
  data["completed_support"] = completed_support.duplicate()
@@ -1301,6 +1396,8 @@ func restore_snapshot(data: Dictionary) -> void:
  _cancel_transition()
  fleet_demo.clear_cues()
  use_fleet_demo = data.has("fleet_demo")
+ magazines = int(data.get("magazines", FLEET_START_MAGAZINES)) if use_fleet_demo else 0
+ reload_time = float(data.get("reload_time", 0.0)) if use_fleet_demo else 0.0
  epoch += 1
  active_action = ""
  action_metadata = {}
@@ -1309,6 +1406,7 @@ func restore_snapshot(data: Dictionary) -> void:
  for key in ["map_id", "fuse_collected", "power_restored", "finished", "defeated", "cache_used", "player_hp", "ammo", "medkits", "supply_packs", "cover_charges", "npc_hp", "npc_ammo", "cover_time", "guide_time", "heal_cd", "supply_cd", "guide_cd", "shoot_cd", "npc_shoot_cd"]: set(key, data[key])
  _sync_room_layout()
  sentry.stop_support()
+ _stop_healer()
  _tick_sentry()
  fleet_rooms.lab.play_door("n", "closed")
  action_metadata = {}

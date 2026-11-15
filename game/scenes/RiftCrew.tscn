@@ -7,6 +7,10 @@
 [sub_resource type="CircleShape2D" id="Body"]
 radius = 19.0
 
+[sub_resource type="CapsuleShape2D" id="ProjectileBody"]
+radius = 20.0
+height = 67.0
+
 [node name="RiftCrew" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 5
@@ -22,3 +26,13 @@ initial_clip = "move"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("Body")
+
+[node name="ProjectileBody" type="Area2D" parent="."]
+position = Vector2(0, -36)
+collision_layer = 8
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="Shape" type="CollisionShape2D" parent="ProjectileBody"]
+shape = SubResource("ProjectileBody")

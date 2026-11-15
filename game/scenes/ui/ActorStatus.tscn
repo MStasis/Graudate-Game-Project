@@ -1,10 +1,15 @@
 [gd_scene format=3]
 [ext_resource type="Script" path="res://scripts/actor_status.gd" id="1"]
 [ext_resource type="Texture2D" path="res://assets/ui/pulse_pistol.svg" id="2"]
+[ext_resource type="Texture2D" path="res://assets/fleet_demo/art/ammo_crate/pulse_magazine.png" id="3"]
 [sub_resource type="StyleBoxFlat" id="Bg"]
 bg_color = Color(0.02, 0.04, 0.05, 0.95)
 [sub_resource type="StyleBoxFlat" id="Fill"]
 bg_color = Color(0.45, 0.78, 0.7, 1)
+[sub_resource type="AtlasTexture" id="MagazineIcon"]
+atlas = ExtResource("3")
+region = Rect2(5, 4, 13, 17)
+filter_clip = true
 [node name="ActorStatus" type="Control"]
 offset_right = 120.0
 offset_bottom = 52.0
@@ -41,6 +46,30 @@ offset_top = 24.0
 offset_right = 120.0
 offset_bottom = 48.0
 theme_override_font_sizes/font_size = 15
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+mouse_filter = 2
+
+[node name="Magazine" type="TextureRect" parent="."]
+visible = false
+texture_filter = 1
+offset_left = 88.0
+offset_top = 27.0
+offset_right = 104.0
+offset_bottom = 46.0
+texture = SubResource("MagazineIcon")
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="Reserve" type="Label" parent="."]
+visible = false
+offset_left = 104.0
+offset_top = 25.0
+offset_right = 120.0
+offset_bottom = 48.0
+theme_override_font_sizes/font_size = 12
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1

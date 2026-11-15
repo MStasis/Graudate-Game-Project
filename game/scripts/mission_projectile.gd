@@ -14,6 +14,7 @@ func _physics_process(delta: float) -> void:
  var next := global_position + direction * speed * delta
  var query := PhysicsRayQueryParameters2D.create(global_position, next, hit_mask)
  query.hit_from_inside = true
+ query.collide_with_areas = true
  if is_instance_valid(shooter): query.exclude = [shooter.get_rid()]
  var hit := get_world_2d().direct_space_state.intersect_ray(query)
  if not hit.is_empty():

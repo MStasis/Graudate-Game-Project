@@ -75,6 +75,11 @@ func layout() -> void:
  $FullMapPanel/Close.position = Vector2($FullMapPanel.size.x - 230, 8)
  $FullMapPanel/Close.size = Vector2(214, 40)
 
+func keep_door_arrow_clear(bounds: Rect2) -> void:
+ var recent := $Recent as Control
+ var recent_bounds := recent.get_global_transform_with_canvas() * Rect2(Vector2.ZERO, recent.size)
+ recent.visible = not bounds.has_area() or not recent_bounds.intersects(bounds.grow(5))
+
 func modal_open() -> bool:
  return $HistoryPanel.visible or $FullMapPanel.visible
 
@@ -193,7 +198,7 @@ func speech_valid(entry: Dictionary) -> bool:
     if grounding.action in ["follow", "wait"]: return world.npc_motion.mode == grounding.action
     return world.active_action == grounding.action
    if grounding.get("topic", "unknown") in ["mission", "support"]:
-    return grounding.get("facts") == MikaDialogue.facts(world.game_state(), grounding.get("question", ""), grounding.topic)
+    return grounding.get("facts") == MikaDialogue.grounding_facts(world.game_state(), grounding.get("question", ""), grounding.topic)
    return not world.defeated and not world.finished
   "heal_started": return world.active_action == "heal"
   "resupply_started": return world.active_action == "resupply"
@@ -242,7 +247,9 @@ func update_view(delta: float) -> void:
   var point := screen_point(target)
   var bounds: Rect2 = app.play_rect()
   hud.visible = combat and target.visible and bounds.has_point(point)
-  if hud.actor_kind == "player": hud.show_state(app.world.player_hp, app.world.max_hp, app.world.ammo, app.world.max_ammo)
+  if hud.actor_kind == "player":
+   var world: DemoWorld = app.world
+   hud.show_state(world.player_hp, world.max_hp, world.ammo, world.max_ammo, world.magazines if world.use_fleet_demo else -1, world.reload_time > 0.0)
   elif hud.actor_kind == "npc": hud.show_state(app.world.npc_hp, app.world.npc_max_hp, app.world.npc_ammo, app.world.npc_initial_ammo)
   else:
    hud.show_state(target.hp, target.max_hp)

@@ -18,6 +18,7 @@
 [ext_resource type="Theme" path="res://resources/LabDialogueTheme.tres" id="17"]
 [ext_resource type="PackedScene" path="res://scenes/ui/CombatHUD.tscn" id="18"]
 [ext_resource type="PackedScene" path="res://scenes/ui/PauseMenu.tscn" id="19"]
+[ext_resource type="Texture2D" path="res://assets/fleet_demo/art/interact_key_e.png" id="20"]
 
 [sub_resource type="StyleBoxFlat" id="FleetSubtitle"]
 content_margin_left = 26.0
@@ -34,6 +35,17 @@ corner_radius_top_left = 13
 corner_radius_top_right = 13
 corner_radius_bottom_left = 13
 corner_radius_bottom_right = 13
+[sub_resource type="StyleBoxFlat" id="InteractionPrompt"]
+bg_color = Color(0.035, 0.067, 0.08, 0.97)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.34, 0.55, 0.55, 0.94)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 [node name="Main" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -83,6 +95,33 @@ theme_override_colors/font_color = Color(0.91, 0.95, 0.96, 1)
 theme_override_font_sizes/font_size = 22
 theme_override_styles/normal = SubResource("FleetSubtitle")
 horizontal_alignment = 1
+
+[node name="Interaction" type="PanelContainer" parent="FleetCues"]
+visible = false
+mouse_filter = 2
+theme_override_styles/panel = SubResource("InteractionPrompt")
+
+[node name="Row" type="HBoxContainer" parent="FleetCues/Interaction"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 5
+
+[node name="Key" type="Control" parent="FleetCues/Interaction/Row"]
+custom_minimum_size = Vector2(34, 34)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Sprite" type="Sprite2D" parent="FleetCues/Interaction/Row/Key"]
+texture_filter = 1
+position = Vector2(17, 17)
+texture = ExtResource("20")
+hframes = 4
+
+[node name="Action" type="Label" parent="FleetCues/Interaction/Row"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.91, 0.95, 0.92, 1)
+theme_override_font_sizes/font_size = 15
 
 [node name="PlayerReaction" type="Label" parent="FleetCues"]
 visible = false
