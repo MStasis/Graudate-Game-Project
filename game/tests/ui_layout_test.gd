@@ -73,8 +73,8 @@ func run() -> void:
  check("radio_background_does_not_fire_weapon", app.world.ammo == ammo)
  await click_at(app.combat_hud.minimap.get_global_rect().get_center())
  check("minimap_does_not_fire_weapon", app.world.ammo == ammo)
- await click_at(Vector2(500, 788))
- check("footer_does_not_fire_weapon", app.world.ammo == ammo)
+ await click_at(app.combat_hud.hud.get_node("Vitals").get_global_rect().get_center())
+ check("vitals_do_not_fire_weapon", app.world.ammo == ammo)
  await click_at(Vector2(650, 350))
  check("playfield_click_still_fires", app.world.ammo == ammo - 1)
  app.brain.pending = {"kind": "decision"}
@@ -102,8 +102,8 @@ func run() -> void:
  var out_of_bounds := []
  collect_layout(app, out_of_bounds)
  check("all_visible_ui_fits_reference_canvas", out_of_bounds.is_empty())
- var overlapping: bool = app.get_node("RadioPanel/Answer").get_global_rect().intersects(field.get_global_rect())
- check("dialogue_does_not_overlap_composer", not overlapping)
+ app.open_dialogue()
+ check("dialogue_does_not_overlap_composer", not app.combat_hud.hud.get_node("%Dialogue").visible and field.has_focus())
  check("send_button_keeps_native_ime_focus", app.send_button.focus_mode == Control.FOCUS_NONE)
  var result := {"suite": "ui_redesign", "passed": not checks.values().has(false), "check_count": checks.size(), "checks": checks, "out_of_bounds": out_of_bounds, "screen_automation_used": false, "actual_gpu_render_verified": false, "live_model_calls": 0}
  var directory := ProjectSettings.globalize_path("res://../evidence/ui_redesign")

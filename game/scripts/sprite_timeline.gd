@@ -63,7 +63,7 @@ func contains_ink(point: Vector2) -> bool:
 func show_frame(animation: String, direction: String, index: int) -> void:
  var motion: Dictionary = data.animations[animation]
  var cell := pixel(data.cell_px)
- var origin := pixel(motion.get("origin_cell", [0, motion.get("first_row", 0)]))
+ var origin := pixel(motion.get("origin_cell", [motion.get("start_column", 0), motion.get("first_row", 0)]))
  facing = direction
  frame_index = index
  region_rect = Rect2((origin + Vector2(index, data.direction_rows.find(direction))) * cell, cell)

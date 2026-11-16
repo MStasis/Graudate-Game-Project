@@ -8,13 +8,18 @@ var last_error := ""
 func path_for(slot: int) -> String:
  return directory.path_join("slot_%d.json" % slot)
 
-func has_slot(slot: int) -> bool:
+func has_slot(slot: int, fleet_only := false) -> bool:
  var path := path_for(slot)
- return FileAccess.file_exists(path) or FileAccess.file_exists(path + ".bak")
+ if not (FileAccess.file_exists(path) or FileAccess.file_exists(path + ".bak")): return false
+ return not fleet_only or not is_development_save(read_slot(slot))
 
-func slot_label(slot: int) -> String:
+func is_development_save(data: Dictionary) -> bool:
+ return data.get("world") is Dictionary and data.world.get("map_id") in ["lab", "storage", "quarters", "main_entry"] and not data.world.has("fleet_demo")
+
+func slot_label(slot: int, fleet_only := false) -> String:
  if not has_slot(slot): return "비어 있음"
  var data := read_slot(slot)
+ if is_development_save(data) and fleet_only: return "비어 있음"
  if not data.get("saved_at") is String or not data.get("world") is Dictionary:
   return "손상된 저장"
  var room: String = ExplorationMap.ROOM_NAMES.get(data.world.get("map_id"), "")
@@ -199,7 +204,12 @@ func validate(data: Dictionary, world: DemoWorld) -> bool:
 func _validate_fleet_save(data: Dictionary, world: DemoWorld, shared_config: Dictionary) -> bool:
  var config := shared_config.duplicate()
  config["fleet_demo"] = world.fleet_demo.configuration()
- if data.get("version") != VERSION or data.get("scenario") != JSON.stringify(config).sha256_text():
+ var compatible_hashes := [JSON.stringify(config).sha256_text()]
+ # Both previous Fleet layouts use the same wave IDs and can resume with a fresh attack cycle.
+ for rule in ["sentry_attack", "rift_sentry"]:
+  config.fleet_demo.erase(rule)
+  compatible_hashes.append(JSON.stringify(config).sha256_text())
+ if data.get("version") != VERSION or data.get("scenario") not in compatible_hashes:
   return fail("다른 버전이나 전투 규칙의 함선 저장입니다.")
  var state: Dictionary = data.world
  var map = state.get("map_id")

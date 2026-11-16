@@ -28,13 +28,13 @@ func run() -> void:
  await frames(5)
  Input.action_release("move_right")
  check("keyboard_moves_player", world.player.position.x > start.x + 4)
- app.question.grab_focus()
+ app.open_dialogue()
  var stopped := world.player.position
  Input.action_press("move_right")
  await frames(5)
  Input.action_release("move_right")
- check("typing_blocks_movement", world.player.position.distance_to(stopped) < 1)
- app.question.release_focus()
+ check("typing_blocks_movement", app.question.has_focus() and world.player.position.distance_to(stopped) < 1)
+ app.close_dialogue()
  world.flashlight_owned = true # Fixture: 기존 회귀의 전투/입력 조건. 지급 흐름은 mission_mechanics_test에서 별도 검증.
  world.apply_interaction("storage_gate")
  check("dark_room_and_return_gate", world.map_id == "storage" and world.get_node("Darkness").visible and world.get_node("ToLab").visible)
@@ -42,10 +42,10 @@ func run() -> void:
  check("fuse_requires_combat_clear", not world.fuse_collected and world.enemies_remaining() == 3)
  world.take_damage(20)
  check("combat_has_real_hp_damage", world.player_hp == 80)
- app.question.grab_focus()
+ app.open_dialogue()
  world.take_damage(4)
- check("typing_does_not_pause_combat", world.player_hp == 76)
- app.question.release_focus()
+ check("typing_does_not_pause_combat", app.question.has_focus() and world.player_hp == 76)
+ app.close_dialogue()
  world.player_hp = 40
  world.npc.position = world.player.position + Vector2(45, 0)
  var npc_before := world.npc.position

@@ -161,29 +161,43 @@ func play() -> void:
 	world.game_event.connect(func(event): events.append(event))
 	if not check("starts_in_dark_left_corridor", world.map_id == "corridor" and world.player.position == Fleet.START and not world.power_restored): return
 	if not check("radio_and_input_lock", await until(func(): return demo.voice_active, 150) and not world.can_move): return
+	var hud: CombatInterface = app.combat_hud
+	check("opening_radio_uses_single_bottom_caption", hud.hud.get_node("%Line").text == app._fleet_line and hud.hud.get_node("%Dialogue").visible and not app.dialogue_panel.visible and not hud.npc_bubble.visible)
 	await capture("01_radio")
-	app.combat_hud.toggle_history()
-	check("scripted_dialogue_cannot_open_history", not app.combat_hud.modal_open())
+	var radio_line := app._fleet_line
+	var radio_ammo := world.ammo
+	click(hud.hud.get_node("%Review").get_global_rect().get_center())
+	await frames(2)
+	check("review_button_opens_during_radio_without_advancing", hud.history.visible and paused and app._fleet_line == radio_line)
+	tap(KEY_SPACE)
+	click(Vector2(260, 420))
+	await frames(2)
+	check("review_consumes_radio_and_attack_input", hud.history.visible and app._fleet_line == radio_line and world.ammo == radio_ammo and not world.can_move)
+	await capture("01b_review")
+	tap(KEY_L)
+	check("l_closes_review_at_same_radio_line", not paused and not hud.modal_open() and app._fleet_line == radio_line and not world.can_move)
 	await frames(400)
 	check("radio_waits_for_input", app._fleet_line == Fleet.Lines.RADIO[0][1] and not world.can_move and not demo._door_arrow.visible)
 	key(KEY_SPACE, true, true)
 	check("held_space_does_not_advance", app._fleet_line == Fleet.Lines.RADIO[0][1])
 	tap(KEY_SPACE)
 	check("space_advances_one_line", app._fleet_line == Fleet.Lines.RADIO[1][1] and not world.can_move)
+	for index in range(2, Fleet.Lines.RADIO.size()):
+		tap(KEY_SPACE)
 	var ammo_at_radio := world.ammo
 	click(Vector2(350, 400))
 	await frames(2)
 	check("click_ends_radio_without_firing", not demo.voice_active and world.ammo == ammo_at_radio)
 	check("move_hint", demo.hint == Fleet.WALK_HINT and world.can_move)
 	check("first_door_has_animated_arrow", demo.objective_door() == "to_mika" and demo._door_arrow.visible and is_equal_approx(demo._door_arrow.position.x, 264))
-	check("recent_text_does_not_cover_first_door_arrow", not app.combat_hud.get_node("Recent").visible)
+	check("no_recent_dialogue_strip_over_first_door_arrow", not hud.has_node("Recent") and not hud.hud.get_node("%Dialogue").visible)
 	var arrow_frame := demo._door_arrow.frame
 	await frames(9)
 	check("door_arrow_advances_through_sheet", demo._door_arrow.frame != arrow_frame)
 	await capture("02_dark_corridor")
-	check("move_subtitle_has_no_chat_overlap", app.get_node("FleetCues/Subtitle").visible and not app.get_node("%TalkPrompt").visible)
+	check("move_hint_is_in_objective_without_chat_overlap", Fleet.WALK_HINT in hud.hud.get_node("%Objective").text and not app.get_node("%TalkPrompt").visible)
 	if not await enter_door("to_mika", ["mika_quarters"]): return
-	check("movement_hint_removes_on_entry", demo.hint.is_empty() and app.dialogue_panel.visible)
+	check("movement_hint_removes_on_entry", demo.hint.is_empty() and hud.hud.get_node("%Dialogue").visible and not app.dialogue_panel.visible)
 	await finish_lines()
 	check("objective_moves_to_supply_door", demo.objective_door() == "to_supply" and demo._door_arrow.visible)
 	if not await enter_door("to_supply", ["supply_room"]): return
@@ -202,7 +216,7 @@ func play() -> void:
 	if not await until(func(): return count_event("fleet_fuse_landed") == 1, 100): return
 	check("fuse_uses_breaker_sprite", world.fuse.object_texture == preload("res://resources/FuseWorkingTexture.tres"))
 	if not await move(world.fuse.position, 28): return
-	check("fuse_prompt_is_anchored", app.get_node("FleetCues/Interaction").visible and not app.get_node("FleetCues/Subtitle").visible
+	check("fuse_prompt_is_anchored", app.get_node("FleetCues/Interaction").visible and not hud.hud.get_node("%Dialogue").visible
 		and demo.nearest_interaction().anchor == world.fuse.position)
 	await capture("03_cabinet_fuse_landed")
 	if not await move(Vector2(201, 221)): return
@@ -246,19 +260,32 @@ func play() -> void:
 	await capture("05a_breaker_behind")
 	if not await move(Vector2(194, 188), 9): return
 	check("breaker_waits_for_handoff", count_event("fleet_breaker_open") == 0 and world.game_state().fuse_in_inventory)
-	if not await move(world.npc.position, 35): return
+	if not await move(Vector2(170, 265)): return
+	if not await move(Vector2(120, 333), 8): return
+	await until(func(): return demo.nearest_interaction().get("id", "") == "give_fuse", 120)
 	if not check("mika_has_fuse_handoff_prompt", demo.nearest_interaction().get("id", "") == "give_fuse"):
 		print("HANDOFF ", world.player.position.distance_to(world.npc.position), " · ", world.can_move, " · ", demo.step, " · ", world.npc_hp, " · ", demo.fuse_handed)
 		return
+	var blocked_terminal_position := world.player.position
 	tap(KEY_E)
 	check("mika_receives_fuse_by_interaction", count_event("fleet_fuse_handed") == 1 and not world.game_state().fuse_in_inventory)
+	await frames(12)
+	var repair_stand: Vector2 = demo.room().get_node("PlayerRepairStand").position
+	var walked := world.player.position.distance_to(blocked_terminal_position)
+	check("terminal_blocker_walks_at_cutscene_speed", walked > 6 and walked < 19 and not world.can_move)
+	await capture("04b_clear_terminal")
 	if not check("breaker_opens_after_one_press", await until(func(): return count_event("fleet_breaker_open") == 1, 450)): return
+	check("player_clears_terminal_before_mika_works", world.player.position.distance_to(repair_stand) <= 2.1)
 	if not check("empty_slot_then_inventory_consumption", await until(func(): return count_event("fleet_fuse_inserted") == 1, 220) and count_event("fleet_fuse_removed") == 1 and not world.game_state().fuse_in_inventory and not world.power_restored): return
 	await capture("05_inserted_at_breaker")
-	if not check("terminal_power_then_alarm", await until(func(): return demo.alarm_active(), 620) and count_event("fleet_terminal_operated") == 1 and count_event("power_restored") == 1): return
-	await capture("06_power_reaction")
-	if not await until(func(): return demo.voice_active, 150): return
+	if not check("terminal_power_then_line", await until(func(): return demo.voice_active, 620)
+		and world.power_restored and app._fleet_line == Fleet.Lines.BREAKER_FIXED[0][1]
+		and count_event("fleet_terminal_operated") == 1 and count_event("power_restored") == 1
+		and count_event("anomaly_alarm") == 0 and not app._fleet_reaction): return
 	await finish_lines()
+	if not check("alarm_begins_before_reaction", demo.alarm_active() and count_event("anomaly_alarm") == 1 and not app._fleet_reaction): return
+	if not check("reaction_follows_alarm", await until(func(): return app._fleet_reaction, 90)): return
+	await capture("06_power_reaction")
 	await until(func(): return world.can_move, 165)
 	if not await enter_door("to_corridor", ["corridor"]): return
 	await finish_lines()
@@ -270,12 +297,15 @@ func play() -> void:
 	var lights := demo.room()._warning_sprites as Array[AnimatedSprite2D]
 	var frame := lights[0].frame
 	check("corridor_light_animates", await until(func(): return lights[0].frame != frame, 52))
-	check("corridor_warning_repeats", await until(func(): return audio.played_events > warning_count, 155))
+	var warning_frames := ceili((audio.FLEET_SIREN.get_length() + 0.30) * 60.0) + 10
+	check("corridor_warning_repeats", await until(func(): return audio.played_events > warning_count, warning_frames))
 	check("corridor_uses_siren_asset", audio.voices.any(func(voice): return voice.stream == audio.FLEET_SIREN))
 	if not await move(Fleet.Room.pixel(demo.room().doors.to_lab.point_px), 29): return
 	check("lab_door_uses_animated_e_prompt", app.get_node("FleetCues/Interaction").visible and demo.nearest_interaction().name == "연구실 B동 들어가기")
 	await capture("07b_lab_door_prompt")
 	if not await enter_door("to_lab", ["research_lab_b"]): return
+	check("lab_entry_mutes_corridor_siren", demo.alarm_active() and is_zero_approx(audio._warning_left)
+		and not audio.voices.any(func(voice): return voice.stream == audio.FLEET_SIREN))
 	await finish_lines()
 	check("upper_core_closeup", await until(func(): return demo.camera_weight > 0.99, 120) and not world.can_move)
 	await capture("08_core_closeup")
@@ -293,6 +323,8 @@ func play() -> void:
 	var rounds_before := world.ammo
 	tap(KEY_E)
 	check("lab_ammo_crate_gives_two_magazines", demo.lab_ammo_used and world.magazines == magazines_before + 2 and world.ammo == rounds_before)
+	await frames(2)
+	check("hud_shows_loaded_rounds_and_reserve_magazines", hud.hud.get_node("%Rounds").text == "%02d" % world.ammo and hud.hud.get_node("%Magazines").text == str(world.magazines) and (hud.hud.get_node("%Reserve/Magazine").texture as AtlasTexture).region == Rect2(5, 4, 13, 17))
 	await frames(38)
 	check("lab_ammo_crate_opens_and_stays_open", lab._animations.lab_ammo_stock.frame == 4 and not lab._animations.lab_ammo_stock.is_playing())
 	await capture("09b_ammo_crate")
@@ -300,11 +332,28 @@ func play() -> void:
 	check("lab_ammo_crate_is_one_use", count_event("fleet_ammo_collected") == 1 and world.magazines == magazines_before + 2)
 	tap(KEY_R)
 	check("reload_waits_and_preserves_magazine_during_animation", world.reload_time > 0.0 and world.ammo == rounds_before and world.magazines == magazines_before + 2)
+	var reload_bar := world.player.get_node("ReloadProgress") as ProgressBar
+	check("reload_starts_rifle_foley_and_shows_bar", reload_bar.visible
+		and audio.voices.any(func(voice): return voice.stream == audio.RELOAD))
+	await frames(19)
+	check("reload_bar_advances_above_player", reload_bar.visible and reload_bar.value > 0.2 and reload_bar.value < 0.8 and reload_bar.position.y < -60)
+	await capture("09c_reload")
 	var reload_saved := app.save_slot(3)
 	var timer := world.reload_time
+	var previous_save := app.save_store.read_slot(3)
+	var previous_config := world.log_configuration()
+	previous_config.fleet_demo.erase("sentry_attack")
+	previous_save.scenario = JSON.stringify(previous_config).sha256_text()
+	check("bolt_only_sentry_save_still_loads", app.save_store.write_slot(3, previous_save) and app.load_slot(3))
+	previous_config.fleet_demo.erase("rift_sentry")
+	previous_save.scenario = JSON.stringify(previous_config).sha256_text()
+	check("previous_fleet_hash_fixture", app.save_store.write_slot(3, previous_save))
 	var reload_restored := app.load_slot(3)
 	check("reload_save_roundtrip", reload_saved and reload_restored and is_equal_approx(world.reload_time, timer) and world.magazines == magazines_before + 2 and demo.lab_ammo_used)
 	if not check("reload_finishes_and_consumes_one", await until(func(): return world.reload_time == 0.0, 90) and world.ammo == world.max_ammo and world.magazines == magazines_before + 1): return
+	await frames(2)
+	check("reload_bar_hides_when_ready", not reload_bar.visible)
+	check("hud_tracks_completed_reload", hud.hud.get_node("%Rounds").text == "%02d" % world.max_ammo and hud.hud.get_node("%Magazines").text == str(magazines_before + 1))
 	if not await move(Vector2(245, 625)): return
 	if not await move(lab.approach("normal_sector_crate"), 22): return
 	tap(KEY_E)
@@ -317,11 +366,15 @@ func play() -> void:
 	await finish_lines()
 	if not await move(Vector2(747, 536)): return
 	if not await move(Vector2(747, 626)): return
-	if not await move(lab.approach("eroded_stop") + Vector2(0, 28), 15): return
+	if not await move(lab.approach("eroded_stop") + Vector2(0, 28), 15, 420, true): return
 	check("wave_begins_at_lever", demo.step == Fleet.Step.WAVES and demo.wave == 1)
+	check("first_wave_line_with_visible_inactive_enemies", app._fleet_line == Fleet.Lines.WAVE_START[0][1]
+		and world.enemies_remaining() == 3
+		and world.room_enemies().all(func(enemy): return enemy.hp <= 0 or (enemy.visible and not enemy.active)))
 	tap(KEY_E)
 	check("lever_locked_during_waves", count_event("fleet_levers_pulled") == 0)
 	await capture("10_first_wave")
+	await finish_lines()
 	if not check("all_waves_killed_with_combat", await fight(Fleet.Step.WAVES, 2200)): return
 	var waves := events.filter(func(event): return event.event == "fleet_wave_started")
 	check("three_marker_waves", waves_match_markers() and waves.map(func(event): return event.wave) == [1, 2, 3] and waves.map(func(event): return event.count) == [3, 4, 5])
@@ -349,13 +402,16 @@ func play() -> void:
 	await capture("11_lever_signal")
 	tap(KEY_E)
 	check("fresh_e_pulls_both_levers", count_event("fleet_levers_pulled") == 1)
+	check("lever_objects_show_lowered_frames", (lab.get_node("Objects/normal_stop/Sprite") as Sprite2D).texture == lab.LEVER_LOWERED.normal_stop
+		and (lab.get_node("Objects/eroded_stop/Sprite") as Sprite2D).texture == lab.LEVER_LOWERED.eroded_stop)
+	await capture("11b_lowered_levers")
 	if not check("ending_on_corridor_side", await until(func(): return world.map_id == "corridor" and demo.voice_active, 250)
 		and world.player.position.distance_to(Fleet.Room.pixel(demo.room().doors.to_lab.arrival_px)) < 2): return
 	await capture("12_ending")
-	for i in 4:
+	for i in range(1, Fleet.Lines.ENDING.size()):
 		tap(KEY_SPACE)
 		await frames(2)
-	check("last_line_renders_before_result", app.answer.text == Fleet.Lines.ENDING[-1][1] and not app.result_screen.visible)
+	check("last_line_renders_before_result", hud.hud.get_node("%Dialogue").visible and hud.hud.get_node("%Line").text == Fleet.Lines.ENDING[-1][1] and not app.result_screen.visible)
 	await capture("12b_last_line")
 	await finish_lines()
 	await frames(6)
@@ -365,6 +421,7 @@ func play() -> void:
 	await frames(4)
 	check("result_returns_to_title", current_scene.get_node("Menu").visible and not current_scene.has_node("Main"))
 	await test_healer()
+	await test_sentry_and_dash()
 
 func test_healer() -> void:
 	current_scene.get_node("%NewGame").pressed.emit()
@@ -417,3 +474,102 @@ func test_healer() -> void:
 	check("healer_resume_caps_health", world.player_hp == world.max_hp and world.healer.visible)
 	world._tick_support_device(world.cover_time)
 	check("healer_expires", not world.healer.visible and world.cover_time == 0.0)
+
+func test_sentry_and_dash() -> void:
+	var sentry := demo.unit_pool.filter(func(enemy): return enemy.name == Fleet.SENTRY_SPAWN)[0] as Fleet.Sentry
+	var starting_position := Vector2(648, 568)
+	world._change_map("research_lab_b", starting_position)
+	demo.step = Fleet.Step.WAVES
+	demo.wave = 2
+	demo.hint = ""
+	world.power_restored = true
+	sentry.reset_enemy()
+	sentry.attack_wait = 0.0
+	world.player_hp = world.max_hp
+	world._sync_state()
+	world.game_event.connect(func(event): events.append(event))
+	var audio := world.get_node("MissionAudio")
+	var charges := count_event("fleet_sentry_charged")
+	var fires := count_event("fleet_sentry_fired")
+	var beams := count_event("fleet_sentry_laser_fired")
+	if not check("sentry_winds_up_before_fire", await until(func(): return count_event("fleet_sentry_charged") == charges + 1, 30)
+		and count_event("fleet_sentry_fired") == fires): return
+	world.player.position = starting_position + Vector2(0, 66)
+	if not check("sentry_fires_after_aim_changes", await until(func(): return count_event("fleet_sentry_fired") == fires + 1, 40)): return
+	var bolt := world.get_node("Projectiles").get_child(0) as MissionProjectile
+	var expected_direction := sentry.position.direction_to(world.player.position)
+	check("bolt_uses_latest_aim_and_supplied_sprite", bolt.shooter == sentry and bolt.get_child(0) is AnimatedSprite2D
+		and bolt.direction.is_equal_approx(expected_direction))
+	check("sentry_bolt_routes_heavy_sound", audio.voices.any(func(voice): return voice.stream == audio.SENTRY_BOLT))
+	world.player.position += expected_direction * 100.0
+	if not check("retreating_along_bolt_line_still_takes_damage", await until(func(): return world.player_hp < world.max_hp, 45)
+		and world.player_hp == world.max_hp - sentry.contact_damage): return
+	var hp := world.player_hp
+	var ammo := world.ammo
+	world.player.position = starting_position
+	sentry.attack_wait = 0.0
+	if not check("sentry_fires_second_bolt_before_laser", await until(func(): return count_event("fleet_sentry_fired") == fires + 2, 110)
+		and count_event("fleet_sentry_laser_fired") == beams): return
+	Input.action_press("move_up")
+	tap(KEY_SPACE)
+	Input.action_release("move_up")
+	check("space_starts_dash_without_firing", world.player.dash_remaining > 0.0 and world.ammo == ammo)
+	var dash_voices: Array = audio.voices.filter(func(voice): return voice.stream == audio.DASH)
+	check("dash_sound_matches_invulnerability_duration", dash_voices.size() == 1
+		and is_equal_approx(audio.DASH.get_length() / dash_voices[0].pitch_scale, world.player.DASH_DURATION))
+	tap(KEY_SPACE)
+	check("dash_cooldown_blocks_repeat", count_event("fleet_dash_started") == 1)
+	await frames(8)
+	check("dash_leaves_sprite_afterimages", get_nodes_in_group("dash_afterimage").size() > 2)
+	await capture("16_dash_afterimages")
+	await frames(45)
+	check("dash_moves_out_of_sentry_lane", world.player.position.y < starting_position.y - 100 and world.player_hp == hp)
+	check("afterimages_expire", get_nodes_in_group("dash_afterimage").is_empty())
+	check("dash_sound_ends_with_invulnerability", world.player.dash_remaining == 0.0
+		and not audio.voices.any(func(voice): return voice.stream == audio.DASH))
+	if not check("two_bolts_are_followed_by_laser_charge", count_event("fleet_sentry_laser_charged") > 0
+		and sentry._laser_left > 0.0 and sentry.bolts_fired == sentry.BOLTS_PER_LASER): return
+	var cycle: Dictionary = demo.snapshot()
+	check("pending_laser_is_preserved_in_save", cycle.enemies[Fleet.SENTRY_SPAWN].bolts_fired == sentry.BOLTS_PER_LASER)
+	if not check("laser_warnings_finish_before_beam", await until(func(): return sentry._laser_left > 0.0 and sentry._laser_left < 0.14, 60)): return
+	await capture("17_sentry_laser_warning")
+	if not check("laser_damages_once_along_the_warning", await until(func(): return count_event("fleet_sentry_laser_fired") == beams + 1, 15)
+		and world.player_hp == hp - sentry.LASER_DAMAGE): return
+	check("laser_routes_own_heavy_sound", audio.voices.any(func(voice): return voice.stream == audio.SENTRY_LASER))
+	await capture("18_sentry_laser_beam")
+	await frames(20)
+	check("laser_flash_does_not_repeat_damage", world.player_hp == hp - sentry.LASER_DAMAGE and sentry.bolts_fired == 0)
+	demo.restore(cycle)
+	world._sync_state()
+	check("laser_cycle_resumes_after_restore", sentry.bolts_fired == sentry.BOLTS_PER_LASER)
+	world.player.position = starting_position
+	sentry.attack_wait = 0.0
+	if not check("next_laser_warns_before_dash", await until(func(): return sentry._laser_left > 0.0 and sentry._laser_left < 0.11, 90)): return
+	var evades := count_event("fleet_damage_evaded")
+	hp = world.player_hp
+	Input.action_press("move_left")
+	tap(KEY_SPACE)
+	Input.action_release("move_left")
+	check("dash_invulnerability_can_cross_firing_laser", await until(func(): return count_event("fleet_sentry_laser_fired") == beams + 2, 16)
+		and count_event("fleet_damage_evaded") == evades + 1 and world.player_hp == hp)
+	await frames(25)
+	world.player.position = starting_position
+	sentry.bolts_fired = sentry.BOLTS_PER_LASER
+	sentry.attack_wait = 0.0
+	if not check("laser_locks_a_lane_before_firing", await until(func(): return sentry._laser_left > 0.0 and sentry._laser_left < 0.42, 80)): return
+	var locked_end: Vector2 = sentry._laser_end
+	world.player.position = Vector2(735, 568)
+	check("laser_warning_stops_at_solid_lever", locked_end.length() < sentry.position.distance_to(world.player.position))
+	check("laser_does_not_damage_through_cover", await until(func(): return count_event("fleet_sentry_laser_fired") == beams + 3, 36)
+		and world.player_hp == hp and locked_end.is_equal_approx(sentry._laser_end)
+		and count_event("fleet_damage_evaded") == evades + 1)
+	await frames(25)
+	world.player.position = starting_position
+	world.player_hp = 1
+	sentry.bolts_fired = sentry.BOLTS_PER_LASER
+	sentry.attack_wait = 0.0
+	check("lethal_laser_still_renders_its_flash", await until(func(): return world.defeated, 75)
+		and sentry._beam_left > 0.0 and not sentry.active)
+	await frames(25)
+	check("lethal_laser_ends_without_a_followup_attack", sentry._beam_left == 0.0
+		and count_event("fleet_sentry_laser_fired") == beams + 4)

@@ -59,6 +59,9 @@ y_sort_enabled = true
 [node name="Foreground" type="Node2D" parent="."]
 z_index = 1
 
+[node name="PlayerRepairStand" type="Marker2D" parent="."]
+position = Vector2(180, 352)
+
 [node name="Collision" type="Node2D" parent="."]
 
 [node name="Tile_0_0" type="Sprite2D" parent="Floor"]

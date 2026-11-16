@@ -13,6 +13,7 @@ signal title_requested
 @onready var pause_menu: MissionPauseMenu = $PauseMenu
 var save_store := MissionSaveStore.new()
 var world_starts_fleet_demo := false
+var fleet_saves_only := false
 var _fleet_speaker := ""
 var _fleet_line := ""
 var _fleet_reaction := false
@@ -26,7 +27,7 @@ var evidence_mode := false
 var _health_tween: Tween
 var _last_submitted_question := ""
 var _radio_error := false
-var _lab_dialogue_open := true
+var _lab_dialogue_open := false
 var _combat_chat_open := false
 var result_screen: Control
 var _ending_elapsed := -1.0
@@ -104,7 +105,8 @@ func _ready() -> void:
   var guard := "answer"
   if grounding.get("action_accepted", false) and grounding.get("action", "") in ["heal", "resupply", "deploy_cover", "assist_panel"]:
    guard = str(grounding.action) + "_started"
-  _companion_says(text, 60, guard)
+  if dialogue_panel.visible and not question.editable: close_dialogue()
+  _companion_says(text, 60, guard, true)
   _enable_question())
  brain.dialogue_error.connect(func(message):
   _radio_error = true
@@ -132,7 +134,6 @@ func _ready() -> void:
  for label_name in ["RoomTitle", "GoalText", "ControlsHint"]:
   world.get_node(label_name).hide()
  world.use_fleet_demo = world_starts_fleet_demo
- if world.use_fleet_demo: _lab_dialogue_open = false
  brain.setup(world, log_dir)
  %Provider.select(brain.provider)
  %Provider.item_selected.connect(func(index): reset_demo(index))
@@ -171,7 +172,6 @@ func update_state() -> void:
  if world.defeated: %MissionStep.text = "임무 중단"
  var provider_names := ["규칙 기반", "로컬 LLM", "Jev"]
  %ProviderBadge.text = "판단 방식 · " + provider_names[brain.provider]
- %LabModeBadge.text = provider_names[brain.provider] + " · F3 실험 설정"
  _sync_dialogue_presentation()
 
 func interact(kind: String) -> void:
@@ -185,8 +185,8 @@ func interact(kind: String) -> void:
  var message := world.apply_interaction(kind, true)
  if not message.is_empty(): _show_status(message)
 
-func _companion_says(message: String, priority := 60, guard := "") -> void:
- combat_hud.speak("미카", message, priority, guard)
+func _companion_says(message: String, priority := 60, guard := "", caption := false) -> void:
+ combat_hud.speak("미카", message, priority, guard, caption)
 
 func reset_demo(mode: int = -1) -> void:
  _ending_elapsed = -1
@@ -197,7 +197,7 @@ func reset_demo(mode: int = -1) -> void:
  _chat_sent = false
  question.finish_editing()
  question.text = ""
- _lab_dialogue_open = not world.use_fleet_demo
+ _lab_dialogue_open = false
  _combat_chat_open = false
  brain.new_trial(mode)
  %Provider.select(brain.provider)
@@ -213,7 +213,7 @@ func ask_npc() -> void:
  question.request_submit()
 
 func _send_question(message: String) -> void:
- if pause_menu.visible or world.finished or world.defeated: return
+ if pause_menu.visible or combat_hud.modal_open() or world.finished or world.defeated: return
  combat_hud.speak("플레이어", message)
  _chat_idle = 0
  _chat_sent = true
@@ -245,6 +245,7 @@ func _update_radio_state(label_text: String, color: Color) -> void:
  %RadioState.modulate = color
 
 func _sync_input_mode() -> void:
+ if not is_inside_tree() or is_queued_for_deletion(): return
  world.can_move = not world.finished and not world.defeated and not question.has_focus() and not %DebugPanel.visible and not pause_menu.visible and not combat_hud.modal_open()
  if question.has_focus():
   _chat_idle = 0
@@ -280,36 +281,20 @@ func _show_fleet_line(speaker: String, body: String) -> void:
 func _sync_dialogue_presentation() -> void:
  var lab := is_noncombat()
  var scripted := not _fleet_line.is_empty()
- if dialogue_panel.noncombat_mode != (lab or scripted):
+ if dialogue_panel.noncombat_mode != lab:
   question.finish_editing()
   _combat_chat_open = false
-  dialogue_panel.set_noncombat(lab or scripted)
- dialogue_panel.set_scripted(scripted)
+  _lab_dialogue_open = false
+  dialogue_panel.set_noncombat(lab)
  for path in ["Header", "Frame", "MissionBar", "NoticeStrip", "Footer"]:
   get_node(path).visible = false
- $Footer.visible = not lab
- $Footer/ControlHints.text = "WASD 이동    E 상호작용    클릭 / Space 사격    R 재장전    Enter 채팅    Esc 메뉴" if world.use_fleet_demo else "WASD 이동    E 상호작용    클릭 / Space 사격    Enter 채팅    Esc 메뉴    F3 실험 설정"
- %LabObjective.visible = lab
- %LabModeBadge.visible = lab
- dialogue_panel.visible = scripted or (not (world.use_fleet_demo and world.fleet_demo.locks_movement()) and (_lab_dialogue_open if lab else _combat_chat_open))
- %TalkPrompt.visible = lab and not _lab_dialogue_open and not scripted and not (world.use_fleet_demo and world.fleet_demo.locks_movement())
+ var available := not world.finished and not world.defeated and not pause_menu.visible and not combat_hud.modal_open() and not scripted and not (world.use_fleet_demo and world.fleet_demo.locks_movement())
+ dialogue_panel.visible = available and (_lab_dialogue_open if lab else _combat_chat_open)
  var short_name := world.npc.display_name.trim_prefix("정비사 ")
- $RadioPanel/CompanionName.text = _fleet_speaker if scripted else short_name
- if scripted:
-  answer.text = _fleet_line
-  $RadioPanel/LabPortrait.visible = world.fleet_demo.show_mika_portrait
  %TalkPrompt.text = "Enter를 눌러 %s에게 말하기" % short_name
  world.npc.get_node("NameLabel").visible = false
- var goal := "비품실에서 퓨즈 찾기"
- if world.map_id == "storage": goal = "퓨즈를 챙겨 연구실로 복귀"
- if world.fuse_collected: goal = "전력 장치에 퓨즈 장착"
- if world.power_restored: goal = "침식 경보 · 연구동으로 출발"
- if world.map_id == "main_entry": goal = world.containment.guidance()
- if world.finished: goal = "연구동 외곽 구역 봉쇄 성공"
- if world.defeated: goal = "전투 불능 · 새 회차 필요"
- if world.use_fleet_demo: goal = world.current_guidance()
- %LabObjectiveText.text = goal
- %LabObjective.tooltip_text = world.current_guidance()
+ combat_hud.refresh_caption()
+ _update_talk_prompt()
  _sync_input_mode()
  _update_world_view()
  _update_speaker_bubble()
@@ -325,6 +310,7 @@ func open_dialogue() -> void:
   _combat_chat_open = true
   dialogue_panel.show()
  if question.editable: question.grab_focus()
+ combat_hud.refresh_caption()
  _sync_input_mode()
 
 func close_dialogue() -> void:
@@ -332,7 +318,8 @@ func close_dialogue() -> void:
  if is_noncombat(): _lab_dialogue_open = false
  else: _combat_chat_open = false
  dialogue_panel.hide()
- %TalkPrompt.visible = is_noncombat()
+ combat_hud.refresh_caption()
+ _update_talk_prompt()
  _sync_input_mode()
 
 func _process(delta: float) -> void:
@@ -343,18 +330,18 @@ func _process(delta: float) -> void:
    result_screen.show()
    result_screen.get_node("Center/Card/Margin/Content/Buttons/Restart").grab_focus()
  _update_world_view()
- _update_speaker_bubble()
  combat_hud.update_view(delta)
+ _update_speaker_bubble()
  $FleetCues.visible = world.use_fleet_demo
- var door_arrow_bounds := Rect2()
  if world.use_fleet_demo:
   _update_fleet_cues(delta)
-  door_arrow_bounds = world.fleet_demo.update_objective_arrow(delta, not combat_hud.modal_open())
- combat_hud.keep_door_arrow_clear(door_arrow_bounds)
+  world.fleet_demo.update_objective_arrow(delta, not combat_hud.modal_open())
+ else:
+  _update_talk_prompt()
  dialogue_panel.modulate.a = 1
 
 func play_rect() -> Rect2:
- return Rect2(0, 0, size.x, size.y - (240 if dialogue_panel.noncombat_mode and dialogue_panel.visible else 40))
+ return Rect2(0, 0, size.x, size.y - 40)
 
 func _update_world_view() -> void:
  # CanvasLayer만 변환하므로 캐릭터의 속도·충돌 형태·게임 좌표는 바뀌지 않는다.
@@ -384,7 +371,7 @@ func _update_speaker_bubble() -> void:
  var origin := Vector2(art_bounds.get_center().x - bubble.size.x * 0.5, art_bounds.position.y - bubble.size.y - 8.0)
  var nearby := world.player.position.distance_to(world.npc.position) <= world.player.interaction_distance
  var onscreen := play_rect().encloses(Rect2(origin, bubble.size))
- bubble.visible = world.npc.visible and is_noncombat() and onscreen and not combat_hud.npc_bubble.visible and not world.finished and not world.defeated and (_lab_dialogue_open or nearby) and not (world.use_fleet_demo and world.fleet_demo.locks_movement())
+ bubble.visible = world.npc.visible and is_noncombat() and onscreen and not combat_hud.npc_bubble.visible and not combat_hud.hud.get_node("%Dialogue").visible and not combat_hud.modal_open() and not world.finished and not world.defeated and (_lab_dialogue_open or nearby) and not (world.use_fleet_demo and world.fleet_demo.locks_movement())
  bubble.position = origin
  bubble.tooltip_text = "답변을 기다리는 중" if not question.editable else "미카와 대화 가능"
 
@@ -392,7 +379,7 @@ func prepare_question(text: String) -> void:
  if not question.editable or question.is_composing(): return
  if not question.text.strip_edges().is_empty() and question.text != _last_submitted_question:
   _show_status("작성 중인 대화를 먼저 전송하거나 지워 주세요.")
-  question.grab_focus()
+  open_dialogue()
   return
  question.text = text
  question.set_caret_line(0)
@@ -414,7 +401,7 @@ func _measured(record: Dictionary) -> void:
 func _input(event: InputEvent) -> void:
  if not is_node_ready(): return
  if event is InputEventMouseButton:
-  if event.button_index == MOUSE_BUTTON_LEFT and event.pressed and _can_advance_fleet_dialogue():
+  if event.button_index == MOUSE_BUTTON_LEFT and event.pressed and _can_advance_fleet_dialogue() and not combat_hud.hud.review_button_contains(event.position):
    get_viewport().set_input_as_handled()
    world.fleet_demo.advance_dialogue()
   return
@@ -424,6 +411,17 @@ func _input(event: InputEvent) -> void:
   return
  if world.finished: return
  var code: int = event.keycode if event.keycode != 0 else event.physical_keycode
+ if code == KEY_L and not question.has_focus() and not question.is_composing() and not pause_menu.visible and not %DebugPanel.visible:
+  combat_hud.toggle_history()
+  get_viewport().set_input_as_handled()
+  return
+ if combat_hud.history.visible:
+  if code == KEY_ESCAPE:
+   combat_hud.close_modal()
+   get_viewport().set_input_as_handled()
+  elif code == KEY_M or event.is_action_pressed("attack") or event.is_action_pressed("interact"):
+   get_viewport().set_input_as_handled()
+  return
  if world.use_fleet_demo and not pause_menu.visible and world.fleet_demo.locks_movement():
   if code == KEY_SPACE and _can_advance_fleet_dialogue():
    get_viewport().set_input_as_handled()
@@ -438,19 +436,16 @@ func _input(event: InputEvent) -> void:
  if combat_hud.modal_open():
   if code == KEY_ESCAPE: combat_hud.close_modal()
   elif code == KEY_M: combat_hud.toggle_map()
-  elif code == KEY_H: combat_hud.toggle_history()
   get_viewport().set_input_as_handled()
- elif code in [KEY_M, KEY_H] and not question.has_focus() and not question.is_composing() and not pause_menu.visible and not %DebugPanel.visible:
-  question.finish_editing()
-  if code == KEY_M: combat_hud.toggle_map()
-  else: combat_hud.toggle_history()
+ elif code == KEY_M and not question.has_focus() and not question.is_composing() and not pause_menu.visible and not %DebugPanel.visible:
+  combat_hud.toggle_map()
   get_viewport().set_input_as_handled()
 
 func _can_advance_fleet_dialogue() -> bool:
- return world.use_fleet_demo and world.fleet_demo.voice_active and not world.transition_active() and not world.finished and not world.defeated and not get_tree().paused
+ return world.use_fleet_demo and world.fleet_demo.voice_active and not world.transition_active() and not world.finished and not world.defeated and not combat_hud.modal_open() and not get_tree().paused
 
 func _unhandled_key_input(event: InputEvent) -> void:
- if world.finished: return
+ if world.finished or combat_hud.history.visible: return
  if not event is InputEventKey or not event.pressed or event.echo: return
  var code: int = event.keycode if event.keycode != 0 else event.physical_keycode
  if code == KEY_F3:
@@ -462,9 +457,10 @@ func _unhandled_key_input(event: InputEvent) -> void:
   get_viewport().set_input_as_handled()
   return
  if code == KEY_ESCAPE:
+  get_viewport().set_input_as_handled()
+  if pause_menu.visible and pause_menu.close_settings(): return
   if dialogue_panel.visible: close_dialogue()
   else: toggle_pause()
-  get_viewport().set_input_as_handled()
   return
  if question.has_focus() or question.is_composing(): return
  match code:
@@ -476,15 +472,16 @@ func _unhandled_key_input(event: InputEvent) -> void:
 func toggle_pause() -> void:
  if world.finished: return
  if pause_menu.visible:
+  pause_menu.close_settings()
   pause_menu.hide()
   get_tree().paused = false
  else:
   question.finish_editing()
   %DebugPanel.hide()
-  combat_hud.get_node("HistoryPanel").hide()
-  pause_menu.open_menu(not world.defeated and not world.finished and (not world.use_fleet_demo or world.fleet_demo.can_save()))
+  combat_hud.close_modal()
+  pause_menu.open_menu(not world.defeated and not world.finished and (not world.use_fleet_demo or world.fleet_demo.can_save()), fleet_saves_only or world.use_fleet_demo)
   get_tree().paused = true
- _sync_input_mode()
+ _sync_dialogue_presentation()
 
 func save_slot(slot: int) -> bool:
  if world.transition_active(): return false
@@ -505,9 +502,14 @@ func save_slot(slot: int) -> bool:
 func load_slot(slot: int) -> bool:
  if world.finished: return false
  var data := save_store.read_slot(slot)
+ if (fleet_saves_only or world.use_fleet_demo) and save_store.is_development_save(data):
+  save_store.fail("이전 개발 맵의 저장입니다. 함선 데모의 저장을 선택하세요.")
+  pause_menu.show_result(save_store.last_error)
+  return false
  if data.is_empty() or not save_store.validate(data, world):
   pause_menu.show_result(save_store.last_error)
   return false
+ combat_hud.close_modal()
  # 이전 요청·질문·탄환·화면 발화를 버린 뒤 새 epoch의 상태를 복원한다.
  brain.cancel_pending("save_loaded")
  brain.queued_question = ""
@@ -517,7 +519,7 @@ func load_slot(slot: int) -> bool:
  brain.history.assign(data.history)
  _combat_chat_open = false
  world.restore_snapshot(data.world)
- _lab_dialogue_open = not world.use_fleet_demo
+ _lab_dialogue_open = false
  combat_hud.clear_speech()
  combat_hud.transcript.clear()
  combat_hud.restore_journal(data.get("journal", []))
@@ -565,18 +567,16 @@ func _begin_ending() -> void:
  _ending_elapsed = ENDING_SECONDS if world.use_fleet_demo else 0.0
  _sync_input_mode()
 
+func _update_talk_prompt(suppressed := false) -> void:
+ %TalkPrompt.visible = not suppressed and is_noncombat() and world.npc.visible and not dialogue_panel.visible and not combat_hud.hud.get_node("%Dialogue").visible and not combat_hud.modal_open() and not world.finished and not world.defeated and (not world.use_fleet_demo or not world.fleet_demo.locks_movement())
+
 func _update_fleet_cues(delta: float) -> void:
  var cues := $FleetCues
  var demo := world.fleet_demo
- var can_show := not world.defeated and not world.finished and not dialogue_panel.visible and not combat_hud.modal_open() and not world.transition_active()
+ var can_show := not world.defeated and not world.finished and not dialogue_panel.visible and _fleet_line.is_empty() and not combat_hud.modal_open() and not world.transition_active()
  var item := demo.nearest_interaction() if can_show else {}
- var text: String = demo.hint
- cues.get_node("Subtitle/Text").text = text
- var shown := not text.is_empty() and can_show
- cues.get_node("Subtitle").visible = shown
  _show_interaction_prompt(item, delta)
- if shown or not item.is_empty() or not world.npc.visible: %TalkPrompt.hide()
- elif is_noncombat() and not dialogue_panel.visible and not demo.locks_movement(): %TalkPrompt.show()
+ _update_talk_prompt(not demo.hint.is_empty() or not item.is_empty())
  for pair in [["PlayerReaction", world.player], ["MikaReaction", world.npc]]:
   var marker := cues.get_node(pair[0]) as Label
   marker.visible = _fleet_reaction

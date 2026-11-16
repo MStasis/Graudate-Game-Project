@@ -70,9 +70,9 @@ func run() -> void:
  await frames()
  check("combat_uses_wide_camera", app._camera_zoom == 1)
  check("combat_keeps_single_native_composer", field.get_instance_id() == field_id and field.get_signal_connection_list("text_submitted").size() == 1)
- check("large_dialogue_hidden_in_combat", not app.answer.visible and not app.get_node("RadioPanel/LabPortrait").visible and app.dialogue_panel.size.y == 56)
- check("top_left_exploration_map", hud.minimap.visible and hud.minimap.position == Vector2(20, 20))
- check("actor_huds_exist_for_all_targets", hud.statuses.size() == 2 + world.all_enemies().size())
+ check("compact_composer_in_combat", not app.answer.visible and not app.get_node("RadioPanel/LabPortrait").visible and app.dialogue_panel.size.y == 64)
+ check("top_left_exploration_map", hud.minimap.visible and hud.minimap.global_position == Vector2(22, 22))
+ check("companion_and_enemy_statuses_preserved", hud.statuses.size() == 1 + world.all_enemies().size() and hud.statuses[0].target == world.npc)
  world.player_hp = 68
  world.ammo = 4
  world.npc_hp = 53
@@ -84,19 +84,20 @@ func run() -> void:
  for enemy in world.get_node("Enemies").get_children(): enemy.set_physics_process(false)
  await frames()
  hud.update_view(0)
- check("player_hud_matches_actual_health", hud.statuses[0].get_node("Health").value == 68)
- check("player_hud_matches_total_ammo", hud.statuses[0].get_node("Ammo").text == "04 / 20")
- check("npc_hud_matches_real_health_ammo", hud.statuses[1].get_node("Health").value == 53 and hud.statuses[1].get_node("Ammo").text == "13 / 20")
- check("weapon_icon_is_independent_asset", hud.statuses[0].get_node("Weapon").texture.resource_path.ends_with("pulse_pistol.svg"))
- var before: Vector2 = hud.statuses[0].position
+ var player_status: Control = hud.hud.get_node("Vitals")
+ check("player_hud_matches_actual_health", hud.hud.get_node("%HealthBar").value == 68)
+ check("player_hud_matches_total_ammo", hud.hud.get_node("%Rounds").text == "04" and hud.hud.get_node("%Capacity").text == "/ 20")
+ check("npc_hud_matches_real_health_ammo", hud.statuses[0].get_node("Health").value == 53 and hud.statuses[0].get_node("Ammo").text == "13 / 20")
+ check("weapon_icon_is_independent_asset", player_status.get_node("Values/AmmoRow/Icon").texture.resource_path.ends_with("pulse_pistol.svg"))
+ var before := player_status.position
  world.player.position.x += 85
  app._update_world_view()
  hud.update_view(0)
- check("status_tracks_actor_screen_position", not hud.statuses[0].position.is_equal_approx(before))
- check("status_placed_below_actor", hud.statuses[0].position.y > hud.screen_point(world.player).y)
+ check("player_vitals_stay_screen_anchored", player_status.position.is_equal_approx(before))
+ check("player_vitals_are_in_bottom_left", player_status.position.x == 22 and player_status.get_rect().end.y == app.size.y - 22)
  world.npc.position = world.player.position
  hud.update_view(0)
- check("player_status_has_overlap_priority", not hud.statuses[0].get_rect().intersects(hud.statuses[1].get_rect()))
+ check("player_status_does_not_overlap_companion_in_view", not player_status.get_rect().intersects(hud.statuses[0].get_rect()))
  # Seed this check from two fixed floor cells so earlier GPU frames cannot
  # pre-discover the second position while the room transition settles.
  hud.minimap.explored.erase("storage")
@@ -122,6 +123,7 @@ func run() -> void:
  await key(KEY_ENTER)
  check("submitted_player_text_uses_committed_message", hud.player_bubble.full_text == "안녕하세요 마지막 글자" and not field.has_focus())
  check("npc_reply_uses_existing_provider", hud.npc_bubble.full_text == app.answer.text and app.brain.history.size() == 1)
+ check("reply_appears_once_in_bottom_caption", hud.hud.get_node("%Dialogue").visible and hud.hud.get_node("%Line").text == app.answer.text and not hud.npc_bubble.visible)
  field.text = "아직 전송하지 않은 초안"
  check("unsent_draft_not_exposed_in_bubble", hud.player_bubble.full_text != field.text)
  app._chat_idle = 0
@@ -141,8 +143,8 @@ func run() -> void:
  hud.update_view(0)
  check("offscreen_npc_has_direction", "오른쪽" in hud.npc_bubble.direction)
  check("offscreen_speech_fits_play_rect", app.play_rect().encloses(hud.npc_bubble.get_rect()))
- check("edge_speech_does_not_overlap_minimap", not hud.npc_bubble.get_rect().intersects(hud.minimap.get_rect()))
- check("speech_does_not_cover_objective", not hud.npc_bubble.get_rect().intersects(hud.get_node("Objective").get_rect()))
+ check("edge_speech_does_not_overlap_minimap", not hud.npc_bubble.get_rect().intersects(hud.minimap.get_global_rect()))
+ check("speech_does_not_cover_objective", not hud.npc_bubble.get_rect().intersects(hud.hud.get_node("%ObjectivePanel").get_global_rect()))
  world.npc.position = Vector2(-800, -900)
  hud.update_view(0)
  check("opposite_edge_speech_fits", app.play_rect().encloses(hud.npc_bubble.get_rect()) and not hud.npc_bubble.direction.is_empty())
@@ -151,7 +153,7 @@ func run() -> void:
  check("edge_speech_returns_to_actor", hud.npc_bubble.direction.is_empty() and hud.npc_bubble.visible)
  var long_text := "긴 한국어 대사와 연속 발언. ".repeat(30)
  hud.speak("미카", long_text)
- check("full_long_speech_kept_in_history", long_text in hud.get_node("HistoryPanel/Content").text and hud.npc_bubble.full_text == long_text)
+ check("full_long_speech_kept_in_history", hud.journal.entries.back().body == long_text and hud.npc_bubble.full_text == long_text)
  hud.npc_bubble.tick(20)
  check("speech_expires_after_duration", not hud.npc_bubble.visible)
  hud.speak("미카", "동쪽으로 이동하자. 전투가 계속되고 있어.")
@@ -175,7 +177,7 @@ func run() -> void:
  Input.action_release("move_right")
  check("pause_freezes_world_and_cooldowns", world.player.position == location_before and world.get_node("Enemies/DroneA").position == enemy_before and world.npc_shoot_cd == cooldown_before and world.player_hp == old_hp)
  var old_ammo := world.ammo
- await click(Vector2(400, 300))
+ await click(Vector2(20, 20))
  check("pause_blocks_world_clicks", world.ammo == old_ammo)
  var title_button := app.pause_menu.get_node("Window/ReturnToTitle") as Button
  check("paused_world_offers_title_return", title_button.is_visible_in_tree() and not title_button.disabled and paused and world.ammo == old_ammo)
@@ -188,6 +190,25 @@ func run() -> void:
  await create_timer(0.85).timeout
  check("gear_rotates_once_without_accumulation", gear.completed_turns == 1 and not gear.spinning and gear.rotation == 0)
  await capture("04_pause_menu")
+ var settings := app.pause_menu.get_node("Window/Settings") as Button
+ await click(settings.get_global_rect().get_center())
+ var audio_settings := app.pause_menu.get_node("Window/AudioSettings") as Control
+ var volume := audio_settings.get_node("MasterVolume") as HSlider
+ var original_volume := volume.value
+ check("pause_settings_keeps_world_paused", audio_settings.is_visible_in_tree() and volume.has_focus()
+  and paused and not world.can_move and not title_button.is_visible_in_tree())
+ volume.value = 62
+ check("pause_settings_changes_master_volume", is_equal_approx(AudioServer.get_bus_volume_db(0), linear_to_db(0.62))
+  and audio_settings.get_node("VolumeValue").text == "62%" and world.ammo == old_ammo)
+ await capture("04b_pause_settings")
+ await key(KEY_ESCAPE)
+ check("escape_returns_from_settings_to_pause", paused and settings.has_focus() and not audio_settings.visible and title_button.visible)
+ await click(settings.get_global_rect().get_center())
+ check("pause_settings_reads_saved_volume", is_equal_approx(volume.value, 62.0))
+ volume.value = original_volume
+ var settings_back := audio_settings.get_node("Back") as Button
+ await click(settings_back.get_global_rect().get_center())
+ check("settings_back_leaves_pause_menu_open", paused and app.pause_menu.visible and not audio_settings.visible)
  world.player_hp = 71
  world.ammo = 5
  world.npc_hp = 49
@@ -333,7 +354,9 @@ func run() -> void:
  check("small_canvas_composer_fits", Rect2(Vector2.ZERO, app.size).encloses(app.dialogue_panel.get_rect()) and Rect2(Vector2.ZERO, app.size).encloses(field.get_global_rect()))
  check("small_canvas_edge_bubble_fits", app.play_rect().encloses(hud.npc_bubble.get_rect()))
  app.toggle_pause()
- check("small_canvas_menu_fits_with_peek", Rect2(Vector2.ZERO, app.size).encloses(app.pause_menu.get_node("Window").get_global_rect()) and app.pause_menu.get_node("Window/Peek").get_global_rect().end.x < app.size.x)
+ var pause_card := app.pause_menu.get_node("Window") as Panel
+ check("small_canvas_pause_card_fits", Rect2(Vector2.ZERO, app.size).encloses(pause_card.get_global_rect())
+  and pause_card.get_global_rect().encloses(pause_card.get_node("Gear").get_global_rect()) and not pause_card.has_node("Peek"))
  app.toggle_pause()
  if render:
   app.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)

@@ -1,0 +1,153 @@
+[gd_resource type="Theme" format=3]
+
+[ext_resource type="FontFile" path="res://assets/ui/bulkhead/IBMPlexSansKR-Medium.ttf" id="1"]
+[ext_resource type="FontFile" path="res://assets/ui/bulkhead/BarlowCondensed-Black.ttf" id="2"]
+
+[sub_resource type="StyleBoxFlat" id="Panel"]
+bg_color = Color(0.038, 0.046, 0.058, 0.96)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.26, 0.254, 0.25, 1)
+
+[sub_resource type="StyleBoxFlat" id="Inset"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0.038, 0.046, 0.058, 0.96)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.26, 0.254, 0.25, 1)
+
+[sub_resource type="StyleBoxFlat" id="AccentPanel"]
+content_margin_left = 15.0
+content_margin_top = 10.0
+content_margin_right = 15.0
+content_margin_bottom = 10.0
+bg_color = Color(0.038, 0.046, 0.058, 0.97)
+border_width_left = 2
+border_color = Color(0.88, 0.65, 0.40, 1)
+
+[sub_resource type="StyleBoxFlat" id="ReviewPanel"]
+content_margin_left = 26.0
+content_margin_top = 20.0
+content_margin_right = 24.0
+content_margin_bottom = 24.0
+bg_color = Color(0.045, 0.050, 0.061, 1)
+border_width_left = 1
+border_width_top = 2
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.60, 0.46, 0.31, 1)
+shadow_color = Color(0, 0, 0, 0.24)
+shadow_size = 14
+
+[sub_resource type="StyleBoxFlat" id="Button"]
+content_margin_left = 12.0
+content_margin_top = 5.0
+content_margin_right = 12.0
+content_margin_bottom = 5.0
+bg_color = Color(0.074, 0.082, 0.100, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.30, 0.29, 0.28, 1)
+
+[sub_resource type="StyleBoxFlat" id="ButtonHover"]
+content_margin_left = 12.0
+content_margin_top = 5.0
+content_margin_right = 12.0
+content_margin_bottom = 5.0
+bg_color = Color(0.19, 0.146, 0.105, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.88, 0.65, 0.40, 1)
+
+[sub_resource type="StyleBoxFlat" id="Focus"]
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.95, 0.76, 0.50, 1)
+
+[sub_resource type="StyleBoxFlat" id="Track"]
+bg_color = Color(0.19, 0.20, 0.23, 1)
+
+[sub_resource type="StyleBoxFlat" id="Input"]
+content_margin_left = 9.0
+content_margin_top = 7.0
+content_margin_right = 9.0
+content_margin_bottom = 7.0
+bg_color = Color(0.058, 0.065, 0.080, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.30, 0.29, 0.28, 1)
+
+[sub_resource type="StyleBoxFlat" id="Health"]
+bg_color = Color(0.90, 0.85, 0.76, 1)
+
+[sub_resource type="StyleBoxFlat" id="ScrollTrack"]
+content_margin_left = 3.0
+content_margin_right = 3.0
+bg_color = Color(0.10, 0.11, 0.13, 1)
+
+[sub_resource type="StyleBoxFlat" id="ScrollThumb"]
+bg_color = Color(0.54, 0.41, 0.29, 1)
+
+[sub_resource type="StyleBoxLine" id="Divider"]
+color = Color(0.26, 0.254, 0.25, 1)
+
+[resource]
+default_font = ExtResource("1")
+default_font_size = 17
+Label/colors/font_color = Color(0.953, 0.921, 0.866, 1)
+Panel/styles/panel = SubResource("Panel")
+PanelContainer/styles/panel = SubResource("Inset")
+HUDAccentPanel/base_type = &"PanelContainer"
+HUDAccentPanel/styles/panel = SubResource("AccentPanel")
+HUDChatPanel/base_type = &"Panel"
+HUDChatPanel/styles/panel = SubResource("AccentPanel")
+HUDReviewPanel/base_type = &"PanelContainer"
+HUDReviewPanel/styles/panel = SubResource("ReviewPanel")
+HUDSecondary/base_type = &"Label"
+HUDSecondary/colors/font_color = Color(0.77, 0.75, 0.71, 1)
+HUDSecondary/font_sizes/font_size = 14
+HUDAccent/base_type = &"Label"
+HUDAccent/colors/font_color = Color(0.90, 0.68, 0.44, 1)
+HUDAccent/font_sizes/font_size = 16
+HUDNumber/base_type = &"Label"
+HUDNumber/fonts/font = ExtResource("2")
+HUDNumber/font_sizes/font_size = 26
+HUDCapacity/base_type = &"HUDNumber"
+HUDCapacity/colors/font_color = Color(0.69, 0.67, 0.63, 1)
+HUDCapacity/font_sizes/font_size = 19
+Button/colors/font_color = Color(0.953, 0.921, 0.866, 1)
+Button/colors/font_hover_color = Color(1, 0.95, 0.87, 1)
+Button/styles/normal = SubResource("Button")
+Button/styles/hover = SubResource("ButtonHover")
+Button/styles/pressed = SubResource("ButtonHover")
+Button/styles/hover_pressed = SubResource("ButtonHover")
+Button/styles/focus = SubResource("Focus")
+TextEdit/colors/font_color = Color(0.953, 0.921, 0.866, 1)
+TextEdit/colors/font_placeholder_color = Color(0.77, 0.75, 0.71, 1)
+TextEdit/colors/caret_color = Color(0.90, 0.68, 0.44, 1)
+TextEdit/styles/normal = SubResource("Input")
+TextEdit/styles/read_only = SubResource("Input")
+TextEdit/styles/focus = SubResource("Focus")
+ProgressBar/styles/background = SubResource("Track")
+ProgressBar/styles/fill = SubResource("Health")
+HSeparator/styles/separator = SubResource("Divider")
+VScrollBar/styles/scroll = SubResource("ScrollTrack")
+VScrollBar/styles/grabber = SubResource("ScrollThumb")
+VScrollBar/styles/grabber_highlight = SubResource("ScrollThumb")
+VScrollBar/styles/grabber_pressed = SubResource("ScrollThumb")

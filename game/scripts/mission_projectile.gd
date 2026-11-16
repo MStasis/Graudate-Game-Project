@@ -24,4 +24,4 @@ func _physics_process(delta: float) -> void:
  else: global_position = next
 
 func _draw() -> void:
- draw_circle(Vector2.ZERO, 3, Color("ffe5ac"))
+ if get_child_count() == 0: draw_circle(Vector2.ZERO, 3, Color("ffe5ac"))

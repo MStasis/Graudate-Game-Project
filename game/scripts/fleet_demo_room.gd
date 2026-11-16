@@ -5,6 +5,10 @@ const ASSETS := "res://assets/fleet_demo/"
 const ANIMATIONS := ASSETS + "layout/object_animations.json"
 const AMMO_CRATE := preload(ASSETS + "art/ammo_crate/ammo_crate_opening.png")
 const AMMO := preload(ASSETS + "art/ammo_crate/pulse_ammo.png")
+const LEVER_LOWERED := {
+	"normal_stop": preload(ASSETS + "art/breaker_lowered.svg"),
+	"eroded_stop": preload(ASSETS + "art/eroded_breaker_lowered.svg"),
+}
 
 var layout: Dictionary
 var bounds: Rect2
@@ -13,7 +17,7 @@ var doors := {}
 var props := {}
 var _warning_sprites: Array[AnimatedSprite2D]
 var _animations := {}
-var _lever_handles: Array[Polygon2D]
+var _lever_raised := {}
 var _ammo_pickups := {}
 
 func setup(id: String) -> void:
@@ -52,6 +56,8 @@ func setup(id: String) -> void:
 				object.get_node("Sprite").hide()
 				_build_ammo_crate(key, object, "down")
 	if id == "research_lab_b":
+		for key in LEVER_LOWERED:
+			_lever_raised[key] = $Objects.get_node(key + "/Sprite").texture
 		var ground_point := Vector2(310, 474)
 		var crate := Node2D.new()
 		crate.name = "LabAmmoStock"
@@ -131,17 +137,9 @@ func set_terminal_powered(active: bool) -> void:
 	$Objects/power_terminal/Sprite.self_modulate = Color(0.66, 1.0, 1.22) if active else Color.WHITE
 
 func set_levers(active: bool) -> void:
-	if _lever_handles.is_empty():
-		for id in ["normal_stop", "eroded_stop"]:
-			var sprite := $Objects.get_node(id + "/Sprite") as Sprite2D
-			var handle := Polygon2D.new()
-			handle.polygon = PackedVector2Array([Vector2(-4, -2), Vector2(3, -2), Vector2(3, 11), Vector2(10, 11),
-				Vector2(10, 16), Vector2(-4, 16)])
-			handle.position = Vector2(22, 28)
-			handle.color = Color("80e3bb")
-			sprite.add_child(handle)
-			_lever_handles.append(handle)
-	for handle in _lever_handles: handle.visible = active
+	for id in _lever_raised:
+		var sprite := $Objects.get_node(id + "/Sprite") as Sprite2D
+		sprite.texture = LEVER_LOWERED[id] if active else _lever_raised[id]
 
 func _add_animation(id: String, source: Sprite2D, clip_name: String, clips: Dictionary) -> AnimatedSprite2D:
 	var clip: Dictionary = clips[clip_name]

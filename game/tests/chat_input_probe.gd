@@ -8,7 +8,7 @@ func run() -> void:
  app.brain.auto_enabled = false
  var field: ChatInput = app.question
  field.text = ""
- field.grab_focus()
+ app.open_dialogue()
  await process_frame
  var records := []
  for character in "안녕하세요":

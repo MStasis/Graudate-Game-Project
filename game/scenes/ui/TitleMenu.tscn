@@ -2,27 +2,20 @@
 
 [ext_resource type="Script" path="res://scripts/title_menu.gd" id="1"]
 [ext_resource type="Theme" path="res://resources/GameTheme.tres" id="2"]
-[ext_resource type="Texture2D" path="res://assets/ui/station_mark.svg" id="3"]
-[ext_resource type="Texture2D" path="res://resources/MikaPortrait.tres" id="4"]
+[ext_resource type="Texture2D" path="res://assets/ui/bulkhead/title_background.png" id="3"]
+[ext_resource type="Shader" path="res://assets/ui/bulkhead/lock_light.gdshader" id="4"]
+[ext_resource type="Texture2D" path="res://assets/ui/bulkhead/bulkhead_mark.svg" id="5"]
+[ext_resource type="FontFile" path="res://assets/ui/bulkhead/BarlowCondensed-Black.ttf" id="6"]
+[ext_resource type="FontFile" path="res://assets/ui/bulkhead/IBMPlexSansKR-Medium.ttf" id="7"]
+[ext_resource type="Script" path="res://scripts/title_action_button.gd" id="8"]
+[ext_resource type="Script" path="res://scripts/master_volume.gd" id="9_master_volume"]
 
-[sub_resource type="Gradient" id="Gradient"]
-colors = PackedColorArray(0.09, 0.18, 0.20, 1, 0.016, 0.029, 0.041, 1)
+[sub_resource type="ShaderMaterial" id="LockLight"]
+shader = ExtResource("4")
+shader_parameter/cycle_seconds = 4.0
+shader_parameter/preview_phase = -1.0
 
-[sub_resource type="GradientTexture2D" id="Backdrop"]
-gradient = SubResource("Gradient")
-width = 512
-height = 320
-fill = 1
-fill_from = Vector2(0.66, 0.52)
-fill_to = Vector2(1.0, 1.0)
-
-[sub_resource type="StyleBoxFlat" id="Card"]
-bg_color = Color(0.032, 0.061, 0.079, 1)
-border_width_left = 3
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.29, 0.48, 0.47, 1)
+[sub_resource type="StyleBoxEmpty" id="Card"]
 
 [node name="TitleMenu" type="Control"]
 layout_mode = 3
@@ -42,134 +35,211 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="Background" type="TextureRect" parent="Menu"]
+material = SubResource("LockLight")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-texture = SubResource("Backdrop")
+texture = ExtResource("3")
 expand_mode = 1
+stretch_mode = 6
 
 [node name="Stage" type="Control" parent="Menu"]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -422.0
-offset_top = -234.0
-offset_right = 422.0
-offset_bottom = 234.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 mouse_filter = 2
-
-[node name="Mika" type="TextureRect" parent="Menu/Stage"]
-layout_mode = 0
-offset_left = 466.0
-offset_right = 818.0
-offset_bottom = 468.0
-mouse_filter = 2
-texture = ExtResource("4")
-expand_mode = 1
-stretch_mode = 5
 
 [node name="Card" type="Panel" parent="Menu/Stage"]
-layout_mode = 0
-offset_right = 432.0
-offset_bottom = 468.0
+layout_mode = 1
+anchor_left = 0.072
+anchor_top = 0.5
+anchor_right = 0.072
+anchor_bottom = 0.5
+offset_top = -257.0
+offset_right = 390.0
+offset_bottom = 257.0
+mouse_filter = 2
 theme_override_styles/panel = SubResource("Card")
 
 [node name="StationMark" type="TextureRect" parent="Menu/Stage/Card"]
 layout_mode = 0
-offset_left = 36.0
-offset_top = 28.0
-offset_right = 76.0
-offset_bottom = 68.0
+offset_right = 44.0
+offset_bottom = 44.0
 mouse_filter = 2
-texture = ExtResource("3")
+texture = ExtResource("5")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Title" type="Label" parent="Menu/Stage/Card"]
+[node name="EnglishTitle" type="Label" parent="Menu/Stage/Card"]
 layout_mode = 0
-offset_left = 36.0
-offset_top = 76.0
-offset_right = 396.0
-offset_bottom = 143.0
-theme_override_colors/font_color = Color(0.88, 0.92, 0.88, 1)
-theme_override_font_sizes/font_size = 49
-text = "정전된 연구소"
+offset_top = 43.0
+offset_right = 390.0
+offset_bottom = 193.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.952, 0.922, 0.865, 1)
+theme_override_fonts/font = ExtResource("6")
+theme_override_font_sizes/font_size = 74
+theme_override_constants/line_spacing = -14
+text = "BEYOND THE\nBULKHEAD"
 
 [node name="Actions" type="VBoxContainer" parent="Menu/Stage/Card"]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 36.0
-offset_top = 185.0
-offset_right = 396.0
-theme_override_constants/separation = 12
+offset_top = 212.0
+offset_right = 340.0
+theme_override_constants/separation = 9
 
 [node name="NewGame" type="Button" parent="Menu/Stage/Card/Actions"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 58)
+custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
-theme_override_font_sizes/font_size = 22
+theme_override_fonts/font = ExtResource("7")
+theme_override_font_sizes/font_size = 21
 text = "새 게임"
+alignment = 0
+script = ExtResource("8")
 
 [node name="Continue" type="Button" parent="Menu/Stage/Card/Actions"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 58)
+custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
-theme_override_font_sizes/font_size = 22
+theme_override_fonts/font = ExtResource("7")
+theme_override_font_sizes/font_size = 21
 text = "이어하기"
+alignment = 0
+script = ExtResource("8")
+
+[node name="ModeSpacer" type="Control" parent="Menu/Stage/Card/Actions"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Settings" type="Button" parent="Menu/Stage/Card/Actions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7")
+theme_override_font_sizes/font_size = 21
+text = "설정"
+alignment = 0
+script = ExtResource("8")
 
 [node name="Quit" type="Button" parent="Menu/Stage/Card/Actions"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 58)
+custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
-theme_override_font_sizes/font_size = 22
-text = "종료"
+theme_override_fonts/font = ExtResource("7")
+theme_override_font_sizes/font_size = 21
+text = "종료하기"
+alignment = 0
+script = ExtResource("8")
 
 [node name="Slots" type="VBoxContainer" parent="Menu/Stage/Card"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 0
-offset_left = 36.0
-offset_top = 159.0
-offset_right = 396.0
+offset_top = 212.0
+offset_right = 340.0
 theme_override_constants/separation = 8
 
 [node name="SlotMessage" type="Label" parent="Menu/Stage/Card/Slots"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("7")
 theme_override_font_sizes/font_size = 16
 vertical_alignment = 1
 autowrap_mode = 3
 
 [node name="Slot1" type="Button" parent="Menu/Stage/Card/Slots"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 48)
+custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("7")
 theme_override_font_sizes/font_size = 16
 clip_text = true
+script = ExtResource("8")
 
 [node name="Slot2" type="Button" parent="Menu/Stage/Card/Slots"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 48)
+custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("7")
 theme_override_font_sizes/font_size = 16
 clip_text = true
+script = ExtResource("8")
 
 [node name="Slot3" type="Button" parent="Menu/Stage/Card/Slots"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 48)
+custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("7")
 theme_override_font_sizes/font_size = 16
 clip_text = true
+script = ExtResource("8")
 
 [node name="Back" type="Button" parent="Menu/Stage/Card/Slots"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(112, 44)
+custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
-size_flags_horizontal = 8
+theme_override_fonts/font = ExtResource("7")
 text = "뒤로"
+alignment = 0
+script = ExtResource("8")
+
+[node name="SettingsPanel" type="VBoxContainer" parent="Menu/Stage/Card"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_top = 212.0
+offset_right = 340.0
+theme_override_constants/separation = 14
+
+[node name="VolumeHeader" type="HBoxContainer" parent="Menu/Stage/Card/SettingsPanel"]
+layout_mode = 2
+
+[node name="VolumeLabel" type="Label" parent="Menu/Stage/Card/SettingsPanel/VolumeHeader"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("7")
+text = "전체 음량"
+
+[node name="VolumeValue" type="Label" parent="Menu/Stage/Card/SettingsPanel/VolumeHeader"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7")
+text = "100%"
+
+[node name="MasterVolume" type="HSlider" parent="Menu/Stage/Card/SettingsPanel" node_paths=PackedStringArray("value_label")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+accessibility_name = "전체 음량"
+value = 100.0
+script = ExtResource("9_master_volume")
+value_label = NodePath("../VolumeHeader/VolumeValue")
+
+[node name="SettingsBack" type="Button" parent="Menu/Stage/Card/SettingsPanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7")
+text = "뒤로"
+alignment = 0
+script = ExtResource("8")
+
+[node name="TransitionLayer" type="CanvasLayer" parent="."]
+layer = 50
+
+[node name="EntryFade" type="ColorRect" parent="TransitionLayer"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.024, 0.030, 0.043, 1)

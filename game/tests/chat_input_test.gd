@@ -26,7 +26,8 @@ func run() -> void:
  var field: ChatInput = app.question
  check("uses_composition_aware_textedit", field is TextEdit and field.has_method("request_submit"))
  check("input_starts_empty", field.text.is_empty())
- field.grab_focus()
+ app.open_dialogue()
+ check("composer_is_open_and_focused", app.dialogue_panel.visible and field.has_focus())
  var expected := ""
  for character in "안녕하세요":
   expected += character

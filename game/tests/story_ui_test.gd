@@ -149,22 +149,24 @@ func test_journal() -> void:
  hud.record("플레이어2", "dialogue", "나도 확인", "remote-test-id")
  check("same_id_recorded_once", hud.journal.entries.size() == size_before)
  for index in range(60): hud.record("플레이어", "dialogue", "기록 스크롤 검사 %d. 읽던 위치를 유지한다." % index)
- hud.toggle_history()
+ await key(KEY_L)
+ check("l_opens_review_and_pauses_world", hud.history.visible and paused and not world.can_move)
  await frames(8)
- var bar: VScrollBar = hud.get_node("HistoryPanel/Content").get_v_scroll_bar()
+ var bar: VScrollBar = hud.history.get_node("%Scroll").get_v_scroll_bar()
  bar.value = 0
  await frames()
  var old_scroll := bar.value
- hud.notify("새 관측 메시지")
+ hud.record("미카", "dialogue", "새 관측 메시지")
  await frames(8)
- check("new_message_preserves_reader_scroll", is_equal_approx(bar.value, old_scroll) and hud.get_node("HistoryPanel/NewMessages").visible)
- hud.scroll_to_latest()
+ check("new_message_preserves_reader_scroll", is_equal_approx(bar.value, old_scroll) and hud.history.get_node("%NewMessages").visible)
+ hud.history.scroll_to_latest()
  await frames()
- hud.notify("최신 위치에서는 자동 따라가기")
+ hud.record("미카", "dialogue", "최신 위치에서는 자동 따라가기")
  await frames(8)
- check("latest_reader_follows_new_messages", bar.value >= bar.max_value - bar.page - 4 and not hud.get_node("HistoryPanel/NewMessages").visible)
+ check("latest_reader_follows_new_messages", bar.value >= bar.max_value - bar.page - 4 and not hud.history.get_node("%NewMessages").visible)
  await capture("03_unified_history")
- hud.close_modal()
+ await key(KEY_ESCAPE)
+ check("escape_closes_review_and_resumes_world", not hud.modal_open() and not paused and world.can_move)
  var fixed: Vector2 = hud.system_notices.position
  world.player.position += Vector2(50, 0)
  app._update_world_view()
@@ -190,6 +192,8 @@ func test_input_and_status() -> void:
  app.question.text = "한글 미전송 초안"
  await key(KEY_M)
  check("m_in_chat_does_not_open_map", app.question.has_focus() and not hud.get_node("FullMapPanel").visible)
+ await key(KEY_L)
+ check("l_in_chat_does_not_open_review", app.question.has_focus() and not hud.history.visible and not paused)
  await key(KEY_ESCAPE)
  check("escape_preserves_chat_draft", app.question.text.begins_with("한글 미전송 초안") and not app.question.has_focus())
  app.question.text = ""
@@ -200,7 +204,7 @@ func test_input_and_status() -> void:
  world.npc.position = Vector2(600, 320)
  app._update_world_view()
  hud.update_view(0)
- var status: ActorStatus = hud.statuses[1]
+ var status: ActorStatus = hud.statuses[0]
  var fixed := status.position
  var physics_position := world.npc.position
  for index in range(20):
@@ -234,12 +238,13 @@ func test_input_and_status() -> void:
   await capture("05_map_%d" % resolution.x)
   hud.close_modal()
   hud.toggle_history()
-  check("history_fits_%d" % resolution.x, Rect2(Vector2.ZERO, app.size).encloses(hud.get_node("HistoryPanel").get_rect()))
+  check("history_fits_%d" % resolution.x, Rect2(Vector2.ZERO, app.size).encloses(hud.history.get_node("Panel").get_rect()))
   await capture("06_history_%d" % resolution.x)
   hud.close_modal()
 
 func test_save() -> void:
  app.question.text = ""
+ hud.record("미카", "dialogue", "저장 후에도 확인할 대사")
  var story_before := world.story.snapshot()
  check("v3_save_writes", app.save_slot(1))
  var bytes := FileAccess.get_file_as_string(app.save_store.path_for(1))
@@ -249,6 +254,10 @@ func test_save() -> void:
  hud.reset()
  check("load_restores_story_and_three_rooms", app.load_slot(1) and world.map_id == "main_entry" and world.story.stage == story_before.stage and hud.minimap.explored.size() == 3)
  check("load_restores_user_journal_separately", hud.journal.entries.size() > 0 and app.brain.history.is_empty())
+ await key(KEY_L)
+ var entries: VBoxContainer = hud.history.get_node("%Entries")
+ check("restored_dialogue_appears_in_l_review", hud.history.visible and entries.get_child_count() > 0 and entries.get_child(0).get_child(1).text == "저장 후에도 확인할 대사")
+ await key(KEY_ESCAPE)
  check("validation_and_load_preserve_source_slot", bytes == FileAccess.get_file_as_string(app.save_store.path_for(1)))
  for index in range(3):
   check("repeated_load_save_%d" % index, app.load_slot(1) and app.save_slot(2) and hud.minimap.explored.values().all(func(cells): return cells.size() <= 384))

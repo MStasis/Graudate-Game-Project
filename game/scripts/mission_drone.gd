@@ -43,6 +43,9 @@ func reset_animation() -> void:
  _melee_until_ms = 0.0
  if animation: animation.hold("move", "down")
 
+func face_spawn(direction: String) -> void:
+ if animation: animation.hold("move", direction)
+
 func sync_presence(in_room: bool, can_attack: bool) -> void:
  if _room_visible and not in_room: reset_animation()
  _room_visible = in_room

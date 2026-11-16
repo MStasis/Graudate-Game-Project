@@ -2,44 +2,41 @@ class_name CombatInterface
 extends Control
 signal npc_line_shown(text: String)
 const STATUS := preload("res://scenes/ui/ActorStatus.tscn")
+const HUDView := preload("res://scripts/bulkhead_hud.gd")
+const DialogueReview := preload("res://scripts/bulkhead_dialogue_review.gd")
 var app: Control
 var statuses: Array[ActorStatus] = []
 var transcript: Array[String] = []
 var speech_queue: Array[Dictionary] = []
 var speech_priority := 0
 var current_speech_guard := ""
+var _speech_caption := false
 var last_said := {}
 var journal := MessageJournal.new()
-var _journal_refresh := false
-var _follow_journal := true
-var _journal_scroll := 0.0
-@onready var minimap: ExplorationMap = $Minimap
+@onready var hud: HUDView = $HUD
+@onready var history: DialogueReview = $HistoryPanel
+@onready var minimap: ExplorationMap = hud.minimap
 @onready var npc_bubble: SpeechBubble = $NPCSpeech
 @onready var player_bubble: SpeechBubble = $PlayerSpeech
 @onready var system_notices: SystemNotifications = $SystemNotices
 
 func setup(main: Control) -> void:
  app = main
- minimap.world = app.world
+ hud.bind_minimap(app.world)
  $FullMapPanel/Map.world = app.world
  $FullMapPanel/Map.source = minimap
  $FullMapPanel/Map.full_map = true
- var recent_style := StyleBoxFlat.new()
- recent_style.bg_color = Color(0.035, 0.055, 0.075, 0.94)
- for side in [SIDE_LEFT, SIDE_TOP, SIDE_RIGHT, SIDE_BOTTOM]: recent_style.set_content_margin(side, 6)
- $Recent.add_theme_stylebox_override("normal", recent_style)
- for target in [app.world.player, app.world.npc] + app.world.all_enemies():
-  var hud := STATUS.instantiate() as ActorStatus
-  hud.target = target
-  hud.actor_kind = "player" if target == app.world.player else "npc" if target == app.world.npc else "enemy"
-  $ActorLayer.add_child(hud)
-  statuses.append(hud)
+ for target in [app.world.npc] + app.world.all_enemies():
+  var status := STATUS.instantiate() as ActorStatus
+  status.target = target
+  status.actor_kind = "npc" if target == app.world.npc else "enemy"
+  $ActorLayer.add_child(status)
+  statuses.append(status)
   if target is MissionDrone:
    target.show_world_health = false
    target.queue_redraw()
- $HistoryButton.pressed.connect(toggle_history)
- $HistoryPanel/Close.pressed.connect(toggle_history)
- $HistoryPanel/NewMessages.pressed.connect(scroll_to_latest)
+ hud.review_requested.connect(toggle_history)
+ history.close_requested.connect(close_modal)
  $FullMapPanel/Close.pressed.connect(toggle_map)
  app.resized.connect(layout)
  layout()
@@ -47,27 +44,10 @@ func setup(main: Control) -> void:
 func layout() -> void:
  if not app: return
  size = app.size
- minimap.position = Vector2(20, 20)
- minimap.size = Vector2(242, 134)
- $Objective.position = Vector2(282, 20)
- $Objective.size = Vector2(maxf(250, app.size.x - 450), 52)
- $HistoryButton.position = Vector2(app.size.x - 150, 20)
- $HistoryPanel.position = Vector2(app.size.x - 470, 76)
- app.get_node("LabObjective").set_anchors_preset(Control.PRESET_TOP_LEFT)
- app.get_node("LabObjective").position = Vector2(282, 20)
- app.get_node("LabObjective").size = Vector2(maxf(250, app.size.x - 450), 52)
- app.get_node("LabModeBadge").position = Vector2(20, 164)
- app.get_node("LabModeBadge").size = Vector2(242, 22)
- $HistoryPanel.size = Vector2(440, minf(420, app.size.y - 160))
- $HistoryPanel/Content.size = $HistoryPanel.size - Vector2(32, 80)
- system_notices.position = Vector2(282, 84)
- system_notices.size.x = minf(360, app.size.x - 460)
- $Recent.position = Vector2(282, 76)
- $Recent.size = Vector2(maxf(220, app.size.x - 470), 64)
- $Pending.position = Vector2(app.size.x - 154, 70)
- $Pending.size = Vector2(140, 24)
- # 최근 메시지와 페이드 알림은 같은 고정 영역의 서로 다른 행을 쓴다.
- system_notices.position.y = 146
+ system_notices.position = Vector2(app.size.x - 350, 104)
+ system_notices.size.x = 328
+ $Pending.position = Vector2(app.size.x - 174, 70)
+ $Pending.size = Vector2(152, 24)
  $FullMapPanel.position = Vector2(24, 76)
  $FullMapPanel.size = app.size - Vector2(48, 110)
  $FullMapPanel/Map.position = Vector2(16, 58)
@@ -75,68 +55,46 @@ func layout() -> void:
  $FullMapPanel/Close.position = Vector2($FullMapPanel.size.x - 230, 8)
  $FullMapPanel/Close.size = Vector2(214, 40)
 
-func keep_door_arrow_clear(bounds: Rect2) -> void:
- var recent := $Recent as Control
- var recent_bounds := recent.get_global_transform_with_canvas() * Rect2(Vector2.ZERO, recent.size)
- recent.visible = not bounds.has_area() or not recent_bounds.intersects(bounds.grow(5))
-
 func modal_open() -> bool:
- return $HistoryPanel.visible or $FullMapPanel.visible
+ return history.visible or $FullMapPanel.visible
 
 func toggle_history() -> void:
- if app.world.finished: return
- if app.world.use_fleet_demo and app.world.fleet_demo.locks_movement() and not $HistoryPanel.visible: return
- app.question.finish_editing()
+ if history.visible:
+  close_modal()
+  return
+ if app.world.finished or app.world.transition_active() or get_tree().paused or app.get_node("%DebugPanel").visible: return
+ if app.question.has_focus() or app.question.is_composing(): return
+ if app.world.use_fleet_demo and app.world.fleet_demo.locks_movement() and not app.world.fleet_demo.voice_active: return
  $FullMapPanel.hide()
- $HistoryPanel.visible = not $HistoryPanel.visible
- if $HistoryPanel.visible: scroll_to_latest()
- app._sync_input_mode()
+ history.open(journal.entries)
+ hud.hide()
+ get_tree().paused = true
+ app._sync_dialogue_presentation()
 
 func toggle_map() -> void:
  if app.world.finished: return
  if app.world.use_fleet_demo and app.world.fleet_demo.locks_movement() and not $FullMapPanel.visible: return
  app.question.finish_editing()
- $HistoryPanel.hide()
+ if history.visible: close_modal()
  $FullMapPanel.visible = not $FullMapPanel.visible
  $FullMapPanel/Map.queue_redraw()
  app._sync_input_mode()
 
 func close_modal() -> void:
- $HistoryPanel.hide()
+ if history.visible:
+  history.hide()
+  hud.show()
+  get_tree().paused = false
  $FullMapPanel.hide()
- app._sync_input_mode()
-
-func scroll_to_latest() -> void:
- var bar: VScrollBar = $HistoryPanel/Content.get_v_scroll_bar()
- bar.value = bar.max_value
- $HistoryPanel/NewMessages.hide()
+ app._sync_dialogue_presentation()
 
 func record(who: String, channel: String, message: String, message_id := "") -> bool:
- var bar: VScrollBar = $HistoryPanel/Content.get_v_scroll_bar()
- if not _journal_refresh:
-  _follow_journal = not $HistoryPanel.visible or bar.value >= bar.max_value - bar.page - 4
-  _journal_scroll = bar.value
-  _journal_refresh = true
-  call_deferred("_settle_journal")
  var added := journal.append(who, channel, message, app.world.map_id, str(app.brain.trial), message_id)
- $HistoryPanel/Content.text = journal.display_text()
- var recent := PackedStringArray()
- for item in journal.entries.slice(-2): recent.append("[%s] %s" % [item.sender, item.body.replace("\n", " ").left(110)])
- $Recent.text = "\n".join(recent)
- if added and not _follow_journal: $HistoryPanel/NewMessages.show()
+ if added or channel == "system": history.refresh(channel)
  return added
-
-func _settle_journal() -> void:
- await get_tree().process_frame
- if _follow_journal: scroll_to_latest()
- else: $HistoryPanel/Content.get_v_scroll_bar().value = _journal_scroll
- _journal_refresh = false
 
 func restore_journal(data: Array) -> void:
  journal.restore(data)
- $HistoryPanel/Content.text = journal.display_text()
- $Recent.text = ""
- scroll_to_latest()
 
 func reset() -> void:
  minimap.explored.clear()
@@ -145,22 +103,21 @@ func reset() -> void:
  clear_speech()
  transcript.clear()
  journal.restore([])
- $Recent.text = ""
- $HistoryPanel/Content.text = ""
- $HistoryPanel.hide()
- $FullMapPanel.hide()
+ close_modal()
 
 func clear_speech() -> void:
  speech_queue.clear()
  speech_priority = 0
  current_speech_guard = ""
+ _speech_caption = false
  last_said.clear()
  system_notices.clear()
  for bubble in [npc_bubble, player_bubble]:
   bubble.remaining = 0
   bubble.hide()
+ hud.set_dialogue("", "")
 
-func speak(who: String, message: String, priority := 60, guard := "") -> bool:
+func speak(who: String, message: String, priority := 60, guard := "", caption := false) -> bool:
  if who not in ["미카", "플레이어"]:
   notify(message)
   return false
@@ -174,17 +131,21 @@ func speak(who: String, message: String, priority := 60, guard := "") -> bool:
   if npc_bubble.remaining > 0 and priority < speech_priority and not finishes_current:
    if speech_queue.any(func(entry): return entry.text == message): return false
    if speech_queue.size() >= 4: speech_queue.pop_front()
-   speech_queue.append({"text": message, "priority": priority, "guard": guard, "grounding": app.brain.dialogue_grounding.duplicate(true) if guard == "answer" else {}, "epoch": app.world.epoch, "expires": now + 10000})
+   speech_queue.append({"text": message, "priority": priority, "guard": guard, "caption": caption, "grounding": app.brain.dialogue_grounding.duplicate(true) if guard == "answer" else {}, "epoch": app.world.epoch, "expires": now + 10000})
    return false
   speech_priority = priority
   current_speech_guard = guard
+  _speech_caption = caption or guard == "answer"
   last_said[message] = now
  var bubble := player_bubble if who == "플레이어" else npc_bubble
  bubble.say(who, message)
  transcript.append(who + ": " + message)
  if transcript.size() > 30: transcript.pop_front()
  record(who, "dialogue", message)
- if who == "미카": npc_line_shown.emit(message)
+ if who == "미카":
+  if _speech_caption: bubble.hide()
+  refresh_caption()
+  npc_line_shown.emit(message)
  return true
 
 func speech_valid(entry: Dictionary) -> bool:
@@ -216,6 +177,16 @@ func notify(message: String) -> void:
 func screen_point(target: Node2D) -> Vector2:
  return app.get_global_transform_with_canvas().affine_inverse() * target.get_global_transform_with_canvas().origin
 
+func refresh_caption() -> void:
+ if modal_open() or app.dialogue_panel.visible:
+  hud.set_dialogue("", "")
+ elif not app._fleet_line.is_empty():
+  hud.set_dialogue(app._fleet_speaker, app._fleet_line, true)
+ elif _speech_caption and npc_bubble.remaining > 0:
+  hud.set_dialogue(npc_bubble.speaker, npc_bubble.full_text)
+ else:
+  hud.set_dialogue("", "")
+
 func update_view(delta: float) -> void:
  if not app: return
  $Pending.visible = not app.brain.dialogue_pending.is_empty()
@@ -225,55 +196,47 @@ func update_view(delta: float) -> void:
   if speech_valid(next):
    speech_priority = 0
    # 표시한 적 없는 큐 항목이므로 중복 억제 대상이 아니다.
-   speak("미카", next.text, next.priority, next.guard)
+   speak("미카", next.text, next.priority, next.guard, next.get("caption", false))
   else: app.brain._log({"event": "speech_discarded", "reason": "stale_display_context", "text": next.text})
+ var world: DemoWorld = app.world
  minimap.remember_position()
  var combat: bool = not app.is_noncombat()
- minimap.visible = true
- $Objective.visible = combat
- $Objective.text = app.world.current_guidance()
- $HistoryButton.visible = not app.world.finished
- var occupied: Array[Rect2] = []
- if combat:
-  occupied.append(minimap.get_rect())
-  occupied.append($Objective.get_rect())
-  occupied.append($HistoryButton.get_rect())
- else:
-  occupied.append(app.get_node("LabObjective").get_rect())
-  occupied.append(app.get_node("LabModeBadge").get_rect())
-  if app.dialogue_panel.visible: occupied.append(app.get_node("RadioPanel/LabPortrait").get_global_rect())
- for hud in statuses:
-  var target := hud.target
+ var objective := world.current_guidance(true)
+ if world.use_fleet_demo and not world.fleet_demo.hint.is_empty() and not world.fleet_demo.locks_movement() and not world.finished and not world.defeated:
+  objective += "\n" + world.fleet_demo.hint
+ hud.set_objective(objective)
+ hud.set_vitals(world.player_hp, world.max_hp, world.ammo, world.max_ammo, world.magazines if world.use_fleet_demo else -1, world.reload_time > 0.0)
+ var review_button: Button = hud.get_node("%Review")
+ review_button.visible = not world.finished
+ var caption: Control = hud.get_node("%Dialogue")
+ var occupied: Array[Rect2] = [hud.get_node("Navigation").get_rect(), hud.get_node("Vitals").get_rect(), review_button.get_rect()]
+ if app.dialogue_panel.visible: occupied.append(app.dialogue_panel.get_rect())
+ for status in statuses:
+  var target := status.target
   var point := screen_point(target)
   var bounds: Rect2 = app.play_rect()
-  hud.visible = combat and target.visible and bounds.has_point(point)
-  if hud.actor_kind == "player":
-   var world: DemoWorld = app.world
-   hud.show_state(world.player_hp, world.max_hp, world.ammo, world.max_ammo, world.magazines if world.use_fleet_demo else -1, world.reload_time > 0.0)
-  elif hud.actor_kind == "npc": hud.show_state(app.world.npc_hp, app.world.npc_max_hp, app.world.npc_ammo, app.world.npc_initial_ammo)
+  status.visible = combat and target.visible and bounds.has_point(point)
+  if status.actor_kind == "npc": status.show_state(world.npc_hp, world.npc_max_hp, world.npc_ammo, world.npc_initial_ammo)
   else:
-   hud.show_state(target.hp, target.max_hp)
-   hud.visible = hud.visible and target.hp > 0 and app.world.visibility_at(target.position) > 0.12
-  if not hud.visible: continue
-  if hud.actor_kind == "npc": hud.visible = app.world.visibility_at(target.position) > 0.12
+   status.show_state(target.hp, target.max_hp)
+   status.visible = status.visible and target.hp > 0
+  if not status.visible: continue
   # 상태바는 월드 기준 고정 오프셋이다. 주변 물체/말풍선 점유 영역으로 옮기지 않는다.
-  var offset := Vector2(-60, 38) if hud.actor_kind == "player" else Vector2(-60, -102) if hud.actor_kind == "npc" else Vector2(-60, 27)
-  hud.position = point + offset
-  hud.visible = hud.visible and bounds.encloses(hud.get_rect())
-  occupied.append(hud.get_rect())
+  status.position = point + (Vector2(-60, -102) if status.actor_kind == "npc" else Vector2(-60, 27))
+  status.visible = bounds.encloses(status.get_rect()) and world.visibility_at(target.position) > 0.12
+  if status.visible: occupied.append(status.get_rect())
  system_notices.tick(delta)
  if system_notices.visible:
   # 알림은 layout에서만 화면 고정 배치한다.
   occupied.append(system_notices.get_rect())
- for pair in [[player_bubble, app.world.player], [npc_bubble, app.world.npc]]:
+ player_bubble.tick(delta)
+ npc_bubble.tick(delta)
+ refresh_caption()
+ if caption.visible: occupied.append(caption.get_rect())
+ for pair in [[player_bubble, world.player], [npc_bubble, world.npc]]:
   var bubble: SpeechBubble = pair[0]
-  bubble.tick(delta)
   if bubble.remaining <= 0: continue
-  if app.world.use_fleet_demo and app.world.fleet_demo.locks_movement():
-   bubble.hide()
-   continue
-  # 비전투에서는 큰 본문과 NPC 말풍선을 중복 표시하지 않는다.
-  if not combat and bubble == npc_bubble and app.dialogue_panel.visible and bubble.full_text == app.answer.text:
+  if caption.visible or modal_open() or (bubble == npc_bubble and _speech_caption) or (world.use_fleet_demo and world.fleet_demo.locks_movement()):
    bubble.hide()
    continue
   var bounds: Rect2 = app.play_rect().grow(-12)

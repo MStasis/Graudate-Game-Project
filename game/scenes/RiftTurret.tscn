@@ -1,0 +1,38 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/rift_turret.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/sprite_timeline.gd" id="2"]
+[ext_resource type="Texture2D" path="res://assets/fleet_sprites/devices/rift_turret/rift_turret_atlas.png" id="3"]
+
+[sub_resource type="CircleShape2D" id="Foot"]
+radius = 17.0
+
+[sub_resource type="CircleShape2D" id="UpperBody"]
+radius = 23.0
+
+[node name="RiftTurret" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 0
+motion_mode = 1
+script = ExtResource("1")
+attack_interval = 1.20
+contact_damage = 18
+show_placeholder_body = false
+
+[node name="Visual" type="Sprite2D" parent="."]
+script = ExtResource("2")
+atlas = ExtResource("3")
+metadata_path = "res://assets/fleet_sprites/devices/rift_turret/rift_turret_animations.json"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("Foot")
+
+[node name="ProjectileBody" type="Area2D" parent="."]
+position = Vector2(0, -26)
+collision_layer = 8
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="Shape" type="CollisionShape2D" parent="ProjectileBody"]
+shape = SubResource("UpperBody")

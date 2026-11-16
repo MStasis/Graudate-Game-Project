@@ -434,6 +434,7 @@ func reset_world() -> void:
  ammo = max_ammo if use_fleet_demo else initial_ammo
  magazines = FLEET_START_MAGAZINES if use_fleet_demo else 0
  reload_time = 0.0
+ player.reset_dash()
  medkits = initial_medkits
  supply_packs = initial_supply_packs
  cover_charges = initial_cover_charges
@@ -492,6 +493,7 @@ func enemies_remaining() -> int:
 
 func _sync_state() -> void:
  if not is_node_ready(): return
+ _sync_reload_indicator()
  if use_fleet_demo:
   _sync_fleet_state()
   return
@@ -588,6 +590,10 @@ func _unhandled_input(event: InputEvent) -> void:
    get_viewport().set_input_as_handled()
   return
  if not can_move: return
+ if use_fleet_demo and event.is_action_pressed("dash") and not event.is_echo():
+  if player.start_dash(): _event("fleet_dash_started", {})
+  get_viewport().set_input_as_handled()
+  return
  if use_fleet_demo and event.is_action_pressed("reload") and not event.is_echo():
   request_reload()
   get_viewport().set_input_as_handled()
@@ -813,6 +819,7 @@ func _cancel_transition() -> void:
 
 func _change_map(destination: String, spawn: Vector2) -> void:
  room_changing.emit()
+ player.reset_dash()
  current_panel().cancel("map_changed")
  epoch += 1
  map_id = destination
@@ -987,7 +994,7 @@ func nearest_enemy_position() -> Vector2:
 
 func shoot(target: Vector2) -> bool:
  if not target.is_finite(): return false
- if not is_combat_area() or finished or defeated or shoot_cd > 0.0 or ammo <= 0 or reload_time > 0.0: return false
+ if not is_combat_area() or finished or defeated or shoot_cd > 0.0 or ammo <= 0 or reload_time > 0.0 or player.dash_remaining > 0.0: return false
  if player.position.is_equal_approx(target): return false
  if not player.animation.request_shot(to_global(target), player.move_input()): return false
  shoot_cd = 0.28
@@ -999,6 +1006,7 @@ func shoot(target: Vector2) -> bool:
 func request_reload() -> bool:
  if not use_fleet_demo or finished or defeated or reload_time > 0.0 or ammo >= max_ammo or magazines <= 0: return false
  reload_time = RELOAD_SECONDS
+ _sync_reload_indicator()
  _event("player_reload_started", {"seconds": RELOAD_SECONDS})
  state_changed.emit()
  return true
@@ -1008,11 +1016,16 @@ func _tick_player_reload(delta: float) -> void:
   if ammo <= 0 and is_combat_area(): request_reload()
   return
  reload_time = maxf(0.0, reload_time - delta)
+ _sync_reload_indicator()
  if reload_time > 0.0: return
  magazines -= 1
  ammo = max_ammo
  _event("player_reload_completed", {"ammo": ammo, "magazines": magazines})
  state_changed.emit()
+
+func _sync_reload_indicator() -> void:
+ var active := use_fleet_demo and reload_time > 0.0 and not defeated and not finished
+ player.show_reload(1.0 - reload_time / RELOAD_SECONDS if active else -1.0)
 
 func add_magazine_supply() -> int:
  magazines += MAGAZINES_PER_SUPPLY
@@ -1020,6 +1033,8 @@ func add_magazine_supply() -> int:
  return MAGAZINES_PER_SUPPLY
 
 func _actor_fired(origin: Vector2, target: Vector2, shooter: CollisionObject2D) -> void:
+ if use_fleet_demo and shooter == player and is_combat_area() and not finished and not defeated and not transition_active():
+  _event("player_shot_fired", {})
  _fire_projectile(origin, target, shooter, bullet_damage if shooter == player else npc_bullet_damage)
 
 func _fire_projectile(origin: Vector2, target: Vector2, shooter: CollisionObject2D, damage: int) -> void:
@@ -1059,6 +1074,9 @@ func _hit_enemy(collider: Object, contact: Vector2, damage: int) -> void:
 
 func take_damage(amount: int) -> void:
  if not is_combat_area() or defeated or finished: return
+ if use_fleet_demo and player.dash_remaining > 0.0:
+  _event("fleet_damage_evaded", {})
+  return
  player.animation.play_hit()
  var protected := not use_fleet_demo and inside_cover()
  var actual := maxi(1, ceili(amount * (covered_damage_multiplier if protected else 1.0)))
@@ -1254,25 +1272,36 @@ func _enemy_defeated() -> void:
  _sync_state()
  state_changed.emit()
 
-func current_guidance() -> String:
- if defeated: return "전투 불능입니다. 새 회차로 다시 시작하세요."
+func current_guidance(compact := false) -> String:
+ if defeated: return "전투 불능 · 새 회차 시작" if compact else "전투 불능입니다. 새 회차로 다시 시작하세요."
  if finished: return "연구실 B동 임시 격리 완료" if use_fleet_demo else "연구동 외곽 구역 봉쇄 성공"
- if npc_hp <= 0: return "미카 다운 · 가까이에서 E로 치료 키트 1개를 사용해 소생하세요."
- if use_fleet_demo: return fleet_demo.guidance()
- if story.stage == "on_shift": return "근무 중 · 연구 구역의 전등 상태를 확인하세요."
+ if npc_hp <= 0: return "미카 소생 · 가까이에서 E" if compact else "미카 다운 · 가까이에서 E로 치료 키트 1개를 사용해 소생하세요."
+ if use_fleet_demo: return fleet_demo.guidance(compact)
+ if story.stage == "on_shift": return "연구실 전등 확인" if compact else "근무 중 · 연구 구역의 전등 상태를 확인하세요."
  if map_id == "main_entry": return containment.guidance()
- if map_id == "quarters": return "정비병 개인실 · 서쪽 문에서 E로 연구실 복귀"
- if power_restored: return "침식 경보 · 연구실 출발 출입문에서 E로 연구동 진입" if "anomaly_alarm" in story.events else "전력 복구 · 장치 재가동을 확인하세요"
- if fuse_collected: return "연구실로 돌아가 전력 장치에 퓨즈를 장착하세요." if map_id == "storage" else "전력 장치에 퓨즈를 장착하세요."
+ if map_id == "quarters": return "서쪽 문으로 연구실 복귀" if compact else "정비병 개인실 · 서쪽 문에서 E로 연구실 복귀"
+ if power_restored:
+  if compact: return "연구동으로 출발" if "anomaly_alarm" in story.events else "전력 장치 재가동 확인"
+  return "침식 경보 · 연구실 출발 출입문에서 E로 연구동 진입" if "anomaly_alarm" in story.events else "전력 복구 · 장치 재가동을 확인하세요"
+ if fuse_collected:
+  if compact: return "퓨즈를 들고 연구실로 복귀" if map_id == "storage" else "전력 장치에 퓨즈 장착"
+  return "연구실로 돌아가 전력 장치에 퓨즈를 장착하세요." if map_id == "storage" else "전력 장치에 퓨즈를 장착하세요."
  if map_id == "lab":
+  if compact:
+   if flashlight_dropped: return "바닥의 손전등 줍기"
+   return "비품실에서 퓨즈 찾기" if flashlight_owned else "미카에게 손전등 받기"
   if flashlight_dropped: return "바닥의 손전등을 E로 주운 뒤 왼쪽 비품실로 가세요."
   return "왼쪽 통로에서 미카에게 손전등을 받으세요." if not flashlight_owned else "왼쪽 통로로 비품실에 가서 퓨즈를 찾으세요."
- if enemies_remaining() > 0: return "침식된 선원 %d명를 제압한 뒤 북쪽 중앙 2인 패널 보관함에서 퓨즈를 찾으세요." % enemies_remaining()
+ if enemies_remaining() > 0:
+  return ("침식된 선원 %d명 제압" if compact else "침식된 선원 %d명를 제압한 뒤 북쪽 중앙 2인 패널 보관함에서 퓨즈를 찾으세요.") % enemies_remaining()
  if not locker.opened:
+  if compact:
+   if current_panel().sequence_elapsed >= 0: return "보관함 잠금 해제 중"
+   return "미카와 양쪽 패널에서 E 유지"
   if current_panel().sequence_elapsed >= 0: return "비프음 확인 중 · 보관함 잠금이 해제됩니다."
   if locker.player_panel >= 0: return "E 유지 · 미카와 양쪽 패널을 %.1f / %.1f초 함께 작동" % [current_panel().progress, locker.hold_seconds]
   return "보관함 양쪽 패널 중 하나에서 E 유지 · 미카에게 반대 패널 지원 요청"
- return "열린 보관함의 퓨즈·보급을 챙기고 오른쪽 통로로 연구실에 돌아가세요."
+ return "보관함에서 퓨즈 회수" if compact else "열린 보관함의 퓨즈·보급을 챙기고 오른쪽 통로로 연구실에 돌아가세요."
 
 func game_state() -> Dictionary:
  return {"epoch": epoch, "map_id": map_id, "story": story.snapshot(), "objective": current_guidance(), "location": room_name(),
@@ -1340,6 +1369,7 @@ func take_npc_damage(amount: int) -> void:
 func fail_mission(reason: String) -> void:
  if finished or defeated: return
  defeated = true
+ player.reset_dash()
  if use_fleet_demo: fleet_demo.clear_cues()
  epoch += 1
  active_action = ""
@@ -1395,6 +1425,7 @@ func save_snapshot() -> Dictionary:
 func restore_snapshot(data: Dictionary) -> void:
  _cancel_transition()
  fleet_demo.clear_cues()
+ player.reset_dash()
  use_fleet_demo = data.has("fleet_demo")
  magazines = int(data.get("magazines", FLEET_START_MAGAZINES)) if use_fleet_demo else 0
  reload_time = float(data.get("reload_time", 0.0)) if use_fleet_demo else 0.0

@@ -117,11 +117,11 @@ func run() -> void:
  world.apply_interaction("fuse")
  check("fuse_cannot_bypass_locker", not world.fuse_collected)
  await key(KEY_ENTER)
- check("enter_opens_only_small_composer", app.dialogue_panel.visible and app.dialogue_panel.size.y == 56 and app.question.has_focus() and not app.answer.is_visible_in_tree())
+ check("enter_opens_only_small_composer", app.dialogue_panel.visible and app.dialogue_panel.size.y == 64 and app.question.has_focus() and not app.answer.is_visible_in_tree())
  app.question.text = "패널은 어떻게 해?"
  await key(KEY_ENTER)
  check("submit_closes_chat_and_clears_sent_text", not app.dialogue_panel.visible and app.question.text.is_empty() and world.can_move)
- check("reply_only_in_speech_bubble", app.combat_hud.npc_bubble.full_text == app.answer.text and "패널" in app.answer.text and not app.dialogue_panel.visible)
+ check("reply_only_in_bottom_caption", app.combat_hud.hud.get_node("%Line").text == app.answer.text and "패널" in app.answer.text and not app.dialogue_panel.visible and not app.combat_hud.npc_bubble.visible)
  await key(KEY_ENTER)
  app.question.text = "보내지 않은 초안"
  await key(KEY_ESCAPE)

@@ -65,6 +65,8 @@ func run() -> void:
 
 func test_chat() -> void:
  var field: ChatInput = app.question
+ app.open_dialogue()
+ field.finish_editing()
  field.text = ""
  await key(KEY_ENTER)
  check("empty_enter_closes_unfocused_lab_dialogue", not app.dialogue_panel.visible and world.can_move and app.brain.history.is_empty())

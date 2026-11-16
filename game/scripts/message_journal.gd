@@ -29,9 +29,3 @@ func restore(data: Array) -> void:
   sequence = maxi(sequence, int(item.sequence))
   entries.back()["tick"] = -10000 # 前セッションの時計で重複抑制しない。
 
-func display_text() -> String:
- var lines := PackedStringArray()
- for item in entries:
-  lines.append("%s  [%s · %s] %s%s" % [str(item.time).right(8), item.sender, "시스템" if item.channel == "system" else "대화", item.body, " ×%d" % item.repeat if item.repeat > 1 else ""])
- return "\n\n".join(lines)
-

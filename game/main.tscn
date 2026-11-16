@@ -15,19 +15,10 @@
 [ext_resource type="Script" path="res://scripts/industrial_ui_frame.gd" id="14"]
 [ext_resource type="Texture2D" path="res://resources/MikaPortrait.tres" id="15"]
 [ext_resource type="Script" path="res://scripts/dialogue_speech_bubble.gd" id="16"]
-[ext_resource type="Theme" path="res://resources/LabDialogueTheme.tres" id="17"]
+[ext_resource type="Theme" path="res://resources/BulkheadHUDTheme.tres" id="17"]
 [ext_resource type="PackedScene" path="res://scenes/ui/CombatHUD.tscn" id="18"]
 [ext_resource type="PackedScene" path="res://scenes/ui/PauseMenu.tscn" id="19"]
 [ext_resource type="Texture2D" path="res://assets/fleet_demo/art/interact_key_e.png" id="20"]
-
-[sub_resource type="StyleBoxFlat" id="FleetSubtitle"]
-content_margin_left = 26.0
-content_margin_top = 8.0
-content_margin_right = 26.0
-content_margin_bottom = 8.0
-bg_color = Color(0.035, 0.059, 0.084, 0.96)
-border_width_left = 2
-border_color = Color(0.48, 0.75, 0.78, 0.9)
 
 [sub_resource type="StyleBoxFlat" id="FleetReaction"]
 bg_color = Color(0.035, 0.059, 0.084, 0.96)
@@ -78,23 +69,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 z_index = 36
-
-[node name="Subtitle" type="CenterContainer" parent="FleetCues"]
-visible = false
-layout_mode = 1
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -116.0
-offset_bottom = -40.0
-mouse_filter = 2
-
-[node name="Text" type="Label" parent="FleetCues/Subtitle"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.91, 0.95, 0.96, 1)
-theme_override_font_sizes/font_size = 22
-theme_override_styles/normal = SubResource("FleetSubtitle")
-horizontal_alignment = 1
 
 [node name="Interaction" type="PanelContainer" parent="FleetCues"]
 visible = false
@@ -355,6 +329,7 @@ text_overrun_behavior = 3
 
 [node name="RadioPanel" type="Panel" parent="."]
 unique_name_in_owner = true
+visible = false
 script = ExtResource("13")
 z_index = 32
 offset_left = 28.0
@@ -705,66 +680,16 @@ show_behind_parent = true
 script = ExtResource("14")
 frame_kind = "button"
 
-[node name="LabObjective" type="Panel" parent="."]
-unique_name_in_owner = true
-z_index = 33
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -408.0
-offset_top = 24.0
-offset_right = -24.0
-offset_bottom = 80.0
-theme = ExtResource("17")
-mouse_filter = 0
-
-[node name="Chrome" type="Control" parent="LabObjective"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-show_behind_parent = true
-script = ExtResource("14")
-frame_kind = "objective"
-
-[node name="LabObjectiveText" type="Label" parent="LabObjective"]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 46.0
-offset_right = -16.0
-mouse_filter = 2
-text = "비품실에서 퓨즈 찾기"
-vertical_alignment = 1
-theme_override_font_sizes/font_size = 18
-text_overrun_behavior = 3
-
-[node name="LabModeBadge" type="Label" parent="."]
-unique_name_in_owner = true
-z_index = 33
-offset_left = 28.0
-offset_top = 24.0
-offset_right = 420.0
-offset_bottom = 50.0
-mouse_filter = 2
-text = "규칙 기반 · F3 실험 설정"
-theme_override_font_sizes/font_size = 13
-theme_override_colors/font_color = Color(0.55, 0.57, 0.52, 1)
-
 [node name="TalkPrompt" type="Button" parent="."]
 unique_name_in_owner = true
 visible = false
 z_index = 32
-anchor_left = 0.5
+anchor_left = 0.28
 anchor_top = 1.0
-anchor_right = 0.5
+anchor_right = 0.72
 anchor_bottom = 1.0
-offset_left = -252.0
-offset_top = -82.0
-offset_right = 252.0
-offset_bottom = -30.0
+offset_top = -66.0
+offset_bottom = -22.0
 theme = ExtResource("17")
 focus_mode = 0
 text = "Enter를 눌러 미카에게 말하기"

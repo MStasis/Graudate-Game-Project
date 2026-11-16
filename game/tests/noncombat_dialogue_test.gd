@@ -45,7 +45,7 @@ func snapshot(stem: String) -> void:
 
 func ui_fits() -> bool:
  var bounds := Rect2(Vector2.ZERO, app.size)
- for path in ["RadioPanel", "RadioPanel/LabPortrait", "RadioPanel/Answer", "RadioPanel/Question", "RadioPanel/SendButton", "RadioPanel/CloseDialogue", "LabObjective", "LabModeBadge"]:
+ for path in ["RadioPanel", "RadioPanel/Question", "RadioPanel/SendButton", "RadioPanel/CloseDialogue", "CombatHUD/HUD/Navigation", "CombatHUD/HUD/Vitals"]:
   var control := app.get_node(path) as Control
   if control.is_visible_in_tree() and not bounds.encloses(control.get_global_rect()): return false
  return true
@@ -64,17 +64,19 @@ func run() -> void:
  var local_client_id: int = app.brain.local_dialogue.get_instance_id()
  var portrait: TextureRect = app.get_node("RadioPanel/LabPortrait")
  check("noncombat_starts_in_lab", app.is_noncombat() and app.dialogue_panel.noncombat_mode)
- check("large_dialogue_opens_without_forcing_focus", app.dialogue_panel.visible and not field.has_focus() and app.world.can_move)
+ check("lab_starts_with_closed_composer", not app.dialogue_panel.visible and not field.has_focus() and app.world.can_move)
  check("portrait_is_separate_alpha_asset", portrait.texture.resource_path.ends_with("MikaPortrait.tres") and portrait.texture.get_image().detect_alpha() != Image.ALPHA_NONE)
  check("single_shared_chat_input", count_chat_fields(app) == 1)
  check("shared_native_input_script", field.get_script().resource_path == "res://scripts/chat_input.gd")
  check("native_bridge_binary_unchanged", FileAccess.get_sha256("res://native/windows_ime/windows_ime.dll") == "72082b7d2f61f9b1f2435be8f70f2012ccb63d656dd73c3d12ba6777c66851a6")
- check("body_is_real_rich_text", app.answer is RichTextLabel and app.answer.text == NPCPolicy.opening_line(app.world.game_state()))
- check("speaker_comes_from_npc", app.get_node("RadioPanel/CompanionName").text == app.world.npc.display_name.trim_prefix("정비사 "))
- check("goal_comes_from_mission", "퓨즈" in app.get_node("LabObjective/LabObjectiveText").text)
- check("combat_hud_not_redesigned_in_lab", not app.get_node("Header").visible and not app.get_node("MissionBar").visible)
- check("chrome_has_no_baked_textures", app.get_node("RadioPanel/LabChrome") is IndustrialUIFrame and field.get_node("FieldChrome") is IndustrialUIFrame and app.send_button.get_node("ButtonChrome") is IndustrialUIFrame)
+ check("opening_text_uses_existing_policy", app.answer.text == NPCPolicy.opening_line(app.world.game_state()))
+ check("talk_prompt_names_companion", app.get_node("TalkPrompt").text.contains(app.world.npc.display_name.trim_prefix("정비사 ")))
+ var objective: Label = app.combat_hud.hud.get_node("%Objective")
+ check("goal_comes_from_mission", objective.text == app.world.current_guidance(true))
+ check("same_bulkhead_hud_in_lab", app.combat_hud.hud.visible and not app.get_node("Header").visible and not app.get_node("MissionBar").visible)
+ check("composer_uses_bulkhead_theme", app.dialogue_panel.theme.resource_path.ends_with("BulkheadHUDTheme.tres"))
  check("reference_canvas_fits", ui_fits())
+ await key(KEY_ENTER)
  field.text = "안녕하세요. 입력 중인 문장"
  field.set_caret_column(field.text.length())
  field.grab_focus()
@@ -110,16 +112,17 @@ func run() -> void:
  app.open_dialogue()
  app.brain.dialogue_error.emit("합성 오류")
  check("failure_is_not_replaced_by_fake_dialogue", "합성 오류" in app.combat_hud.system_notices.latest_text and app.answer.text == "닫힌 상태에서 받은 합성 대사" and app.get_node("RadioPanel/RadioState").text == "● 응답 오류")
+ app.close_dialogue()
  app.brain.dialogue_ready.emit("긴".repeat(160))
  await frames()
- check("long_reply_kept_and_scrollable", app.answer.text.length() == 160 and app.answer.scroll_active and app.answer.get_content_height() > app.answer.size.y)
+ check("long_reply_kept_in_review", app.answer.text.length() == 160 and app.combat_hud.journal.entries.back().body == app.answer.text and app.combat_hud.hud.get_node("%Line").max_lines_visible == 3)
  field.text = "맵 전환 중에도 보존"
  app.world.flashlight_owned = true # Fixture: 기존 회귀의 전투/입력 조건. 지급 흐름은 mission_mechanics_test에서 별도 검증.
  app.world.apply_interaction("storage_gate")
- check("combat_uses_actor_hud", not app.dialogue_panel.noncombat_mode and not app.get_node("Header").visible and not portrait.visible and not app.get_node("LabObjective").visible)
+ check("combat_reuses_bulkhead_hud", not app.dialogue_panel.noncombat_mode and app.combat_hud.hud.visible and not app.get_node("Header").visible and not portrait.visible)
  check("input_and_client_reused_across_modes", app.question.get_instance_id() == field_id and app.brain.local_dialogue.get_instance_id() == local_client_id and field.text == "맵 전환 중에도 보존")
  check("no_duplicate_send_connections", field.get_signal_connection_list("text_submitted").size() == 1)
- check("combat_uses_compact_composer", app.dialogue_panel.size.y == 56 and not app.answer.visible)
+ check("combat_uses_compact_composer", app.dialogue_panel.size.y == 64 and not app.answer.visible)
  for enemy in app.world.get_node("Enemies").get_children():
   enemy.hp = 0
   enemy.active = false
@@ -137,11 +140,12 @@ func run() -> void:
  app.world.apply_interaction("lab_gate")
  app.open_dialogue()
  field.finish_editing()
- await click_at(portrait.get_global_rect().get_center())
- check("portrait_click_does_not_fire", app.world.ammo == 6)
- check("goal_updates_after_fuse_return", app.get_node("LabObjective/LabObjectiveText").text == "전력 장치에 퓨즈 장착")
+ await click_at(app.combat_hud.minimap.get_global_rect().get_center())
+ check("minimap_click_does_not_fire", app.world.ammo == 6)
+ check("goal_updates_after_fuse_return", objective.text == "전력 장치에 퓨즈 장착")
  app.world.apply_interaction("generator")
- check("goal_updates_after_power_restored", app.get_node("LabObjective/LabObjectiveText").text == "침식 경보 · 연구동으로 출발")
+ await frames()
+ check("goal_updates_after_power_restored", objective.text == app.world.current_guidance(true) and "퓨즈" not in objective.text)
  var composing = load("res://tests/fixtures/composing_chat_input.gd").new()
  root.add_child(composing)
  var close_signals := []
@@ -161,7 +165,7 @@ func run() -> void:
  app.world.npc.position = Vector2(-500, 100)
  app._update_speaker_bubble()
  check("availability_hint_hidden_offscreen", not app.get_node("SpeakerBubble").visible)
- app.world.npc.position = app.world.player.position + Vector2(42, -70)
+ app.world.npc.position = app.world.player.position + Vector2(28, -44)
  app._update_speaker_bubble()
  var sprite: Sprite2D = app.world.npc.animation
  var art_bounds: Rect2 = (app.get_global_transform_with_canvas().affine_inverse() * sprite.get_global_transform_with_canvas()) * sprite.get_rect()

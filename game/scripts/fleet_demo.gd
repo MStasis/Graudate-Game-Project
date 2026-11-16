@@ -4,6 +4,8 @@ extends Node2D
 const Room := preload("res://scripts/fleet_demo_room.gd")
 const Lines := preload("res://scripts/fleet_demo_lines.gd")
 const Crew := preload("res://scenes/RiftCrew.tscn")
+const RiftTurret := preload("res://scenes/RiftTurret.tscn")
+const Sentry := preload("res://scripts/rift_turret.gd")
 const OBJECTIVE_ARROW := preload("res://assets/fleet_demo/art/door_objective_arrow.png")
 const BROKEN_FUSE := preload("res://resources/FuseBrokenTexture.tres")
 const MAPS := {
@@ -28,6 +30,7 @@ const REPAIR_POSITION := Vector2(173, 203)
 const HANDOFF_POSITION := Vector2(135, 267)
 const AMBUSH_HINT := "좌클릭을 눌러 적을 공격하세요"
 const WALK_HINT := "WASD로 이동하세요"
+const SENTRY_SPAWN := "Wave2_Spawn_4"
 const CABINETS := ["cabinet_fuse", "cabinet_reserve", "personal_cabinet"]
 const PROPS := {
 	"mika_quarters": {"personal_cabinet": "개인 캐비닛"},
@@ -56,7 +59,6 @@ var wave_wait := -1.0
 var camera_weight := 0.0
 var camera_point := Vector2.ZERO
 var fixed_aim := false
-var show_mika_portrait := true
 var npc_task := ""
 var voice_active := false
 var hint := ""
@@ -100,7 +102,8 @@ func bind(mission: DemoWorld) -> void:
 	hide()
 
 func _add_enemy(id: String, room: String, group: int, start: Vector2) -> void:
-	var enemy := Crew.instantiate() as MissionDrone
+	var scene := RiftTurret if id == SENTRY_SPAWN else Crew
+	var enemy := scene.instantiate() as MissionDrone
 	enemy.name = id
 	enemy.set_meta("room", room)
 	enemy.set_meta("wave", group)
@@ -151,6 +154,7 @@ func clear_cues() -> void:
 	voice_active = false
 	_door_arrow.hide()
 	_arrow_time = 0.0
+	_end_repair_walk()
 	npc_task = ""
 	fixed_aim = false
 	camera_weight = 0.0
@@ -201,7 +205,7 @@ func combat_area() -> bool:
 	return (world.map_id == "corridor" and step == Step.AMBUSH and not voice_active) or (world.map_id == "research_lab_b" and step == Step.WAVES)
 
 func locks_movement() -> bool:
-	return opening_pending or voice_active or _sequence != null or step in [Step.ARMED, Step.ENDING] or npc_task in ["breaker", "power"]
+	return opening_pending or voice_active or _sequence != null or step in [Step.ARMED, Step.ENDING] or not npc_task.is_empty()
 
 func allows_interact() -> bool:
 	return step == Step.ARMED and not voice_active and _sequence == null
@@ -214,13 +218,16 @@ func configuration() -> Dictionary:
 	for enemy in unit_pool:
 		var p: Vector2 = enemy.get_meta("spawn")
 		markers[str(enemy.name)] = [p.x, p.y]
-	return {"layout": 1, "crew_spawns": markers, "wave_pause": WAVE_PAUSE}
+	return {"layout": 1, "crew_spawns": markers, "wave_pause": WAVE_PAUSE, "rift_sentry": SENTRY_SPAWN,
+		"sentry_attack": {"bolts_per_laser": Sentry.BOLTS_PER_LASER, "laser_charge": Sentry.LASER_CHARGE, "laser_damage": Sentry.LASER_DAMAGE}}
 
 func snapshot() -> Dictionary:
 	var enemies := {}
 	for enemy in unit_pool:
 		if enemy.hp > 0:
-			enemies[str(enemy.name)] = {"hp": enemy.hp, "position": [enemy.position.x, enemy.position.y], "attack_wait": enemy.attack_wait}
+			var state := {"hp": enemy.hp, "position": [enemy.position.x, enemy.position.y], "attack_wait": enemy.attack_wait}
+			if enemy is Sentry: state["bolts_fired"] = enemy.bolts_fired
+			enemies[str(enemy.name)] = state
 	return {"step": step, "opened": cabinets.keys(), "inserted": inserted, "core_seen": core_seen,
 		"lab_supply_used": lab_supply_used, "lab_ammo_used": lab_ammo_used, "wave": wave, "wave_wait": wave_wait, "enemies": enemies}
 
@@ -244,6 +251,7 @@ func restore(state: Dictionary) -> void:
 		enemy.hp = int(data.hp)
 		enemy.position = Room.pixel(data.position)
 		enemy.attack_wait = float(data.attack_wait)
+		if enemy is Sentry: enemy.bolts_fired = int(data.get("bolts_fired", 0))
 	_restore_props()
 	if step == Step.ARMED:
 		fixed_aim = true
@@ -288,6 +296,7 @@ func validate(state: Dictionary, store: MissionSaveStore) -> bool:
 		var item = data.enemies[id]
 		if not item is Dictionary or enemy.get_meta("room") != map or enemy.get_meta("wave") != group: return false
 		if not store.whole(item.get("hp"), 1, enemy.max_hp) or not store.point(item.get("position"), rooms[map].bounds) or not store.number(item.get("attack_wait"), -3600, 60): return false
+		if enemy is Sentry and not store.whole(item.get("bolts_fired", 0), 0, Sentry.BOLTS_PER_LASER): return false
 		verified += 1
 	return verified == data.enemies.size()
 
@@ -303,7 +312,7 @@ func sync() -> void:
 	world.fuse.visible = world.map_id == "supply_room" and cabinets.get("cabinet_fuse", false) and not world.fuse_collected
 	for enemy in unit_pool:
 		var in_room: bool = enemy.get_meta("room") == world.map_id
-		enemy.sync_presence(in_room, combat_area() and not world.defeated and not world.finished and not world.transition_active())
+		enemy.sync_presence(in_room, combat_area() and not voice_active and not world.defeated and not world.finished and not world.transition_active())
 		enemy.companion_alive = false
 
 func _updated() -> void:
@@ -317,6 +326,10 @@ func tick(delta: float) -> void:
 	if opening_pending:
 		opening_pending = false
 		_opening()
+	if npc_task == "clear_terminal" and not world.player.scripted_target.is_finite():
+		npc_task = "breaker"
+		world.npc_navigation.reset()
+		world.npc_motion.arrived = false
 	if locks_movement() or world.transition_active(): return
 	match step:
 		Step.CORES:
@@ -372,7 +385,6 @@ func _next_line() -> void:
 		_updated()
 		return
 	var line: Array = _dialogue.pop_front()
-	show_mika_portrait = line[0] == "미카" and world.npc.visible
 	line_changed.emit(line[0], line[1])
 
 func on_enter(from: String) -> void:
@@ -482,6 +494,7 @@ func _show_fuse_motion(from: Vector2, to: Vector2, texture: Texture2D) -> void:
 	motion.finished.connect(part.queue_free)
 
 func _restore_power() -> void:
+	_end_repair_walk()
 	npc_task = ""
 	var cue := _new_sequence()
 	fixed_aim = true
@@ -495,19 +508,33 @@ func _restore_power() -> void:
 		world._remember("전기실에서 퓨즈를 교체하고 미카가 단말로 전력을 복구했다.")
 		_updated())
 	cue.tween_interval(0.40)
+	cue.finished.connect(func():
+		_sequence = null
+		fixed_aim = false
+		_say(Lines.BREAKER_FIXED, _start_alarm))
+
+func _end_repair_walk() -> void:
+	world.player.scripted_target = Vector2.INF
+	world.npc.remove_collision_exception_with(world.player)
+
+func _start_alarm() -> void:
+	var cue := _new_sequence()
+	step = Step.ALARM
+	world.story_event("anomaly_alarm", "anomaly_alarm")
+	world._event("anomaly_alarm", {})
+	_updated()
+
+	cue.tween_interval(0.20)
 	cue.tween_callback(func():
-		step = Step.ALARM
-		world.story_event("anomaly_alarm", "anomaly_alarm")
-		world._event("anomaly_alarm", {})
 		_face_each_other()
-		showing_reaction.emit(true)
-		_updated())
+		showing_reaction.emit(true))
+
 	cue.tween_interval(1.45)
 	cue.finished.connect(func():
 		_sequence = null
 		fixed_aim = false
 		showing_reaction.emit(false)
-		_say(Lines.BREAKER_FIXED))
+		_updated())
 
 func _start_ambush() -> void:
 	step = Step.AMBUSH
@@ -533,11 +560,15 @@ func _start_wave(number: int) -> void:
 		if enemy.get_meta("wave") != wave: continue
 		enemy.reset_enemy()
 		enemy.attack_wait = 1.5
-		enemy.animation.hold("move", SpriteTimeline.cardinal(enemy.position.direction_to(world.player.position)))
+		enemy.face_spawn(SpriteTimeline.cardinal(enemy.position.direction_to(world.player.position)))
 		count += 1
 	world._event("fleet_wave_started", {"wave": wave, "count": count})
 	world.epoch += 1
-	_updated()
+	if number == 1:
+		_say(Lines.WAVE_START)
+	else:
+		if number == 2: world.notice.emit("침식 센트리 출현 · 붉은 사선을 Space로 회피하세요.")
+		_updated()
 
 func _enemy_defeated() -> void:
 	var remaining := world.enemies_remaining()
@@ -552,7 +583,7 @@ func _enemy_defeated() -> void:
 		elif step == Step.WAVES:
 			step = Step.LEVER
 			world.clear_projectiles.call_deferred()
-			world._remember("연구실 B동의 침식된 선원 세 무리를 모두 제압했다.")
+			world._remember("연구실 B동에서 침식된 선원과 센트리를 모두 제압했다.")
 			_say(Lines.WAVES_CLEAR)
 	_updated()
 
@@ -706,9 +737,9 @@ func interact(id: String, animate: bool) -> String:
 			_show_fuse_motion(world.player.position + Vector2(0, -38), world.npc.position + Vector2(0, -38), world.fuse.object_texture)
 			world._event("fleet_fuse_handed", {})
 			world.active_action = ""
-			world.npc_navigation.reset()
-			npc_task = "breaker"
-			world.npc_motion.arrived = false
+			npc_task = "clear_terminal"
+			world.npc.add_collision_exception_with(world.player)
+			world.player.walk_to(active_room.get_node("PlayerRepairStand").position)
 			_updated()
 		"power_terminal":
 			return "전력이 복구되었습니다." if world.power_restored else "주 퓨즈함의 정상 퓨즈부터 교체하세요."
@@ -787,11 +818,11 @@ func update_objective_arrow(delta: float, visible_for_player: bool) -> Rect2:
 	_door_arrow.show()
 	return _door_arrow.get_global_transform_with_canvas() * _door_arrow.get_rect()
 
-func guidance() -> String:
+func guidance(compact := false) -> String:
 	match step:
-		Step.FIND_MIKA: return "복도 왼쪽 첫 번째 문에서 미카 만나기"
-		Step.FIND_FUSE: return "미카 방 오른쪽 비품실에서 정상 퓨즈 찾기"
-		Step.FUSE_HELD: return "비품실 아래쪽 문으로 나가 오른쪽 전기실로 이동"
+		Step.FIND_MIKA: return "왼쪽 첫 문에서 미카 만나기" if compact else "복도 왼쪽 첫 번째 문에서 미카 만나기"
+		Step.FIND_FUSE: return "비품실에서 정상 퓨즈 찾기" if compact else "미카 방 오른쪽 비품실에서 정상 퓨즈 찾기"
+		Step.FUSE_HELD: return "퓨즈를 들고 전기실로 이동" if compact else "비품실 아래쪽 문으로 나가 오른쪽 전기실로 이동"
 		Step.AMBUSH: return "복도의 침식된 선원 제압"
 		Step.TO_POWER: return "복도 오른쪽의 전기실로 이동"
 		Step.REPAIR:
@@ -799,9 +830,11 @@ func guidance() -> String:
 			return "미카에게 정상 퓨즈 건네기" if not fuse_handed else "미카의 전력 복구 작업"
 		Step.ALARM: return "복도로 나가 경보 확인"
 		Step.TO_LAB: return "복도 오른쪽 끝의 연구실 B동으로 이동"
-		Step.CORES: return "위쪽 침식 코어의 레버로 이동 · 필요하면 아래쪽에서 보급" if world.map_id == "research_lab_b" else "복도 오른쪽 끝에서 연구실 B동으로 복귀"
-		Step.WAVES: return "침식된 선원 제압 · %d / 3차" % wave
-		Step.LEVER: return "침식 코어 레버 앞에서 미카의 신호를 기다리기"
+		Step.CORES:
+			if compact: return "위쪽 침식 코어 조사" if world.map_id == "research_lab_b" else "연구실 B동으로 복귀"
+			return "위쪽 침식 코어의 레버로 이동 · 필요하면 아래쪽에서 보급" if world.map_id == "research_lab_b" else "복도 오른쪽 끝에서 연구실 B동으로 복귀"
+		Step.WAVES: return "연구실 B동의 적 제압 · %d / 3차" % wave
+		Step.LEVER: return "레버 앞에서 미카 신호 대기" if compact else "침식 코어 레버 앞에서 미카의 신호를 기다리기"
 		Step.ARMED: return "E로 침식 코어 레버 당기기"
 		Step.ENDING: return "연구실 B동 임시 격리"
 	return ""
