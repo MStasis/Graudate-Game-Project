@@ -99,6 +99,9 @@ $fleetResultPath = Join-Path $evidencePath 'fleet_sprites\test.json'
 $fleetResult = Get-Content -LiteralPath $fleetResultPath -Raw -Encoding UTF8 | ConvertFrom-Json
 if (-not $fleetResult.passed -or (Get-Item -LiteralPath $fleetResultPath).LastWriteTimeUtc -lt $started) { throw 'Fresh fleet sprite result was not verified.' }
 
+& $godotExe --headless --path $gamePath --fixed-fps 60 --script res://tests/stability_test.gd --log-file (Join-Path $evidencePath 'stability_test.log') -- --provider=RuleBased
+if ($LASTEXITCODE -ne 0) { throw 'Save, model transport and mission recovery regressions failed.' }
+
 if ($Render) {
     Invoke-HiddenGodot @('--path', $gamePath, '--resolution', '1280x800', '--audio-driver', 'Dummy', '--fixed-fps', '60', '--script', 'res://tests/fleet_demo_test.gd', '--', '--provider=RuleBased', '--render-fleet-demo') 'fleet_demo_render'
     $fleetRender = Join-Path $evidencePath 'fleet_demo\render.json'
@@ -142,7 +145,7 @@ if ($Render) {
     if (-not $dialogueNoticeRenderResult.passed -or -not $dialogueNoticeRenderResult.gpu_rendered -or (Get-Item -LiteralPath $dialogueNoticeRenderPath).LastWriteTimeUtc -lt $started) { throw 'Fresh rendered dialogue/notification result failed.' }
 }
 if ($LocalAI) {
-    & $godotExe --headless --path $gamePath --script res://tests/fleet_dialogue_test.gd --log-file (Join-Path $evidencePath 'fleet_dialogue_live.log') -- --fleet-dialogue-live --provider=LocalLLM
+    & $godotExe --headless --path $gamePath --script res://tests/fleet_dialogue_test.gd --log-file (Join-Path $evidencePath 'fleet_dialogue_live.log') -- --fleet-dialogue-live --provider=LocalLLM --record-dialogue
     if ($LASTEXITCODE -ne 0) { throw 'Live Fleet dialogue transport/provenance regression failed.' }
     & $godotExe --headless --path $gamePath --script res://tests/containment_live_test.gd --log-file (Join-Path $evidencePath 'containment_live.log') -- --mission-test --provider=LocalLLM
     if ($LASTEXITCODE -ne 0) { throw 'Live containment cancellation regression failed.' }

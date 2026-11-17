@@ -1,4 +1,4 @@
-param([switch]$Editor, [switch]$Evidence, [ValidateSet('', 'RuleBased', 'LocalLLM', 'Jev')][string]$Provider = '')
+param([switch]$Editor, [switch]$Evidence, [switch]$RecordDialogue, [ValidateSet('', 'RuleBased', 'LocalLLM', 'Jev')][string]$Provider = '')
 $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path -Parent $PSScriptRoot
 $godotExe = Join-Path $projectRoot 'runtime\godot\Godot_v4.7.2-stable_win64.exe'
@@ -72,6 +72,7 @@ $engineArgs = @('--path', ('"' + $gamePath + '"'), '--log-file', ('"' + (Join-Pa
 if ($Editor) { $engineArgs += @('--editor', '--maximized', 'res://scenes/World.tscn') }
 if (-not $Editor) { $engineArgs += @('--', ('--provider=' + $Provider)) }
 if ($Evidence) { $engineArgs += '--mission-evidence' }
+if ($RecordDialogue -and -not $Editor) { $engineArgs += '--record-dialogue' }
 $gameProcess = Start-Process -FilePath $godotExe -ArgumentList $engineArgs -WorkingDirectory $projectRoot -WindowStyle Normal -PassThru
 Write-Host ('Started Godot. Process ID: ' + $gameProcess.Id)
 

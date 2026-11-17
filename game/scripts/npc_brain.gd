@@ -37,6 +37,7 @@ var max_frame_ms := 0.0
 var run_kind := "interactive"
 var project_fingerprint := ""
 const PROVIDERS := ["RuleBased", "LocalLLM", "Jev"]
+const MAX_JEV_RESPONSE_BYTES := 256 * 1024
 
 func setup(mission: DemoWorld, directory: String) -> void:
  world = mission
@@ -69,6 +70,7 @@ func setup(mission: DemoWorld, directory: String) -> void:
  local_decision.settings.temperature = 0.1
  local_decision.settings.timeout_seconds = settings.request_timeout
  jev.timeout = settings.request_timeout
+ jev.body_size_limit = MAX_JEV_RESPONSE_BYTES
  jev.request_completed.connect(_jev_completed)
  world.game_event.connect(_world_event)
  new_trial()
@@ -120,7 +122,7 @@ func request_decision() -> bool:
 
 func request_dialogue(text: String) -> bool:
  if world.finished or world.defeated: return false
- text = text.strip_edges().substr(0, 300)
+ text = text.strip_edges().left(MikaDialogue.QUESTION_LIMIT)
  if text.is_empty(): return false
  var action := NPCPolicy.requested_action(text, world.use_fleet_demo)
  if world.use_fleet_demo and world.map_id == "research_lab_b" and world.fleet_demo.npc_target().is_finite() and action in ["follow", "wait"]:
@@ -131,9 +133,8 @@ func request_dialogue(text: String) -> bool:
   if not dialogue_pending.is_empty(): cancel_channel("dialogue", "player_order_preempted")
   var receipt := world.request_player_order(action)
   serial += 1
-  history.append({"question": text, "answer": receipt.text})
+  _remember_dialogue(text, receipt.text)
   dialogue_grounding = {"action": action, "action_accepted": receipt.accepted, "status": receipt.status, "epoch": world.epoch}
-  if history.size() > MikaDialogue.HISTORY_LIMIT: history.pop_front()
   dialogue_ready.emit(receipt.text)
   var record := {"event": "response", "kind": "dialogue", "request_id": serial, "question": text, "selected": action, "accepted": true, "action_accepted": receipt.accepted, "action_status": receipt.status, "actual_model": "common_executor", "dialogue_method": "executor_receipt", "prompt_version": NPCPolicy.PROMPT_VERSION, "elapsed_ms": 0.0, "frames_pending": 0, "max_frame_ms": 0.0, "rejected_reason": ""}
   _log(record)
@@ -150,9 +151,10 @@ func request_dialogue(text: String) -> bool:
 
 func _request(kind: String, question: String) -> bool:
  if not pending.is_empty() or world.finished or world.defeated: return false
- serial += 1
  var snapshot := world.game_state().duplicate(true)
  var allowed: Array = snapshot.valid_actions if kind == "decision" else NPCPolicy.INTENTS.keys()
+ if allowed.is_empty(): return false
+ serial += 1
  pending = {"request_id": serial, "kind": kind, "question": question, "snapshot": snapshot, "snapshot_hash": JSON.stringify(snapshot).sha256_text(), "allowed": allowed.duplicate(), "started_usec": Time.get_ticks_usec(), "epoch": world.epoch}
  frame_count = 0
  max_frame_ms = 0.0
@@ -201,25 +203,29 @@ func _request(kind: String, question: String) -> bool:
 
 func _local_completed(record: Dictionary) -> void:
  if pending.is_empty(): return
- var source: Dictionary = record.get("state", {})
+ var source = record.get("state", {})
+ if not source is Dictionary: return
  if source.get("_request_id", -1) != pending.request_id or source.get("_channel", "") != pending.kind or source.get("_attempt", 0) != pending.get("retry", 0):
   _log({"event": "transport_response_ignored", "reason": "request_id_mismatch", "state": source})
   return
- var selected: String = record.response
+ var selected = record.get("response")
+ if not selected is String:
+  _failed("모델 응답의 텍스트 형식이 올바르지 않습니다.")
+  return
  if pending.kind == "decision":
   var parsed = JSON.parse_string(selected)
-  if not parsed is Dictionary or not parsed.get("action", "") is String:
+  if not parsed is Dictionary or not parsed.get("action") is String:
    _failed("로컬 행동 JSON 해석 실패")
    return
   selected = parsed.action
  else:
   # 대화는 모델이 생성한 최종 발화 그대로 받는다. 전술 후보만 JSON 스키마로 제한한다.
-  selected = selected.strip_edges()
+  selected = selected.strip_edges().left(MikaDialogue.ANSWER_LIMIT)
   var live := world.game_state()
   var issue := MikaDialogue.response_issue(selected, live, pending.question)
   var stale := _dialogue_facts_changed(pending, live)
   if not issue.is_empty() and not stale and int(pending.get("retry", 0)) < 1 and world.epoch == int(pending.epoch):
-   # 같은 모델에 한 번만 재생성 요청. 실패 원문은 세션/이벤트 양쪽에 남기며 템플릿으로 대체하지 않는다.
+   # 같은 모델에 한 번만 재생성 요청. 실험 기록에는 실패 원문도 남긴다.
    _log({"event": "dialogue_validation_failed", "request_id": pending.request_id, "attempt": 0, "reason": issue, "raw_response": record.response})
    dialogue_pending["retry"] = 1
    var retry := MikaDialogue.build(live, pending.question, history, world.npc.description, local_dialogue.settings.system_prompt)
@@ -235,7 +241,12 @@ func _local_completed(record: Dictionary) -> void:
    retry.messages.insert(retry.messages.size() - 1, {"role": "system", "content": "재생성 이유: " + issue + ". " + repair})
    if not local_dialogue.generate(retry.system, retry.prompt, retry_state, pending.question, retry.schema, retry.messages): _failed("대사 재생성을 시작하지 못했습니다.")
    return
- _resolve(selected, {"actual_model": record.metrics.get("model", local_dialogue.settings.model), "raw_response": record.response, "first_transport_text_ms": record.first_text_ms, "server_metrics": record.metrics, "dialogue_method": "state_grounded_generation_plain" if pending.kind == "dialogue" else "structured_choice"})
+ var metrics = record.get("metrics", {})
+ if not metrics is Dictionary:
+  _failed("모델 응답의 측정 정보 형식이 올바르지 않습니다.")
+  return
+ var channel := local_dialogue if pending.kind == "dialogue" else local_decision
+ _resolve(selected, {"actual_model": metrics.get("model", channel.settings.model), "raw_response": record.response, "first_transport_text_ms": record.get("first_text_ms"), "server_metrics": metrics, "dialogue_method": "state_grounded_generation_plain" if pending.kind == "dialogue" else "structured_choice"})
 
 func _jev_completed(result: int, code: int, _headers: PackedStringArray, body: PackedByteArray) -> void:
  if pending.is_empty(): return
@@ -270,21 +281,25 @@ func _resolve(selected: String, metadata: Dictionary) -> void:
  if job.kind == "decision" and elapsed > allowed_age * 1000.0: reason = "stale_age"
  if (job.kind == "decision" or provider != 1) and selected not in job.allowed: reason = "invalid_candidate"
  var accepted := false
+ var no_change := false
  if reason.is_empty() and job.kind == "decision":
-  accepted = world.request_support(selected, {"request_id": job.request_id, "provider": PROVIDERS[provider], "trial": trial})
-  if not accepted: reason = "no_longer_valid"
+  no_change = selected in ["follow", "wait"] and selected in live.valid_actions and world.npc_hp > 0
+  if not no_change:
+   accepted = world.request_support(selected, {"request_id": job.request_id, "provider": PROVIDERS[provider], "trial": trial})
+   if not accepted: reason = "no_longer_valid"
  elif reason.is_empty():
-  var text := selected if provider == 1 else NPCPolicy.template_response(selected, job.snapshot, job.question)
+  var text := selected.left(MikaDialogue.ANSWER_LIMIT) if provider == 1 else NPCPolicy.template_response(selected, job.snapshot, job.question)
   if text.strip_edges().is_empty(): reason = "empty_dialogue"
   elif provider == 1: reason = MikaDialogue.response_issue(text, live, job.question)
   if reason.is_empty():
    accepted = true
-   history.append({"question": job.question, "answer": text})
+   _remember_dialogue(job.question, text)
    dialogue_grounding = {"question": job.question, "topic": topic, "facts": MikaDialogue.grounding_facts(live, job.question, topic), "epoch": world.epoch}
-   if history.size() > MikaDialogue.HISTORY_LIMIT: history.pop_front()
    dialogue_ready.emit(text)
  pending = {}
  var record := {"event": "response", "request_id": job.request_id, "kind": job.kind, "question": job.question, "snapshot": job.snapshot, "snapshot_hash": job.snapshot_hash, "allowed": job.allowed, "selected": selected, "accepted": accepted, "rejected_reason": reason, "elapsed_ms": elapsed, "frames_pending": frame_count, "max_frame_ms": max_frame_ms}
+ if job.kind == "decision":
+  record["action_outcome"] = "accepted" if accepted else ("no_change" if no_change else "rejected")
  record["prompt_version"] = NPCPolicy.FLEET_DIALOGUE_VERSION if job.kind == "dialogue" and world.use_fleet_demo else NPCPolicy.PROMPT_VERSION
  record["snapshot_msec"] = int(job.started_usec) / 1000.0
  record["response_msec"] = Time.get_ticks_msec()
@@ -297,6 +312,10 @@ func _resolve(selected: String, metadata: Dictionary) -> void:
  if not reason.is_empty() and job.kind == "dialogue":
   dialogue_error.emit("상황이 바뀌어 이전 답변을 버렸습니다. 다시 질문하세요." if reason in ["stale_epoch", "stale_facts"] else "미카의 답변을 확인하지 못했습니다. 다시 질문하세요.")
  clock = 0.0
+
+func _remember_dialogue(question: String, answer: String) -> void:
+ history.append({"question": question.left(MikaDialogue.QUESTION_LIMIT), "answer": answer.left(MikaDialogue.ANSWER_LIMIT)})
+ if history.size() > MikaDialogue.HISTORY_LIMIT: history.pop_front()
 
 func _dialogue_facts_changed(job: Dictionary, live: Dictionary) -> bool:
  var fleet: bool = live.get("fleet_demo", false)
@@ -342,9 +361,9 @@ func _world_event(event: Dictionary) -> void:
  _log({"event": "world_event", "details": event})
 
 func _log(record: Dictionary) -> void:
- if log_dir.is_empty(): return
  record["project_fingerprint"] = project_fingerprint
  record.merge({"schema_version": 4, "timestamp_utc": Time.get_datetime_string_from_system(true, true) + "Z", "run_id": OS.get_process_id(), "trial": trial, "provider": PROVIDERS[provider], "scenario_id": settings.scenario_id, "run_kind": run_kind, "synthetic_test": "--mission-test" in OS.get_cmdline_user_args(), "automated_evidence": "--mission-evidence" in OS.get_cmdline_user_args()})
+ if log_dir.is_empty(): return
  DirAccess.make_dir_recursive_absolute(log_dir)
  var path := log_dir.path_join("npc_events.jsonl")
  var file := FileAccess.open(path, FileAccess.READ_WRITE if FileAccess.file_exists(path) else FileAccess.WRITE)

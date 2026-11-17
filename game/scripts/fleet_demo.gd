@@ -23,6 +23,7 @@ const START := Vector2(77, 238)
 const AMBUSH_SPAWN := Vector2(1190, 235)
 const BREAKER_FUSE_SOCKET := Vector2(-2, -28)
 const WAVE_PAUSE := 1.25
+const REPAIR_MOVE_TIMEOUT := 10.0
 const INTERACT_RADIUS := 49.0
 const HANDOFF_RADIUS := 72.0
 # Clear of both side banks, and offset from the player's interaction point.
@@ -70,6 +71,9 @@ var _after_dialogue: Callable
 var _enemies_root: Node2D
 var _door_arrow := Sprite2D.new()
 var _arrow_time := 0.0
+var _repair_move_left := 0.0
+var _repair_player_start := Vector2.INF
+var _repair_mika_start := Vector2.INF
 
 func bind(mission: DemoWorld) -> void:
 	world = mission
@@ -155,6 +159,7 @@ func clear_cues() -> void:
 	_door_arrow.hide()
 	_arrow_time = 0.0
 	_end_repair_walk()
+	_repair_move_left = 0.0
 	npc_task = ""
 	fixed_aim = false
 	camera_weight = 0.0
@@ -326,10 +331,7 @@ func tick(delta: float) -> void:
 	if opening_pending:
 		opening_pending = false
 		_opening()
-	if npc_task == "clear_terminal" and not world.player.scripted_target.is_finite():
-		npc_task = "breaker"
-		world.npc_navigation.reset()
-		world.npc_motion.arrived = false
+	_tick_repair_walk(delta)
 	if locks_movement() or world.transition_active(): return
 	match step:
 		Step.CORES:
@@ -477,8 +479,7 @@ func _replace_fuse() -> void:
 	cue.finished.connect(func():
 		_sequence = null
 		fixed_aim = false
-		npc_task = "power"
-		world.npc_motion.arrived = false)
+		_start_repair_move("power"))
 
 func _show_fuse_motion(from: Vector2, to: Vector2, texture: Texture2D) -> void:
 	var part := Sprite2D.new()
@@ -513,7 +514,41 @@ func _restore_power() -> void:
 		fixed_aim = false
 		_say(Lines.BREAKER_FIXED, _start_alarm))
 
+func _start_repair_move(task: String) -> void:
+	npc_task = task
+	_repair_move_left = REPAIR_MOVE_TIMEOUT
+	world.npc_navigation.reset()
+	world.npc_motion.arrived = false
+
+func _tick_repair_walk(delta: float) -> void:
+	if npc_task.is_empty(): return
+	if npc_task == "clear_terminal" and not world.player.scripted_target.is_finite():
+		_start_repair_move("breaker")
+		return
+	_repair_move_left -= delta
+	if _repair_move_left <= 0.0: _abort_repair_walk()
+
+func _abort_repair_walk() -> void:
+	var blocked_task := npc_task
+	world.player.position = _repair_player_start
+	world.npc.position = _repair_mika_start
+	world.player.velocity = Vector2.ZERO
+	world.npc.velocity = Vector2.ZERO
+	world.npc_motion.reset(world.player.facing_direction)
+	world.npc_navigation.reset()
+	_end_repair_walk()
+	npc_task = ""
+	fuse_handed = false
+	inserted = false
+	fixed_aim = false
+	rooms.power_room.play("main_fuse_breaker", "open_broken", true)
+	world._event("fleet_repair_retry", {"blocked_task": blocked_task})
+	world.notice.emit("전기실 이동 경로가 막혔습니다. 퓨즈를 돌려받았습니다. 미카에게 다시 건네세요.")
+	_updated()
+
 func _end_repair_walk() -> void:
+	_repair_player_start = Vector2.INF
+	_repair_mika_start = Vector2.INF
 	world.player.scripted_target = Vector2.INF
 	world.npc.remove_collision_exception_with(world.player)
 
@@ -737,7 +772,9 @@ func interact(id: String, animate: bool) -> String:
 			_show_fuse_motion(world.player.position + Vector2(0, -38), world.npc.position + Vector2(0, -38), world.fuse.object_texture)
 			world._event("fleet_fuse_handed", {})
 			world.active_action = ""
-			npc_task = "clear_terminal"
+			_repair_player_start = world.player.position
+			_repair_mika_start = world.npc.position
+			_start_repair_move("clear_terminal")
 			world.npc.add_collision_exception_with(world.player)
 			world.player.walk_to(active_room.get_node("PlayerRepairStand").position)
 			_updated()

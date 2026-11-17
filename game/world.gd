@@ -1142,7 +1142,7 @@ func request_support(action: String, metadata: Dictionary = {}) -> bool:
  if action not in valid_actions() or defeated or finished or npc_hp <= 0: return false
  if action in ["follow", "wait"]:
   # 자동 판단은 플레이어의 명시적인 대기 지시를 해제하지 않는다.
-  if metadata.has("provider"): return true
+  if metadata.has("provider"): return false
   npc_motion.order(action, npc.position)
   if action == "wait":
    flashlight_requested = false

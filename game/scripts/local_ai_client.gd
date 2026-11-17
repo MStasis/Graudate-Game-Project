@@ -11,11 +11,16 @@ signal readiness(message: String)
 @export var settings: LocalNPCSettings
 @onready var health_request: HTTPRequest = $HealthRequest
 
+const MAX_RESPONSE_BYTES := 4 * 1024 * 1024
+const MAX_EVENT_BYTES := 256 * 1024
+
 var busy := false
 var log_dir := ""
 var client := HTTPClient.new()
 var request_sent := false
 var buffer := PackedByteArray()
+var response_bytes := 0
+var _request_generation := 0
 var generated := ""
 var started_usec := 0
 var first_usec := 0
@@ -31,8 +36,10 @@ var output_schema := {}
 var chat_messages: Array = []
 
 func check_connection() -> void:
-	health_request.request_completed.connect(_connection_checked)
+	if not health_request.request_completed.is_connected(_connection_checked):
+		health_request.request_completed.connect(_connection_checked)
 	health_request.timeout = 5
+	health_request.body_size_limit = MAX_EVENT_BYTES
 	health_request.request("http://%s:%d/api/tags" % [settings.host, settings.port])
 
 func _connection_checked(result: int, code: int, _headers: PackedStringArray, body: PackedByteArray) -> void:
@@ -41,10 +48,11 @@ func _connection_checked(result: int, code: int, _headers: PackedStringArray, bo
 		readiness.emit("로컬 서버 연결 실패. START_DEMO.cmd로 실행하세요.")
 		return
 	var parsed = JSON.parse_string(body.get_string_from_utf8())
-	var found := false
-	if parsed is Dictionary:
-		for item in parsed.get("models", []):
-			if item.get("name", "") == settings.model: found = true
+	var models = parsed.get("models") if parsed is Dictionary else null
+	if not models is Array:
+		readiness.emit("로컬 서버 모델 목록을 해석할 수 없습니다.")
+		return
+	var found: bool = models.any(func(item): return item is Dictionary and item.get("name") == settings.model)
 	readiness.emit("로컬 모델 준비 완료" if found else "%s 모델 준비가 필요합니다." % settings.model)
 
 func generate(system_text: String, prompt: String, state: Dictionary, question_text: String, schema: Dictionary = {}, messages: Array = []) -> bool:
@@ -56,8 +64,10 @@ func generate(system_text: String, prompt: String, state: Dictionary, question_t
 	output_schema = schema.duplicate(true)
 	chat_messages = messages.duplicate(true)
 	busy = true
+	_request_generation += 1
 	request_sent = false
 	buffer = PackedByteArray()
+	response_bytes = 0
 	generated = ""
 	started_usec = Time.get_ticks_usec()
 	first_usec = 0
@@ -82,7 +92,7 @@ func _process(_delta: float) -> void:
 		_fail("로컬 모델 응답 시간초과")
 		return
 	if client.poll() != OK:
-		_fail("HTTP 연결 처리 오류")
+		_finish_stream("HTTP 연결 처리 오류")
 		return
 	var state := client.get_status()
 	if state == HTTPClient.STATUS_CONNECTED and not request_sent:
@@ -102,17 +112,33 @@ func _process(_delta: float) -> void:
 		if client.get_response_code() != 200:
 			_fail("로컬 서버 HTTP %s. 서버와 모델 설치를 확인하세요." % client.get_response_code())
 			return
-		buffer.append_array(client.read_response_body_chunk())
-		_consume_lines(false)
+		_consume_chunk(client.read_response_body_chunk())
 	elif request_sent and state in [HTTPClient.STATUS_CONNECTED, HTTPClient.STATUS_DISCONNECTED]:
-		_consume_lines(true)
-		if busy: _fail("완료 표시 없이 연결이 끝났습니다.")
+		_finish_stream("완료 표시 없이 연결이 끝났습니다.")
 	elif state in [HTTPClient.STATUS_CANT_CONNECT, HTTPClient.STATUS_CANT_RESOLVE, HTTPClient.STATUS_CONNECTION_ERROR, HTTPClient.STATUS_TLS_HANDSHAKE_ERROR]:
 		_fail("로컬 서버에 연결할 수 없습니다.")
 
+func _finish_stream(connection_error: String) -> void:
+	# A complete final JSON record can end at EOF without a trailing newline.
+	var generation := _request_generation
+	_consume_lines(true)
+	if busy and generation == _request_generation: _fail(connection_error)
+
+func _consume_chunk(chunk: PackedByteArray) -> void:
+	response_bytes += chunk.size()
+	if response_bytes > MAX_RESPONSE_BYTES:
+		_fail("모델 응답이 허용 크기를 초과했습니다.")
+		return
+	buffer.append_array(chunk)
+	_consume_lines(false)
+
 func _consume_lines(flush: bool) -> void:
-	while busy:
+	var generation := _request_generation
+	while busy and generation == _request_generation:
 		var newline := buffer.find(10)
+		if (buffer.size() if newline < 0 else newline) > MAX_EVENT_BYTES:
+			_fail("모델 응답 한 줄이 허용 크기를 초과했습니다.")
+			return
 		if newline < 0:
 			if flush and not buffer.is_empty():
 				var remaining := buffer
@@ -130,11 +156,18 @@ func _consume_event(line: String) -> void:
 		_fail("응답 JSON 해석 실패")
 		return
 	if event.has("error"):
-		_fail(str(event.error))
+		_fail("로컬 모델 오류: " + str(event.error).left(300), str(event.error))
 		return
-	var message: Dictionary = event.get("message", {})
-	thinking_character_count += str(event.get("thinking", message.get("thinking", ""))).length()
-	var token := str(event.get("response", message.get("content", "")))
+	var message = event.get("message", {})
+	if not message is Dictionary or not event.get("done", false) is bool:
+		_fail("모델 응답 형식이 올바르지 않습니다.")
+		return
+	var thought = event.get("thinking", message.get("thinking", ""))
+	var token = event.get("response", message.get("content", ""))
+	if not thought is String or not token is String:
+		_fail("모델 응답의 텍스트 형식이 올바르지 않습니다.")
+		return
+	thinking_character_count += thought.length()
 	if not token.is_empty():
 		if first_usec == 0: first_usec = Time.get_ticks_usec()
 		generated += token
@@ -156,20 +189,23 @@ func _finish(metrics: Dictionary) -> void:
 	_end_request()
 	completed.emit(record)
 
-func _fail(message: String) -> void:
+func _fail(message: String, server_error := "") -> void:
 	if not busy: return
 	var record := _base_record()
 	record["chat_messages"] = chat_messages.duplicate(true)
 	record.merge({"success": false, "error": message, "partial_response": generated})
+	if not server_error.is_empty(): record["server_error"] = server_error
 	_append_record(record)
 	_end_request()
 	failed.emit(message)
 
 func _end_request() -> void:
 	busy = false
+	buffer = PackedByteArray()
 	client.close()
 
 func _append_record(record: Dictionary) -> void:
+	if log_dir.is_empty(): return
 	DirAccess.make_dir_recursive_absolute(log_dir)
 	var path := log_dir.path_join("npc_sessions.jsonl")
 	var file := FileAccess.open(path, FileAccess.READ_WRITE if FileAccess.file_exists(path) else FileAccess.WRITE)
