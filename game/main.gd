@@ -53,41 +53,7 @@ func _ready() -> void:
  pause_menu.title_requested.connect(_return_to_title)
  pause_menu.save_selected.connect(save_slot)
  pause_menu.load_selected.connect(load_slot)
- evidence_mode = "--mission-evidence" in OS.get_cmdline_user_args()
- var evidence_root := "user://evidence" if OS.has_feature("template") else "res://../evidence"
- log_dir = ProjectSettings.globalize_path(evidence_root.path_join("mission_v1")).simplify_path()
- if "--chat-input-test" in OS.get_cmdline_user_args():
-  brain.auto_enabled = false
-  brain.run_kind = "chat_input_regression"
-  log_dir = ProjectSettings.globalize_path("res://../evidence/chat_input_fix").simplify_path()
- if "--ui-layout-test" in OS.get_cmdline_user_args():
-  brain.auto_enabled = false
-  brain.run_kind = "ui_redesign_regression"
-  log_dir = ProjectSettings.globalize_path("res://../evidence/ui_redesign").simplify_path()
- if "--noncombat-ui-test" in OS.get_cmdline_user_args():
-  brain.auto_enabled = false
-  brain.run_kind = "noncombat_ui_regression"
-  log_dir = ProjectSettings.globalize_path("res://../evidence/noncombat_ui").simplify_path()
- if "--interface-test" in OS.get_cmdline_user_args():
-  brain.auto_enabled = false
-  brain.run_kind = "interface_update_regression"
-  log_dir = ProjectSettings.globalize_path("res://../evidence/interface_update").simplify_path()
- if "--provider-probe" in OS.get_cmdline_user_args():
-  brain.auto_enabled = false
-  brain.run_kind = "fixed_snapshot_live_probe"
-  log_dir = log_dir.path_join("provider_probe")
- if "--local-integration" in OS.get_cmdline_user_args():
-  brain.auto_enabled = false
-  brain.run_kind = "live_integration_controlled_inputs"
-  log_dir = log_dir.path_join("local_integration")
- for argument in OS.get_cmdline_user_args():
-  if argument.begins_with("--provider="):
-   var selected := NPCBrain.PROVIDERS.find(argument.trim_prefix("--provider="))
-   if selected >= 0: brain.settings.provider = selected
-  if argument.begins_with("--local-model="):
-   for client in [brain.local_dialogue, brain.local_decision]:
-    client.settings = client.settings.duplicate(true)
-    client.settings.model = argument.trim_prefix("--local-model=")
+ var capture_experiment := _configure_launch(OS.get_cmdline_user_args())
  world.interacted.connect(interact)
  world.state_changed.connect(update_state)
  world.game_event.connect(func(event):
@@ -134,7 +100,7 @@ func _ready() -> void:
  for label_name in ["RoomTitle", "GoalText", "ControlsHint"]:
   world.get_node(label_name).hide()
  world.use_fleet_demo = world_starts_fleet_demo
- brain.setup(world, log_dir)
+ brain.setup(world, log_dir if capture_experiment else "")
  %Provider.select(brain.provider)
  %Provider.item_selected.connect(func(index): reset_demo(index))
  update_state()
@@ -142,6 +108,35 @@ func _ready() -> void:
  if evidence_mode:
   brain.auto_enabled = false
   call_deferred("_run_evidence")
+
+func _configure_launch(arguments: PackedStringArray) -> bool:
+ evidence_mode = "--mission-evidence" in arguments
+ var test_mode := "--mission-test" in arguments or evidence_mode
+ var evidence_root := "res://../evidence" if test_mode and not OS.has_feature("template") else "user://evidence"
+ var directory := "mission_v1"
+ var fixtures := {
+  "--chat-input-test": ["chat_input_regression", "chat_input_fix"],
+  "--ui-layout-test": ["ui_redesign_regression", "ui_redesign"],
+  "--noncombat-ui-test": ["noncombat_ui_regression", "noncombat_ui"],
+  "--interface-test": ["interface_update_regression", "interface_update"],
+  "--provider-probe": ["fixed_snapshot_live_probe", "mission_v1/provider_probe"],
+  "--local-integration": ["live_integration_controlled_inputs", "mission_v1/local_integration"],
+ }
+ for flag in fixtures:
+  if flag not in arguments: continue
+  brain.auto_enabled = false
+  brain.run_kind = fixtures[flag][0]
+  directory = fixtures[flag][1]
+ log_dir = ProjectSettings.globalize_path(evidence_root.path_join(directory)).simplify_path()
+ for argument in arguments:
+  if argument.begins_with("--provider="):
+   var selected := NPCBrain.PROVIDERS.find(argument.trim_prefix("--provider="))
+   if selected >= 0: brain.settings.provider = selected
+  if argument.begins_with("--local-model="):
+   for client in [brain.local_dialogue, brain.local_decision]:
+    client.settings = client.settings.duplicate(true)
+    client.settings.model = argument.trim_prefix("--local-model=")
+ return test_mode or "--record-dialogue" in arguments
 
 func game_state() -> Dictionary:
  return world.game_state()
@@ -492,7 +487,7 @@ func save_slot(slot: int) -> bool:
   pause_menu.show_result("사망·완료 후에는 저장할 수 없습니다.")
   return false
  var configuration := world.log_configuration()
- var data := {"version": MissionSaveStore.VERSION, "scenario": JSON.stringify(configuration).sha256_text(), "saved_at": Time.get_datetime_string_from_system(false, true), "provider": brain.provider, "world": world.save_snapshot(), "exploration": combat_hud.minimap.explored.duplicate(true), "atlas": combat_hud.minimap.snapshot(), "journal": combat_hud.journal.entries.duplicate(true), "history": brain.history.duplicate(true)}
+ var data := {"version": MissionSaveStore.VERSION, "scenario": MissionSaveStore.compatibility_hash(configuration), "saved_at": Time.get_datetime_string_from_system(false, true), "provider": brain.provider, "world": world.save_snapshot(), "exploration": combat_hud.minimap.explored.duplicate(true), "atlas": combat_hud.minimap.snapshot(), "journal": combat_hud.journal.entries.duplicate(true), "history": brain.history.duplicate(true)}
  if not save_store.validate(data, world) or not save_store.write_slot(slot, data):
   pause_menu.show_result(save_store.last_error)
   return false

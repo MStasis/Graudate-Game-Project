@@ -98,15 +98,20 @@ func run() -> void:
  world.npc.position = world.player.position
  hud.update_view(0)
  check("player_status_does_not_overlap_companion_in_view", not player_status.get_rect().intersects(hud.statuses[0].get_rect()))
- # Seed this check from two fixed floor cells so earlier GPU frames cannot
- # pre-discover the second position while the room transition settles.
+ # Keep both observation points on the current floor and isolate this memory
+ # check from the live mouse aim used by the flashlight.
+ var had_flashlight := world.flashlight_owned
+ world.flashlight_owned = false
  hud.minimap.explored.erase("storage")
  world.player.position = Vector2(510, 315)
+ check("first_exploration_point_inside_room", world.room_rect.has_point(world.player.position))
  hud.minimap.remember_position()
  var initial_cells: Array = hud.minimap.explored.storage.duplicate()
- world.player.position = Vector2(1000, 330)
+ world.player.position = Vector2(200, 315)
+ check("second_exploration_point_inside_room", world.room_rect.has_point(world.player.position))
  hud.minimap.remember_position()
  check("minimap_remembers_previous_exploration", initial_cells.all(func(cell): return cell in hud.minimap.explored.storage) and hud.minimap.explored.storage.size() > initial_cells.size())
+ world.flashlight_owned = had_flashlight
  world.apply_interaction("lab_gate")
  hud.minimap.remember_position()
  check("exploration_is_separate_per_room", hud.minimap.explored.has("lab") and hud.minimap.explored.has("storage"))

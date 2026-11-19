@@ -1,6 +1,8 @@
 class_name MikaDialogue
 extends RefCounted
 const CHARACTER = preload("res://resources/MikaCharacter.tres")
+const QUESTION_LIMIT := 300
+const ANSWER_LIMIT := 2000
 const HISTORY_LIMIT := 8
 const HISTORY_CHAR_BUDGET := 850
 const AMBIENT := {"on_shift": "평상시 연구실 근무. 아직 정전·경보·전투는 발생하지 않음.", "blackout": "정전 직후. 아직 전력은 복구되지 않았고 침식 경보는 관측 전.", "equipment": "정전 중. 플레이어는 손전등 보유. 침식 경보는 아직 관측 전.", "fuse_search": "정전된 비품실. 침식 경보는 아직 관측 전.", "fuse_return": "비품실 전투와 퓨즈 회수가 끝났지만 아직 정전 중.", "power_restored": "전력 복구와 장치 재가동 직후. 아직 경보는 관측하지 않음.", "anomaly_alarm": "전력 복구 후 실제 침식 경보가 발생함. 전체 문제는 미해결.", "main_entry": "연구동 진입실에 도착. 비품실 전투는 끝났음. 경보는 실제 발생했고 전체 임무는 미완료."}

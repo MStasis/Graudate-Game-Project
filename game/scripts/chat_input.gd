@@ -4,7 +4,7 @@ extends TextEdit
 signal text_submitted(value: String)
 signal validation_failed(message: String)
 signal editing_closed
-@export_range(1, 300, 1) var message_limit: int = 300
+@export_range(1, 300, 1) var message_limit: int = MikaDialogue.QUESTION_LIMIT
 var _submit_queued := false
 var _native_bridge: Node
 var _native_commit_characters := 0
