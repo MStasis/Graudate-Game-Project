@@ -12,10 +12,10 @@ func _initialize() -> void:
 func ask(id: String, question: String) -> void:
  var before := records.size()
  app.brain.request_dialogue(question)
- var deadline := Time.get_ticks_msec() + 85000
+ var deadline := Time.get_ticks_msec() + ceili((app.brain.local_dialogue.settings.timeout_seconds * 2 + 3) * 1000.0)
  while records.size() == before and Time.get_ticks_msec() < deadline: await create_timer(0.02).timeout
  var record: Dictionary = records.back() if records.size() > before else {}
- var accepted: bool = record.get("accepted", false) and record.get("actual_model") == app.brain.local_dialogue.settings.model and record.get("dialogue_method") == "state_grounded_generation_plain"
+ var accepted: bool = record.get("accepted", false) and record.get("question") == question and record.get("actual_model") == app.brain.local_dialogue.settings.model and record.get("dialogue_method") == "state_grounded_generation_plain"
  checks[id + "_actual_generation"] = accepted
  var text: String = app.brain.history.back().answer if accepted else ""
  samples.append({"id": id, "question": question, "text": text, "state": world.game_state(), "record": record, "quality_review": "manual_required; transport checks do not establish semantic quality"})

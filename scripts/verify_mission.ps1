@@ -153,7 +153,7 @@ if ($LocalAI) {
     if ($LASTEXITCODE -ne 0) { throw 'Live story dialogue transport/provenance regression failed. Semantic review is separate.' }
     & $godotExe --headless --path $gamePath --script res://tests/harin_live_test.gd --log-file (Join-Path $evidencePath 'harin_live.log') -- --mission-test --provider=LocalLLM
     if ($LASTEXITCODE -ne 0) { throw 'Live companion dialogue/action regression failed.' }
-    & $godotExe --headless --path $gamePath --script res://tests/local_integration.gd --log-file (Join-Path $evidencePath 'local_integration.log') -- --local-integration --provider=LocalLLM
+    & $godotExe --headless --path $gamePath --script res://tests/local_integration.gd --log-file (Join-Path $evidencePath 'local_integration.log') -- --local-integration --mission-test --provider=LocalLLM
     if ($LASTEXITCODE -ne 0) { throw 'Live local AI integration failed. Check the Ollama server.' }
     & $godotExe --headless --path $gamePath --script res://tests/live_save_load_test.gd --log-file (Join-Path $evidencePath 'interface_update\live_save_load.log') -- --interface-test --mission-test --provider=LocalLLM
     if ($LASTEXITCODE -ne 0) { throw 'Live save/load request cancellation failed.' }
