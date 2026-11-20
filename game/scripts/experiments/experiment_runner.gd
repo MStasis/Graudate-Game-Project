@@ -59,6 +59,8 @@ func prepare(item: Dictionary, provider: int) -> bool:
 	world.use_fleet_demo = true
 	world.process_mode = Node.PROCESS_MODE_DISABLED
 	viewport.add_child(world)
+	for label in ["RoomTitle", "GoalText", "ControlsHint", "Ending"]:
+		world.get_node(label).visibility_layer = 0
 	brain = BRAIN.instantiate()
 	brain.auto_enabled = false
 	add_child(brain)

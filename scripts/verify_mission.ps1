@@ -144,7 +144,27 @@ if ($Render) {
     $dialogueNoticeRenderResult = Get-Content -LiteralPath $dialogueNoticeRenderPath -Raw -Encoding UTF8 | ConvertFrom-Json
     if (-not $dialogueNoticeRenderResult.passed -or -not $dialogueNoticeRenderResult.gpu_rendered -or (Get-Item -LiteralPath $dialogueNoticeRenderPath).LastWriteTimeUtc -lt $started) { throw 'Fresh rendered dialogue/notification result failed.' }
 }
+function Test-ExperimentLab([string]$Mode) {
+    $flags = @('--experiment-test')
+    $engine = @('--path', $gamePath, '--script', 'res://tests/experiment_lab_test.gd', '--log-file', (Join-Path $evidencePath ("experiment_lab_" + $Mode + ".log")))
+    if ($Mode -eq 'gpu') {
+        Invoke-HiddenGodot (@('--fixed-fps','60','--audio-driver','Dummy','--resolution','1280x800') + $engine + @('--') + $flags + @('--experiment-render')) 'experiment_lab_gpu'
+    } else {
+        if ($Mode -eq 'live') { $flags += '--experiment-live' }
+        else { $engine = @('--fixed-fps','60') + $engine }
+        & $godotExe --headless @engine -- @flags
+        if ($LASTEXITCODE -ne 0) { throw "NPC experiment lab $Mode failed." }
+    }
+    $path = Join-Path $evidencePath ("experiment_lab/" + $Mode + ".json")
+    $report = Get-Content -LiteralPath $path -Encoding UTF8 -Raw | ConvertFrom-Json
+    if ((Get-Item -LiteralPath $path).LastWriteTimeUtc -lt $started -or -not $report.passed -or $report.check_count -le 0 -or $report.actual_inference -ne ($Mode -eq 'live')) {
+        throw "Fresh NPC experiment lab $Mode result failed."
+    }
+}
+Test-ExperimentLab 'fixture'
+if ($Render) { Test-ExperimentLab 'gpu' }
 if ($LocalAI) {
+    Test-ExperimentLab 'live'
     & $godotExe --headless --path $gamePath --script res://tests/fleet_dialogue_test.gd --log-file (Join-Path $evidencePath 'fleet_dialogue_live.log') -- --fleet-dialogue-live --provider=LocalLLM --record-dialogue
     if ($LASTEXITCODE -ne 0) { throw 'Live Fleet dialogue transport/provenance regression failed.' }
     & $godotExe --headless --path $gamePath --script res://tests/containment_live_test.gd --log-file (Join-Path $evidencePath 'containment_live.log') -- --mission-test --provider=LocalLLM
