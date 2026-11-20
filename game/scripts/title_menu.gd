@@ -24,6 +24,7 @@ func _ready() -> void:
  get_window().title = "BEYOND THE BULKHEAD"
  %NewGame.pressed.connect(_start_mission, CONNECT_DEFERRED)
  %Continue.pressed.connect(_show_slots)
+ %ExperimentLab.pressed.connect(_open_lab, CONNECT_DEFERRED)
  %Settings.pressed.connect(_show_settings)
  %Quit.pressed.connect(func(): get_tree().quit())
  %Back.pressed.connect(_show_actions)
@@ -63,6 +64,18 @@ func _show_slots() -> void:
   first_available.grab_focus()
  else:
   %Back.grab_focus()
+
+func _open_lab() -> void:
+ if not $Menu.visible or has_node("ExperimentHub"): return
+ var lab = load("res://scenes/experiments/ExperimentHub.tscn").instantiate()
+ $Menu.hide()
+ add_child(lab)
+ lab.title_requested.connect(func():
+  remove_child(lab)
+  lab.queue_free()
+  $Menu.show()
+  _show_actions()
+  %ExperimentLab.grab_focus(), CONNECT_DEFERRED | CONNECT_ONE_SHOT)
 
 func _show_settings() -> void:
  _actions.hide()

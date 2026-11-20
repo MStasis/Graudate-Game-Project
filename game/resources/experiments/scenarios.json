@@ -1,0 +1,256 @@
+{
+  "version": "fleet-lab-1",
+  "dialogue": [
+    {
+      "id": "D01",
+      "name": "미카와 대화하기 전",
+      "step": "FIND_MIKA",
+      "map": "corridor"
+    },
+    {
+      "id": "D02",
+      "name": "미카와 대화한 후 · 퓨즈 탐색",
+      "step": "FIND_FUSE",
+      "map": "mika_quarters"
+    },
+    {
+      "id": "D03",
+      "name": "퓨즈 발견 · 획득 전",
+      "step": "FIND_FUSE",
+      "map": "supply_room"
+    },
+    {
+      "id": "D04",
+      "name": "퓨즈 획득 직후",
+      "step": "FUSE_HELD",
+      "map": "supply_room"
+    },
+    {
+      "id": "D05",
+      "name": "복도에서 침식된 선원 조우",
+      "step": "AMBUSH",
+      "map": "corridor"
+    },
+    {
+      "id": "D06",
+      "name": "복도 전투 종료",
+      "step": "TO_POWER",
+      "map": "corridor"
+    },
+    {
+      "id": "D07",
+      "name": "전력 복구 · 경보 발생 후",
+      "step": "TO_LAB",
+      "map": "corridor"
+    },
+    {
+      "id": "D08",
+      "name": "연구실 B동 전투 중",
+      "step": "WAVES",
+      "map": "research_lab_b"
+    },
+    {
+      "id": "D09",
+      "name": "B동 전투 종료 · 신호 대기",
+      "step": "LEVER",
+      "map": "research_lab_b"
+    },
+    {
+      "id": "D10",
+      "name": "격벽 레버 작동 신호 이후",
+      "step": "ARMED",
+      "map": "research_lab_b"
+    }
+  ],
+  "decision": [
+    {
+      "id": "B01",
+      "name": "플레이어 체력 부족",
+      "base": "D08",
+      "hp": 30,
+      "ammo": 20,
+      "magazines": 2,
+      "medkits": 1,
+      "supply_packs": 1,
+      "cover_charges": 1,
+      "device": "off",
+      "acceptable_actions": [
+        "heal"
+      ]
+    },
+    {
+      "id": "B02",
+      "name": "플레이어 탄약 소진",
+      "base": "D08",
+      "hp": 100,
+      "ammo": 0,
+      "magazines": 0,
+      "medkits": 1,
+      "supply_packs": 1,
+      "cover_charges": 1,
+      "device": "off",
+      "acceptable_actions": [
+        "resupply"
+      ]
+    },
+    {
+      "id": "B03",
+      "name": "체력과 탄약 동시 부족",
+      "base": "D08",
+      "hp": 30,
+      "ammo": 0,
+      "magazines": 0,
+      "medkits": 1,
+      "supply_packs": 1,
+      "cover_charges": 1,
+      "device": "off",
+      "acceptable_actions": [
+        "heal",
+        "resupply"
+      ]
+    },
+    {
+      "id": "B04",
+      "name": "체력 충분 · 적 다수 접근",
+      "base": "D08",
+      "hp": 100,
+      "ammo": 20,
+      "magazines": 2,
+      "medkits": 1,
+      "supply_packs": 1,
+      "cover_charges": 1,
+      "device": "off",
+      "acceptable_actions": [
+        "deploy_cover"
+      ]
+    },
+    {
+      "id": "B05",
+      "name": "치료 장비 범위 밖",
+      "base": "D08",
+      "hp": 78,
+      "ammo": 20,
+      "magazines": 2,
+      "medkits": 0,
+      "supply_packs": 1,
+      "cover_charges": 0,
+      "device": "outside",
+      "acceptable_actions": [
+        "guide_to_cover"
+      ]
+    },
+    {
+      "id": "B06",
+      "name": "치료 장비 범위 안",
+      "base": "D08",
+      "hp": 78,
+      "ammo": 20,
+      "magazines": 2,
+      "medkits": 0,
+      "supply_packs": 1,
+      "cover_charges": 0,
+      "device": "inside",
+      "acceptable_actions": [
+        "follow",
+        "wait"
+      ]
+    },
+    {
+      "id": "B07",
+      "name": "치료·보급 자원 고갈",
+      "base": "D08",
+      "hp": 30,
+      "ammo": 0,
+      "magazines": 0,
+      "medkits": 0,
+      "supply_packs": 0,
+      "cover_charges": 0,
+      "device": "off",
+      "acceptable_actions": [
+        "follow",
+        "wait"
+      ]
+    },
+    {
+      "id": "B08",
+      "name": "전투 없는 안전 구역",
+      "base": "D06",
+      "hp": 100,
+      "ammo": 20,
+      "magazines": 2,
+      "medkits": 1,
+      "supply_packs": 1,
+      "cover_charges": 1,
+      "device": "off",
+      "acceptable_actions": [
+        "follow",
+        "wait"
+      ]
+    }
+  ],
+  "combat": [
+    {
+      "id": "C01",
+      "name": "체력 감소 상황",
+      "base": "D08",
+      "hp": 45,
+      "ammo": 20,
+      "magazines": 2,
+      "medkits": 1,
+      "supply_packs": 1,
+      "cover_charges": 1,
+      "seconds": 12,
+      "shot_interval_ticks": 45,
+      "aim": [
+        528,
+        568
+      ],
+      "spawn": [
+        624,
+        568
+      ]
+    },
+    {
+      "id": "C02",
+      "name": "탄약 소진 상황",
+      "base": "D08",
+      "hp": 100,
+      "ammo": 0,
+      "magazines": 0,
+      "medkits": 1,
+      "supply_packs": 1,
+      "cover_charges": 1,
+      "seconds": 12,
+      "shot_interval_ticks": 45,
+      "aim": [
+        528,
+        568
+      ],
+      "spawn": [
+        624,
+        568
+      ]
+    },
+    {
+      "id": "C03",
+      "name": "복합 전투 위기",
+      "base": "D08",
+      "hp": 45,
+      "ammo": 0,
+      "magazines": 0,
+      "medkits": 1,
+      "supply_packs": 1,
+      "cover_charges": 1,
+      "seconds": 12,
+      "shot_interval_ticks": 45,
+      "aim": [
+        528,
+        568
+      ],
+      "spawn": [
+        624,
+        568
+      ]
+    }
+  ]
+}

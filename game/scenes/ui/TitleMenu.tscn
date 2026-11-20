@@ -112,8 +112,18 @@ text = "이어하기"
 alignment = 0
 script = ExtResource("8")
 
-[node name="ModeSpacer" type="Control" parent="Menu/Stage/Card/Actions"]
+[node name="ExperimentLab" type="Button" parent="Menu/Stage/Card/Actions"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7")
+theme_override_font_sizes/font_size = 21
+text = "NPC 실험실"
+alignment = 0
+script = ExtResource("8")
+
+[node name="ModeSpacer" type="Control" parent="Menu/Stage/Card/Actions"]
+custom_minimum_size = Vector2(0, 4)
 layout_mode = 2
 mouse_filter = 2
 
