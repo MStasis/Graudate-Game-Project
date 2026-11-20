@@ -4,6 +4,7 @@ signal dialogue_ready(text: String)
 signal dialogue_error(message: String)
 signal status_changed(message: String)
 signal measured(record: Dictionary)
+signal event_recorded(record: Dictionary)
 @export var settings: ExperimentSettings
 @onready var local_dialogue: LocalAIClient = $LocalDialogue
 @onready var local_decision: LocalAIClient = $LocalDecision
@@ -363,6 +364,7 @@ func _world_event(event: Dictionary) -> void:
 func _log(record: Dictionary) -> void:
  record["project_fingerprint"] = project_fingerprint
  record.merge({"schema_version": 4, "timestamp_utc": Time.get_datetime_string_from_system(true, true) + "Z", "run_id": OS.get_process_id(), "trial": trial, "provider": PROVIDERS[provider], "scenario_id": settings.scenario_id, "run_kind": run_kind, "synthetic_test": "--mission-test" in OS.get_cmdline_user_args(), "automated_evidence": "--mission-evidence" in OS.get_cmdline_user_args()})
+ event_recorded.emit(record)
  if log_dir.is_empty(): return
  DirAccess.make_dir_recursive_absolute(log_dir)
  var path := log_dir.path_join("npc_events.jsonl")

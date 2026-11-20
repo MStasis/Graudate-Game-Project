@@ -5,6 +5,7 @@ extends Node
 signal started
 signal partial_text(text: String)
 signal completed(record: Dictionary)
+signal attempt_recorded(record: Dictionary)
 signal failed(message: String)
 signal readiness(message: String)
 
@@ -205,6 +206,7 @@ func _end_request() -> void:
 	client.close()
 
 func _append_record(record: Dictionary) -> void:
+	attempt_recorded.emit(record)
 	if log_dir.is_empty(): return
 	DirAccess.make_dir_recursive_absolute(log_dir)
 	var path := log_dir.path_join("npc_sessions.jsonl")

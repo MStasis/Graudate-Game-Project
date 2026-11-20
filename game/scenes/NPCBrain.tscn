@@ -1,0 +1,18 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://scripts/npc_brain.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/local_ai_client.gd" id="2"]
+[ext_resource type="Resource" path="res://resources/NPCSettings.tres" id="3"]
+[ext_resource type="Resource" path="res://resources/ExperimentSettings.tres" id="4"]
+
+[node name="NPCBrain" type="Node"]
+script = ExtResource("1")
+settings = ExtResource("4")
+[node name="LocalDialogue" type="Node" parent="."]
+script = ExtResource("2")
+settings = ExtResource("3")
+[node name="HealthRequest" type="HTTPRequest" parent="LocalDialogue"]
+[node name="LocalDecision" type="Node" parent="."]
+script = ExtResource("2")
+settings = ExtResource("3")
+[node name="HealthRequest" type="HTTPRequest" parent="LocalDecision"]
+[node name="JevRequest" type="HTTPRequest" parent="."]

@@ -2,10 +2,7 @@
 [ext_resource type="Script" path="res://main.gd" id="1"]
 [ext_resource type="PackedScene" path="res://scenes/World.tscn" id="2"]
 [ext_resource type="Theme" path="res://resources/GameTheme.tres" id="3"]
-[ext_resource type="Script" path="res://scripts/npc_brain.gd" id="4"]
-[ext_resource type="Script" path="res://scripts/local_ai_client.gd" id="5"]
-[ext_resource type="Resource" path="res://resources/NPCSettings.tres" id="6"]
-[ext_resource type="Resource" path="res://resources/ExperimentSettings.tres" id="7"]
+[ext_resource type="PackedScene" path="res://scenes/NPCBrain.tscn" id="4"]
 [ext_resource type="Script" path="res://scripts/chat_input.gd" id="8"]
 [ext_resource type="Texture2D" path="res://resources/MikaPortrait.tres" id="9"]
 [ext_resource type="Script" path="res://scripts/hud_frame.gd" id="10"]
@@ -729,18 +726,7 @@ vertical_alignment = 1
 theme_override_font_sizes/font_size = 22
 theme_override_colors/font_color = Color(0.12, 0.15, 0.14, 1)
 
-[node name="NPCBrain" type="Node" parent="."]
-script = ExtResource("4")
-settings = ExtResource("7")
-[node name="LocalDialogue" type="Node" parent="NPCBrain"]
-script = ExtResource("5")
-settings = ExtResource("6")
-[node name="HealthRequest" type="HTTPRequest" parent="NPCBrain/LocalDialogue"]
-[node name="LocalDecision" type="Node" parent="NPCBrain"]
-script = ExtResource("5")
-settings = ExtResource("6")
-[node name="HealthRequest" type="HTTPRequest" parent="NPCBrain/LocalDecision"]
-[node name="JevRequest" type="HTTPRequest" parent="NPCBrain"]
+[node name="NPCBrain" parent="." instance=ExtResource("4")]
 
 [node name="CombatHUD" parent="." instance=ExtResource("18")]
 [node name="PauseMenu" parent="." instance=ExtResource("19")]
