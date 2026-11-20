@@ -302,6 +302,8 @@ func _resolve(selected: String, metadata: Dictionary) -> void:
  if job.kind == "decision":
   record["action_outcome"] = "accepted" if accepted else ("no_change" if no_change else "rejected")
  record["prompt_version"] = NPCPolicy.FLEET_DIALOGUE_VERSION if job.kind == "dialogue" and world.use_fleet_demo else NPCPolicy.PROMPT_VERSION
+ if job.kind == "dialogue" and provider == 1 and not world.use_fleet_demo and MikaDialogue.asks_flashlight_owner(job.question):
+  record["prompt_version"] = MikaDialogue.HANDOFF_PROMPT_VERSION
  record["snapshot_msec"] = int(job.started_usec) / 1000.0
  record["response_msec"] = Time.get_ticks_msec()
  record["quality_review"] = "manual_required"

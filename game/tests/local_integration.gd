@@ -1,4 +1,5 @@
 extends SceneTree
+const BlackoutGoal := preload("res://tests/blackout_goal_check.gd")
 var checks := {}
 var measurements: Array[Dictionary] = []
 func _initialize() -> void:
@@ -50,7 +51,9 @@ func run() -> void:
  world.trigger_blackout()
  brain.request_dialogue("지금 무엇을 해야 해?")
  await settle(brain, world)
- checks["real_mission_dialogue_has_current_route"] = (app.answer.text.contains("보관") and app.answer.text.contains("퓨즈")) or ("손전등" in app.answer.text and NPCPolicy.has_word(app.answer.text, ["연구실", "오른쪽"]) and NPCPolicy.has_word(app.answer.text, ["받", "수령", "챙"]))
+ var route: String = app.answer.text
+ checks["real_mission_dialogue_has_current_route"] = BlackoutGoal.matches(route)
+ checks["route_rejects_wrong_direction_later_goal_and_reversed_handoff"] = not ["오른쪽 통로에서 손전등을 받아.", "왼쪽 보관함에서 퓨즈를 챙겨.", "왼쪽 통로에서 나한테 손전등을 빌려줘."].any(BlackoutGoal.matches)
  if DisplayServer.get_name() != "headless": await app.capture_screen("03_llm_mission_dialogue")
  var passed := true
  for value in checks.values(): passed = passed and value

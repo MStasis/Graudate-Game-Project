@@ -1,4 +1,5 @@
 extends SceneTree
+const BlackoutGoal := preload("res://tests/blackout_goal_check.gd")
 var checks := {}
 var samples: Array[Dictionary] = []
 var measurements: Array[Dictionary] = []
@@ -51,7 +52,7 @@ func run() -> void:
  check("emotion_does_not_become_manual", not NPCPolicy.has_word(text, ["퓨즈", "패널", "보관함", "1초", "볶음밥", "먹었"]))
  world.trigger_blackout()
  text = await ask("mission", "지금 뭘 해야 해?")
- check("mission_answer_has_current_goal", ("퓨즈" in text and "보관" in text) or ("손전등" in text and NPCPolicy.has_word(text, ["받", "수령", "챙"]) and NPCPolicy.has_word(text, ["연구실", "오른쪽"])))
+ check("mission_answer_has_current_goal", BlackoutGoal.matches(text))
  text = await ask("panel_roles", "패널은 어떻게 나눠 맡아?")
  check("panel_has_two_roles", NPCPolicy.has_word(text, ["반대", "한쪽", "동시"]) or ("왼쪽" in text and "오른쪽" in text))
  text = await ask("panel_followup", "그럼 반대쪽은 네가 맡아?")

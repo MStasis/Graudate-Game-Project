@@ -5,6 +5,7 @@ const QUESTION_LIMIT := 300
 const ANSWER_LIMIT := 2000
 const HISTORY_LIMIT := 8
 const HISTORY_CHAR_BUDGET := 850
+const HANDOFF_PROMPT_VERSION := "story_flashlight_owner_20261120"
 const AMBIENT := {"on_shift": "평상시 연구실 근무. 아직 정전·경보·전투는 발생하지 않음.", "blackout": "정전 직후. 아직 전력은 복구되지 않았고 침식 경보는 관측 전.", "equipment": "정전 중. 플레이어는 손전등 보유. 침식 경보는 아직 관측 전.", "fuse_search": "정전된 비품실. 침식 경보는 아직 관측 전.", "fuse_return": "비품실 전투와 퓨즈 회수가 끝났지만 아직 정전 중.", "power_restored": "전력 복구와 장치 재가동 직후. 아직 경보는 관측하지 않음.", "anomaly_alarm": "전력 복구 후 실제 침식 경보가 발생함. 전체 문제는 미해결.", "main_entry": "연구동 진입실에 도착. 비품실 전투는 끝났음. 경보는 실제 발생했고 전체 임무는 미완료."}
 const PHASES := {"on_shift": "평상시 연구소 근무. 아직 정전 전.", "blackout": "갑자기 정전 발생. 미카가 보안 직원인 플레이어를 불러 장비를 챙기는 중.", "equipment": "플레이어가 손전등을 받음. 퓨즈 확보를 위해 비품실로 출발.", "fuse_search": "비품실에서 선원을 제압하고 두 패널 보관함의 퓨즈를 확보하는 중.", "fuse_return": "퓨즈 확보 완료. 연구실 전력 장치에 장착할 차례.", "power_restored": "퓨즈 장착으로 전력은 복구됨. 장치가 재가동되는 순간. 전체 문제 해결 아님.", "anomaly_alarm": "전력 복구 뒤 침식된 장치가 드러나고 경고등이 켜짐. 출발 문으로 연구동에 갈 차례.", "main_entry": "전력을 복구하고 연구동 진입실에 도착. 관측 단말에서 침식 신호를 확인해야 함. 이상현상 봉쇄는 아직 완료하지 못함."}
 
@@ -63,6 +64,8 @@ static func build(state: Dictionary, question: String, history: Array, persona: 
   if referring and not history.is_empty() and not NPCPolicy.has_word(question, ["불", "퓨즈", "부품", "경보", "이상", "임무"]): grounded_question += " " + str(history.back().get("question", ""))
   var current_facts := facts(state, grounded_question, topic)
   context["CURRENT FACTS (최신 사실)"] = current_facts
+  if asks_flashlight_owner(question):
+   system += " 이 질문은 손전등 소유자를 확인하는 질문이야. 지금 누구 손에 있는지 '내가' 또는 '네가'를 써서 밝혀. 바닥에 있다면 현재 놓인 장소를 말해."
   if topic == "mission" and NPCPolicy.has_word(question.replace(" ", ""), ["그럼지금", "이제뭘", "다음단계", "다음엔"]):
    context["지금 진행에 필요한 핵심"] = current_facts.get("다음 단계", {}) if state.map_id == "main_entry" else state.get("current_guidance", "")
   elif current_facts.has("질문이 가리키는 물품"):
@@ -76,6 +79,9 @@ static func build(state: Dictionary, question: String, history: Array, persona: 
  if NPCPolicy.has_word(question, ["밥", "먹", "퇴근", "취향"]): context["미확정 사항"] = CHARACTER.background + " " + CHARACTER.preferences
  if state.get("npc_downed", false): context["현재 몸 상태"] = "미카 다운. 가까이에서 키트로 소생하기 전에는 이동·지원 불가."
  return _conversation(system, context, question)
+
+static func asks_flashlight_owner(question: String) -> bool:
+ return "손전등" in question and not NPCPolicy.asks_controls(question) and NPCPolicy.has_word(question, ["어디","누구","가지","갖고","소지","아직"])
 
 static func _build_fleet(state: Dictionary, question: String, history: Array, extra_style: String) -> Dictionary:
  var topic := topic_for(question, history, true)
