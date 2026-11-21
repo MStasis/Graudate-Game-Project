@@ -66,6 +66,8 @@ func setup(mission: DemoWorld, directory: String) -> void:
   client.completed.connect(_local_completed)
   client.failed.connect(func(message): _client_failed(message, client))
  local_decision.settings.max_tokens = 48
+ if run_kind == "interactive" and not local_dialogue.settings.apply_dialogue_profile(local_dialogue.settings.campaign_dialogue_profile):
+  push_warning("지원하지 않는 대화 프로필 · 기존 대화 설정을 사용합니다.")
  # 전술은 기존 짧은 후보 선택 조건을 보존한다. 긴급 대응/명시적 지시는 공통 실행기다.
  local_decision.settings.thinking = false
  local_decision.settings.temperature = 0.1
@@ -150,6 +152,15 @@ func request_dialogue(text: String) -> bool:
   return false
  return _request("dialogue", text)
 
+func _build_local_dialogue(state: Dictionary, question: String) -> Dictionary:
+ if local_dialogue.settings.uses_character_prompt():
+  var dialogue := MikaDialogue.build_character(state, question, history)
+  if local_dialogue.settings.dialogue_profile == "D":
+   dialogue.schema = {"type":"object", "properties":{"dialogue":{"type":"string","pattern":"^[^()<>\\n\\r]{1,150}$"}}, "required":["dialogue"], "additionalProperties":false}
+   dialogue.messages[0].content += "\ndialogue에는 지금 옆의 한 사람에게 할 말만 담아. 상대를 이름으로 부르거나 전에 뭘 해놨다고 꾸며내지 마."
+  return dialogue
+ return MikaDialogue.build(state, question, history, world.npc.description, local_dialogue.settings.system_prompt)
+
 func _request(kind: String, question: String) -> bool:
  if not pending.is_empty() or world.finished or world.defeated: return false
  var snapshot := world.game_state().duplicate(true)
@@ -174,7 +185,7 @@ func _request(kind: String, question: String) -> bool:
    prompt = JSON.stringify({"game": NPCPolicy.model_state(snapshot), "actions": choices})
    schema = {"type": "object", "properties": {"action": {"type": "string", "enum": allowed}}, "required": ["action"], "additionalProperties": false}
   else:
-   var dialogue := MikaDialogue.build(snapshot, question, history, world.npc.description, local_dialogue.settings.system_prompt)
+   var dialogue := _build_local_dialogue(snapshot, question)
    system = dialogue.system
    prompt = dialogue.prompt
    schema = dialogue.schema
@@ -202,6 +213,15 @@ func _request(kind: String, question: String) -> bool:
   else: status_changed.emit("Jev " + ("지원 판단 중" if kind == "decision" else "대화 의도 선택 중"))
  return true
 
+func _local_dialogue_issue(text: String, state: Dictionary, question: String) -> String:
+ var issue := MikaDialogue.response_issue(text, state, question)
+ if not issue.is_empty() or local_dialogue.settings.dialogue_profile != "D": return issue
+ var compact := text.strip_edges().replace(" ", "")
+ if NPCPolicy.has_word(compact, ["한국어반말로", "반말한두마디", "말을작성해야", "대사를작성", "동료에게물어보는것", "사용자질문에대해"]): return "speaker_annotation"
+ if compact.begins_with("미카:") or compact.begins_with("미카클라비스:") or (compact.begins_with("미카클라비스가") and NPCPolicy.has_word(compact, ["말하는","반말","대사"])):
+  return "speaker_annotation"
+ return ""
+
 func _local_completed(record: Dictionary) -> void:
  if pending.is_empty(): return
  var source = record.get("state", {})
@@ -223,23 +243,25 @@ func _local_completed(record: Dictionary) -> void:
   # 대화는 모델이 생성한 최종 발화 그대로 받는다. 전술 후보만 JSON 스키마로 제한한다.
   selected = selected.strip_edges().left(MikaDialogue.ANSWER_LIMIT)
   var live := world.game_state()
-  var issue := MikaDialogue.response_issue(selected, live, pending.question)
+  var issue := _local_dialogue_issue(selected, live, pending.question)
   var stale := _dialogue_facts_changed(pending, live)
   if not issue.is_empty() and not stale and int(pending.get("retry", 0)) < 1 and world.epoch == int(pending.epoch):
    # 같은 모델에 한 번만 재생성 요청. 실험 기록에는 실패 원문도 남긴다.
    _log({"event": "dialogue_validation_failed", "request_id": pending.request_id, "attempt": 0, "reason": issue, "raw_response": record.response})
    dialogue_pending["retry"] = 1
-   var retry := MikaDialogue.build(live, pending.question, history, world.npc.description, local_dialogue.settings.system_prompt)
+   var retry := _build_local_dialogue(live, pending.question)
    var retry_state := live.duplicate(true)
    retry_state.merge({"_channel": "dialogue", "_request_id": pending.request_id, "_attempt": 1})
    var repair := "현재 사실과 맞지 않는 주장만 고쳐서 자연스럽게 다시 답해. 반문과 장난은 가능해."
    if issue == "formal_voice": repair = "존댓말 어미 '~요/~습니다'를 쓰지 말고 한국어 반말로 다시 답해."
+   elif issue == "speaker_annotation": repair = "미카가 어떻게 말하는지 설명하거나 질문을 인용하지 마. 직접 동료에게 대답해."
    elif issue == "invented_food_event": repair = "실제 주문/함께 식사한 사건은 없어. 가상 예시를 기억으로 만들지 마. 먹고 싶은 메뉴 제안은 가능해."
    elif issue == "unsupported_world_rule": repair = "퇴근 금지 규정은 설정된 적 없어. 예시 농담을 실제 규정으로 확정하지 마."
    elif issue.begins_with("fleet_lever_"): repair = "레버를 당기려면 모든 전투가 끝나고 내 신호가 있어야 해. 둘 중 하나만 말하면 조작 조건이 빠진다. 지금 신호를 줬다고 말하지 마."
    elif issue.begins_with("fleet_"): repair = "최신 Fleet 사실을 다시 읽고 질문에 직접 답해. 확인되지 않은 정보에는 짧게 모른다고 해. 이전 대사의 잘못된 주장은 반복하지 마."
    retry.prompt += "\n[재생성 이유: " + issue + "] " + repair
-   retry.messages.insert(retry.messages.size() - 1, {"role": "system", "content": "재생성 이유: " + issue + ". " + repair})
+   if local_dialogue.settings.uses_character_prompt(): retry.messages[0].content += "\n재생성 이유: " + issue + ". " + repair
+   else: retry.messages.insert(retry.messages.size() - 1, {"role": "system", "content": "재생성 이유: " + issue + ". " + repair})
    if not local_dialogue.generate(retry.system, retry.prompt, retry_state, pending.question, retry.schema, retry.messages): _failed("대사 재생성을 시작하지 못했습니다.")
    return
  var metrics = record.get("metrics", {})
@@ -291,7 +313,7 @@ func _resolve(selected: String, metadata: Dictionary) -> void:
  elif reason.is_empty():
   var text := selected.left(MikaDialogue.ANSWER_LIMIT) if provider == 1 else NPCPolicy.template_response(selected, job.snapshot, job.question)
   if text.strip_edges().is_empty(): reason = "empty_dialogue"
-  elif provider == 1: reason = MikaDialogue.response_issue(text, live, job.question)
+  elif provider == 1: reason = _local_dialogue_issue(text, live, job.question)
   if reason.is_empty():
    accepted = true
    _remember_dialogue(job.question, text)
@@ -304,6 +326,11 @@ func _resolve(selected: String, metadata: Dictionary) -> void:
  record["prompt_version"] = NPCPolicy.FLEET_DIALOGUE_VERSION if job.kind == "dialogue" and world.use_fleet_demo else NPCPolicy.PROMPT_VERSION
  if job.kind == "dialogue" and provider == 1 and not world.use_fleet_demo and MikaDialogue.asks_flashlight_owner(job.question):
   record["prompt_version"] = MikaDialogue.HANDOFF_PROMPT_VERSION
+ if job.kind == "dialogue" and provider == 1:
+  record["dialogue_profile"] = local_dialogue.settings.dialogue_profile
+  record["profile_version"] = LocalNPCSettings.PROFILE_VERSION
+  if local_dialogue.settings.uses_character_prompt(): record["prompt_version"] = MikaDialogue.CHARACTER_PROMPT_VERSION
+  if local_dialogue.settings.dialogue_profile == "D": record["prompt_version"] = MikaDialogue.STRUCTURED_PROMPT_VERSION
  record["snapshot_msec"] = int(job.started_usec) / 1000.0
  record["response_msec"] = Time.get_ticks_msec()
  record["quality_review"] = "manual_required"

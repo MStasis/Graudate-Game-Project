@@ -1,4 +1,6 @@
-param([switch]$Editor, [switch]$Evidence, [switch]$RecordDialogue, [ValidateSet('', 'RuleBased', 'LocalLLM', 'Jev')][string]$Provider = '')
+param([switch]$Editor, [switch]$Evidence, [switch]$RecordDialogue,
+    [ValidateSet('', 'RuleBased', 'LocalLLM', 'Jev')][string]$Provider = '',
+    [ValidateSet('', 'A', 'B', 'C', 'B512', 'C512', 'C4096', 'C_ON', 'C_FAST', 'D')][string]$DialogueProfile = '')
 $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path -Parent $PSScriptRoot
 $godotExe = Join-Path $projectRoot 'runtime\godot\Godot_v4.7.2-stable_win64.exe'
@@ -71,6 +73,7 @@ try {
 $engineArgs = @('--path', ('"' + $gamePath + '"'), '--log-file', ('"' + (Join-Path $evidencePath 'godot_live.log') + '"'))
 if ($Editor) { $engineArgs += @('--editor', '--maximized', 'res://scenes/World.tscn') }
 if (-not $Editor) { $engineArgs += @('--', ('--provider=' + $Provider)) }
+if ($DialogueProfile -and -not $Editor) { $engineArgs += ('--dialogue-profile=' + $DialogueProfile.ToUpperInvariant()) }
 if ($Evidence) { $engineArgs += '--mission-evidence' }
 if ($RecordDialogue -and -not $Editor) { $engineArgs += '--record-dialogue' }
 $gameProcess = Start-Process -FilePath $godotExe -ArgumentList $engineArgs -WorkingDirectory $projectRoot -WindowStyle Normal -PassThru

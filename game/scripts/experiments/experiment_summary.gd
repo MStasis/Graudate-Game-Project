@@ -4,6 +4,7 @@ static func summarize(rows: Array) -> String:
 	var groups := {}
 	for row in rows:
 		var key: String = row.scenario_id + "  /  " + row.provider
+		if row.get("profile_id") != null: key += "  /  " + str(row.profile_id)
 		if row.common_executor: key += "  /  공통 명령"
 		if not groups.has(key): groups[key] = []
 		groups[key].append(row)
@@ -27,7 +28,7 @@ static func summarize(rows: Array) -> String:
 				total_time += float(row.elapsed_ms)
 			if row.appropriate == true: appropriate += 1
 			if row.timely_valid == true: timely += 1
-			if row.accepted and not row.common_executor and row.rating is Dictionary:
+			if (row.accepted or row.get("profile_id") != null) and not row.common_executor and row.rating is Dictionary:
 				scores.append(float(row.rating.total))
 			if row.combat is Dictionary:
 				var c: Dictionary = row.combat

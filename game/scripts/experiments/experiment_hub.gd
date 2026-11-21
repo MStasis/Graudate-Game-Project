@@ -10,6 +10,8 @@ const NAMES := {"dialogue":"대화 성능 비교","decision":"전투 지원 판�
 const TITLES := {"home":"NPC PERFORMANCE LAB","dialogue":"DIALOGUE COMPARISON","decision":"SUPPORT DECISIONS","combat":"COMBAT REPLAY","results":"EXPERIMENT RECORDS"}
 const STATUS := {"appropriate":"적절","inappropriate":"부적절","success":"응답 성공","timeout":"시간초과","invalid_action":"후보 밖 행동","cancelled":"취소","request_failed":"요청 실패","rejected":"거절"}
 const CRITERIA := ["질문 관련성","게임 사실 정확성","캐릭터 일관성","대화 자연스러움"]
+const PROFILE_CHOICES := {"A·B·C 교차 비교":["A","B","C"], "A · 기존":["A"], "B · 속도":["B"], "C · 캐릭터":["C"], "B · 512토큰":["B512"], "C · 512토큰":["C512"], "C · 문맥 4096":["C4096"], "C_ON · 캐릭터 + 기존 생성 설정":["C_ON"], "C_FAST · 캐릭터 + 스트림 수신 개선":["C_FAST"], "D · 캐릭터 + 대사 JSON":["D"]}
+var profile_picker: OptionButton
 var runner := Runner.new()
 var mode := "home"
 var body := VBoxContainer.new()
@@ -122,6 +124,9 @@ func _unhandled_key_input(event: InputEvent) -> void:
 func open_mode(next: String) -> void:
 	if runner.running: return
 	mode = next
+	runner.store.profile_study = next in ["profiles","profile_records"]
+	if next == "profiles": mode = "dialogue"
+	if next == "profile_records": mode = "results"
 	_clear(body)
 	results_split = null
 	batch_summary = null
@@ -130,7 +135,7 @@ func open_mode(next: String) -> void:
 	last_cases.clear()
 	last_mode_session = ""
 	notice.text = ""
-	heading.text = TITLES[next]
+	heading.text = "QWEN DIALOGUE STUDY" if next == "profiles" else ("BLIND DIALOGUE REVIEW" if next == "profile_records" else TITLES[next])
 	back.text = "타이틀로 돌아가기" if mode == "home" else "실험실 메뉴"
 	if mode == "home":
 		var content := _panel(body)
@@ -148,6 +153,8 @@ func open_mode(next: String) -> void:
 			b.alignment = HORIZONTAL_ALIGNMENT_LEFT
 			b.custom_minimum_size.y = 62
 			if key == "dialogue": b.grab_focus()
+		_button(content,"Qwen 대화 프로필 실험",open_mode.bind("profiles"))
+		_button(content,"프로필 응답 블라인드 평가",open_mode.bind("profile_records"))
 	elif mode == "results": _results()
 	else: _lab()
 
@@ -165,6 +172,11 @@ func _lab() -> void:
 	repeat = OptionButton.new()
 	root_option(line,repeat,"반복 횟수")
 	for n in [1,5,10,20]: repeat.add_item("%d회" % n,n)
+	if runner.store.profile_study:
+		profile_picker = OptionButton.new()
+		root_option(line,profile_picker,"대화 프로필")
+		for label in PROFILE_CHOICES: profile_picker.add_item(label)
+		controls.append(profile_picker)
 	scenario_info = _label(config,"")
 	if mode == "dialogue":
 		preset = OptionButton.new()
@@ -201,7 +213,7 @@ func _lab() -> void:
 		body.add_child(display)
 	results_split = BoxContainer.new()
 	body.add_child(results_split)
-	for provider in NPCBrain.PROVIDERS.slice(0,2):
+	for provider in (["LocalLLM"] if runner.store.profile_study else NPCBrain.PROVIDERS.slice(0,2)):
 		var card := _panel(results_split)
 		var header := HBoxContainer.new()
 		card.add_child(header)
@@ -215,6 +227,7 @@ func _lab() -> void:
 		var nameplate := Label.new()
 		header.add_child(nameplate)
 		nameplate.text = "RULE BASED" if provider == "RuleBased" else "LOCAL LLM"
+		if runner.store.profile_study: nameplate.text = "MIKA"
 		nameplate.add_theme_font_override("font",DISPLAY)
 		nameplate.add_theme_font_size_override("font_size",25)
 		nameplate.modulate = ACCENT if provider == "LocalLLM" else Color("#e5d7ba")
@@ -298,7 +311,8 @@ func _launch(cases: Array, count: int) -> void:
 	if cases.is_empty():
 		notice.text = "선택한 상황에 등록된 질문이 없습니다."
 		return
-	if runner.start(mode,cases,count):
+	var profiles: Array = PROFILE_CHOICES[profile_picker.get_item_text(profile_picker.selected)] if runner.store.profile_study else []
+	if runner.start(mode,cases,count,profiles):
 		last_cases = cases.duplicate(true)
 		last_count = count
 		last_mode_session = runner.session
@@ -363,7 +377,34 @@ func describe(row: Dictionary) -> String:
 
 func _recorded(row: Dictionary) -> void:
 	if cards.has(row.provider):
-		cards[row.provider].add_text(describe(row) + "\n\n")
+		var card: RichTextLabel = cards[row.provider]
+		if not row.has("profile_id"):
+			card.add_text(describe(row) + "\n\n")
+			return
+		card.clear()
+		card.add_text("%s · %s\n%s" % [row.scenario_id,row.blind_id,row.response_text if row.accepted else "대사 없음"])
+		if row.accepted and row.has("present_origin_usec") and DisplayServer.get_name() != "headless":
+			_measure_presentation(card,row)
+
+func _measure_presentation(card: Control, row: Dictionary) -> void:
+	var destination := Runner.Store.new()
+	destination.run_kind = runner.store.run_kind
+	destination.profile_study = true
+	runner.await_card_frame(row.experiment_id)
+	if "--experiment-test" in OS.get_cmdline_user_args():
+		RenderingServer.force_draw.call_deferred(false)
+	await RenderingServer.frame_post_draw
+	if not runner.card_frame_received(row.experiment_id): return
+	if not is_instance_valid(card) or not card.is_visible_in_tree(): return
+	var area := card.get_global_rect().intersection(card.get_viewport_rect())
+	var parent := card.get_parent_control()
+	while parent and area.has_area():
+		if parent.clip_contents: area = area.intersection(parent.get_global_rect())
+		parent = parent.get_parent_control()
+	if not area.has_area(): return
+	var delta_ms := (Time.get_ticks_usec() - int(row.present_origin_usec)) / 1000.0
+	if not destination.append("presentation",row.session_id,{"experiment_id":row.experiment_id,"screen_display_ms":delta_ms}):
+		notice.text = destination.error
 
 func _export_current() -> void:
 	if not runner.retry_save():
@@ -391,6 +432,7 @@ func _results() -> void:
 	provider_filter = OptionButton.new()
 	bar.add_child(provider_filter)
 	for provider in ["전체 제공자","RuleBased","LocalLLM"]: provider_filter.add_item(provider)
+	provider_filter.visible = not runner.store.profile_study
 	scenario_filter = OptionButton.new()
 	bar.add_child(scenario_filter)
 	for filter in [provider_filter,scenario_filter]:
@@ -406,6 +448,8 @@ func _results() -> void:
 
 func _load_session(index: int) -> void:
 	session_rows = runner.store.results(session_picker.get_item_text(index))
+	if runner.store.profile_study:
+		session_rows.sort_custom(func(a,b): return a.experiment_id < b.experiment_id)
 	scenario_filter.clear()
 	scenario_filter.add_item("전체 상황")
 	var ids := []
@@ -423,20 +467,42 @@ func _filter_rows() -> void:
 	history_rows = session_rows.filter(func(r): return (provider_filter.selected == 0 or r.provider == provider) and (scenario_filter.selected == 0 or r.scenario_id == scenario_id))
 	row_picker.clear()
 	for row in history_rows:
-		row_picker.add_item("%s · %s · %d회차 · %s" % [row.scenario_id,row.provider,row.trial,STATUS.get(row.status,row.status)])
+		if runner.store.profile_study:
+			row_picker.add_item("%s · 익명 %s" % [row.scenario_id,row.blind_id])
+		else:
+			row_picker.add_item("%s · %s · %d회차 · %s" % [row.scenario_id,row.provider,row.trial,STATUS.get(row.status,row.status)])
 	if history_rows.is_empty():
 		_clear(details)
 		notice.text = "이 조건에 해당하는 완료 기록이 없습니다."
 	else: _show_record(0)
+
+func _has_evaluable_reply(row: Dictionary) -> bool:
+	return row.response_text is String and not row.response_text.strip_edges().is_empty() and not row.common_executor
 
 func _show_record(index: int) -> void:
 	_clear(details)
 	scores.clear()
 	var row: Dictionary = history_rows[index]
 	var panel := _panel(details)
-	_label(panel,describe(row))
-	if row.kind == "dialogue" and row.status != "unfinished":
-		for attempt in row.attempts:
+	var has_eval_text := _has_evaluable_reply(row)
+	var blind: bool = runner.store.profile_study and row.rating == null and has_eval_text
+	if blind:
+		_label(panel,"질문  " + row.question)
+		_label(panel,str(row.response_text))
+	else:
+		_label(panel,describe(row))
+		if runner.store.profile_study:
+			_label(panel,"프로필 " + str(row.profile_id) + " · " + str(row.prompt_version))
+			if row.get("model_options") is Dictionary:
+				_label(panel,"Thinking 요청 %s · 출력 한도 %d · 문맥 %d · 온도 %.2f" % ["ON" if row.model_thinking else "OFF",row.model_options.num_predict,row.model_options.num_ctx,row.model_options.temperature])
+			if row.model_thinking == false and row.get("model_thinking_values") == [true]:
+				_label(panel,"이 모델이 보고한 지원 값은 Thinking ON입니다.")
+			if row.get("first_dialogue_ms") != null: _label(panel,"첫 대사 %.1f ms" % row.first_dialogue_ms)
+			if row.get("screen_display_ms") != null: _label(panel,"결과 카드 렌더 %.1f ms" % row.screen_display_ms)
+			if row.get("server_totals") is Dictionary:
+				_label(panel,"서버 입력 %s / 출력 %s 토큰" % [str(row.server_totals.prompt_eval_count),str(row.server_totals.eval_count)])
+	if row.kind == "dialogue" and row.status != "unfinished" and (not runner.store.profile_study or has_eval_text):
+		for attempt in ([] if blind else row.attempts):
 			_label(panel,"생성 %d · %s" % [int(attempt.attempt)+1,attempt.get("response",attempt.get("partial_response",""))])
 		var form := HFlowContainer.new()
 		panel.add_child(form)
@@ -451,7 +517,8 @@ func _show_record(index: int) -> void:
 		bad_fact.button_pressed = row.rating is Dictionary and row.rating.wrong_fact
 		form.add_child(bad_fact)
 		_button(form,"평가 저장",_save_rating.bind(index))
-	_label(details,Summary.summarize(history_rows))
+	if not runner.store.profile_study or history_rows.all(func(r): return r.rating != null or not _has_evaluable_reply(r)):
+		_label(details,Summary.summarize(history_rows))
 	notice.text = "저장 경로  " + ProjectSettings.globalize_path(runner.store.directory())
 
 func _save_rating(index: int) -> void:

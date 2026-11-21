@@ -6,6 +6,8 @@ const ANSWER_LIMIT := 2000
 const HISTORY_LIMIT := 8
 const HISTORY_CHAR_BUDGET := 850
 const HANDOFF_PROMPT_VERSION := "story_flashlight_owner_20261120"
+const CHARACTER_PROMPT_VERSION := "mika_colleague_1"
+const STRUCTURED_PROMPT_VERSION := "mika_colleague_line_3"
 const AMBIENT := {"on_shift": "평상시 연구실 근무. 아직 정전·경보·전투는 발생하지 않음.", "blackout": "정전 직후. 아직 전력은 복구되지 않았고 침식 경보는 관측 전.", "equipment": "정전 중. 플레이어는 손전등 보유. 침식 경보는 아직 관측 전.", "fuse_search": "정전된 비품실. 침식 경보는 아직 관측 전.", "fuse_return": "비품실 전투와 퓨즈 회수가 끝났지만 아직 정전 중.", "power_restored": "전력 복구와 장치 재가동 직후. 아직 경보는 관측하지 않음.", "anomaly_alarm": "전력 복구 후 실제 침식 경보가 발생함. 전체 문제는 미해결.", "main_entry": "연구동 진입실에 도착. 비품실 전투는 끝났음. 경보는 실제 발생했고 전체 임무는 미완료."}
 const PHASES := {"on_shift": "평상시 연구소 근무. 아직 정전 전.", "blackout": "갑자기 정전 발생. 미카가 보안 직원인 플레이어를 불러 장비를 챙기는 중.", "equipment": "플레이어가 손전등을 받음. 퓨즈 확보를 위해 비품실로 출발.", "fuse_search": "비품실에서 선원을 제압하고 두 패널 보관함의 퓨즈를 확보하는 중.", "fuse_return": "퓨즈 확보 완료. 연구실 전력 장치에 장착할 차례.", "power_restored": "퓨즈 장착으로 전력은 복구됨. 장치가 재가동되는 순간. 전체 문제 해결 아님.", "anomaly_alarm": "전력 복구 뒤 침식된 장치가 드러나고 경고등이 켜짐. 출발 문으로 연구동에 갈 차례.", "main_entry": "전력을 복구하고 연구동 진입실에 도착. 관측 단말에서 침식 신호를 확인해야 함. 이상현상 봉쇄는 아직 완료하지 못함."}
 
@@ -79,6 +81,55 @@ static func build(state: Dictionary, question: String, history: Array, persona: 
  if NPCPolicy.has_word(question, ["밥", "먹", "퇴근", "취향"]): context["미확정 사항"] = CHARACTER.background + " " + CHARACTER.preferences
  if state.get("npc_downed", false): context["현재 몸 상태"] = "미카 다운. 가까이에서 키트로 소생하기 전에는 이동·지원 불가."
  return _conversation(system, context, question)
+
+## Optional character prompt. The original builder above remains the A/B control.
+static func build_character(state: Dictionary, question: String, history: Array) -> Dictionary:
+ var fleet: bool = state.get("fleet_demo", false)
+ var topic := topic_for(question, history, fleet)
+ var casual := topic in ["everyday", "relationship", "unknown"]
+ var system := "네 이름은 미카 클라비스. %s에서 총기와 장비를 손보는 정비사야. 상대는 이미 친한 동료야. 내가 동료에게 건넬 한국어 반말 한두 마디를 써. 이름표와 괄호 지문은 빼. 모르는 건 모른다고 해. 상대의 추측이나 약속을 실제 사건으로 만들지 마." % ("개척선" if fleet else "연구소")
+ var latest := {}
+ var subject := question
+ if not casual and not history.is_empty() and NPCPolicy.has_word(question, ["그거","반대쪽","네가 말"]):
+  subject += " " + str(history.back().get("question",""))
+ if casual:
+  system += " 친구의 말에 바로 대꾸해. 장난이나 짧은 불평도 좋아. 매번 같은 말버릇, 위로, 조언으로 끝내지 마."
+  if NPCPolicy.has_word(question, ["피곤", "힘들", "지쳤"]):
+   system += " 가상 말투 표본: ‘좀 앉아. 여기 일은 내가 볼게.’ 지금 동료가 쉴 틈을 챙겨 줘. 예시는 실제 사건이 아니야."
+  if NPCPolicy.has_word(question, ["정비","장비","공구","총기"]):
+   system += " 정비사가 동료에게 설명하듯 익숙한 장비 용어를 써."
+  if NPCPolicy.has_word(question, ["먹","메뉴"]):
+   system += " 지금 먹고 싶은 메뉴를 골라. 예전 주문이나 고정 취향은 미확정이야."
+ elif fleet and topic == "mission":
+  latest["질문에 필요한 사실"] = _fleet_focus(state, subject)
+  if NPCPolicy.has_word(question, ["어디로", "다음", "가져", "해야", "전력", "퓨즈함"]):
+   latest["다음 할 일"] = state.fleet_context["현재 목표"]
+   latest["동료가 정상 퓨즈를 가지고 있음"] = state.fuse_in_inventory
+  if NPCPolicy.has_word(subject, ["전력","정전","경보","불 들어"]):
+   latest["전력 복구"] = state.power_restored
+   latest["경보 발생 확인"] = state.fleet_context["경보 발생 확인"]
+  if NPCPolicy.has_word(subject, ["센트리","포탑"]):
+   latest["센트리"] = facts(state, subject, topic).get("침식 센트리", "아직 관측하지 않음")
+ else:
+  latest = facts(state, subject, topic)
+  if asks_flashlight_owner(question): system += " 손전등이 지금 누구 손에 있는지 '내가'나 '네가'로 밝혀."
+ if not casual:
+  system += " 확인된 사실로 물어본 것부터 답해. 완료와 다음 할 일을 구분해. 사격과 물건 줍기는 함선에서 동료 몫이야." if fleet else " 현재 사실과 다음 할 일을 구분해서 답해."
+ if int(state.get("enemy_count", 0)) > 0 or state.get("npc_downed", false):
+  system += " 지금은 위급해. 짧고 분명하게 말해."
+  if state.get("npc_downed", false): latest["미카 상태"] = "다운. 소생 전에는 지원 불가."
+ var examples := []
+ if casual and NPCPolicy.has_word(question, ["먹","밥","메뉴","퇴근","쉬","무서"]):
+  examples = style_examples(topic, question).slice(0,1)
+ if not examples.is_empty():
+  system += "\n가상 말투 표본 (실제 사건·기억·취향으로 인용하지 마): %s" % str(examples[0].Mika[0])
+ if not latest.is_empty(): system += "\n현재 게임 사실: " + JSON.stringify(latest, "", false)
+ var messages := [{"role":"system","content":system}]
+ for turn in recent_history(history, casual, fleet):
+  messages.append({"role":"user","content":turn.question})
+  messages.append({"role":"assistant","content":turn.answer})
+ messages.append({"role":"user","content":question})
+ return {"system":system, "prompt":question, "schema":{}, "messages":messages}
 
 static func asks_flashlight_owner(question: String) -> bool:
  return "손전등" in question and not NPCPolicy.asks_controls(question) and NPCPolicy.has_word(question, ["어디","누구","가지","갖고","소지","아직"])

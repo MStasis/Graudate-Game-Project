@@ -36,6 +36,9 @@ var last_resources := {}
 var unsaved: Array = []
 var fingerprint := ""
 var scenario_version := ""
+var study_model_info := {}
+var presentation_id := ""
+var presentation_deadline := 0
 
 func _ready() -> void:
 	viewport.size = Vector2i(720, 360)
@@ -88,16 +91,25 @@ func prepare(item: Dictionary, provider: int) -> bool:
 		fingerprint = (source + scenario_version).sha256_text()
 	return ok
 
-func start(mode: String, cases: Array, repetitions: int) -> bool:
+func start(mode: String, cases: Array, repetitions: int, profiles: Array = []) -> bool:
 	if running or not unsaved.is_empty() or cases.is_empty() or repetitions not in [1,5,10,20]: return false
+	if store.profile_study != (not profiles.is_empty()): return false
+	if not profiles.is_empty() and (mode != "dialogue" or not profiles.all(func(p): return p in LocalNPCSettings.PROFILES)): return false
 	session = Store.utc().replace("-", "").replace(":", "") + "_" + Store.uid().left(12)
 	kind = mode
 	jobs.clear()
 	baselines.clear()
+	study_model_info.clear()
 	done = 0
 	for trial in range(1, repetitions + 1):
 		for index in cases.size():
 			var pair := Store.uid()
+			if not profiles.is_empty():
+				var order := profiles.duplicate()
+				for shift in (trial + index - 1) % order.size(): order.append(order.pop_front())
+				for profile in order:
+					jobs.append({"item":cases[index].item, "question":cases[index].question, "question_id":cases[index].get("question_id",""), "provider":1, "profile":profile, "trial":trial, "pair_id":pair, "order":order})
+				continue
 			var order := [0,1] if (trial + index) % 2 == 1 else [1,0]
 			for p in order:
 				jobs.append({"item":cases[index].item, "question":cases[index].get("question",""), "question_id":cases[index].get("question_id",""), "provider":p, "trial":trial, "pair_id":pair, "order":order.duplicate()})
@@ -109,6 +121,8 @@ func start(mode: String, cases: Array, repetitions: int) -> bool:
 		"cpu":OS.get_processor_name(), "gpu":RenderingServer.get_video_adapter_name(),
 		"physics_ticks_per_second":Engine.physics_ticks_per_second
 	}
+	if store.profile_study:
+		manifest.merge({"profiles":profiles.duplicate(), "profile_version":LocalNPCSettings.PROFILE_VERSION})
 	if not store.append("sessions", session, manifest):
 		finished.emit(store.error)
 		return false
@@ -120,6 +134,10 @@ func _process(_delta: float) -> void:
 	if not running: return
 	match phase:
 		"next": _next()
+		"presentation":
+			if Time.get_ticks_msec() >= presentation_deadline:
+				presentation_id = ""
+				phase = "next"
 		"request": _request()
 		"waiting":
 			if not terminal.is_empty() and (kind != "combat" or not replay_done.is_empty()): _complete()
@@ -132,6 +150,11 @@ func _next() -> void:
 	var item: Dictionary = job.item
 	current = {}
 	var ok := prepare(item, job.provider)
+	if job.has("profile"):
+		# The study compares one checkpoint even if a campaign uses a different model.
+		brain.local_dialogue.settings.model = "qwen3:4b"
+		brain.local_dialogue.settings.thinking = true
+		ok = brain.local_dialogue.settings.apply_dialogue_profile(job.profile) and ok
 	start_state = world.game_state().duplicate(true)
 	var fixture := world.save_snapshot()
 	var fixture_hash := JSON.stringify(fixture).sha256_text()
@@ -159,6 +182,11 @@ func _next() -> void:
 		"prompt_version":NPCPolicy.FLEET_DIALOGUE_VERSION if kind == "dialogue" else NPCPolicy.PROMPT_VERSION
 	}
 	attempts = []
+	if job.has("profile"):
+		current.merge({"profile_id":job.profile, "profile_version":LocalNPCSettings.PROFILE_VERSION,
+			"blind_id":current.experiment_id.left(8),"keep_alive":"15m"})
+		if client.settings.uses_character_prompt(): current.prompt_version = MikaDialogue.CHARACTER_PROMPT_VERSION
+		if job.profile == "D": current.prompt_version = MikaDialogue.STRUCTURED_PROMPT_VERSION
 	issues = []
 	terminal = {}
 	timeline = []
@@ -194,7 +222,7 @@ func _readiness(result: int, code: int, _headers: PackedStringArray, body: Packe
 			current.model_readiness = {"resident":false}
 			for entry in data.models:
 				if entry is Dictionary and entry.get("name") == model:
-					current.model_readiness = {"resident":true,"digest":entry.get("digest"),"details":entry.get("details")}
+					current.model_readiness = {"resident":true,"digest":entry.get("digest"),"details":entry.get("details"),"size_vram":entry.get("size_vram"),"size":entry.get("size"),"context_length":entry.get("context_length")}
 			if not current.model_readiness.resident:
 				var tags := HTTPRequest.new()
 				brain.add_child(tags)
@@ -203,7 +231,7 @@ func _readiness(result: int, code: int, _headers: PackedStringArray, body: Packe
 				tags.request_completed.connect(_installed_model.bind(model))
 				var settings := brain.local_dialogue.settings
 				if tags.request("http://%s:%d/api/tags" % [settings.host,settings.port]) == OK: return
-	phase = "request"
+	_prepare_profile_model()
 
 func _installed_model(result: int, code: int, _headers: PackedStringArray, body: PackedByteArray, model: String) -> void:
 	if phase != "readiness" or not running: return
@@ -214,6 +242,37 @@ func _installed_model(result: int, code: int, _headers: PackedStringArray, body:
 			for entry in data.models:
 				if entry is Dictionary and entry.get("name") == model:
 					current.model_readiness.merge({"installed":true, "digest":entry.get("digest"), "details":entry.get("details")}, true)
+	_prepare_profile_model()
+
+func _prepare_profile_model() -> void:
+	phase = "request"
+	if not current.has("profile_id"): return
+	var client := brain.local_dialogue
+	var key := "%s:%d/%s" % [client.settings.host,client.settings.port,client.settings.model]
+	if study_model_info.has(key):
+		_set_profile_model(key,study_model_info[key])
+		return
+	var info := HTTPRequest.new()
+	brain.add_child(info)
+	info.timeout = 2
+	info.body_size_limit = LocalAIClient.MAX_RESPONSE_BYTES
+	info.request_completed.connect(func(result,code,_headers,body):
+		if phase != "profile_info" or not running: return
+		var values: Array = []
+		if result == HTTPRequest.RESULT_SUCCESS and code == 200:
+			var data = JSON.parse_string(body.get_string_from_utf8())
+			if data is Dictionary and data.get("thinking") is Dictionary and data.thinking.get("values") is Array:
+				values = data.thinking.get("values")
+		study_model_info[key] = values
+		_set_profile_model(key,values))
+	var url := "http://%s:%d/api/show" % [client.settings.host,client.settings.port]
+	if info.request(url,["Content-Type: application/json"],HTTPClient.METHOD_POST,JSON.stringify({"model":client.settings.model})) == OK:
+		phase = "profile_info"
+
+func _set_profile_model(key: String, values: Array) -> void:
+	current["model_thinking_values"] = values
+	brain.local_dialogue.verified_model = key
+	brain.local_dialogue.native_off_supported = false in values if not values.is_empty() else null
 	phase = "request"
 
 func _request() -> void:
@@ -354,6 +413,27 @@ func _complete() -> void:
 	if kind == "combat":
 		_sample_resources()
 		row.combat = _combat_result()
+	if row.has("profile_id"):
+		row.first_dialogue_ms = null
+		row.final_attempt_first_dialogue_ms = null
+		row.first_validation_error = issues[0].reason if not issues.is_empty() else null
+		row.screen_display_ms = null
+		row.server_totals = {}
+		for key in ["prompt_eval_count","eval_count","load_duration","prompt_eval_duration","eval_duration","total_duration"]:
+			var sum := 0
+			var complete := not attempts.is_empty()
+			for attempt in attempts:
+				if attempt.metrics.get(key) == null:
+					complete = false
+					break
+				sum += int(attempt.metrics[key])
+			row.server_totals[key] = sum if complete else null
+		for attempt in attempts:
+			if row.actual_model == null and attempt.metrics.has("model"): row.actual_model = attempt.metrics.model
+			if attempt.first_text_ms != null:
+				var first: float = (attempt.transport_start_usec - started_usec) / 1000.0 + float(attempt.first_text_ms)
+				if row.first_dialogue_ms == null: row.first_dialogue_ms = first
+				if accepted and attempt == attempts.back(): row.final_attempt_first_dialogue_ms = first
 	current = {}
 	viewport.render_target_update_mode = SubViewport.UPDATE_DISABLED
 	world.process_mode = Node.PROCESS_MODE_DISABLED
@@ -362,11 +442,24 @@ func _complete() -> void:
 		unsaved.append(row)
 		_end(store.error)
 		return
-	recorded.emit(row)
+	if row.has("profile_id"): row.present_origin_usec = started_usec
 	phase = "next"
+	recorded.emit(row)
+
+func await_card_frame(id: String) -> void:
+	presentation_id = id
+	presentation_deadline = Time.get_ticks_msec() + 1000
+	phase = "presentation"
+
+func card_frame_received(id: String) -> bool:
+	if not running or phase != "presentation" or presentation_id != id: return false
+	presentation_id = ""
+	phase = "next"
+	return Time.get_ticks_msec() < presentation_deadline
 
 func _end(message: String) -> void:
 	running = false
+	presentation_id = ""
 	phase = ""
 	var ok := store.append("sessions",session,{"event":"session_ended","timestamp_utc":Store.utc(),"finished_requests":done,"total":jobs.size(),"reason":message})
 	progress.emit(done,jobs.size(),message)

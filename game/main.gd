@@ -129,6 +129,9 @@ func _configure_launch(arguments: PackedStringArray) -> bool:
   directory = fixtures[flag][1]
  log_dir = ProjectSettings.globalize_path(evidence_root.path_join(directory)).simplify_path()
  for argument in arguments:
+  if argument.begins_with("--dialogue-profile="):
+   brain.local_dialogue.settings = brain.local_dialogue.settings.duplicate(true)
+   brain.local_dialogue.settings.campaign_dialogue_profile = argument.trim_prefix("--dialogue-profile=")
   if argument.begins_with("--provider="):
    var selected := NPCBrain.PROVIDERS.find(argument.trim_prefix("--provider="))
    if selected >= 0: brain.settings.provider = selected

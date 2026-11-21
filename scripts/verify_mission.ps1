@@ -1,4 +1,4 @@
-param([switch]$Render, [switch]$LocalAI)
+param([switch]$Render, [switch]$LocalAI, [switch]$DialogueProfiles)
 $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path -Parent $PSScriptRoot
 $godotExe = Join-Path $projectRoot 'runtime\godot\Godot_v4.7.2-stable_win64_console.exe'
@@ -163,6 +163,26 @@ function Test-ExperimentLab([string]$Mode) {
 }
 Test-ExperimentLab 'fixture'
 if ($Render) { Test-ExperimentLab 'gpu' }
+function Test-DialogueProfiles([bool]$Live, [bool]$Gpu) {
+    $name = if ($Live) { 'live' } else { 'fixture' }
+    if ($Gpu) { $name += '_gpu' }
+    $engine = @('--path',$gamePath,'--script','res://tests/dialogue_profile_test.gd','--log-file',(Join-Path $evidencePath ("profiles_" + $name + ".log")),'--','--experiment-test')
+    if ($Live) { $engine += '--profiles-live' }
+    if ($Gpu) {
+        Invoke-HiddenGodot (@('--audio-driver','Dummy','--resolution','1280x800') + $engine) ('profiles_' + $name)
+    } else {
+        & $godotExe --headless @engine
+        if ($LASTEXITCODE -ne 0) { throw "Dialogue profile $name failed." }
+    }
+    $path = Join-Path $evidencePath ("dialogue_profiles/" + $name + ".json")
+    $report = Get-Content -LiteralPath $path -Encoding UTF8 -Raw | ConvertFrom-Json
+    if ((Get-Item -LiteralPath $path).LastWriteTimeUtc -lt $started -or -not $report.passed -or $report.live -ne $Live -or $report.gpu -ne $Gpu) {
+        throw "Fresh dialogue profile $name report failed."
+    }
+}
+Test-DialogueProfiles $false $false
+if ($Render) { Test-DialogueProfiles $false $true }
+if ($DialogueProfiles) { Test-DialogueProfiles $true ([bool]$Render) }
 if ($LocalAI) {
     Test-ExperimentLab 'live'
     & $godotExe --headless --path $gamePath --script res://tests/fleet_dialogue_test.gd --log-file (Join-Path $evidencePath 'fleet_dialogue_live.log') -- --fleet-dialogue-live --provider=LocalLLM --record-dialogue
